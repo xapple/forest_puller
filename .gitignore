@@ -1,0 +1,18 @@
+# Temporary files #
+.DS_Store
+*.pyc
+*.swp
+*.swo
+*~
+\#*
+.#*
+._*
+
+# IDE files #
+/.idea
+.spyproject
+.spyderproject
+
+# Distribution #
+/build/
+/dist/
