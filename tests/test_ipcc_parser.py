@@ -12,14 +12,11 @@ Test methods parsing data from the IPCC Common Reporting Format (CRF) table 4.
 
 # Built-in modules #
 
-# First party modules #
-from plumbing.dataframes import string_to_df
+# Third party modules #
+import pandas
 
 # Expected data #
-crf = string_to_df("""country | year | land_use    | subdivision | area | gain | loss | stock_change |
-                              |      |             |             |      |      |      |              |
-                           AT | 2017 | forest_land | coniferous  | 0.7  | 0.3  | 0.3  | 0.3          |
-                           AT | 2017 | forest_land | deciduous   | 0    | 1    | 0.3  | 0.3          |""")
+crf_test = pandas.read_csv("ipcc_crf_austria_2017.csv")
 
 ###############################################################################
 def test_parse():
@@ -29,6 +26,8 @@ def test_parse():
     # Import #
     from forest_puller.ipcc.crf import dataset as crf
     # Check one value #
-    index  = ['country', 'year', 'land_use',    'subdivision']
-    values = ['AT',      '2017', 'forest_land', 'coniferous']
-    assert crf.df.set_index(index).loc[values, 'stock_change'][0] == 0.3
+    index  = ['country', 'year', 'land_use',              'subdivision']
+    values = ['AT',      '2017', 'forest_land_remaining', 'coniferous']
+    expected = crf_test.df.set_index(index).loc[values, 'stock_change'][0]
+    provided = crf.df.set_index(index).loc[values, 'stock_change'][0]
+    assert expected == provided
