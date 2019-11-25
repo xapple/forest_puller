@@ -1,4 +1,4 @@
 country,year,land_use,subdivision ,area,biomass_gain,biomass_loss,biomass_net,dead_wood,litter,mineral_soils,organic_soils,net_co2
-AT,2017,forest_land_remaining,coniferous,2405.41,6633.13,-6338.06,295.08,170.68,NA,-712.38,NA,
-AT,2017,forest_land_remaining,deciduous,926.18,2539.74,-1647.14,892.60,57.07,NA,NA,NA,
-AT,2017,forest_land_remaining,deciduous,557.36,NA,NA,NA,NA,NA,NA,NA,
+AT,2017,forest_land_remaining,coniferous,2405.41,6633.13,-6338.06,295.08,170.68,NA,-712.38,NA,904.28
+AT,2017,forest_land_remaining,deciduous,926.18,2539.74,-1647.14,892.60,57.07,NA,NA,NA,-3482.14
+AT,2017,forest_land_remaining,deciduous,557.36,NA,NA,NA,NA,NA,NA,NA,NA
