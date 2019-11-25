@@ -27,8 +27,8 @@ def test_parse():
     Load IPCC CRF data for Austria.
     """
     # Import #
-    from forest_puller.ipcc import dataset as ipcc
+    from forest_puller.ipcc.crf import dataset as crf
     # Check one value #
     index  = ['country', 'year', 'land_use',    'subdivision']
     values = ['AT',      '2017', 'forest_land', 'coniferous']
-    assert ipcc.set_index(index).loc[values, 'stock_change'][0] == 0.3
+    assert crf.df.set_index(index).loc[values, 'stock_change'][0] == 0.3
