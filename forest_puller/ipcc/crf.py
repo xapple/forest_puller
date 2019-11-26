@@ -87,7 +87,7 @@ class IPCC_CRF:
         df.columns = ['country', 'crf']
         # Repeat columns if a country has several CRF files #
         df = df.explode('crf')
-        # Add the english zip download link #
+        # Add the zip download link #
         df['zip'] = df['crf'].apply(self.get_zip_url)
         # Return #
         return df
@@ -124,21 +124,20 @@ class IPCC_CRF:
 
     def get_zip_url(self, crf_url):
         """
-        Extract the file url on the document page.
-        similar to this page for example:
-        https://unfccc.int/documents/194890
+        Extract the zip file url on the CRF document page.
+        e.g. the 'English' link from https://unfccc.int/documents/194890
         """
         # Download the html of the page
         response = requests.get(crf_url)
         response.raise_for_status()
         # Use lxml #
         tree = etree.HTML(response.text)
-        # If English is in the name return the url
+        # Find all <a> with 'English' as the text #
         file_url = tree.xpath("//a[contains(text(),'English')]")
+        # There should be only one such <a> #
         assert len(file_url) == 1
-        file_url = file_url[0].get('href')
-        return file_url
-
+        # Return the URL #
+        return file_url[0].get('href')
 
 ###############################################################################
 # Create a singleton #
