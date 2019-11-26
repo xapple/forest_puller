@@ -11,10 +11,10 @@ Unit D1 Bioeconomy.
 # Built-in modules #
 
 # Internal modules #
-from forest_puller import cache_dir
+from forest_puller import cache_dir as cache_dir_package
 
 # First party modules #
-from plumbing.cache import property_cached
+from plumbing.cache import property_cached, property_pickled
 
 # Third party modules #
 import requests, pandas
@@ -30,9 +30,9 @@ class IPCC_CRF:
     download_url = "https://tinyurl.com/y474yu9e"
     domain = "https://unfccc.int"
 
-    def __init__(self, data_dir):
+    def __init__(self, cache_dir):
         # Record where the cache will be located on disk #
-        self.data_dir = data_dir
+        self.cache_dir = cache_dir
 
     # ---------------------------- Properties --------------------------------#
     @property_cached
@@ -60,7 +60,7 @@ class IPCC_CRF:
         response.raise_for_status()
         return response.text
 
-    @property_cached
+    @property_pickled
     def all_links(self):
         """
         Parses the HTML of the IPCC download page and returns the CRF download
@@ -88,7 +88,7 @@ class IPCC_CRF:
         # Repeat columns if a country has several CRF files #
         df = df.explode('crf')
         # Add the english zip download link #
-        df['zip'] = df['crf'].apply(self.get_zip_link)
+        df['zip'] = df['crf'].apply(self.get_zip_url)
         # Return #
         return df
 
@@ -122,6 +122,24 @@ class IPCC_CRF:
         # Return #
         return links
 
+    def get_zip_url(self, crf_url):
+        """
+        Extract the file url on the document page.
+        similar to this page for example:
+        https://unfccc.int/documents/194890
+        """
+        # Download the html of the page
+        response = requests.get(crf_url)
+        response.raise_for_status()
+        # Use lxml #
+        tree = etree.HTML(response.text)
+        # If English is in the name return the url
+        file_url = tree.xpath("//a[contains(text(),'English')]")
+        assert len(file_url) == 1
+        file_url = file_url[0].get('href')
+        return file_url
+
+
 ###############################################################################
 # Create a singleton #
-dataset = IPCC_CRF(cache_dir + 'ipcc/crf/')
+dataset = IPCC_CRF(cache_dir_package + 'ipcc/crf/')
