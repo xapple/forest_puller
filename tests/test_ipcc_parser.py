@@ -21,7 +21,7 @@ crf_test = pandas.read_csv("ipcc_crf_austria_2017.csv")
 ###############################################################################
 def test_parse():
     """
-    Load IPCC CRF data for Austria.
+    Test IPCC CRF data for Austria.
     """
     # Import #
     from forest_puller.ipcc.crf import dataset as crf

@@ -63,8 +63,8 @@ class IPCC_CRF:
     @property_cached
     def all_links(self):
         """
-        Parses the HTML of the IPCC download page and returns CRF download
-        links for every country.
+        Parses the HTML of the IPCC download page and returns the CRF download
+        links for every country in a data frame.
         Note: unfortunately pandas.read_html(self.download_page) will not
         preserve hyperlinks that we later need.
         """
@@ -80,7 +80,17 @@ class IPCC_CRF:
             return [name] + links
         rows = tree.xpath('//table/tbody/tr')
         rows = [tr_to_list_with_links(tr) for tr in rows]
-        return pandas.DataFrame(rows, columns=cols)
+        # Make a data frame #
+        df = pandas.DataFrame(rows, columns=cols)
+        # Drop other columns and rename #
+        df = df[['Party', 'Latest submitted CRF 1']]
+        df.columns = ['country', 'crf']
+        # Repeat columns if a country has several CRF files #
+        df = df.explode('crf')
+        # Add the english zip download link #
+        df['zip'] = df['crf'].apply(self.get_zip_link)
+        # Return #
+        return df
 
     # ------------------------------ Methods ---------------------------------#
     def refresh_cache(self):
@@ -90,20 +100,26 @@ class IPCC_CRF:
         pass
 
     def get_text_of_elem(self, elem):
-        """Get all text of one element."""
+        """Get all text of one element recursively and clean the text."""
+        # Join all bits of text #
         text = ' '.join(list(elem.itertext()))
-        text = text.replace('\t', '').replace('\n', '').replace('\xa0', '')
+        # Remove strange characters #
+        to_clean = ('\t', '\n', '\xa0')
+        for chr in to_clean: text = text.replace(chr, '')
+        # Remove double spaces #
         text = text.replace('  ', ' ').strip()
+        # Return #
         return text
 
     def extract_links(self, elem):
-        """
-        Get all <a> elements and return the urls in a list.
-        Note: we fix relative links that are missing the domain name.
-        """
+        """Get all <a> child elements of input and return all the urls in a list."""
+        # Get all <a> child elements #
         links = elem.xpath('.//a')
+        # Extract URLs #
         links = [a.get('href') for a in links]
+        # Fix relative links that are missing the domain name #
         links = [url if url.startswith('http') else self.domain + url for url in links]
+        # Return #
         return links
 
 ###############################################################################
