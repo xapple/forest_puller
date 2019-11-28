@@ -30,9 +30,9 @@ class IPCC_CRF:
     download_url = "https://tinyurl.com/y474yu9e"
     domain = "https://unfccc.int"
 
-    def __init__(self, cache_dir):
+    def __init__(self, file_cache_dir):
         # Record where the cache will be located on disk #
-        self.cache_dir = cache_dir
+        self.file_cache_dir = file_cache_dir
 
     # ---------------------------- Properties --------------------------------#
     @property_cached
