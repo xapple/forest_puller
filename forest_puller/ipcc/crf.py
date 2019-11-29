@@ -6,19 +6,24 @@ Written by Lucas Sinclair and Paul Rougieux.
 
 JRC biomass Project.
 Unit D1 Bioeconomy.
+
+Typically you can use this class this like:
+
+    >>> from forest_puller.ipcc.crf import dataset as crf
+    >>> print(crf.df)
 """
 
 # Built-in modules #
 
 # Internal modules #
 from forest_puller import cache_dir as cache_dir_package
+from forest_puller.ipcc.downloads import downloads
 
 # First party modules #
-from plumbing.cache import property_cached, property_pickled
+from plumbing.cache import property_cached
 
 # Third party modules #
-import requests, pandas
-from lxml import etree
+from tqdm import tqdm
 
 ###############################################################################
 class IPCC_CRF:
@@ -27,12 +32,9 @@ class IPCC_CRF:
     website. These excel files are found here: https://tinyurl.com/y474yu9e
     """
 
-    download_url = "https://tinyurl.com/y474yu9e"
-    domain = "https://unfccc.int"
-
-    def __init__(self, file_cache_dir):
+    def __init__(self, cache_dir):
         # Record where the cache will be located on disk #
-        self.file_cache_dir = file_cache_dir
+        self.cache_dir = cache_dir
 
     # ---------------------------- Properties --------------------------------#
     @property_cached
@@ -44,7 +46,7 @@ class IPCC_CRF:
         # Check if files downloaded #
         if not self.cache_is_valid: self.refresh_cache()
         # Parse #
-
+        pass
         # Return #
         return
 
@@ -53,91 +55,13 @@ class IPCC_CRF:
         """Checks if every file needed has been correctly downloaded."""
         return False
 
-    @property_cached
-    def download_page_html(self):
-        """Returns the full HTML of the IPCC download page."""
-        response = requests.get(self.download_url)
-        response.raise_for_status()
-        return response.text
-
-    @property_pickled
-    def all_links(self):
-        """
-        Parses the HTML of the IPCC download page and returns the CRF download
-        links for every country in a data frame.
-        Note: unfortunately pandas.read_html(self.download_page) will not
-        preserve hyperlinks that we later need.
-        """
-        # Use lxml #
-        tree = etree.HTML(self.download_page_html)
-        # Get column names #
-        cols = tree.xpath('//table/thead/tr/th')
-        cols = [self.get_text_of_elem(th) for th in cols]
-        # Parse rows #
-        def tr_to_list_with_links(tr):
-            name  = tr.xpath('th')[0].text.strip()
-            links = [self.extract_links(td) for td in tr.xpath('td')]
-            return [name] + links
-        rows = tree.xpath('//table/tbody/tr')
-        rows = [tr_to_list_with_links(tr) for tr in rows]
-        # Make a data frame #
-        df = pandas.DataFrame(rows, columns=cols)
-        # Drop other columns and rename #
-        df = df[['Party', 'Latest submitted CRF 1']]
-        df.columns = ['country', 'crf']
-        # Repeat columns if a country has several CRF files #
-        df = df.explode('crf')
-        # Add the zip download link #
-        df['zip'] = df['crf'].apply(self.get_zip_url)
-        # Return #
-        return df
-
     # ------------------------------ Methods ---------------------------------#
     def refresh_cache(self):
         """
         Will download all the required zip files to the cache directory.
         """
-        pass
-
-    def get_text_of_elem(self, elem):
-        """Get all text of one element recursively and clean the text."""
-        # Join all bits of text #
-        text = ' '.join(list(elem.itertext()))
-        # Remove strange characters #
-        to_clean = ('\t', '\n', '\xa0')
-        for chr in to_clean: text = text.replace(chr, '')
-        # Remove double spaces #
-        text = text.replace('  ', ' ').strip()
-        # Return #
-        return text
-
-    def extract_links(self, elem):
-        """Get all <a> child elements of input and return all the urls in a list."""
-        # Get all <a> child elements #
-        links = elem.xpath('.//a')
-        # Extract URLs #
-        links = [a.get('href') for a in links]
-        # Fix relative links that are missing the domain name #
-        links = [url if url.startswith('http') else self.domain + url for url in links]
-        # Return #
-        return links
-
-    def get_zip_url(self, crf_url):
-        """
-        Extract the zip file url on the CRF document page.
-        e.g. the 'English' link from https://unfccc.int/documents/194890
-        """
-        # Download the html of the page
-        response = requests.get(crf_url)
-        response.raise_for_status()
-        # Use lxml #
-        tree = etree.HTML(response.text)
-        # Find all <a> with 'English' as the text #
-        file_url = tree.xpath("//a[contains(text(),'English')]")
-        # There should be only one such <a> #
-        assert len(file_url) == 1
-        # Return the URL #
-        return file_url[0].get('href')
+        for i, row in tqdm(downloads.df.iterrows()):
+            print(row['zip'])
 
 ###############################################################################
 # Create a singleton #

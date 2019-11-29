@@ -10,5 +10,5 @@ setup(
         author           = 'Lucas Sinclair',
         author_email     = 'lucas.sinclair@me.com',
         packages         = find_packages(),
-        install_requires = ['pandas', 'autopaths', 'plumbing', 'lxml'],
+        install_requires = ['pandas', 'autopaths', 'plumbing', 'lxml', 'requests'],
     )
