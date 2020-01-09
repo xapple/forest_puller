@@ -34,9 +34,10 @@ col_name_map = pandas.read_csv(str(col_name_map))
 ###############################################################################
 class IPCC_CRF:
     """
-    Download and parse table no. 4 of every year of every country from the IPCC
-    website. See the `DownloadsIPCC` class for more information on the provenance
-    of the data.
+    For every country: download the Common Reporting Format (CRF) file from the
+    IPCC website. Then parse table no. 4 of every year.
+    See the `DownloadsIPCC` class for more information on the provenance of the
+    data.
     """
 
     def __init__(self, crf_cache_dir):

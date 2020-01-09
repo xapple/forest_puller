@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 """
 
 # Special variables #
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 # Built-in modules #
 import os, sys
@@ -38,11 +38,10 @@ env_var_name = "FOREST_PULLER_CACHE"
 # If it is specified by user #
 if env_var_name in os.environ:
     cache_dir = os.environ[env_var_name]
-    if not cache_dir.endswith('/'):
-        cache_dir += '/'
+    if not cache_dir.endswith('/'): cache_dir += '/'
 
 # If it is not specified by user #
-if env_var_name not in os.environ:
+else:
     import tempfile
     cache_dir = tempfile.gettempdir() + '/forest_puller/'
     import warnings

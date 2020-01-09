@@ -10,7 +10,7 @@ Unit D1 Bioeconomy.
 Typically you can use this class this like:
 
     >>> from forest_puller.ipcc.downloads import downloads
-    >>> print(downloads.df)
+    >>> with pandas.option_context('max_colwidth', 100): print(downloads.df)
 """
 
 # Built-in modules #
@@ -24,10 +24,8 @@ from plumbing.download import download_from_url
 
 # Third party modules #
 import pandas
+from tqdm import tqdm
 from lxml import etree
-
-import logging
-logging.basicConfig()
 
 ###############################################################################
 class DownloadsIPCC:
@@ -37,11 +35,11 @@ class DownloadsIPCC:
     The link points to "National Inventory Submissions 2019" (c.f. `download_url`)
     """
 
-    download_url = "https://tinyurl.com/y474yu9e"
-    domain       = "https://unfccc.int"
-    long_url     = "https://unfccc.int/process-and-meetings/transparency-and-reporting" \
+    download_url = "https://unfccc.int/process-and-meetings/transparency-and-reporting" \
                    "/reporting-and-review-under-the-convention/greenhouse-gas-inventories-annex-i-parties" \
                    "/national-inventory-submissions-2019"
+    tiny_url     = "https://tinyurl.com/y474yu9e"
+    domain       = "https://unfccc.int"
 
     def __init__(self, cache_dir):
         # Record where the cache will be located on disk #
@@ -59,6 +57,10 @@ class DownloadsIPCC:
         html_content = download_from_url(self.download_url)
         # Use the `lxml` package #
         tree = etree.HTML(html_content)
+        # Check if they blocked our request #
+        meta = tree.xpath("//head/meta[@name='ROBOTS']")
+        if meta and 'NOINDEX' in meta[0].get('content'):
+            raise Exception("The request was flagged and blocked by the server.")
         # Get column names #
         cols = tree.xpath('//table/thead/tr/th')
         cols = [self.get_text_of_elem(th) for th in cols]
@@ -76,8 +78,10 @@ class DownloadsIPCC:
         df.columns = ['country', 'crf']
         # Repeat columns if a country has several CRF files available #
         df = df.explode('crf')
+        # Add method .progress_apply() instead of .apply() #
+        tqdm.pandas()
         # Add the zip download link as a new column #
-        df['zip'] = df['crf'].apply(self.get_zip_url)
+        df['zip'] = df['crf'].progress_apply(self.get_zip_url)
         # Return #
         return df
 
@@ -112,7 +116,7 @@ class DownloadsIPCC:
         """
         # Get the HTML of an individual CRF download page #
         html_content = download_from_url(crf_url)
-        # Use lxml #
+        # Use the `lxml` module #
         tree = etree.HTML(html_content)
         # Find all <a> with 'English' as the text #
         file_url = tree.xpath("//a[contains(text(),'English')]")
