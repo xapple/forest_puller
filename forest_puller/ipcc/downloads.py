@@ -58,9 +58,7 @@ class DownloadsIPCC:
         # Use the `lxml` package #
         tree = etree.HTML(html_content)
         # Check if they blocked our request #
-        meta = tree.xpath("//head/meta[@name='ROBOTS']")
-        if meta and 'NOINDEX' in meta[0].get('content'):
-            raise Exception("The request was flagged and blocked by the server.")
+        self.check_blocked_request(tree)
         # Get column names #
         cols = tree.xpath('//table/thead/tr/th')
         cols = [self.get_text_of_elem(th) for th in cols]
@@ -124,6 +122,19 @@ class DownloadsIPCC:
         assert len(file_url) == 1
         # Return the URL #
         return file_url[0].get('href')
+
+    def check_blocked_request(self, tree):
+        """Check if the request was denied by the server."""
+        # By default we are good #
+        blocked = False
+        # Result type 1 from Incapsula #
+        meta = tree.xpath("//head/meta[@name='ROBOTS']")
+        if meta and 'NOINDEX' in meta[0].get('content'): blocked = True
+        # Result type 2 from Incapsula #
+        meta = tree.xpath("//head/meta[@name='robots']")
+        if meta and 'noindex' in meta[0].get('content'): blocked = True
+        # If we were indeed blocked, we can stop here #
+        if blocked: raise Exception("The request was flagged and blocked by the server.")
 
 ###############################################################################
 # Create a singleton #
