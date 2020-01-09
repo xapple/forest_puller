@@ -23,7 +23,7 @@ from plumbing.cache import property_pickled
 from plumbing.download import download_from_url
 
 # Third party modules #
-import requests, pandas
+import pandas
 from lxml import etree
 
 import logging
@@ -32,12 +32,16 @@ logging.basicConfig()
 ###############################################################################
 class DownloadsIPCC:
     """
-    Parses the HTML of the IPCC download page (c.f. `download_url`)
+    Parses the HTML of the IPCC download page.
     and returns all the CRF download links for every country in a data frame.
+    The link points to "National Inventory Submissions 2019" (c.f. `download_url`)
     """
 
     download_url = "https://tinyurl.com/y474yu9e"
-    domain = "https://unfccc.int"
+    domain       = "https://unfccc.int"
+    long_url     = "https://unfccc.int/process-and-meetings/transparency-and-reporting" \
+                   "/reporting-and-review-under-the-convention/greenhouse-gas-inventories-annex-i-parties" \
+                   "/national-inventory-submissions-2019"
 
     def __init__(self, cache_dir):
         # Record where the cache will be located on disk #
@@ -47,12 +51,13 @@ class DownloadsIPCC:
     @property_pickled
     def df(self):
         """
-        Note: unfortunately pandas.read_html(self.download_page) will not
-        preserve hyperlinks that we later need.
+        Note: unfortunately `pandas.read_html(self.download_page)` will not
+        preserve hyperlinks that we later need so we have to use something
+        else.
         """
         # Get the HTML of the download table with all countries #
         html_content = download_from_url(self.download_url)
-        # Use the lxml package #
+        # Use the `lxml` package #
         tree = etree.HTML(html_content)
         # Get column names #
         cols = tree.xpath('//table/thead/tr/th')
@@ -83,7 +88,7 @@ class DownloadsIPCC:
         text = ' '.join(list(elem.itertext()))
         # Remove strange characters #
         to_clean = ('\t', '\n', '\xa0')
-        for chr in to_clean: text = text.replace(chr, '')
+        for char in to_clean: text = text.replace(char, '')
         # Remove double spaces #
         text = text.replace('  ', ' ').strip()
         # Return #
@@ -102,7 +107,7 @@ class DownloadsIPCC:
 
     def get_zip_url(self, crf_url):
         """
-        Extract the zip file url on a specific CRF document page.
+        Extract the zip file URL of a specific CRF document page.
         e.g. the 'English' link from https://unfccc.int/documents/194890
         """
         # Get the HTML of an individual CRF download page #
