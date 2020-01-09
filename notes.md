@@ -1,14 +1,8 @@
-
-
-
-
 # Units
 
-Example variable descriptions
+Example variable descriptions:
 
-  variable,name_in_ipcc,name_in_faostat,unit
-  area,forest area, area_forested,hectare
-  emissions,total emissions, NA, tons of carbon
-
-
-
+    no |  variable |    name_in_ipcc | name_in_faostat | si_unit
+    --------------------------------------------------------------------
+     1 |      area |     forest area |   area_forested | hectare
+     2 | emissions | total emissions |             NaN | tons of carbon
