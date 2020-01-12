@@ -14,13 +14,14 @@ Typically you can use this class this like:
 """
 
 # Built-in modules #
+import time
 
 # Internal modules #
 from forest_puller import cache_dir as cache_dir_package
 
 # First party modules #
 from plumbing.cache import property_pickled
-from plumbing.download import download_from_url
+from plumbing.scraping import retrieve_from_url
 
 # Third party modules #
 import pandas
@@ -54,7 +55,7 @@ class DownloadsIPCC:
         else.
         """
         # Get the HTML of the download table with all countries #
-        html_content = download_from_url(self.download_url)
+        html_content = retrieve_from_url(self.download_url)
         # Use the `lxml` package #
         tree = etree.HTML(html_content)
         # Check if they blocked our request #
@@ -76,7 +77,7 @@ class DownloadsIPCC:
         df.columns = ['country', 'crf']
         # Repeat columns if a country has several CRF files available #
         df = df.explode('crf')
-        # Add method .progress_apply() instead of .apply() #
+        # Add method .progress_apply() in addition to .apply() #
         tqdm.pandas()
         # Add the zip download link as a new column #
         df['zip'] = df['crf'].progress_apply(self.get_zip_url)
@@ -112,10 +113,14 @@ class DownloadsIPCC:
         Extract the zip file URL of a specific CRF document page.
         e.g. the 'English' link from https://unfccc.int/documents/194890
         """
+        # We don't want to flood the server #
+        time.sleep(0.5)
         # Get the HTML of an individual CRF download page #
-        html_content = download_from_url(crf_url)
+        html_content = retrieve_from_url(crf_url)
         # Use the `lxml` module #
         tree = etree.HTML(html_content)
+        # Check if they blocked our request #
+        self.check_blocked_request(tree)
         # Find all <a> with 'English' as the text #
         file_url = tree.xpath("//a[contains(text(),'English')]")
         # There should be only one such <a> #
