@@ -65,8 +65,10 @@ class ZipFiles:
         """
         # Add method .progress_apply() in addition to .apply() #
         tqdm.pandas()
-        # Get each zip file #
-        forest_puller.ipcc.links.links.df.T.progress_apply(self.get_one_zip)
+        # Get list of countries with zip files #
+        df = forest_puller.ipcc.links.links.df
+        # Download each zip file #
+        df.T.progress_apply(self.get_one_zip)
 
     def get_one_zip(self, row):
         """Download one zip file and put it in the right directory."""
