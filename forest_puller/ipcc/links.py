@@ -9,19 +9,20 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.ipcc.downloads import downloads
-    >>> with pandas.option_context('max_colwidth', 100): print(downloads.df)
+    >>> from forest_puller.ipcc.links import links
+    >>> with pandas.option_context('max_colwidth', 100): print(links.df)
 """
 
 # Built-in modules #
 import time
 
 # Internal modules #
-from forest_puller import cache_dir as cache_dir_package
+from forest_puller import cache_dir
 
 # First party modules #
 from plumbing.cache import property_pickled
 from plumbing.scraping import retrieve_from_url
+from plumbing.scraping.blockers import check_blocked_request
 
 # Third party modules #
 import pandas
@@ -29,11 +30,19 @@ from tqdm import tqdm
 from lxml import etree
 
 ###############################################################################
-class DownloadsIPCC:
+class DownloadsLinks:
     """
     Parses the HTML of the IPCC download page.
     and returns all the CRF download links for every country in a data frame.
     The link points to "National Inventory Submissions 2019" (c.f. `download_url`)
+    The data frame looks something like:
+
+        country     crf                                 zip
+        -------     ---                                 ---
+        Australia  https://unfccc.int/documents/195780  https://unfc[...]y19.zip
+        Austria    https://unfccc.int/documents/194890  https://unfc[...]apr19.zip
+        Belarus    https://unfccc.int/documents/194782  https://unfc[...]apr19.zip
+        Belgium    https://unfccc.int/documents/194878  https://unfc[...]apr19.zip
     """
 
     download_url = "https://unfccc.int/process-and-meetings/transparency-and-reporting" \
@@ -42,9 +51,9 @@ class DownloadsIPCC:
     tiny_url     = "https://tinyurl.com/y474yu9e"
     domain       = "https://unfccc.int"
 
-    def __init__(self, cache_dir):
+    def __init__(self, cache_directory):
         # Record where the cache will be located on disk #
-        self.cache_dir = cache_dir
+        self.cache_dir = cache_directory
 
     # ---------------------------- Properties --------------------------------#
     @property_pickled
@@ -59,7 +68,7 @@ class DownloadsIPCC:
         # Use the `lxml` package #
         tree = etree.HTML(html_content)
         # Check if they blocked our request #
-        self.check_blocked_request(tree)
+        check_blocked_request(tree)
         # Get column names #
         cols = tree.xpath('//table/thead/tr/th')
         cols = [self.get_text_of_elem(th) for th in cols]
@@ -120,7 +129,7 @@ class DownloadsIPCC:
         # Use the `lxml` module #
         tree = etree.HTML(html_content)
         # Check if they blocked our request #
-        self.check_blocked_request(tree)
+        check_blocked_request(tree)
         # Find all <a> with 'English' as the text #
         file_url = tree.xpath("//a[contains(text(),'English')]")
         # There should be only one such <a> #
@@ -128,19 +137,6 @@ class DownloadsIPCC:
         # Return the URL #
         return file_url[0].get('href')
 
-    def check_blocked_request(self, tree):
-        """Check if the request was denied by the server."""
-        # By default we are good #
-        blocked = False
-        # Result type 1 from Incapsula #
-        meta = tree.xpath("//head/meta[@name='ROBOTS']")
-        if meta and 'NOINDEX' in meta[0].get('content'): blocked = True
-        # Result type 2 from Incapsula #
-        meta = tree.xpath("//head/meta[@name='robots']")
-        if meta and 'noindex' in meta[0].get('content'): blocked = True
-        # If we were indeed blocked, we can stop here #
-        if blocked: raise Exception("The request was flagged and blocked by the server.")
-
 ###############################################################################
 # Create a singleton #
-downloads = DownloadsIPCC(cache_dir_package + 'ipcc/downloads/')
+links = DownloadsLinks(cache_dir + 'ipcc/downloads/')

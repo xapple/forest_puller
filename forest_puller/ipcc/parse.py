@@ -8,9 +8,6 @@ JRC biomass Project.
 Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
-
-    >>> from forest_puller.ipcc.crf import dataset as crf
-    >>> print(crf.df)
 """
 
 # Built-in modules #
@@ -18,13 +15,10 @@ Typically you can use this class this like:
 # Internal modules #
 from forest_puller import cache_dir
 from forest_puller import module_dir
-from forest_puller.ipcc.downloads import downloads
 
 # First party modules #
-from plumbing.cache import property_cached
 
 # Third party modules #
-from tqdm import tqdm
 import pandas
 
 # Load IPCC column name mapping to short names #
@@ -32,43 +26,27 @@ col_name_map = module_dir + 'variable_mapping/ipcc_columns.csv'
 col_name_map = pandas.read_csv(str(col_name_map))
 
 ###############################################################################
-class IPCC_CRF:
+class ParseExcel:
     """
-    For every country: download the Common Reporting Format (CRF) file from the
-    IPCC website. Then parse table no. 4 of every year.
-    See the `DownloadsIPCC` class for more information on the provenance of the
-    data.
+    Parses the excel sheets.
     """
 
-    def __init__(self, crf_cache_dir):
+    def __init__(self, cache_dir):
         # Record where the cache will be located on disk #
-        self.cache_dir = crf_cache_dir
+        self.cache_dir = cache_dir
 
-    # ---------------------------- Properties --------------------------------#
     @property_cached
     def df(self):
         """
         The data frame containing all the parsed data.
         Columns are: [...]
         """
-        # Check if files downloaded #
-        if not self.cache_is_valid: self.refresh_cache()
         # Parse #
         pass
         # Return #
         return
 
-    @property
-    def cache_is_valid(self):
-        """Checks if every file needed has been correctly downloaded."""
-        return False
-
-    # ------------------------------ Methods ---------------------------------#
-    def refresh_cache(self):
-        """Will download all the required zip files to the cache directory."""
-        for i, row in tqdm(downloads.df.iterrows()):
-            print(row['zip'])
-
+    # ------------------------------- Other ----------------------------------#
     def parse_table_4(self, excel_file_path):
         """Extract information from table 4 into a pandas data frame."""
         # Parameters for the position of rows used for the header
@@ -79,7 +57,7 @@ class IPCC_CRF:
         table4 = pandas.read_excel(excel_file_path,
                                    sheet_name = 'Table4.A',
                                    header     = None,
-                                   na_values  = ['IE','NE','NO','NO,NE'])
+                                   na_values  = ['IE', 'NE', 'NO', 'NO,NE'])
         # Extract headers
         header = table4.iloc[begin_head:end_head]
         header = header.fillna(method='ffill')
@@ -106,4 +84,4 @@ class IPCC_CRF:
 
 ###############################################################################
 # Create a singleton #
-dataset = IPCC_CRF(cache_dir + 'ipcc/crf/')
+parsed = ParseExcel(cache_dir + 'ipcc/countries/')
