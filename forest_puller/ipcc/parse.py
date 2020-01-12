@@ -13,8 +13,7 @@ Typically you can use this class this like:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller import cache_dir
-from forest_puller import module_dir
+from forest_puller import cache_dir, module_dir
 
 # First party modules #
 
@@ -22,7 +21,7 @@ from forest_puller import module_dir
 import pandas
 
 # Load IPCC column name mapping to short names #
-col_name_map = module_dir + 'variable_mapping/ipcc_columns.csv'
+col_name_map = module_dir + 'extra_data/ipcc_columns.csv'
 col_name_map = pandas.read_csv(str(col_name_map))
 
 ###############################################################################
