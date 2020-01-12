@@ -26,20 +26,23 @@ import forest_puller.ipcc.links
 from forest_puller import cache_dir, module_dir
 
 # First party modules #
+from plumbing.scraping.browser import download_via_browser
+from plumbing.scraping.blockers import check_blocked_request
+from autopaths import Path
 
 # Third party modules #
 from tqdm import tqdm
 import pandas
 
 # Load country codes #
-country_code = module_dir + 'extra_data/country_code.csv'
-country_code = pandas.read_csv(str(country_code))
+country_codes = module_dir + 'extra_data/country_codes.csv'
+country_codes = pandas.read_csv(str(country_codes))
 
 ###############################################################################
 class ZipFiles:
     """
-    For every country: download the Common Reporting Format (CRF) zip file from the
-    IPCC website.
+    For every country: download the English version of the Common Reporting
+    Format (CRF) zip file from the IPCC website and place it in a directory.
     See the `DownloadsLinks` class for more information on the provenance of the
     data.
     """
@@ -56,23 +59,31 @@ class ZipFiles:
 
     # ------------------------------ Methods ---------------------------------#
     def refresh_cache(self):
-        """Will download all the required zip files to the cache directory."""
+        """
+        Will download all the required zip files to the cache directory.
+        Takes about 3 minutes on a fast connection.
+        """
         # Add method .progress_apply() in addition to .apply() #
         tqdm.pandas()
         # Get each zip file #
         forest_puller.ipcc.links.links.df.T.progress_apply(self.get_one_zip)
 
     def get_one_zip(self, row):
-        """Download one zip file and put it in the cache directory."""
-        # We don't want to flood the server #
-        time.sleep(0.5)
-        print(row)
-        print('------')
+        """Download one zip file and put it in the right directory."""
+        # We are not interested in all countries #
+        if row['country'] not in country_codes['country'].values: return
+        # Get the matching iso2_code #
+        iso2_code = country_codes.query("country == '%s'" % row['country'])
+        iso2_code = iso2_code['iso2_code'].iloc[0]
+        # The destination directory #
+        destination = Path(self.cache_dir + iso2_code + '/')
         # Save to disk #
-        #destination = download_via_browser(url, self.cache_dir, uncompress=False)
+        result = download_via_browser(row['zip'], destination, uncompress=False)
         # Check if we were blocked #
-        #check_blocked_request(destination)
+        check_blocked_request(result)
+        # We don't want to flood the server #
+        time.sleep(2)
 
 ###############################################################################
 # Create a singleton #
-zip_files = ZipFiles(cache_dir + 'ipcc/zip/')
+zip_files = ZipFiles(cache_dir + 'ipcc/zips/')

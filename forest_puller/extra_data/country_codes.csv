@@ -3,7 +3,7 @@ country_code,country,m49_code,iso2_code,iso3_code,start_year,end_year,nuts_zero_
 255,Belgium,56,BE,BEL,2000,,BE,BE
 27,Bulgaria,100,BG,BGR,,,BG,BG
 98,Croatia,191,HR,HRV,1992,,HR,HR
-167,Czechia,203,CZ,CZE,1993,,CZ,CZ
+167,Czech Republic,203,CZ,CZE,1993,,CZ,CZ
 54,Denmark,208,DK,DNK,,,DK,DK
 63,Estonia,233,EE,EST,1992,,EE,EE
 67,Finland,246,FI,FIN,,,FI,FI
@@ -25,4 +25,5 @@ country_code,country,m49_code,iso2_code,iso3_code,start_year,end_year,nuts_zero_
 203,Spain,724,ES,ESP,,,ES,ES
 210,Sweden,752,SE,SWE,,,SE,SE
 229,United Kingdom,826,GB,GBR,,,UK,UK
-999,Dreamland,999,ZZ,ZZZ,2019,,ZZ,ZZ
+999,Dreamland,999,ZZ,ZZZ,2019,,ZZ,"ZZ
+"
