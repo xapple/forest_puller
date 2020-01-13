@@ -20,4 +20,4 @@ from forest_puller.ipcc.country import all_countries
 
 ###############################################################################
 country = all_countries[0]
-print(country.first_year.header)
+print(country.first_year.df)

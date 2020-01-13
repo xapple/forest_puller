@@ -42,8 +42,8 @@ class Headers:
     # Here the numbers are parameters for the position of rows used for
     # the header. It is zero-indexed (i.e. offset of one compared to the
     # GUI excel row numbers)
-    begin_head = 4
-    end_head   = 9
+    begin = 4
+    end   = 9
 
     @property_cached
     def df(self):
@@ -61,7 +61,7 @@ class Headers:
             [...]
         """
         # Raw header #
-        df = self.year.raw_table_4a.iloc[self.begin_head:self.end_head]
+        df = self.year.raw_table_4a.iloc[self.begin:self.end]
         # Fill values, all NaNs become what is north of them #
         df = df.fillna(method='ffill')
         # Remove the index #
