@@ -9,13 +9,13 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.ipcc.zip_files import zip_files
-    >>> print(zip_files)
+    >>> from forest_puller.ipcc.zip_files import all_zip_files
+    >>> print(all_zip_files.cache_is_valid)
 
 To re-download the files you can do:
 
-    >>> from forest_puller.ipcc.zip_files import zip_files
-    >>> zip_files.refresh_cache()
+    >>> from forest_puller.ipcc.zip_files import all_zip_files
+    >>> all_zip_files.refresh_cache()
 """
 
 # Built-in modules #
@@ -39,17 +39,33 @@ country_codes = module_dir + 'extra_data/country_codes.csv'
 country_codes = pandas.read_csv(str(country_codes))
 
 ###############################################################################
-class ZipFiles:
+class AllZipFiles:
     """
     For every country: download the English version of the Common Reporting
     Format (CRF) zip file from the IPCC website and place it in a directory.
     See the `DownloadsLinks` class for more information on the provenance of the
     data.
+
+    The final file structure will look like this:
+
+        /puller_cache/ipcc/zips/AT:
+        16M Jan 12 18:15 aut-2019-crf-15apr19.zip
+
+        /puller_cache/ipcc/zips/BE:
+        16M Jan 12 18:15 bel-2019-crf-15apr19.zip
+
+        /puller_cache/ipcc/zips/CZ:
+        16M Jan 12 18:15 cze-2019-crf-12apr19.zip
+
+        /puller_cache/ipcc/zips/DK:
+        17M Jan 12 18:15 dnm-2019-crf-12apr19.zip
+        14M Jan 12 18:15 dke-2019-crf-12apr19.zip
+        15M Jan 12 18:15 dnk-2019-crf-12apr19.zip
     """
 
-    def __init__(self, crf_cache_dir):
+    def __init__(self, zip_cache_dir):
         # Record where the cache will be located on disk #
-        self.cache_dir = crf_cache_dir
+        self.cache_dir = zip_cache_dir
 
     # ---------------------------- Properties --------------------------------#
     @property
@@ -61,7 +77,7 @@ class ZipFiles:
     def refresh_cache(self):
         """
         Will download all the required zip files to the cache directory.
-        Takes about 3 minutes on a fast connection.
+        Takes about 4 minutes on a fast connection.
         """
         # Add method .progress_apply() in addition to .apply() #
         tqdm.pandas()
@@ -88,4 +104,4 @@ class ZipFiles:
 
 ###############################################################################
 # Create a singleton #
-zip_files = ZipFiles(cache_dir + 'ipcc/zips/')
+all_zip_files = AllZipFiles(cache_dir + 'ipcc/zips/')

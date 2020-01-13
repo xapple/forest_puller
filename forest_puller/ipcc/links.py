@@ -51,9 +51,9 @@ class DownloadsLinks:
     tiny_url     = "https://tinyurl.com/y474yu9e"
     domain       = "https://unfccc.int"
 
-    def __init__(self, cache_directory):
+    def __init__(self, links_cache_dir):
         # Record where the cache will be located on disk #
-        self.cache_dir = cache_directory
+        self.cache_dir = links_cache_dir
 
     # ---------------------------- Properties --------------------------------#
     @property_pickled
