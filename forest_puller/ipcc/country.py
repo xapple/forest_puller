@@ -36,6 +36,8 @@ country_codes = pandas.read_csv(str(country_codes))
 class Country:
     """
     Represents one country's dataset.
+    Contains many Year objects.
+    Each Year contains one excel file.
     """
 
     def __init__(self, zip_dir, xls_cache_dir):
@@ -57,7 +59,7 @@ class Country:
 
     @property_cached
     def zip_file(self):
-        """Return only the zip that we are interested in for this country."""
+        """Return only the single zip that we are interested in for this country."""
         return self.zip_files[0]
 
     @property_cached
@@ -72,12 +74,12 @@ class Country:
 
     @property_cached
     def all_years(self):
-        """Every file holds that for a specific year."""
+        """Every file holds data for a specific year."""
         return [Year(self, xls) for xls in self.all_xls_files]
 
     @property_cached
     def years(self):
-        """Every year for which we have data."""
+        """A dictionary of every year for which we have data."""
         return {y.year: y for y in self.all_years}
 
     @property
@@ -96,7 +98,7 @@ class Country:
         # Remove and regenerate #
         self.xls_dir.remove()
         self.zip_file.unzip_to(self.xls_dir, single=False)
-        # Sometimes the zip contains a directory so we have to unnest #
+        # Sometimes randomly the zip contains a directory so we have to unnest #
         all_dirs  = self.xls_dir.flat_directories
         all_files = self.xls_dir.flat_files
         if len(all_dirs) == 1 and len(all_files) == 0:
@@ -104,10 +106,18 @@ class Country:
             nested_dir.unnest()
 
 ###############################################################################
+# All directories with zip_files
+all_dirs = all_zip_files.cache_dir.flat_directories
+
+# Warning #
+if len(all_dirs) == 0:
+    import warnings
+    message = ("\n\n The directory that stores the downloaded zip files ('%s')"
+               " was empty, and hence no country has been created. Check you have"
+               " downloaded the files and properly set the cache directory path.\n")
+    warnings.warn(message % all_zip_files.cache_dir)
+
 # Create every country object #
 path          = cache_dir + 'ipcc/xls/'
-all_countries = [Country(d, path) for d in all_zip_files.cache_dir.flat_directories]
+all_countries = [Country(d, path) for d in all_dirs]
 countries     = {c.iso2_code: c for c in all_countries}
-
-# Sanity check #
-assert len(all_countries) > 1

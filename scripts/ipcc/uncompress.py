@@ -9,16 +9,6 @@ Unit D1 Bioeconomy.
 
 For every country: uncompress the zip file(s) that were downloaded from the
 IPCC website and place the result it in a directory.
-
-The final file structure will look like this:
-
-/puller_cache/ipcc/xls/AT:
-16M Jan 12 18:15 aut-2019-crf-15apr19.zip
-
-/puller_cache/ipcc/xls/DK:
-17M Jan 12 18:15 dnm-2019-crf-12apr19.zip
-14M Jan 12 18:15 dke-2019-crf-12apr19.zip
-15M Jan 12 18:15 dnk-2019-crf-12apr19.zip
 """
 
 # Built-in modules #
