@@ -66,6 +66,17 @@ class Year:
 
     @property_cached
     def column_names(self):
+        """Typically the result is something like:
+
+        <class 'pandas.core.series.Series'>
+        0                       land_use
+        1                    subdivision
+        2           Total area(2)\n(kha)
+        3    Area of mineral soil\n(kha)
+        4    Area of organic soil\n(kha)
+        5                    gains_ratio
+        [...]
+        """
         # Raw header #
         df = self.raw_table_4a.iloc[self.begin_head:self.end_head]
         # Fill values #
@@ -83,7 +94,9 @@ class Year:
 
     @property_cached
     def df(self):
-        """Extract targeted information from 'Table4.A' into a pandas data frame."""
+        """
+        Extract targeted information from 'Table4.A' into a pandas data frame.
+        """
         # Look for the position of the first mostly empty row
         # at the end of the table
         selector = self.raw_table_4a.isnull().sum(axis=1) > 18
