@@ -12,7 +12,7 @@ Unit D1 Bioeconomy.
 import re
 
 # Internal modules #
-from forest_puller import module_dir
+from forest_puller.ipcc.headers import Headers
 
 # First party modules #
 from plumbing.cache import property_cached
@@ -20,27 +20,12 @@ from plumbing.cache import property_cached
 # Third party modules #
 import pandas
 
-# Load IPCC column name mapping to short names #
-col_name_map = module_dir + 'extra_data/ipcc_columns.csv'
-col_name_map = pandas.read_csv(str(col_name_map))
-
 ###############################################################################
 class Year:
-    """
-    Represents a specific year from a specific country's dataset.
-
-    Here the numbers are parameters for the position of rows used for
-    the header. It is zero-indexed (i.e. offset of one compared to the
-    GUI excel row numbers)
-    """
-
-    begin_head = 4
-    end_head   = 9
+    """Represents a specific year from a specific country's dataset."""
 
     def __init__(self, country, xls_file):
-        """
-        Record the parent and the file we have to parse.
-        """
+        """Record the parent and the file we have to parse."""
         # The parent country #
         self.country = country
         # The file that contains data for this year #
@@ -52,7 +37,7 @@ class Year:
     def __repr__(self):
         return '%s %s of %s' % (self.__class__, self.year, self.country.iso2_code)
 
-    # ------------------------------- Other ----------------------------------#
+    # ---------------------------- Properties --------------------------------#
     @property_cached
     def raw_table_4a(self):
         """Table4.A as is without any modifications."""
@@ -65,32 +50,33 @@ class Year:
         return df
 
     @property_cached
-    def column_names(self):
-        """Typically the result is something like:
+    def headers(self):
+        """Parse the column names of the excel sheet."""
+        return Headers(self)
 
-        <class 'pandas.core.series.Series'>
-        0                       land_use
-        1                    subdivision
-        2           Total area(2)\n(kha)
-        3    Area of mineral soil\n(kha)
-        4    Area of organic soil\n(kha)
-        5                    gains_ratio
-        [...]
-        """
-        # Raw header #
-        df = self.raw_table_4a.iloc[self.begin_head:self.end_head]
-        # Fill values #
-        df = df.fillna(method='ffill')
-        df = df.reset_index(drop=True)
-        # Add information on per area columns in t C /ha
-        # so they have different name than the kt C columns
-        df.iloc[3, 5:12] = df.iloc[3,5:12] + '_per_area'
-        # Convert to short headers
-        # Check column names for the reason why this doesn't work properly
-        df = df.iloc[3].replace(list(col_name_map['ipcc']),
-                                list(col_name_map['forest_puller']))
-        # Return #
-        return df
+    # Hard-code column names, easier #
+    column_names = [
+        'land_use',
+        'subdivision',
+        'area',
+        'area_mineral',
+        'area_organic',
+        'gains_ratio',
+        'losses_ratio',
+        'net_change_ratio',
+        'net_dead_ratio',
+        'net_litter_ratio',
+        'net_mineral_soil_ratio',
+        'net_organic_soil_ratio',
+        'gains',
+        'losses',
+        'net_change',
+        'net_dead',
+        'net_litter',
+        'net_mineral_soils',
+        'net_organic_soils',
+        'net_co2',
+    ]
 
     @property_cached
     def df(self):
@@ -99,12 +85,12 @@ class Year:
         """
         # Look for the position of the first mostly empty row
         # at the end of the table
-        selector = self.raw_table_4a.isnull().sum(axis=1) > 18
-        selector[0:self.end_head] = False
-        selector = selector.cumsum() == 0
-        last_row = max(selector.index[selector])
+        selector      = self.raw_table_4a.isnull().sum(axis=1) > 18
+        selector[0:9] = False
+        selector      = selector.cumsum() == 0
+        last_row      = max(selector.index[selector]) + 1
         # Take all lines after the header but before the last row #
-        df = self.raw_table_4a.iloc[self.end_head + 1:last_row + 1]
+        df = self.raw_table_4a.iloc[10:last_row]
         # Rename columns index #
         df.columns = self.column_names
         # Return #

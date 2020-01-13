@@ -51,6 +51,11 @@ class Country:
     def __repr__(self):
         return '%s object code "%s"' % (self.__class__, self.iso2_code)
 
+    # Convenience shortcut to self.all_years #
+    def __getitem__(self, key): return self.all_years[key]
+    def __iter__(self):         return iter(self.all_years)
+    def __len__(self):          return len(self.all_years)
+
     # ---------------------------- Properties --------------------------------#
     @property_cached
     def zip_files(self):
@@ -82,6 +87,7 @@ class Country:
         """A dictionary of every year for which we have data."""
         return {y.year: y for y in self.all_years}
 
+    # ------------------------------ Convenience ---------------------------------#
     @property
     def first_year(self):
         """The earliest year for which we have data."""

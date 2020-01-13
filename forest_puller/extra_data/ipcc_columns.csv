@@ -1,14 +1,14 @@
 ipcc,forest_puller
 Land-use category,land_use
 Subdivision(1),subdivision
-Total area(2)\n(kha),area
-Area of mineral soil\n(kha),area_mineral
-Area of organic soil\n(kha),area_organic
+Total area(2) (kha),area
+Area of mineral soil (kha),area_mineral
+Area of organic soil (kha),area_organic
 Gains_per_area,gains_ratio
 Losses_per_area,losses_ratio
 Net change_per_area,net_change_ratio
-Net carbon stock change in dead wood per area(...,net_dead_ratio
-Net carbon stock change in litter per area(4)_...,net_litter_ratio
+Net carbon stock change in dead wood per area(4)_per_area,net_dead_ratio
+Net carbon stock change in litter per area(4)_per_area,net_litter_ratio
 Mineral soils(5)_per_area,net_mineral_soil_ratio
 Organic soils_per_area,net_organic_soil_ratio
 Gains,gains
