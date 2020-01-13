@@ -11,7 +11,7 @@ Script to check what years are available for which country in `forest_puller.ipc
 
 Typically you would run this file from a command line like this:
 
-     ipython3 -i -- /deploy/forest_puller/scripts/ipcc/display_start_end_years.py
+     ipython3 -i -- ~/deploy/forest_puller/scripts/ipcc/display_start_end_years.py
 """
 
 # Built-in modules #
@@ -23,4 +23,6 @@ from tqdm import tqdm
 from forest_puller.ipcc.country import all_countries
 
 ###############################################################################
-for country in tqdm(all_countries): country.uncompress()
+for country in all_countries:
+    info = (country.iso2_code, country.first_year.year, country.last_year.year)
+    print("---%s---\nStart year: %i\nEnd year: %i\n" % info)

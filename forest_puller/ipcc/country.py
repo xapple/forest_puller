@@ -88,13 +88,20 @@ class Country:
     @property
     def last_year(self):
         """The latest year for which we have data."""
-        return self.all_years[0]
+        return self.all_years[-1]
 
     # ------------------------------ Methods ---------------------------------#
     def uncompress(self):
         """Uncompress the zip file contents to its own directory."""
+        # Remove and regenerate #
         self.xls_dir.remove()
         self.zip_file.unzip_to(self.xls_dir, single=False)
+        # Sometimes the zip contains a directory so we have to unnest #
+        all_dirs  = self.xls_dir.flat_directories
+        all_files = self.xls_dir.flat_files
+        if len(all_dirs) == 1 and len(all_files) == 0:
+            nested_dir = all_dirs[0]
+            nested_dir.unnest()
 
 ###############################################################################
 # Create every country object #

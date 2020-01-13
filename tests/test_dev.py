@@ -13,11 +13,10 @@ Development script to test some of the methods in `forest_puller.ipcc`
 # Built-in modules #
 
 # Third party modules #
-import pandas
+from tqdm import tqdm
 
 # Internal modules #
 from forest_puller.ipcc.country import all_countries
 
 ###############################################################################
 country = all_countries[0]
-country.all_years
