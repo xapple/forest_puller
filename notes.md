@@ -1,4 +1,4 @@
-# Done
+# Done for every excel file:
 
 * Fix detection of last line
 
@@ -9,13 +9,11 @@
 
 * Fix repetition in `land_use` and `subdivision`
 
-# Todo
+* Row headers, make them all readable
 
-* Row headers, make them readable
+* Convert all units
 
 * Specific NaNs with all combination of identifiers.
-
-* Convert units
 
 * Recompute the line 10 (total) as a sanity check
 

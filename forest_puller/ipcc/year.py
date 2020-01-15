@@ -21,11 +21,13 @@ from plumbing.cache import property_cached
 # Third party modules #
 import pandas, numpy
 
-# Load IPCC column name mapping to short names #
+# Load IPCC row and column names mapping to short names #
+col_name_map = module_dir + 'extra_data/ipcc_columns.csv'
+col_name_map = pandas.read_csv(str(col_name_map))
 row_name_map = module_dir + 'extra_data/ipcc_rows.csv'
 row_name_map = pandas.read_csv(str(row_name_map))
 
-###############################################################################
+##############################################################################
 class Year:
     """Represents a specific year from a specific country's dataset."""
 
@@ -44,7 +46,14 @@ class Year:
 
     # ---------------------------- Properties --------------------------------#
     # Values found in excel cells #
-    na_values  = ['IE', 'NE', 'NO', 'NO,NE', 'NE,NO', 'NE,IE']
+    na_values  = [
+        'IE',    'NE',    'NO',
+                 'IE,NE', 'IE,NO', 'IE,NA',
+        'NE,IE',          'NE,NO',
+        'NO,IE', 'NO,NE',          'NO,NA',
+        'NA,NO',
+        'NE,NA,NO', 'NO,IE,NA', 'NO,NE,NA', 'NE,NO,IE'
+    ]
 
     @property_cached
     def raw_table_4a(self):
@@ -86,9 +95,34 @@ class Year:
             if subcat is numpy.NaN: current_cat     = cat
             elif subcat != cat:     raise Exception("Cat. and subcat. should never differ.")
             else:                   row['land_use'] = current_cat
-        # Rename rows #
-        df['land_use'] = df['land_use'].update(row_name_map.set_index('ipcc'))
+        # Convert to short headers using col_name_map
+        before = list(row_name_map['ipcc'])
+        after  = list(row_name_map['forest_puller'])
+        df     = df.replace(before, after)
         # Convert units (such that we never have kilo hectares, only hectares etc.) #
-        pass
+        #for i, row in col_name_map.iterrows():
+        #    col_name, ratio = row['forest_puller'], row['unit_convert_ratio']
+        #    if numpy.isnan(ratio): continue
+        #    df[col_name] = df[col_name] * ratio
+        # Reset the index #
+        df = df.reset_index(drop=True)
         # Return #
         return df
+
+    # ------------------------------ Methods ---------------------------------#
+    def sanity_check(self):
+        """Recompute the total row to check that everything adds up."""
+        # Load table and set index #
+        df = self.df.set_index('land_use')
+        # Get the totals row #
+        expected = df.loc['total_forest'].fillna(0.0)
+        # Remove the total rows from the df #
+        df = df.drop('total_forest')
+        # Sum every subdivison total (where there are NaNs) #
+        sub_totals = df[pandas.isna(df['subdivision'])]
+        # Recompute the totals #
+        totals = sub_totals.sum()
+        # Compare #
+        all_close = numpy.testing.assert_allclose
+        return all_close(expected, totals, rtol=1e-03)
+
