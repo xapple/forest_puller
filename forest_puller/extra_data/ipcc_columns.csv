@@ -1,21 +1,21 @@
-ipcc,forest_puller
-Land-use category,land_use
-Subdivision(1),subdivision
-Total area(2) (kha),area
-Area of mineral soil (kha),area_mineral
-Area of organic soil (kha),area_organic
-Gains_per_area,gains_ratio
-Losses_per_area,losses_ratio
-Net change_per_area,net_change_ratio
-Net carbon stock change in dead wood per area(4)_per_area,net_dead_ratio
-Net carbon stock change in litter per area(4)_per_area,net_litter_ratio
-Mineral soils(5)_per_area,net_mineral_soil_ratio
-Organic soils_per_area,net_organic_soil_ratio
-Gains,gains
-Losses,losses
-Net change,net_change
-Net carbon stock change in dead wood(4),net_dead
-Net carbon stock change in litter(4),net_litter
-Mineral soils,net_mineral_soils
-Organic soils,net_organic_soils
-Net CO2 emissions/ removals (4) (7),net_co2
+ipcc,forest_puller,unit_convert_ratio
+Land-use category,land_use,NaN
+Subdivision(1),subdivision,NaN
+Total area(2) (kha),area,1000
+Area of mineral soil (kha),area_mineral,1000
+Area of organic soil (kha),area_organic,1000
+Gains_per_area,biomass_gains_ratio,1
+Losses_per_area,biomass_losses_ratio,1
+Net change_per_area,biomass_net_change_ratio,1
+Net carbon stock change in dead wood per area(4)_per_area,net_dead_ratio,1
+Net carbon stock change in litter per area(4)_per_area,net_litter_ratio,1
+Mineral soils(5)_per_area,net_mineral_soil_ratio,1
+Organic soils_per_area,net_organic_soil_ratio,1
+Gains,biomass_gains,1000
+Losses,biomass_losses,1000
+Net change,biomass_net_change,1000
+Net carbon stock change in dead wood(4),net_dead,1000
+Net carbon stock change in litter(4),net_litter,1000
+Mineral soils,net_mineral_soils,1000
+Organic soils,net_organic_soils,1000
+Net CO2 emissions/ removals (4) (7),net_co2,1000

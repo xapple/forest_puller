@@ -9,6 +9,9 @@ Unit D1 Bioeconomy.
 
 For every country: uncompress the zip file(s) that were downloaded from the
 IPCC website and place the result it in a directory.
+
+Manual intervention: delete the strange multi year "HUN" file
+Manual intervention: "ES" zip file corrupted, but works on macOS.
 """
 
 # Built-in modules #

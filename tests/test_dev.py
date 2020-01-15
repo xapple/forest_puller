@@ -7,7 +7,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 JRC biomass Project.
 Unit D1 Bioeconomy.
 
-Development script to test some of the methods in `forest_puller.ipcc`
+Development script to test some of the methods in `forest_puller`
 """
 
 # Built-in modules #

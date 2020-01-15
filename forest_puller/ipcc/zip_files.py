@@ -46,6 +46,8 @@ class AllZipFiles:
     See the `DownloadsLinks` class for more information on the provenance of the
     data.
 
+    Note: Some countries have several zip files, we will take all of them.
+
     The final file structure will look like this:
 
         /puller_cache/ipcc/zips/AT:

@@ -1,0 +1,9 @@
+ipcc,forest_puller
+A. Total forest land,total_forest
+1. Forest land remaining forest land,remaining_forest
+2. Land converted to forest land(8),land_to_forest
+2.1 Cropland converted to forest land,cropland_to_forest
+2.2 Grassland converted to forest land,grassland_to_forest
+2.3 Wetlands converted to forest land,wetlands_to_forest
+2.4 Settlements converted to forest land,settlements_to_forest
+2.5 Other land converted to forest land,other_land_to_forest

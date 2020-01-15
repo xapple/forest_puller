@@ -14,6 +14,7 @@ Typically you can use this class this like:
 """
 
 # Built-in modules #
+import re
 
 # Internal modules #
 from forest_puller.ipcc.year import Year
@@ -64,8 +65,31 @@ class Country:
 
     @property_cached
     def zip_file(self):
-        """Return only the single zip that we are interested in for this country."""
-        return self.zip_files[0]
+        """
+        Return only the single zip that we are interested in for this country.
+        If there are several zip files available, we pick the one that matches
+        the country's ISO3 code.
+        For instance, in this study, we don't want to include large areas such
+        as greenland when considering Denmark, nor French islands etc.
+        """
+        # Standard case #
+        if len(self.zip_files) == 0: return self.zip_files[0]
+        # How to parse the ISO3 code from the filename #
+        def find_iso3_code(zip_file):
+            matches = re.findall("^([a-z]+)-[0-9]+", zip_file.name)
+            if not matches: return None
+            return matches[0]
+        # Case with multiple choices #
+        for z in self.zip_files:
+            if find_iso3_code(z).upper() == self.iso3_code: return z
+
+    @property_cached
+    def iso3_code(self):
+        """Get the ISO3 code for this country."""
+        # Find the right row #
+        row = country_codes.loc[country_codes['iso2_code'] == self.iso2_code].iloc[0]
+        # Get the ISO3 #
+        return row['iso3_code']
 
     @property_cached
     def xls_dir(self):
@@ -119,8 +143,8 @@ all_dirs = all_zip_files.cache_dir.flat_directories
 if len(all_dirs) == 0:
     import warnings
     message = ("\n\n The directory that stores the downloaded zip files ('%s')"
-               " was empty, and hence no country has been created. Check you have"
-               " downloaded the files and properly set the cache directory path.\n")
+               "\nwas empty, and hence no country has been created. Check you have"
+               "\ndownloaded the files and properly set the cache directory path.\n")
     warnings.warn(message % all_zip_files.cache_dir)
 
 # Create every country object #
