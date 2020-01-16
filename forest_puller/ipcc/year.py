@@ -73,7 +73,8 @@ class Year:
 
     @property_cached
     def last_row(self):
-        """Look for the position of the first mostly empty row at the end of the table."""
+        """Look for the position of the first row that contains a period as only
+        content."""
         i = 0
         for i, row in self.raw_table_4a.iterrows():
             if i < 10: continue
@@ -100,10 +101,10 @@ class Year:
         after  = list(row_name_map['forest_puller'])
         df     = df.replace(before, after)
         # Convert units (such that we never have kilo hectares, only hectares etc.) #
-        #for i, row in col_name_map.iterrows():
-        #    col_name, ratio = row['forest_puller'], row['unit_convert_ratio']
-        #    if numpy.isnan(ratio): continue
-        #    df[col_name] = df[col_name] * ratio
+        for i, row in col_name_map.iterrows():
+            col_name, ratio = row['forest_puller'], row['unit_convert_ratio']
+            if numpy.isnan(ratio): continue
+            df[col_name] = df[col_name] * ratio
         # Reset the index #
         df = df.reset_index(drop=True)
         # Return #

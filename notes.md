@@ -17,6 +17,14 @@
 
 * Recompute the line 10 (total) as a sanity check
 
+# TODO
+
+* Rewrite the sanity check
+
+* Check there are only `float64` columns directly in the package
+
+* Write the documentation
+
 # Units
 
 Example variable descriptions:
@@ -25,4 +33,3 @@ Example variable descriptions:
     --------------------------------------------------------------------
      1 |      area |     forest area |   area_forested | hectare
      2 | emissions | total emissions |             NaN | tons of carbon
-
