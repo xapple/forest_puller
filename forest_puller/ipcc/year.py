@@ -101,9 +101,7 @@ class Year:
 
     @property_pickled_at('df_cache_path')
     def df(self):
-        """
-        Extract targeted information from 'Table4.A' into a pandas data frame.
-        """
+        """Extract targeted information from 'Table4.A' into a pandas data frame."""
         # Take all lines after the header but before the last row #
         df = self.raw_table_4a.iloc[9:self.last_row]
         # Rename columns index #
@@ -135,6 +133,21 @@ class Year:
         path  = cache_dir + 'ipcc/df/' + self.country.iso2_code + '/'
         path += str(self.year) + '.pickle'
         return path
+
+    @property
+    def indexed(self):
+        """
+        Same as `self.df` but with an index on the first and second columns.
+        Also we put empty strings instead of NaNs in the subdivision column.
+        """
+        # Load #
+        df = self.df
+        # Empty string #
+        df['subdivision'] = df['subdivision'].fillna('')
+        # Index #
+        df = self.df.set_index(['land_use', 'subdivision'])
+        # Return #
+        return df
 
     # ------------------------------ Methods ---------------------------------#
     def sanity_check(self):

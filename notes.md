@@ -23,9 +23,15 @@
 
 * Pickle the final df in the cache repository
 
+* Update repositories on gitlab (logos, public)
+
+* Publish also on github
+
+* Rewrite the sample test
+
 * Write the documentation
 
-# Units
+# Ideas
 
 Example variable descriptions:
 

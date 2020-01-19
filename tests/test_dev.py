@@ -8,6 +8,10 @@ JRC biomass Project.
 Unit D1 Bioeconomy.
 
 Development script to test some of the methods in `forest_puller`
+
+Typically you would run this file from a command line like this:
+
+     ipython3 -i -- ~/deploy/forest_puller/tests/test_dev.py
 """
 
 # Built-in modules #

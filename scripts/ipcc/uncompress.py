@@ -12,6 +12,10 @@ IPCC website and place the result it in a directory.
 
 Manual intervention: delete the strange multi year "HUN" file
 Manual intervention: "ES" zip file corrupted, but works on macOS.
+
+Typically you would run this file from a command line like this:
+
+     ipython3 -i -- ~/deploy/forest_puller/scripts/ipcc/uncompress.py
 """
 
 # Built-in modules #
