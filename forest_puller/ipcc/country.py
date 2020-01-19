@@ -36,9 +36,24 @@ country_codes = pandas.read_csv(str(country_codes))
 ###############################################################################
 class Country:
     """
-    Represents one country's dataset.
-    Contains many Year objects.
-    Each Year contains one excel file.
+    Represents one country's dataset and contains many `Year` objects.
+    Each `Year` references a single excel file and has a `df` property.
+
+    The final file structure will look like this:
+
+        /puller_cache/ipcc/xls/AT:
+            AUT_2019_1990_10042019_205508.xlsx
+            AUT_2019_1991_10042019_205601.xlsx
+            AUT_2019_1992_10042019_205654.xlsx
+            AUT_2019_1993_10042019_205746.xlsx
+            AUT_2019_1994_10042019_205839.xlsx
+            ...
+
+        /puller_cache/ipcc/xls/BE:
+            BEL_2019_1990_12042019_023222.xlsx
+            BEL_2019_1991_12042019_023341.xlsx
+            BEL_2019_1992_12042019_023458.xlsx
+            ...
     """
 
     def __init__(self, zip_dir, xls_cache_dir):

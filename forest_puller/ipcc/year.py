@@ -13,10 +13,10 @@ import re
 
 # Internal modules #
 from forest_puller.ipcc.headers import Headers
-from forest_puller import module_dir
+from forest_puller import cache_dir, module_dir
 
 # First party modules #
-from plumbing.cache import property_cached
+from plumbing.cache import property_cached, property_pickled_at
 
 # Third party modules #
 import pandas, numpy
@@ -29,7 +29,26 @@ row_name_map = pandas.read_csv(str(row_name_map))
 
 ##############################################################################
 class Year:
-    """Represents a specific year from a specific country's dataset."""
+    """
+    Represents a specific year from a specific country's dataset and gives
+    access to all the data of that year.
+
+        The final file structure will look like this:
+
+        /puller_cache/ipcc/df/AT:
+            1990.pickle
+            1991.pickle
+            1992.pickle
+            1993.pickle
+            1994.pickle
+            ...
+
+        /puller_cache/ipcc/df/BE:
+            1990.pickle
+            1991.pickle
+            1992.pickle
+            ...
+    """
 
     def __init__(self, country, xls_file):
         """Record the parent and the file we have to parse."""
@@ -39,7 +58,6 @@ class Year:
         self.xls_file = xls_file
         # The year itself from the file name #
         self.year = int(re.findall("^[A-Z]+_[0-9]+_([0-9]+)", xls_file.name)[0])
-        # Position #
 
     def __repr__(self):
         return '%s %s of %s' % (self.__class__, self.year, self.country.iso2_code)
@@ -81,7 +99,7 @@ class Year:
             if row.iloc[0] == '.': break
         return i
 
-    @property_cached
+    @property_pickled_at('df_cache_path')
     def df(self):
         """
         Extract targeted information from 'Table4.A' into a pandas data frame.
@@ -104,26 +122,40 @@ class Year:
         for i, row in col_name_map.iterrows():
             col_name, ratio = row['forest_puller'], row['unit_convert_ratio']
             if numpy.isnan(ratio): continue
+            if df[col_name].dtype != 'float64': raise Exception("Non-float in the df.")
             df[col_name] = df[col_name] * ratio
         # Reset the index #
         df = df.reset_index(drop=True)
         # Return #
         return df
 
+    @property_cached
+    def df_cache_path(self):
+        """Specify where on the file system we will pickle the df property."""
+        path  = cache_dir + 'ipcc/df/' + self.country.iso2_code + '/'
+        path += str(self.year) + '.pickle'
+        return path
+
     # ------------------------------ Methods ---------------------------------#
     def sanity_check(self):
         """Recompute the total row to check that everything adds up."""
         # Load table and set index #
         df = self.df.set_index('land_use')
+        # Drop the per area columns which can't be summed #
+        df = df.loc[:, ~df.columns.str.endswith('_ratio')]
         # Get the totals row #
         expected = df.loc['total_forest'].fillna(0.0)
-        # Remove the total rows from the df #
+        # Remove that very same total rows from the df #
         df = df.drop('total_forest')
-        # Sum every subdivison total (where there are NaNs) #
-        sub_totals = df[pandas.isna(df['subdivision'])]
+        # Sum every subdivison's total (where there are NaNs) #
+        df = df[pandas.isna(df['subdivision'])]
+        # But not the converted recap total which is redundant #
+        df = df.drop('land_to_forest')
         # Recompute the totals #
-        totals = sub_totals.sum()
+        totals = df.sum()
         # Compare #
         all_close = numpy.testing.assert_allclose
-        return all_close(expected, totals, rtol=1e-03)
+        all_close(expected, totals, rtol=1e-10)
+        # Return #
+        return True
 

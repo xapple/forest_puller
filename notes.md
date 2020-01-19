@@ -17,11 +17,11 @@
 
 * Recompute the line 10 (total) as a sanity check
 
-# TODO
+* Check there are only `float64` columns directly in the package
 
 * Rewrite the sanity check
 
-* Check there are only `float64` columns directly in the package
+* Pickle the final df in the cache repository
 
 * Write the documentation
 

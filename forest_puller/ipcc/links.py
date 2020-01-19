@@ -43,6 +43,10 @@ class DownloadsLinks:
         Austria    https://unfccc.int/documents/194890  https://unfc[...]apr19.zip
         Belarus    https://unfccc.int/documents/194782  https://unfc[...]apr19.zip
         Belgium    https://unfccc.int/documents/194878  https://unfc[...]apr19.zip
+
+    and will be stored at:
+
+        /puller_cache/ipcc/downloads/df.pickle
     """
 
     download_url = "https://unfccc.int/process-and-meetings/transparency-and-reporting" \
