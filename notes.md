@@ -29,6 +29,8 @@
 
 * Rewrite the sample test
 
+* Rewrite the indexed dataframe
+
 * Write the documentation
 
 # Ideas

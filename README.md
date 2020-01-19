@@ -45,12 +45,12 @@ To see what information is available you can of course display the column titles
 ```python
 print(at_2017.columns)
 
-#Index(['area', 'area_mineral', 'area_organic', 'biomass_gains_ratio',
-#       'biomass_losses_ratio', 'biomass_net_change_ratio', 'net_dead_ratio',
-#       'net_litter_ratio', 'net_mineral_soil_ratio', 'net_organic_soil_ratio',
-#       'biomass_gains', 'biomass_losses', 'biomass_net_change', 'net_dead',
-#       'net_litter', 'net_mineral_soils', 'net_organic_soils', 'net_co2'],
-#      dtype='object', name='category')
+# Index(['area', 'area_mineral', 'area_organic', 'biomass_gains_ratio',
+#        'biomass_losses_ratio', 'biomass_net_change_ratio', 'net_dead_ratio',
+#        'net_litter_ratio', 'net_mineral_soil_ratio', 'net_organic_soil_ratio',
+#        'biomass_gains', 'biomass_losses', 'biomass_net_change', 'net_dead',
+#        'net_litter', 'net_mineral_soils', 'net_organic_soils', 'net_co2'],
+#        dtype='object', name='category')
 
 print(at_2017.index)
 
@@ -79,7 +79,66 @@ print(list(y for y in austria.years))
 
 ### IPCC
 
-To download the forest data from the IPCC you would have to ...
+To access the same forest data directly from the IPCC without `forest_puller` you would have to first select your country from the CRF country table in a browser.
+
+![IPCC demo screenshot 1](documentation/ipcc/ipcc_demo_1.png?raw=true "IPCC demo screenshot 1")
+
+Then you would have to manually download the zip file for that specific country through another page.
+
+![IPCC demo screenshot 2](documentation/ipcc/ipcc_demo_2.png?raw=true "IPCC demo screenshot 2")
+
+Next, you would have to uncompress the zip file and locate the xls file that concerns the year you are interested in.
+
+![IPCC demo screenshot 4](documentation/ipcc/ipcc_demo_4.png?raw=true "IPCC demo screenshot 4")
+
+Finally you would have to scroll to the right sheet in your spreadsheet software and find the pertinent cell.
+
+![IPCC demo screenshot 5](documentation/ipcc/ipcc_demo_5.png?raw=true "IPCC demo screenshot 5")
+
+
+This operation would have to be repeated for every country, and every year you are interested in.
+
+With `forest_puller` you can easily display any information you want for all countries at the same time:
+
+```python
+from forest_puller.ipcc.country import countries
+
+category, key = ['total_forest', 'biomass_net_change']
+biomass_net_change = {
+    k: c.last_year.indexed.loc[category, ''][key]
+    for k,c in countries.items()
+}
+
+import pprint
+pprint.pprint(biomass_net_change)
+```
+
+    {'AT': 1367857.0940855271,
+     'BE': 374245.08695361385,
+     'BG': 2192942.031982918,
+     'CZ': 387870.89395249996,
+     'DE': 12317598.87352293,
+     'DK': -216454.31026543948,
+     'EE': 320710.2459538891,
+     'ES': 8917649.261547482,
+     'FI': 6603815.0,
+     'FR': 15051831.9827214,
+     'GB': 2892518.0859005335,
+     'GR': 583205.0978272819,
+     'HR': 1477791.7578513895,
+     'HU': 1259385.5890665338,
+     'IE': 1069648.7636722159,
+     'IT': 5752883.095908434,
+     'LT': 2146933.309581986,
+     'LU': 101929.37461705346,
+     'LV': 1244965.2120000012,
+     'NL': 499021.93968,
+     'PL': 9353198.2907701,
+     'PT': 1536917.4736652463,
+     'RO': 5561343.4405591395,
+     'SE': 10185839.738999998,
+     'SI': 35391.09710503432,
+     'SK': 1184611.3471376207}
 
 ### More sources to be added in the future
 

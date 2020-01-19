@@ -25,5 +25,3 @@ country_code,country,m49_code,iso2_code,iso3_code,start_year,end_year,nuts_zero_
 203,Spain,724,ES,ESP,,,ES,ES
 210,Sweden,752,SE,SWE,,,SE,SE
 229,United Kingdom,826,GB,GBR,,,UK,UK
-999,Dreamland,999,ZZ,ZZZ,2019,,ZZ,"ZZ
-"
