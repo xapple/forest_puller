@@ -43,10 +43,10 @@ class AllZipFiles:
     """
     For every country: download the English version of the Common Reporting
     Format (CRF) zip file from the IPCC website and place it in a directory.
-    See the `DownloadsLinks` class for more information on the provenance of the
-    data.
+    See the `DownloadsLinks` class for more information on the provenance of
+    the data.
 
-    Note: Some countries have several zip files, we will take all of them.
+    Note: Some countries have several zip files, we will downloads all of them.
 
     The final file structure will look like this:
 

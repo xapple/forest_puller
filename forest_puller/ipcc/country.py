@@ -56,13 +56,13 @@ class Country:
             ...
     """
 
-    def __init__(self, zip_dir, xls_cache_dir):
-        # Main directory #
-        self.zip_dir = Path(zip_dir)
+    def __init__(self, iso2_code, xls_cache_dir):
+        # The reference ISO2 code #
+        self.iso2_code = iso2_code
         # Record where the cache will be located on disk #
         self.cache_dir = xls_cache_dir
-        # The reference ISO2 code #
-        self.iso2_code = self.zip_dir.name
+        # Main directory #
+        self.zip_dir = all_zip_files.cache_dir + self.iso2_code + '/'
 
     def __repr__(self):
         return '%s object code "%s"' % (self.__class__, self.iso2_code)
@@ -73,6 +73,14 @@ class Country:
     def __len__(self):          return len(self.all_years)
 
     # ---------------------------- Properties --------------------------------#
+    @property_cached
+    def iso3_code(self):
+        """Get the ISO3 code for this country."""
+        # Find the right row #
+        row = country_codes.loc[country_codes['iso2_code'] == self.iso2_code].iloc[0]
+        # Get the ISO3 #
+        return row['iso3_code']
+
     @property_cached
     def zip_files(self):
         """Return a list of all zip files present for this country."""
@@ -97,14 +105,6 @@ class Country:
         # Case with multiple choices #
         for z in self.zip_files:
             if find_iso3_code(z).upper() == self.iso3_code: return z
-
-    @property_cached
-    def iso3_code(self):
-        """Get the ISO3 code for this country."""
-        # Find the right row #
-        row = country_codes.loc[country_codes['iso2_code'] == self.iso2_code].iloc[0]
-        # Get the ISO3 #
-        return row['iso3_code']
 
     @property_cached
     def xls_dir(self):
@@ -151,18 +151,7 @@ class Country:
             nested_dir.unnest()
 
 ###############################################################################
-# All directories with zip_files
-all_dirs = all_zip_files.cache_dir.flat_directories
-
-# Warning #
-if len(all_dirs) == 0:
-    import warnings
-    message = ("\n\n The directory that stores the downloaded zip files ('%s')"
-               "\nwas empty, and hence no country has been created. Check you have"
-               "\ndownloaded the files and properly set the cache directory path.\n")
-    warnings.warn(message % all_zip_files.cache_dir)
-
 # Create every country object #
-path          = cache_dir + 'ipcc/xls/'
-all_countries = [Country(d, path) for d in all_dirs]
+cache_path    = cache_dir + 'ipcc/xls/'
+all_countries = [Country(iso2, cache_path) for iso2 in country_codes['iso2_code']]
 countries     = {c.iso2_code: c for c in all_countries}

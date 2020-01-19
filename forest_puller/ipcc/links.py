@@ -113,13 +113,13 @@ class DownloadsLinks:
     def extract_links(self, elem):
         """Get all <a> child elements of input and return all the URLs in a list."""
         # Get all <a> child elements #
-        links = elem.xpath('.//a')
+        all_links = elem.xpath('.//a')
         # Extract URLs #
-        links = [a.get('href') for a in links]
+        all_links = [a.get('href') for a in all_links]
         # Fix relative links that are missing the domain name #
-        links = [url if url.startswith('http') else self.domain + url for url in links]
+        all_links = [url if url.startswith('http') else self.domain + url for url in all_links]
         # Return #
-        return links
+        return all_links
 
     def get_zip_url(self, crf_url):
         """
