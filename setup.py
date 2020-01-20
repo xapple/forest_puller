@@ -12,4 +12,5 @@ setup(
         author_email     = 'lucas.sinclair@me.com',
         packages         = find_packages(),
         install_requires = ['pandas', 'numpy', 'autopaths', 'plumbing', 'lxml', 'requests', 'tqdm'],
+        include_package_data = True,
 )
