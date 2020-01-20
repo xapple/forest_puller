@@ -1,0 +1,4 @@
+include README.md
+include LICENSE.txt
+recursive-include forest_puller/extra_data *.csv
+recursive-include scripts *.py

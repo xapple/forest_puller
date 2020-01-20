@@ -39,9 +39,9 @@
 
 * Auto-clone the cache repository on install
 
-# TODO
-
 * Check the tutorial works on a fresh Ubuntu
+
+# TODO
 
 * Add new data source: Forest Europe
 
