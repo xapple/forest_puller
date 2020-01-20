@@ -43,4 +43,4 @@ else:
 cache_dir = Path(cache_dir)
 cache_dir.create_if_not_exists()
 
-# Clone it if it's not a repository #
+# Clone it if it's empty or not a repository #

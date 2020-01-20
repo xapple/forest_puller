@@ -37,7 +37,7 @@
 
 * Add README in puller_cache
 
-* Autoclone the cache repository on install
+* Auto-clone the cache repository on install
 
 # TODO
 
