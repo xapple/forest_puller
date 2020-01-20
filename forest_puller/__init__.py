@@ -40,7 +40,13 @@ else:
     warnings.warn(message % (env_var_name, cache_dir))
 
 # Guarantee it exists #
-cache_dir = Path(cache_dir)
+cache_dir = GitRepo(cache_dir)
 cache_dir.create_if_not_exists()
 
-# Clone it if it's empty or not a repository #
+# If it's empty: clone it #
+if cache_dir.empty:
+
+
+# If it's not a repository: raise #
+
+# If it's a repository: pull it in an other thread #
