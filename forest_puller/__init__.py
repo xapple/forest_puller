@@ -9,13 +9,19 @@ Unit D1 Bioeconomy.
 """
 
 # Special variables #
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 
 # Built-in modules #
 import os, sys
 
 # First party modules #
 from autopaths    import Path
+from plumbing.git import GitRepo
+
+# Constants #
+project_name = 'forest_puller'
+project_url  = 'https://github.com/xapple/forest_puller'
+git_http_url = 'https://github.com/xapple/forest_puller.git'
 
 # Get paths to module #
 self       = sys.modules[__name__]
@@ -40,13 +46,17 @@ else:
     warnings.warn(message % (env_var_name, cache_dir))
 
 # Guarantee it exists #
-cache_dir = GitRepo(cache_dir)
+cache_dir = GitRepo(cache_dir, empty=True)
 cache_dir.create_if_not_exists()
 
 # If it's empty: clone it #
 if cache_dir.empty:
-
+    cache_dir.clone_from(git_http_url)
 
 # If it's not a repository: raise #
+if not cache_dir.is_a_repos:
+    raise Exception("It appears the cache directory was not cloned successfully.")
 
 # If it's a repository: pull it in an other thread #
+if cache_dir.is_a_repos:
+    cache_dir.pull(shell=False, thread=True)
