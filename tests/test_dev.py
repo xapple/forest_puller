@@ -23,5 +23,6 @@ from tqdm import tqdm
 from forest_puller.ipcc.country import all_countries
 
 ###############################################################################
-country = all_countries[0]
-print(country.first_year.sanity_check())
+for c in tqdm(all_countries):
+    for y in c:
+        y.sanity_check()

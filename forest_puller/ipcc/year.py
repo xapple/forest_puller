@@ -134,14 +134,14 @@ class Year:
         path += str(self.year) + '.pickle'
         return path
 
-    @property
+    @property_cached
     def indexed(self):
         """
         Same as `self.df` but with an index on the first and second columns.
         Also we put empty strings instead of NaNs in the subdivision column.
         """
         # Load #
-        df = self.df
+        df = self.df.copy()
         # Empty string #
         df['subdivision'] = df['subdivision'].fillna('')
         # Index #
