@@ -33,6 +33,20 @@
 
 * Write the documentation
 
+# TODO
+
+* Autoclone the cache repository on install
+- Add to the source code repository directly
+- Add to source tarball and upload on pypi with python package
+- Clone to tempfile.gettempdir()
+- Clone to ~/.forest_puller
+- Clone to __module_dir__ but permission problem if not --user
+- Force setting of $FOREST_PULLER_CACHE_DIR environment variable
+- Have it download every time to RAM on each python process
+- Prompt the user with input() to specify a dir and save to a dotfile
+
+* Check the tutorial works on a fresh Ubuntu
+
 # Ideas
 
 Example variable descriptions:

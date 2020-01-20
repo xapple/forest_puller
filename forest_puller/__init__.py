@@ -16,21 +16,10 @@ import os, sys
 
 # First party modules #
 from autopaths    import Path
-from plumbing.git import GitRepo
-
-# Constants #
-project_name = 'forest_puller'
-project_url  = 'https://gitlab.com/bioeconomy/puller/forest_puller'
 
 # Get paths to module #
 self       = sys.modules[__name__]
 module_dir = Path(os.path.dirname(self.__file__))
-
-# The repository directory #
-repos_dir = module_dir.directory
-
-# The module is maybe in a git repository #
-git_repo = GitRepo(repos_dir, empty=True)
 
 # Determine where to cache things #
 env_var_name = "FOREST_PULLER_CACHE"
@@ -53,3 +42,5 @@ else:
 # Guarantee it exists #
 cache_dir = Path(cache_dir)
 cache_dir.create_if_not_exists()
+
+# Clone it if it's not a repository #
