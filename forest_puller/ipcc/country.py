@@ -114,6 +114,9 @@ class Country:
     @property_cached
     def all_xls_files(self):
         """For each country we have N excel files, one for each year."""
+        # If the xls_dir is empty, we need to reconstruct from cache #
+        if self.cache_dir.empty: return [self.xls_dir + f for f in self.cached_xls_list]
+        # Otherwise we can just look at each file #
         return [f for f in self.xls_dir.flat_files if f.extension == '.xlsx']
 
     @property_cached
@@ -149,6 +152,20 @@ class Country:
         if len(all_dirs) == 1 and len(all_files) == 0:
             nested_dir = all_dirs[0]
             nested_dir.unnest()
+
+    # ------------------------------- Caching ---------------------------------#
+    @property
+    def cached_xls_list(self):
+        """The location where we will save the list of excel files paths."""
+        return cache_dir + 'ipcc/countries/' + self.iso2_code + '.txt'
+
+    def write_xls_list(self):
+        """
+        Create the file that will be used for caching the list of xls files.
+        We have to record relative paths starting from self.xls_dir
+        """
+        paths = (f.rel_path_from(self.xls_dir) for f in self.all_xls_files)
+        self.cached_xls_list.writelines(l + '\n' for l in paths)
 
 ###############################################################################
 # Create every country object #

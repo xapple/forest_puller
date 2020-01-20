@@ -171,4 +171,3 @@ class Year:
         all_close(expected, totals, rtol=1e-10)
         # Return #
         return True
-
