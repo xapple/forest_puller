@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 """
 
 # Special variables #
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 
 # Built-in modules #
 import os, sys
@@ -19,9 +19,9 @@ from autopaths    import Path
 from plumbing.git import GitRepo
 
 # Constants #
-project_name = 'forest_puller'
-project_url  = 'https://github.com/xapple/forest_puller'
-git_http_url = 'https://github.com/xapple/forest_puller.git'
+project_name  = 'forest_puller'
+project_url   = 'https://github.com/xapple/forest_puller'
+cache_git_url = 'https://gitlab.com/bioeconomy/puller/puller_cache.git'
 
 # Get paths to module #
 self       = sys.modules[__name__]
@@ -43,7 +43,8 @@ else:
     message = ("\n\n The cache location for forest puller's data is not defined in"
                " the '%s' environment variable.\n In this case it will default"
                " to:\n\n '%s',\n which might lead to re-caching after every startup.\n")
-    warnings.warn(message % (env_var_name, cache_dir))
+    message = message % (env_var_name, cache_dir)
+    warnings.warn(message)
 
 # Guarantee it exists #
 cache_dir = GitRepo(cache_dir, empty=True)
@@ -51,7 +52,8 @@ cache_dir.create_if_not_exists()
 
 # If it's empty: clone it #
 if cache_dir.empty:
-    cache_dir.clone_from(git_http_url)
+    print("Cloning forest puller cache repository from gitlab.com")
+    cache_dir.clone_from(cache_git_url, shell=True)
 
 # If it's not a repository: raise #
 if not cache_dir.is_a_repos:
