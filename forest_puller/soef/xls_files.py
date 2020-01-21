@@ -22,7 +22,7 @@ To re-download the files you can do:
 import time
 
 # Internal modules #
-import forest_puller.ipcc.links
+import forest_puller.soef.links
 from forest_puller import cache_dir, module_dir
 
 # First party modules #
@@ -63,7 +63,7 @@ class AllXlsFiles:
     def refresh_cache(self):
         """
         Will download all the required xls files to the cache directory.
-        Takes about X minutes on a fast connection.
+        Takes about 2 minutes on a fast connection.
         """
         # Add method .progress_apply() in addition to .apply() #
         tqdm.pandas()
@@ -82,10 +82,10 @@ class AllXlsFiles:
         # The destination directory #
         destination = Path(self.cache_dir + iso2_code + '.xls')
         # Save to disk #
-        result = download_from_url(row['zip'], destination)
+        result = download_from_url(row['xls'], destination, user_agent=None)
         # We don't want to flood the server #
         time.sleep(2)
 
 ###############################################################################
 # Create a singleton #
-all_xls_files = AllXlsFiles(cache_dir + 'ipcc/xls/')
+all_xls_files = AllXlsFiles(cache_dir + 'soef/xls/')
