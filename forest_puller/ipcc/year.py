@@ -145,7 +145,7 @@ class Year:
         # Empty string #
         df['subdivision'] = df['subdivision'].fillna('')
         # Index #
-        df = self.df.set_index(['land_use', 'subdivision'])
+        df = df.set_index(['land_use', 'subdivision'])
         # Return #
         return df
 
