@@ -124,8 +124,6 @@ class Year:
             df[col_name] = df[col_name] * ratio
         # Reset the index #
         df = df.reset_index(drop=True)
-        # Remove the confusing `category` name appearing at the left hand side of the column names
-        del df.columns.name
         # Return #
         return df
 
