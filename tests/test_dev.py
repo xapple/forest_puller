@@ -17,12 +17,9 @@ Typically you would run this file from a command line like this:
 # Built-in modules #
 
 # Third party modules #
-from tqdm import tqdm
 
 # Internal modules #
-from forest_puller.ipcc.country import all_countries
+from forest_puller.soef.xls_files import all_xls_files
 
 ###############################################################################
-for c in tqdm(all_countries):
-    for y in c:
-        y.sanity_check()
+all_xls_files.refresh_cache()

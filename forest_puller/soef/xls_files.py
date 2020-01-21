@@ -9,13 +9,13 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.ipcc.zip_files import all_zip_files
-    >>> print(all_zip_files.cache_is_valid)
+    >>> from forest_puller.soef.xls_files import all_xls_files
+    >>> print(all_xls_files.cache_is_valid)
 
 To re-download the files you can do:
 
-    >>> from forest_puller.ipcc.zip_files import all_zip_files
-    >>> all_zip_files.refresh_cache()
+    >>> from forest_puller.soef.xls_files import all_xls_files
+    >>> all_xls_files.refresh_cache()
 """
 
 # Built-in modules #
@@ -26,8 +26,7 @@ import forest_puller.ipcc.links
 from forest_puller import cache_dir, module_dir
 
 # First party modules #
-from plumbing.scraping.browser import download_via_browser
-from plumbing.scraping.blockers import check_blocked_request
+from plumbing.scraping import download_from_url
 from autopaths import Path
 
 # Third party modules #
@@ -39,35 +38,20 @@ country_codes = module_dir + 'extra_data/country_codes.csv'
 country_codes = pandas.read_csv(str(country_codes))
 
 ###############################################################################
-class AllZipFiles:
+class AllXlsFiles:
     """
-    For every country: download the English version of the Common Reporting
-    Format (CRF) zip file from the IPCC website and place it in a directory.
+    For every country: download the excel file containing all tables.
     See the `DownloadsLinks` class for more information on the provenance of
     the data.
 
-    Note: Some countries have several zip files, we will downloads all of them.
-
     The final file structure will look like this:
 
-        /puller_cache/ipcc/zips/AT:
-        16M Jan 12 18:15 aut-2019-crf-15apr19.zip
-
-        /puller_cache/ipcc/zips/BE:
-        16M Jan 12 18:15 bel-2019-crf-15apr19.zip
-
-        /puller_cache/ipcc/zips/CZ:
-        16M Jan 12 18:15 cze-2019-crf-12apr19.zip
-
-        /puller_cache/ipcc/zips/DK:
-        17M Jan 12 18:15 dnm-2019-crf-12apr19.zip
-        14M Jan 12 18:15 dke-2019-crf-12apr19.zip
-        15M Jan 12 18:15 dnk-2019-crf-12apr19.zip
+        /puller_cache/soef/xls/
     """
 
-    def __init__(self, zip_cache_dir):
+    def __init__(self, xls_cache_dir):
         # Record where the cache will be located on disk #
-        self.cache_dir = zip_cache_dir
+        self.cache_dir = xls_cache_dir
 
     # ---------------------------- Properties --------------------------------#
     @property
@@ -78,32 +62,30 @@ class AllZipFiles:
     # ------------------------------ Methods ---------------------------------#
     def refresh_cache(self):
         """
-        Will download all the required zip files to the cache directory.
-        Takes about 4 minutes on a fast connection.
+        Will download all the required xls files to the cache directory.
+        Takes about X minutes on a fast connection.
         """
         # Add method .progress_apply() in addition to .apply() #
         tqdm.pandas()
-        # Get list of countries with zip URLs #
-        df = forest_puller.ipcc.links.links.df
+        # Get list of countries with xls URLs #
+        df = forest_puller.soef.links.links.df
         # Download each zip file #
-        df.T.progress_apply(self.get_one_zip)
+        df.T.progress_apply(self.get_one_xls)
 
-    def get_one_zip(self, row):
-        """Download one zip file and put it in the right directory."""
+    def get_one_xls(self, row):
+        """Download one xls file and put it in the cache directory."""
         # We are not interested in all countries #
         if row['country'] not in country_codes['country'].values: return
         # Get the matching iso2_code #
         iso2_code = country_codes.query("country == '%s'" % row['country'])
         iso2_code = iso2_code['iso2_code'].iloc[0]
         # The destination directory #
-        destination = Path(self.cache_dir + iso2_code + '/')
+        destination = Path(self.cache_dir + iso2_code + '.xls')
         # Save to disk #
-        result = download_via_browser(row['zip'], destination, uncompress=False)
-        # Check if we were blocked #
-        check_blocked_request(result)
+        result = download_from_url(row['zip'], destination)
         # We don't want to flood the server #
         time.sleep(2)
 
 ###############################################################################
 # Create a singleton #
-all_zip_files = AllZipFiles(cache_dir + 'ipcc/zips/')
+all_xls_files = AllXlsFiles(cache_dir + 'ipcc/xls/')
