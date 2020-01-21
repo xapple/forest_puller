@@ -60,5 +60,5 @@ if not cache_dir.is_a_repos:
     raise Exception("It appears the cache directory was not cloned successfully.")
 
 # If it's a repository: pull it in an other thread #
-if cache_dir.is_a_repos:
-    cache_dir.pull(shell=False, thread=True)
+#if cache_dir.is_a_repos:
+#   cache_dir.pull(shell=False, thread=True)

@@ -75,6 +75,17 @@ print(list(y for y in austria.years))
 # 2013, 2014, 2015, 2016, 2017]
 ```
 
+To get a large data frame with all years and all countries inside:
+
+```python
+from forest_puller.ipcc.concat import df
+print(df)
+```
+
+## Cache
+
+When you import `forest_puller`, we will check the `$FOREST_PULLER_CACHE` environment variable to see where to download and store the cached data. If this variable is not set, we will default to the platform's temporary directory and clone a repository there.
+
 ## Data sources
 
 ### IPCC

@@ -149,6 +149,20 @@ class Year:
         # Return #
         return df
 
+    @property
+    def year_country_cols(self):
+        """
+        Same as `self.df` but we add a column with the current year (e.g. 1990)
+        and a column with the current country (e.g. 'AT').
+        """
+        # Load #
+        df = self.df.copy()
+        # Add columns #
+        df.insert(0, 'year',    self.year)
+        df.insert(0, 'country', self.country.iso2_code)
+        # Return #
+        return df
+
     # ------------------------------ Methods ---------------------------------#
     def sanity_check(self):
         """Recompute the total row to check that everything adds up."""
