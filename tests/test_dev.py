@@ -19,7 +19,9 @@ Typically you would run this file from a command line like this:
 # Third party modules #
 
 # Internal modules #
-from forest_puller.soef.xls_files import all_xls_files
+from forest_puller.soef.country import all_countries, countries
 
 ###############################################################################
-all_xls_files.refresh_cache()
+country = countries['AT']
+table   = country.forest_area
+df      = table.df

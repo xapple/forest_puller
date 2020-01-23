@@ -41,9 +41,19 @@
 
 * Check the tutorial works on a fresh Ubuntu
 
+* Add new data source: Forest Europe
+
 # TODO
 
-* Add new data source: Forest Europe
+* Rename columns for soef
+
+* Created concatenated df for soef
+
+* Write doc for the new data source
+
+* Add data source: faostat (the flag file with all prodcutes)
+
+* Add data source: diabolo
 
 # Ideas
 

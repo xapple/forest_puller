@@ -17,6 +17,7 @@ Typically you can use this class this like:
 
 # Internal modules #
 from forest_puller import cache_dir, module_dir
+from forest_puller.soef.table_parser import ForestArea, AgeDist, Fellings
 
 # First party modules #
 from plumbing.cache import property_cached
@@ -38,12 +39,25 @@ class Country:
         # The reference ISO2 code #
         self.iso2_code = iso2_code
         # Record where the cache will be located on disk #
-        self.xls_dir = xls_dir
+        self.xls_dir   = xls_dir
         # Record where the excel file will be located on disk #
-        self.xls = self.xls_dir + self.iso2_code + '.xls'
+        self.xls_file  = self.xls_dir + self.iso2_code + '.xls'
 
     def __repr__(self):
         return '%s object code "%s"' % (self.__class__, self.iso2_code)
+
+    def tables(self):
+        return [self.forest_area, self.age_dist, self.fellings]
+
+    #------------------------------ Tables -----------------------------------#
+    @property_cached
+    def forest_area(self): return ForestArea(self)
+
+    @property_cached
+    def age_dist(self): return AgeDist(self)
+
+    @property_cached
+    def fellings(self): return Fellings(self)
 
 ###############################################################################
 # Create every country object #
