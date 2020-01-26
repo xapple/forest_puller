@@ -1,0 +1,14 @@
+soef,forest_puller,unit_convert_ratio
+Category,category,NaN
+Year,year,NaN
+Area  (1000 ha),area,1000
+Total area (1000 ha),total_area,1000
+Development phases (1000 ha) Regeneration phase,dev_phase_regen,1000
+Development phases (1000 ha) Intermediate phase,dev_phase_intermediate,1000
+Development phases (1000 ha) Mature phase,dev_phase_mature,1000
+Development phases (1000 ha) Unspecified,dev_phase_unspecified,1000
+Gross annual increment   Volume (1000 m³ o.b.),gross_increment,1000
+Natural losses  Volume (1000 m³ o.b.),natural_losses,1000
+Net annual increment   Volume (1000 m³ o.b.),net_increment,1000
+Fellings Total Volume (1000 m³ o.b.),fellings_total,1000
+Fellings ... of which: of natural losses Volume (1000 m³ o.b.),fellings_nat_losses,1000

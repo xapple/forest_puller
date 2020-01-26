@@ -24,6 +24,8 @@ import pandas, numpy
 # Load IPCC row and column names mapping to short names #
 col_name_map = module_dir + 'extra_data/ipcc_columns.csv'
 col_name_map = pandas.read_csv(str(col_name_map))
+
+# Load row name mapping to short names #
 row_name_map = module_dir + 'extra_data/ipcc_rows.csv'
 row_name_map = pandas.read_csv(str(row_name_map))
 
@@ -106,13 +108,13 @@ class Year:
         df = self.raw_table_4a.iloc[9:self.last_row]
         # Rename columns index #
         df.columns = self.headers.df
-        # Go through `land_use` and `subcategory` removing the repetitions
+        # Go through `land_use` and `subcategory` removing the repetitions #
         for i,row in df.iterrows():
             cat, subcat = row['land_use'], row['subdivision']
             if subcat is numpy.NaN: current_cat     = cat
             elif subcat != cat:     raise Exception("Cat. and subcat. should never differ.")
             else:                   row['land_use'] = current_cat
-        # Convert to short headers using col_name_map
+        # Convert to short titles using row_name_map #
         before = list(row_name_map['ipcc'])
         after  = list(row_name_map['forest_puller'])
         df     = df.replace(before, after)

@@ -9,15 +9,25 @@ Unit D1 Bioeconomy.
 """
 
 # Built-in modules #
+import re
 
 # Internal modules #
-from forest_puller import cache_dir
+from forest_puller import cache_dir, module_dir
+from forest_puller.common import convert_row_names
 
 # First party modules #
-from plumbing.cache import property_cached
+from plumbing.cache import property_cached, property_pickled_at
 
 # Third party modules #
 import pandas, numpy
+
+# Load column name mapping to short names #
+col_name_map = module_dir + 'extra_data/soef_columns.csv'
+col_name_map = pandas.read_csv(str(col_name_map))
+
+# Load row name mapping to short names #
+row_name_map = module_dir + 'extra_data/soef_rows.csv'
+row_name_map = pandas.read_csv(str(row_name_map))
 
 ###############################################################################
 class TableParser:
@@ -28,10 +38,11 @@ class TableParser:
     return a correctly formatted pandas data frame.
     """
 
-    sheet_name = "" # Subclass these attributes
-    title      = "" # Subclass these attributes
-    short_name = "" # Subclass these attributes
-    header_len = -1 # Subclass these attributes
+    sheet_name    = "" # Subclass these attributes
+    title         = "" # Subclass these attributes
+    short_name    = "" # Subclass these attributes
+    header_len    = -1 # Subclass these attributes
+    fixed_end_col = None # Subclass these attributes
 
     def __init__(self, country):
         # Save the parent #
@@ -82,6 +93,8 @@ class TableParser:
     @property_cached
     def end_col(self):
         """Determine where the table of interest ends within the sheet."""
+        # You can manually overide this in the attributes #
+        if self.fixed_end_col is not None: return self.fixed_end_col
         # Find the first completely empty column #
         df = self.full_sheet.iloc[self.start_row:self.end_row]
         for i, name in enumerate(df.columns):
@@ -112,7 +125,19 @@ class TableParser:
         # Remaining NaNs are uninteresting #
         df = df.fillna('')
         # Concatenate from top to bottom #
-        return pandas.Series(' '.join(row.tolist()) for i, row in df.T.iterrows())
+        df = list(' '.join(row.tolist()) for i, row in df.T.iterrows())
+        # Remove any new lines #
+        df = [col.replace("\n", " ").strip() for col in df]
+        # Sometimes there is a useless space in '1 000' #
+        df = [re.sub('1 000', '1000', col) for col in df]
+        # Apply custom fixes #
+        df = self.header_fix(df)
+        # Rename the fields to their short-version #
+        before = list(col_name_map['soef'])
+        after  = list(col_name_map['forest_puller'])
+        df     = pandas.Series(df).replace(before, after)
+        # Return #
+        return df
 
     @property_cached
     def merged_category(self):
@@ -145,16 +170,22 @@ class TableParser:
         # Return #
         return df
 
-    #@property_pickled_at('df_cache_path')
-    @property
+    @property_pickled_at('df_cache_path')
     def df(self):
         """Return the table of interest correctly parsed and formatted."""
         # Load #
         df = self.merged_category
         # Add columns #
         df.columns = self.header
+        # Convert to short headers using col_name_map #
+        df = convert_row_names(df, row_name_map, col_name_map, 'soef')
         # Return #
         return df
+
+    @property
+    def indexed(self):
+        """Same as `self.df` but with an index on the first columns."""
+        return self.df.set_index(['category'])
 
     #--------------------------------- Cache ---------------------------------#
     @property
@@ -165,6 +196,7 @@ class TableParser:
         return path
 
     #--------------------------- Helper methods ------------------------------#
+    def header_fix(self, df): return df
 
 ###############################################################################
 class ForestArea(TableParser):
@@ -172,10 +204,11 @@ class ForestArea(TableParser):
     This table is interesting because blah blah.
     """
 
-    sheet_name = "1.1"
-    title = "Table 1.1a: Forest area"
-    short_name = "forest_area"
-    header_len = 2
+    sheet_name    = "1.1"
+    title         = "Table 1.1a: Forest area"
+    short_name    = "forest_area"
+    header_len    = 2
+    fixed_end_col = 3
 
 #-----------------------------------------------------------------------------#
 class AgeDist(TableParser):
@@ -183,10 +216,18 @@ class AgeDist(TableParser):
     This table is interesting because blah blah.
     """
 
-    sheet_name = "1.3a"
-    title = "Table 1.3a1: Age class distribution (area of even-aged stands)"
-    short_name = "age_dist"
-    header_len = 3
+    sheet_name    = "1.3a"
+    title         = "Table 1.3a1: Age class distribution (area of even-aged stands)"
+    short_name    = "age_dist"
+    header_len    = 3
+    fixed_end_col = 7
+
+    def header_fix(self, df):
+        """Fix some inconsistencies that are non-concordant between countries."""
+        # Fix the second element to be standardized #
+        df[2] = "Total area (1000 ha)"
+        # Return #
+        return df
 
 #-----------------------------------------------------------------------------#
 class Fellings(TableParser):
@@ -194,7 +235,8 @@ class Fellings(TableParser):
     This table is interesting because blah blah.
     """
 
-    sheet_name = "3.1"
-    title = "Table 3.1: Increment and fellings"
-    short_name = "fellings"
-    header_len = 4
+    sheet_name    = "3.1"
+    title         = "Table 3.1: Increment and fellings"
+    short_name    = "fellings"
+    header_len    = 4
+    fixed_end_col = 7

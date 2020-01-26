@@ -1,0 +1,13 @@
+soef,forest_puller
+Forest,forest
+… of which available for wood supply,forest_avail_for_supply
+Other wooded land,other_wooded_land
+Total forest and other wooded land,total_forest_and_other
+Other land,other_land
+… of which with tree cover,other_land_tree_cover
+"Forest:(even-aged stands), of which:",forest_even_aged
+"Available for wood supply, of which:",forest_even_aged_aws
+Predominantly coniferous forest,even_aged_aws_conif
+Predominantly broadleaved forest,even_aged_aws_broad
+Mixed forest,even_aged_aws_mixed
+Forest available for wood supply,forest_avail_for_supply

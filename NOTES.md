@@ -43,11 +43,15 @@
 
 * Add new data source: Forest Europe
 
+* Rename columns to short name for soef
+
+* Convert units for soef
+
 # TODO
 
-* Rename columns for soef
+* Create pickled df for soef
 
-* Created concatenated df for soef
+* Created a large concatenated df for soef
 
 * Write doc for the new data source
 
