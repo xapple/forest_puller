@@ -42,7 +42,8 @@ class TableParser:
     title         = "" # Subclass these attributes
     short_name    = "" # Subclass these attributes
     header_len    = -1 # Subclass these attributes
-    fixed_end_col = None # Subclass these attributes
+    fixed_end_col = None
+    fixed_end_row = None
 
     def __init__(self, country):
         # Save the parent #
@@ -56,7 +57,8 @@ class TableParser:
         """Return the full sheet containing one or several tables."""
         return pandas.read_excel(str(self.xls_file),
                                  sheet_name = self.sheet_name,
-                                 header     = None)
+                                 header     = None,
+                                 na_values  = ["n.a.", "n./a.", "n. a. "])
 
     def raise_exception(self, message):
         """Print a nice message for when we need to raise an exception."""
@@ -78,8 +80,10 @@ class TableParser:
     @property_cached
     def end_row(self):
         """Determine where the table of interest ends within the sheet."""
+        # You can manually override this in the attributes #
+        if self.fixed_end_row is not None: return self.fixed_end_row
         # Get the first completely empty row #
-        # Within at least 3 rows after the header #
+        # that is within at least 3 rows after the header #
         for i, row in self.full_sheet.iterrows():
             if i <= self.start_row + 3:       continue
             if all(row.fillna(-999) == -999): return i
@@ -93,7 +97,7 @@ class TableParser:
     @property_cached
     def end_col(self):
         """Determine where the table of interest ends within the sheet."""
-        # You can manually overide this in the attributes #
+        # You can manually override this in the attributes #
         if self.fixed_end_col is not None: return self.fixed_end_col
         # Find the first completely empty column #
         df = self.full_sheet.iloc[self.start_row:self.end_row]
@@ -221,6 +225,7 @@ class AgeDist(TableParser):
     short_name    = "age_dist"
     header_len    = 3
     fixed_end_col = 7
+    fixed_end_row = 30
 
     def header_fix(self, df):
         """Fix some inconsistencies that are non-concordant between countries."""
@@ -240,3 +245,4 @@ class Fellings(TableParser):
     short_name    = "fellings"
     header_len    = 4
     fixed_end_col = 7
+    fixed_end_row = 15

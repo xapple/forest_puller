@@ -31,7 +31,7 @@ def convert_row_names(df, row_name_map, col_name_map, data_source_name):
     for col_name in df.columns:
         ratio = col_name_to_ratio.get(col_name, numpy.NaN)
         if numpy.isnan(ratio): continue
-        df[col_name] = df[col_name] * ratio
         df[col_name] = df[col_name].astype(float)
+        df[col_name] = df[col_name] * ratio
     # Return #
     return df

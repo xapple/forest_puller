@@ -23,14 +23,11 @@ import pandas
 from forest_puller.soef.country import all_countries, countries
 
 ###############################################################################
-country = countries['AT']
-table   = country.forest_area
-df      = table.df
+table_names = ["forest_area", "age_dist", "fellings"]
 
-table1 = country.forest_area.df
-table2 = country.age_dist.df
-table3 = country.fellings.df
-with pandas.option_context('display.max_rows', None, 'display.max_columns', None):
-    print(table1)
-    print(table2)
-    print(table3)
+for table_name in table_names:
+    print("\n\n--------- %s ----------" % table_name.upper())
+    for country in all_countries:
+        print("Country: %s" % country)
+        table = getattr(country, table_name).df
+        cols = table.columns

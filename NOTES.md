@@ -47,9 +47,9 @@
 
 * Convert units for soef
 
-# TODO
-
 * Create pickled df for soef
+
+# TODO
 
 * Created a large concatenated df for soef
 
