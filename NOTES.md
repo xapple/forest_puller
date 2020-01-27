@@ -49,13 +49,13 @@
 
 * Create pickled df for soef
 
-# TODO
-
 * Created a large concatenated df for soef
 
 * Write doc for the new data source
 
-* Add data source: faostat (the flag file with all prodcutes)
+# TODO
+
+* Add data source: faostat (the flag file with all products)
 
 * Add data source: diabolo
 

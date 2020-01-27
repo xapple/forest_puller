@@ -4,11 +4,17 @@
 
 # `forest_puller` version 1.1.1
 
-`forest_puller` is a package for retrieving data concerning forests on the European continent. This includes forest growth rates, amount of forested areas and forest inventory (standing stock).
+`forest_puller` is a python package for retrieving data concerning forests on the European continent. This includes forest growth rates, amount of forested areas and forest inventory (standing stock).
 
 There are several public data sources that are accessible online to retrive this type of information. This package will automate the process of scrapping these website and parsing the resulting excel files.
 
 Once `forest_puller` is installed you can easily access forest data through standard pandas data frames.
+
+## Scope
+
+Currently `forest_puller` provides data for the following 26 member states:
+
+* Austria, Belgium, Bulgaria, Croatia, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden, United Kingdom
 
 ## Installing
 
@@ -90,7 +96,7 @@ When you import `forest_puller`, we will check the `$FOREST_PULLER_CACHE` enviro
 
 ### IPCC
 
-To access the same forest data directly from the IPCC without `forest_puller` you would have to first select your country from the CRF country table in a browser.
+To access the same forest data directly from the IPCC without `forest_puller` you would have to first select your country from the CRF country table in a browser at [this address](https://tinyurl.com/y474yu9e).
 
 ![IPCC demo screenshot 1](documentation/ipcc/ipcc_demo_1.png?raw=true "IPCC demo screenshot 1")
 
@@ -105,7 +111,6 @@ Next, you would have to uncompress the zip file and locate the xls file that con
 Finally you would have to scroll to the right sheet in your spreadsheet software and find the pertinent cell.
 
 ![IPCC demo screenshot 5](documentation/ipcc/ipcc_demo_5.png?raw=true "IPCC demo screenshot 5")
-
 
 This operation would have to be repeated for every country, and every year you are interested in.
 
@@ -151,6 +156,42 @@ pprint.pprint(biomass_net_change)
      'SI': 35391.09710503432,
      'SK': 1184611.3471376207}
 
-### More sources to be added in the future
+### Forest Europe (SOEF)
 
-Stay tuned.
+This data is provided by the Ministerial Conference on the Protection of Forests in Europe and is accessible at: https://dbsoef.foresteurope.org/
+
+Three tables are provided for every country:
+
+* Table 1.1a: Forest area
+* Table 1.3a1: Age class distribution (area of even-aged stands)
+* Table 3.1: Increment and fellings
+
+It is accessed in a similar way to other data sources:
+
+
+```python
+from forest_puller.soef.country import countries
+
+country = countries['AT']
+print(country.forest_area.indexed)
+print(country.age_dist.indexed)
+print(country.fellings.indexed)
+```
+
+There is also a large data frame containing all countries concatenate together:
+
+```python
+from forest_puller.soef.concat import tables
+print(tables['forest_area'])
+print(tables['age_dist'])
+print(tables['fellings'])
+```
+
+
+### Faostat
+
+Will be added soon.
+
+### Diabolo
+
+Will be added soon.

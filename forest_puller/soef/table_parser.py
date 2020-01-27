@@ -191,6 +191,16 @@ class TableParser:
         """Same as `self.df` but with an index on the first columns."""
         return self.df.set_index(['category'])
 
+    @property
+    def country_cols(self):
+        """Same as `self.df` but we add a column with the current country (e.g. 'AT')."""
+        # Load #
+        df = self.df.copy()
+        # Add column #
+        df.insert(0, 'country', self.country.iso2_code)
+        # Return #
+        return df
+
     #--------------------------------- Cache ---------------------------------#
     @property
     def df_cache_path(self):
