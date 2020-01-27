@@ -168,7 +168,6 @@ Three tables are provided for every country:
 
 It is accessed in a similar way to other data sources:
 
-
 ```python
 from forest_puller.soef.country import countries
 
@@ -187,10 +186,9 @@ print(tables['age_dist'])
 print(tables['fellings'])
 ```
 
-
 ### Faostat
 
-Will be added soon.
+This data is acquired by picking the "All Data Normalized" option from the "Bulk download" sidebar at this address: http://www.fao.org/faostat/en/#data/FO
 
 ### Diabolo
 
