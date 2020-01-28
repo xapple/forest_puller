@@ -190,6 +190,22 @@ print(tables['fellings'])
 
 This data is acquired by picking the "All Data Normalized" option from the "Bulk download" sidebar at this address: http://www.fao.org/faostat/en/#data/FO
 
+It is accessed in a similar way to other data sources:
+
+```python
+from forest_puller.faostat.country import countries
+
+country = countries['AT']
+print(country.df)
+```
+
+There is also a large data frame containing all countries concatenate together:
+
+```python
+from forest_puller.faostat.concat import df
+print(df)
+```
+
 ### Diabolo
 
 Will be added soon.

@@ -27,7 +27,7 @@ To see the large data frame you can do:
 import zipfile, io
 
 # Internal modules #
-from forest_puller import cache_dir
+from forest_puller import cache_dir, module_dir
 
 # First party modules #
 from plumbing.cache import property_cached
@@ -35,6 +35,10 @@ from plumbing.scraping import download_from_url
 
 # Third party modules #
 import pandas
+
+# Load country codes #
+country_codes = module_dir + 'extra_data/country_codes.csv'
+country_codes = pandas.read_csv(str(country_codes))
 
 ###############################################################################
 class ZipFile:
@@ -55,6 +59,7 @@ class ZipFile:
 
     url = "http://fenixservices.fao.org/faostat/static/bulkdownloads/Forestry_E_All_Data_(Normalized).zip"
     csv_name = "Forestry_E_All_Data_(Normalized).csv"
+    encoding = "ISO-8859-1"
 
     def __init__(self, zip_cache_dir):
         # Record where the cache will be located on disk #
@@ -77,47 +82,51 @@ class ZipFile:
 
     # ---------------------------- Properties --------------------------------#
     @property_cached
-    def df(self):
+    def raw_csv(self):
         """Loads the big CSV that's inside the ZIP into memory."""
         # Load the archive #
         zip_archive = zipfile.ZipFile(self.zip_path)
         # Load the CSV #
         with zip_archive.open(self.csv_name) as csv_handle:
-            text_mode = io.TextIOWrapper(csv_handle, encoding = "ISO-8859-1")
+            text_mode = io.TextIOWrapper(csv_handle, encoding=self.encoding)
             df = pandas.read_csv(text_mode)
-        #df = pandas.read_csv(self.zip_path)
         # Return #
         return df
 
-    # -------------------------------- Other ---------------------------------#
-    def uncompress(self):
-        """Uncompress the csv from the zip archive to disk."""
-        # Destination #
-        dest = self.zip_path.replace_extension('csv')
-        # Load the archive #
-        zip_archive = zipfile.ZipFile(self.zip_path)
-        # Write #
-        with zip_archive.open(self.csv_name) as orig:
-            with open(dest, 'w') as csv:
-                csv.write(orig.read())
-
-    def use_stringio(self):
-        """Uncompress the csv from the zip archive and put it in memory."""
-        # Import #
-        from six import StringIO
-        # Destination #
-        dest = self.zip_path.replace_extension('csv')
-        # Load the archive #
-        zip_archive = zipfile.ZipFile(self.zip_path)
-        # Create an empty StringIO #
-        result = StringIO()
-        # Write #
-        with zip_archive.open(self.csv_name) as csv:
-            result.write(io.TextIOWrapper(csv).read())
-        # Go back #
-        result.seek(0)
+    @property_cached
+    def df(self):
+        """Format and filter the data frame and store it in cache."""
+        # Load the data frame #
+        df = self.raw_csv.copy()
+        # The column "Year code" is redundant with "Year" #
+        df.drop(columns=['Year Code'], inplace=True)
+        # We won't be using area codes to refer to countries #
+        df.drop(columns=['Area Code'], inplace=True)
+        # Better names for the columns #
+        df.rename(inplace = True,
+                  columns = {'Area':         'country',
+                             'Item Code':    'item_code',
+                             'Item':         'item',
+                             'Unit':         'unit',
+                             'Element Code': 'element_code',
+                             'Element':      'element',
+                             'Year':         'year',
+                             'Value':        'value',
+                             'Flag':         'flag'})
+        # Wrong name for one country "Czechia" #
+        df['country'] = df['country'].replace({'Czechia': 'Czech Republic'})
+        # Remove countries we are not interested in #
+        selector = df['country'].isin(country_codes['country'])
+        df       = df[selector]
+        # Use country short codes instead of long names #
+        name_to_iso_code = dict(zip(country_codes['country'], country_codes['iso2_code']))
+        df['country'] = df['country'].replace(name_to_iso_code)
+        # We will multiply the USD value by 1000 and drop the 1000 from "unit" #
+        selector = df['unit'] == '1000 US$'
+        df.loc[selector, 'unit']   = 'usd'
+        df.loc[selector, 'value'] *= 1000
         # Return #
-        return result
+        return df
 
 ###############################################################################
 # Create a singleton #
