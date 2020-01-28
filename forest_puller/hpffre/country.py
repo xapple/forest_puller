@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.faostat.country import all_countries
+    >>> from forest_puller.hpffre.country import all_countries
     >>> print([(c.df_cache_path, c.df_cache_path.exists) for c in all_countries])
 """
 
@@ -17,7 +17,7 @@ Typically you can use this class this like:
 
 # Internal modules #
 from forest_puller import cache_dir, module_dir
-from forest_puller.faostat.zip_file import zip_file
+from forest_puller.hpffre.zip_file import zip_file
 
 # First party modules #
 from plumbing.cache import property_pickled_at
@@ -32,13 +32,6 @@ country_codes = pandas.read_csv(str(country_codes))
 ###############################################################################
 class Country:
     """Represents one country's dataset."""
-
-    products = ['Roundwood, coniferous (production)',
-                'Roundwood, non-coniferous (production)',
-                'Wood fuel, coniferous',
-                'Wood fuel, non-coniferous']
-
-    short_names = ['irw_c', 'irw_b', 'fw_c', 'fw_b']
 
     def __init__(self, iso2_code):
         # The reference ISO2 code #
@@ -55,11 +48,6 @@ class Country:
         # Select rows for country #
         selector = df['country'] == self.iso2_code
         df       = df[selector]
-        # Select rows for products #
-        selector = df['item'].isin(self.products)
-        df       = df[selector].copy()
-        # Rename the products to their shorter names #
-        df = df.replace({'item': dict(zip(self.products, self.short_names))})
         # We don't need the country column anymore #
         df = df.drop(columns=['country'])
         # We don't need the old index anymore #
@@ -81,9 +69,11 @@ class Country:
     @property
     def df_cache_path(self):
         """Specify where on the file system we will pickle the df property."""
-        return cache_dir + 'faostat/df/' + self.iso2_code + '.pickle'
+        return cache_dir + 'hpffre/df/' + self.iso2_code + '.pickle'
 
 ###############################################################################
 # Create every country object #
-all_countries = [Country(iso2) for iso2 in country_codes['iso2_code']]
+missing       = ['BG', 'LU', 'HR', 'GR', 'PL', 'NL']
+all_codes     = [iso2 for iso2 in country_codes['iso2_code'] if iso2 not in missing]
+all_countries = [Country(iso2) for iso2 in all_codes]
 countries     = {c.iso2_code: c for c in all_countries}

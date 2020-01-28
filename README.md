@@ -206,6 +206,32 @@ from forest_puller.faostat.concat import df
 print(df)
 ```
 
-### Diabolo
+### Diabolo (hpffre)
 
-Will be added soon.
+Is a consortium of 33 partners from 25 countries. Experts in the fields of policy analysis, forest inventory, forest modelling. 7 work packages.
+
+ Link: http://diabolo-project.eu/
+
+One of the outcomes of the Diabolo project is the following publication:
+
+Vauhkonen et al. 2019 - [Harmonised projections of future forest resources in Europe](https://doi.org/10.1007/s13595-019-0863-6)
+
+Abbreviated "hpffre". The authors used EFDM (mainly) to project forest area, growing stock, fellings and above ground carbon for European countries. There are several scenario outcomes.
+
+The dataset is available at: https://doi.org/10.5061/dryad.4t880qh
+
+It is accessed in a similar way to other data sources:
+
+```python
+from forest_puller.hpffre.country import countries
+
+country = countries['AT']
+print(country.df)
+```
+
+There is also a large data frame containing all countries concatenate together:
+
+```python
+from forest_puller.hpffre.concat import df
+print(df)
+```
