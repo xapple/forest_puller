@@ -57,15 +57,23 @@
 
 * Add data source: diabolo
 
-# TODO
-
-* Make visualizations
-
 * Check conversion factor for hpffre
+
+# TODO
 
 * Add data source: faostat forest area
 
+* Make area compare visualizations
+
 * Refactor: Centralize the import of "country_codes" to one file
+
+* Make a total of all EU countries 
+
+* Check that the FRA faostat matches the classical faostat data for area
+
+* Check for Malta and Cyprus
+
+* Drop a mail for the extra C++ model
 
 # Ideas
 

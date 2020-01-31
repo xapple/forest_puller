@@ -20,6 +20,9 @@ import math, warnings
 # Internal modules #
 import forest_puller
 import forest_puller.ipcc.concat
+import forest_puller.soef.concat
+import forest_puller.faostat.concat
+import forest_puller.hpffre.concat
 from forest_puller import module_dir
 
 # First party modules #
@@ -39,6 +42,7 @@ class AreaComparison(Graph):
     short_name = 'area_comparison'
     facet_var  = "country"
 
+    #----------------------------- Data sources ------------------------------#
     @property
     def area_ipcc(self):
         # Load #
@@ -56,9 +60,70 @@ class AreaComparison(Graph):
         return area_ipcc
 
     @property
+    def area_soef(self):
+        # Load #
+        area_soef = forest_puller.soef.concat.tables['forest_area'].copy()
+        # Filter #
+        area_soef = area_soef.query("category == 'forest'")
+        # Columns #
+        area_soef = area_soef[['country', 'year', 'area']]
+        # Add source #
+        area_soef.insert(0, 'source', "soef")
+        # Return #
+        return area_soef
+
+    @property
+    def area_faostat(self):
+        #TODO not in package
+        # Load #
+        area_faos = forest_puller.faostat.concat.df.copy()
+        # Filter #
+        area_faos
+        # Columns #
+        area_faos = area_faos[['country', 'year', 'area']]
+        # Add source #
+        area_faos.insert(0, 'source', "faostat")
+        # Return #
+        return area_faos
+
+    @property
+    def area_hpffre(self):
+        # Load #
+        area_hppf = forest_puller.hpffre.concat.df.copy()
+        # Filter #
+        area_hppf = area_hppf.query("scenario == 1")
+        # Note remove this once it has been corrected in forest_puller
+        area_hppf = (area_hppf
+                      .groupby(['country', 'year'])
+                      .agg({'area': sum})
+                      .reset_index())
+        # Columns #
+        area_hppf = area_hppf[['country', 'year', 'area']]
+        # Add source #
+        area_hppf.insert(0, 'source', "hpffre")
+        # Return #
+        return area_hppf
+
+    @property
+    def area_roberto(self):
+        # Load #
+        area_robt = 0
+        # Filter #
+        pass
+        # Columns #
+        area_robt = area_hppf[['country', 'year', 'area']]
+        # Add source #
+        area_robt.insert(0, 'source', "roberto")
+        # Return #
+        return area_robt
+
+    #----------------------------- Visualization -----------------------------#
+    @property
     def data(self):
         # Load #
         df = self.area_ipcc
+        # Combine data sources #
+        df = pandas.concat([self.area_ipcc, self.area_soef, self.area_hpffre])
         # Add country long name #
         long_names = country_codes[['iso2_code', 'country']]
         long_names.columns = ['country', 'long_name']
@@ -88,12 +153,24 @@ class AreaComparison(Graph):
                               height   = 6.0)
 
         # Functions #
-        def line_plot(x, y, **kwargs):
+        def line_plot(x, y, source, **kwargs):
+            # Remove the color we get #
+            kwargs.pop("color")
+            # Get the data frame #
             df = kwargs.pop("data")
-            pyplot.plot(df[x], df[y], marker=".", markersize=10.0, **kwargs)
+            # Filter the source #
+            df = df.query("source == '%s'" % source)
+            # Plot #
+            pyplot.plot(df[x], df[y],
+                        marker     = ".",
+                        markersize = 10.0,
+                        color      = name_to_color[source.upper()],
+                        **kwargs)
 
-        # Make the two skinny lines #
-        p.map_dataframe(line_plot, 'year', 'area')
+        # Plot every data source #
+        p.map_dataframe(line_plot, 'year', 'area', 'ipcc')
+        p.map_dataframe(line_plot, 'year', 'area', 'soef')
+        p.map_dataframe(line_plot, 'year', 'area', 'hpffre')
 
         # Add horizontal lines on the x axis #
         def grid_on(**kw):
@@ -134,7 +211,7 @@ class AreaComparison(Graph):
         p.set_axis_labels("Year", "Area in million hectares")
 
         # Leave some space for the y axis labels #
-        pyplot.subplots_adjust(left=0.03)
+        pyplot.subplots_adjust(left=0.025)
 
         # Save #
         self.save_plot(**kwargs)

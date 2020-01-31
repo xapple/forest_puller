@@ -186,14 +186,14 @@ print(tables['age_dist'])
 print(tables['fellings'])
 ```
 
-### Faostat
+### Faostat (forestry)
 
 This data is acquired by picking the "All Data Normalized" option from the "Bulk download" sidebar at this address: http://www.fao.org/faostat/en/#data/FO
 
 It is accessed in a similar way to other data sources:
 
 ```python
-from forest_puller.faostat.country import countries
+from forest_puller.faostat.forestry.country import countries
 
 country = countries['AT']
 print(country.df)
@@ -202,9 +202,29 @@ print(country.df)
 There is also a large data frame containing all countries concatenate together:
 
 ```python
-from forest_puller.faostat.concat import df
+from forest_puller.faostat.forestry.concat import df
 print(df)
 ```
+
+### Faostat (land)
+
+This data is acquired by picking the "All Data Normalized" option from the "Bulk download" sidebar at this address: http://www.fao.org/faostat/en/#data/GF
+
+It is accessed in a similar way to other data sources:
+
+```python
+from forest_puller.faostat.land.country import countries
+
+country = countries['AT']
+print(country.df)
+```
+
+There is also a large data frame containing all countries concatenate together:
+
+```python
+from forest_puller.faostat.land.concat import df
+print(df)
+
 
 ### Diabolo (hpffre)
 

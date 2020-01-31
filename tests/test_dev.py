@@ -18,9 +18,10 @@ Typically you would run this file from a command line like this:
 
 # Third party modules #
 import pandas
+from tqdm import tqdm
 
 # Internal modules #
-from forest_puller.soef.country import all_countries, countries
+#from forest_puller.soef.country import all_countries, countries
 
 ###############################################################################
 from forest_puller.viz.area import AreaComparison
@@ -28,3 +29,6 @@ graph = AreaComparison()
 graph.plot()
 print(graph.path)
 
+#from forest_puller.hpffre.country import all_countries, countries
+#for c in tqdm(all_countries):
+#    c.df

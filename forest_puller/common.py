@@ -26,6 +26,13 @@ def convert_row_names(df, row_name_map, col_name_map, data_source_name):
     row_titles = row_titles.replace(before, after)
     # Assign #
     df.iloc[:, 0] = row_titles
+    # Units #
+    convert_units(df, col_name_map)
+    # Return #
+    return df
+
+###############################################################################
+def convert_units(df, col_name_map):
     # Convert units (such that we never have kilo hectares, only hectares etc.) #
     col_name_to_ratio = dict(zip(col_name_map['forest_puller'], col_name_map['unit_convert_ratio']))
     for col_name in df.columns:
@@ -33,5 +40,3 @@ def convert_row_names(df, row_name_map, col_name_map, data_source_name):
         if numpy.isnan(ratio): continue
         df[col_name] = df[col_name].astype(float)
         df[col_name] = df[col_name] * ratio
-    # Return #
-    return df

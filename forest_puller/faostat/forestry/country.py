@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.faostat.country import all_countries
+    >>> from forest_puller.faostat.forestry.country import all_countries
     >>> print([(c.df_cache_path, c.df_cache_path.exists) for c in all_countries])
 """
 
@@ -17,7 +17,7 @@ Typically you can use this class this like:
 
 # Internal modules #
 from forest_puller import cache_dir, module_dir
-from forest_puller.faostat.zip_file import zip_file
+from forest_puller.faostat.forestry.zip_file import zip_file
 
 # First party modules #
 from plumbing.cache import property_pickled_at

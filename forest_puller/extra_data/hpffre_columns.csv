@@ -1,0 +1,12 @@
+hpffre,forest_puller,unit_convert_ratio
+country,country,NaN
+scenario,scenario,NaN
+year,year,NaN
+category,category,NaN
+area,area,1000
+growing_stock_volume_total,growing_stock_volume_total,1000000
+growing_stock_volume_per_ha,growing_stock_volume_per_ha,1
+fellings_total,fellings_total,1000000
+fellings_per_ha,fellings_per_ha,1
+aboveground_carbon_total,aboveground_carbon_total,1.00e15
+aboveground_carbon_per_ha,aboveground_carbon_per_ha,1

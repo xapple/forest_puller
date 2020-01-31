@@ -9,17 +9,17 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.faostat.zip_file import zip_file
+    >>> from forest_puller.faostat.forestry.zip_file import zip_file
     >>> print(zip_file.cache_is_valid)
 
 To re-download the files you can do:
 
-    >>> from forest_puller.faostat.zip_file import zip_file
+    >>> from forest_puller.faostat.forestry.zip_file import zip_file
     >>> zip_file.refresh_cache()
 
 To see the large data frame you can do:
 
-    >>> from forest_puller.faostat.zip_file import zip_file
+    >>> from forest_puller.faostat.forestry.zip_file import zip_file
     >>> print(zip_file.df)
 """
 
