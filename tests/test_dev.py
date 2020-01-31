@@ -23,11 +23,8 @@ import pandas
 from forest_puller.soef.country import all_countries, countries
 
 ###############################################################################
-table_names = ["forest_area", "age_dist", "fellings"]
+from forest_puller.viz.area import AreaComparison
+graph = AreaComparison()
+graph.plot()
+print(graph.path)
 
-for table_name in table_names:
-    print("\n\n--------- %s ----------" % table_name.upper())
-    for country in all_countries:
-        print("Country: %s" % country)
-        table = getattr(country, table_name).df
-        cols = table.columns

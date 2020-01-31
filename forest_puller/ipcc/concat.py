@@ -6,6 +6,11 @@ Written by Lucas Sinclair and Paul Rougieux.
 
 JRC biomass Project.
 Unit D1 Bioeconomy.
+
+Typically you can use this submodule this like:
+
+    >>> import forest_puller.ipcc.concat
+    >>> print(forest_puller.ipcc.concat.df)
 """
 
 # Built-in modules #

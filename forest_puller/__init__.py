@@ -62,3 +62,6 @@ if not cache_dir.is_a_repos:
 # If it's a repository: pull it in an other thread #
 #if cache_dir.is_a_repos:
 #   cache_dir.pull(shell=False, thread=True)
+
+# Monkey patch pandas library #
+import plumbing.pandas_patching

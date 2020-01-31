@@ -53,11 +53,19 @@
 
 * Write doc for the new data source
 
-# TODO
-
 * Add data source: faostat (the flag file with all products)
 
 * Add data source: diabolo
+
+# TODO
+
+* Make visualizations
+
+* Check conversion factor for hpffre
+
+* Add data source: faostat forest area
+
+* Refactor: Centralize the import of "country_codes" to one file
 
 # Ideas
 
