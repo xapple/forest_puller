@@ -21,7 +21,7 @@ import math, warnings
 import forest_puller
 import forest_puller.ipcc.concat
 import forest_puller.soef.concat
-import forest_puller.faostat.concat
+import forest_puller.faostat.land.concat
 import forest_puller.hpffre.concat
 from forest_puller.common import country_codes
 
@@ -35,6 +35,7 @@ from matplotlib import ticker
 
 ###############################################################################
 class AreaComparison(Graph):
+
     short_name = 'area_comparison'
     facet_var  = "country"
 
@@ -72,7 +73,7 @@ class AreaComparison(Graph):
     def area_faostat(self):
         #TODO not in package
         # Load #
-        area_faos = forest_puller.faostat.concat.df.copy()
+        area_faos = forest_puller.faostat.land.concat.df.copy()
         # Filter #
         area_faos
         # Columns #
@@ -84,6 +85,10 @@ class AreaComparison(Graph):
 
     @property
     def area_hpffre(self):
+        """
+        We are not going to plot the fututre projections,
+        Instead we are just gonna take one point
+        """
         # Load #
         area_hppf = forest_puller.hpffre.concat.df.copy()
         # Filter #

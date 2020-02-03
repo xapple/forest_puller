@@ -67,13 +67,14 @@
 
 * Refactor: Centralize the import of "country_codes" to one file
 
+
 # TODO
 
 * Make area compare visualizations
 
 * Make a total of all EU countries 
 
-* Check for Malta and Cyprus
+* Add Malta and Cyprus to countries available
 
 
 # Ideas
