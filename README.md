@@ -1,4 +1,4 @@
-[![PyPI version](https://badge.fury.io/py/forest_puller.svg)](https://badge.fury.io/py/forest_puller)
+[![PyPI version](https://badge.fury.io/py/forest-puller.svg)](https://badge.fury.io/py/forest-puller)
 [![GitHub last commit](https://img.shields.io/github/last-commit/xapple/forest_puller.svg)](https://github.com/xapple/forest_puller/commits/master)
 [![GitHub](https://img.shields.io/github/license/xapple/forest_puller.svg)](https://github.com/xapple/forest_puller/blob/master/LICENSE)
 

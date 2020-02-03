@@ -11,7 +11,7 @@ Unit D1 Bioeconomy.
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.faostat.forestry.country import all_countries
+from forest_puller.faostat.land.country import all_countries
 
 # First party modules #
 

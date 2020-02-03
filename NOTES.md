@@ -59,6 +59,10 @@
 
 * Check conversion factor for hpffre
 
+* Drop a mail for the extra C++ model
+
+* Check that the FRA faostat matches the classical faostat data for area
+
 # TODO
 
 * Add data source: faostat forest area
@@ -69,11 +73,7 @@
 
 * Make a total of all EU countries 
 
-* Check that the FRA faostat matches the classical faostat data for area
-
 * Check for Malta and Cyprus
-
-* Drop a mail for the extra C++ model
 
 # Ideas
 
