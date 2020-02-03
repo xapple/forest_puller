@@ -1,4 +1,4 @@
-# Done for every excel file:
+# Done for the project:
 
 * Fix detection of last line
 
@@ -63,17 +63,18 @@
 
 * Check that the FRA faostat matches the classical faostat data for area
 
-# TODO
-
 * Add data source: faostat forest area
 
-* Make area compare visualizations
-
 * Refactor: Centralize the import of "country_codes" to one file
+
+# TODO
+
+* Make area compare visualizations
 
 * Make a total of all EU countries 
 
 * Check for Malta and Cyprus
+
 
 # Ideas
 
@@ -83,6 +84,7 @@ Example variable descriptions:
     --------------------------------------------------------------------
      1 |      area |     forest area |   area_forested | hectare
      2 | emissions | total emissions |             NaN | tons of carbon
+
 
 # Obtaining the cache
 

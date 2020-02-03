@@ -27,7 +27,8 @@ To see the large data frame you can do:
 import zipfile, io
 
 # Internal modules #
-from forest_puller import cache_dir, module_dir
+from forest_puller import cache_dir
+from forest_puller.common import country_codes
 
 # First party modules #
 from plumbing.cache import property_cached
@@ -35,10 +36,6 @@ from plumbing.scraping import download_from_url
 
 # Third party modules #
 import pandas
-
-# Load country codes #
-country_codes = module_dir + 'extra_data/country_codes.csv'
-country_codes = pandas.read_csv(str(country_codes))
 
 ###############################################################################
 class ZipFile:

@@ -23,7 +23,8 @@ import time
 
 # Internal modules #
 import forest_puller.ipcc.links
-from forest_puller import cache_dir, module_dir
+from forest_puller import cache_dir
+from forest_puller.common import country_codes
 
 # First party modules #
 from plumbing.scraping.browser import download_via_browser
@@ -32,11 +33,6 @@ from autopaths import Path
 
 # Third party modules #
 from tqdm import tqdm
-import pandas
-
-# Load country codes #
-country_codes = module_dir + 'extra_data/country_codes.csv'
-country_codes = pandas.read_csv(str(country_codes))
 
 ###############################################################################
 class AllZipFiles:

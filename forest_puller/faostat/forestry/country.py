@@ -16,18 +16,14 @@ Typically you can use this class this like:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller import cache_dir, module_dir
+from forest_puller import cache_dir
 from forest_puller.faostat.forestry.zip_file import zip_file
+from forest_puller.common import country_codes
 
 # First party modules #
 from plumbing.cache import property_pickled_at
 
 # Third party modules #
-import pandas
-
-# Load country codes #
-country_codes = module_dir + 'extra_data/country_codes.csv'
-country_codes = pandas.read_csv(str(country_codes))
 
 ###############################################################################
 class Country:

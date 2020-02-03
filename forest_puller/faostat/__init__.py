@@ -15,10 +15,7 @@ import pandas
 
 # Internal modules #
 from forest_puller import module_dir
-
-# Load country codes #
-country_codes = module_dir + 'extra_data/country_codes.csv'
-country_codes = pandas.read_csv(str(country_codes))
+from forest_puller.common import country_codes
 
 ###############################################################################
 def fix_faostat_tables(df):

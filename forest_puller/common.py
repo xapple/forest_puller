@@ -10,8 +10,15 @@ Unit D1 Bioeconomy.
 
 # Built-in modules #
 
+# Internal modules #
+from forest_puller import module_dir
+
 # Third party modules #
-import numpy
+import numpy, pandas
+
+# Load country codes #
+country_codes = module_dir + 'extra_data/country_codes.csv'
+country_codes = pandas.read_csv(str(country_codes))
 
 ###############################################################################
 def convert_row_names(df, row_name_map, col_name_map, data_source_name):
