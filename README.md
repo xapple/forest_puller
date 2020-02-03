@@ -6,15 +6,22 @@
 
 `forest_puller` is a python package for retrieving data concerning forests on the European continent. This includes forest growth rates, amount of forested areas and forest inventory (standing stock).
 
-There are several public data sources that are accessible online to retrive this type of information. This package will automate the process of scrapping these website and parsing the resulting excel files.
+There are several public data sources accessible online that provide these types of information in various forms and granularity. This package automates the process of scrapping these websites and parsing the resulting csv tables or excel files.
 
-Once `forest_puller` is installed you can easily access forest data through standard pandas data frames.
+Once `forest_puller` is installed you can easily access forest data through standard python pandas data frames.
 
-## Scope
+## Scope and sources
 
-Currently `forest_puller` provides data for the following 26 member states:
+Currently `forest_puller` provides data for the following 26 member states (past and current):
 
 * Austria, Belgium, Bulgaria, Croatia, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden, United Kingdom
+
+Currently `forest_puller` caches and provides programmatic access to the forest-relevent data from these data sources:
+
+* IPCC (https://tinyurl.com/y474yu9e)
+* SOEF (https://dbsoef.foresteurope.org/)
+* FAOSTAT (http://www.fao.org/faostat/en/#data/FO)
+* HPFFRE (https://doi.org/10.5061/dryad.4t880qh)
 
 ## Installing
 
@@ -90,13 +97,13 @@ print(df)
 
 ## Cache
 
-When you import `forest_puller`, we will check the `$FOREST_PULLER_CACHE` environment variable to see where to download and store the cached data. If this variable is not set, we will default to the platform's temporary directory and clone a repository there.
+When you import `forest_puller`, we will check the `$FOREST_PULLER_CACHE` environment variable to see where to download and store the cached data. If this variable is not set, we will default to the platform's temporary directory and clone a repository there. This could result in re-downloading the cache after every reboot.
 
 ## Data sources
 
 ### IPCC
 
-To access the same forest data directly from the IPCC without `forest_puller` you would have to first select your country from the CRF country table in a browser at [this address](https://tinyurl.com/y474yu9e).
+To access the same forest data directly from the IPCC website without `forest_puller` you would have to first select your country from the CRF country table in a browser at [this address](https://tinyurl.com/y474yu9e).
 
 ![IPCC demo screenshot 1](documentation/ipcc/ipcc_demo_1.png?raw=true "IPCC demo screenshot 1")
 
@@ -177,7 +184,7 @@ print(country.age_dist.indexed)
 print(country.fellings.indexed)
 ```
 
-There is also a large data frame containing all countries concatenate together:
+There is also a large data frame containing all countries concatenated together:
 
 ```python
 from forest_puller.soef.concat import tables
@@ -199,7 +206,7 @@ country = countries['AT']
 print(country.df)
 ```
 
-There is also a large data frame containing all countries concatenate together:
+There is also a large data frame containing all countries concatenated together:
 
 ```python
 from forest_puller.faostat.forestry.concat import df
@@ -219,7 +226,7 @@ country = countries['AT']
 print(country.df)
 ```
 
-There is also a large data frame containing all countries concatenate together:
+There is also a large data frame containing all countries concatenated together:
 
 ```python
 from forest_puller.faostat.land.concat import df
