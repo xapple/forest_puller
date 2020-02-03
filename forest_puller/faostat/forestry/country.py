@@ -81,7 +81,7 @@ class Country:
     @property
     def df_cache_path(self):
         """Specify where on the file system we will pickle the df property."""
-        return cache_dir + 'faostat/df/' + self.iso2_code + '.pickle'
+        return cache_dir + 'faostat/forestry/' + self.iso2_code + '.pickle'
 
 ###############################################################################
 # Create every country object #

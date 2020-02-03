@@ -9,17 +9,17 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.faostat.forestry.zip_file import zip_file
+    >>> from forest_puller.faostat.land.zip_file import zip_file
     >>> print(zip_file.cache_is_valid)
 
 To re-download the files you can do:
 
-    >>> from forest_puller.faostat.forestry.zip_file import zip_file
+    >>> from forest_puller.faostat.land.zip_file import zip_file
     >>> zip_file.refresh_cache()
 
 To see the large data frame you can do:
 
-    >>> from forest_puller.faostat.forestry.zip_file import zip_file
+    >>> from forest_puller.faostat.land.zip_file import zip_file
     >>> print(zip_file.df)
 """
 
@@ -28,6 +28,7 @@ import zipfile, io
 
 # Internal modules #
 from forest_puller import cache_dir, module_dir
+from forest_puller.faostat import fix_faostat_tables
 
 # First party modules #
 from plumbing.cache import property_cached
@@ -43,29 +44,29 @@ country_codes = pandas.read_csv(str(country_codes))
 ###############################################################################
 class ZipFile:
     """
-    Download the zipped CSV file containing all countries and all products from
-    the FAOSTAT webserver (for the forestry category).
+    Download the zipped CSV file containing all countries for "forest land" from
+    the FAOSTAT webserver.
 
     This data is acquired by picking the "All Data Normalized" option from the
     "Bulk download" sidebar at this address:
 
-    * http://www.fao.org/faostat/en/#data/FO
+    * http://www.fao.org/faostat/en/#data/GF
 
     The final file structure will look like this:
 
-        /puller_cache/faostat/zip/:
-        14M Jan 12 18:15 forestry_all_data_norm.zip
+        /puller_cache/faostat/zips/:
+        400K Jan 12 18:15 land_all_data_norm.zip
     """
 
-    url = "http://fenixservices.fao.org/faostat/static/bulkdownloads/Forestry_E_All_Data_(Normalized).zip"
-    csv_name = "Forestry_E_All_Data_(Normalized).csv"
+    url = "http://fenixservices.fao.org/faostat/static/bulkdownloads/Emissions_Land_Use_Forest_Land_E_All_Data_(Normalized).zip"
+    csv_name = "Emissions_Land_Use_Forest_Land_E_All_Data_(Normalized).csv"
     encoding = "ISO-8859-1"
 
     def __init__(self, zip_cache_dir):
         # Record where the cache will be located on disk #
         self.cache_dir = zip_cache_dir
         # Where the file should be downloaded to #
-        self.zip_path = self.cache_dir + 'forestry_all_data_norm.zip'
+        self.zip_path = self.cache_dir + 'land_all_data_norm.zip'
 
     @property
     def cache_is_valid(self):
@@ -96,38 +97,19 @@ class ZipFile:
     @property_cached
     def df(self):
         """Format and filter the data frame and store it in cache."""
-        # Load the data frame #
-        df = self.raw_csv.copy()
-        # The column "Year code" is redundant with "Year" #
-        df.drop(columns=['Year Code'], inplace=True)
-        # We won't be using area codes to refer to countries #
-        df.drop(columns=['Area Code'], inplace=True)
-        # Better names for the columns #
-        df.rename(inplace = True,
-                  columns = {'Area':         'country',
-                             'Item Code':    'item_code',
-                             'Item':         'item',
-                             'Unit':         'unit',
-                             'Element Code': 'element_code',
-                             'Element':      'element',
-                             'Year':         'year',
-                             'Value':        'value',
-                             'Flag':         'flag'})
-        # Wrong name for one country "Czechia" #
-        df['country'] = df['country'].replace({'Czechia': 'Czech Republic'})
-        # Remove countries we are not interested in #
-        selector = df['country'].isin(country_codes['country'])
-        df       = df[selector]
-        # Use country short codes instead of long names #
-        name_to_iso_code = dict(zip(country_codes['country'], country_codes['iso2_code']))
-        df['country'] = df['country'].replace(name_to_iso_code)
-        # We will multiply the USD value by 1000 and drop the 1000 from "unit" #
-        selector = df['unit'] == '1000 US$'
-        df.loc[selector, 'unit']   = 'usd'
+        # Fix the data frame #
+        df = fix_faostat_tables(self.raw_csv)
+        # Fix the units (hecatres) #
+        selector = df['unit']     == '1000 ha'
+        df.loc[selector, 'unit']   = 'hectares'
         df.loc[selector, 'value'] *= 1000
+        # Fix the units (gigagrams) #
+        selector = df['unit']     == 'gigagrams'
+        df.loc[selector, 'unit']   = 'kg'
+        df.loc[selector, 'value'] *= 1000000
         # Return #
         return df
 
 ###############################################################################
 # Create a singleton #
-zip_file = ZipFile(cache_dir + 'faostat/zip/')
+zip_file = ZipFile(cache_dir + 'faostat/zips/')
