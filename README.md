@@ -231,7 +231,7 @@ There is also a large data frame containing all countries concatenated together:
 ```python
 from forest_puller.faostat.land.concat import df
 print(df)
-
+```
 
 ### Diabolo (hpffre)
 
