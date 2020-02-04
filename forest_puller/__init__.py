@@ -27,6 +27,12 @@ cache_git_url = 'https://gitlab.com/bioeconomy/puller/puller_cache.git'
 self       = sys.modules[__name__]
 module_dir = Path(os.path.dirname(self.__file__))
 
+# The repository directory #
+repos_dir = module_dir.directory
+
+# The module is maybe in a git repository #
+git_repo = GitRepo(repos_dir, empty=True)
+
 # Determine where to cache things #
 env_var_name = "FOREST_PULLER_CACHE"
 

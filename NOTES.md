@@ -72,6 +72,8 @@
 
 # TODO
 
+* Reverse the HPFFRE line
+
 * Make PDF with figure legend
 
 * Make comparison on increments
@@ -79,6 +81,10 @@
 * Make a total of all EU countries 
 
 * Add Malta and Cyprus to countries available
+
+* ?
+
+* ?
 
 * Write up introduction and methods
 
