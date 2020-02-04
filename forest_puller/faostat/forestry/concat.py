@@ -20,4 +20,4 @@ import pandas
 
 ##############################################################################
 every_country = (c.country_cols for c in all_countries)
-df = pandas.concat(every_country)
+df = pandas.concat(every_country, ignore_index=True)

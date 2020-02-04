@@ -24,4 +24,4 @@ tables      = {}
 
 for table_name in table_names:
     every_country = (getattr(c, table_name).country_cols for c in all_countries)
-    tables[table_name] = pandas.concat(every_country)
+    tables[table_name] = pandas.concat(every_country, ignore_index=True)

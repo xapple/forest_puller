@@ -23,6 +23,7 @@ import forest_puller.ipcc.concat
 import forest_puller.soef.concat
 import forest_puller.faostat.land.concat
 import forest_puller.hpffre.concat
+import forest_puller.cbm.concat
 from forest_puller.common import country_codes
 
 # First party modules #
@@ -71,15 +72,17 @@ class AreaComparison(Graph):
 
     @property
     def area_faostat(self):
-        #TODO not in package
         # Load #
         area_faos = forest_puller.faostat.land.concat.df.copy()
         # Filter #
-        area_faos
+        area_faos = area_faos.query('element == "Area"')
+        area_faos = area_faos.query('item    == "Forest land"')
+        area_faos = area_faos.query('flag    == "A"')
         # Columns #
-        area_faos = area_faos[['country', 'year', 'area']]
+        area_faos = area_faos[['country', 'year', 'value']]
+        area_faos.columns   = ['country', 'year', 'area']
         # Add source #
-        area_faos.insert(0, 'source', "faostat")
+        area_faos.insert(0, 'source', 'faostat')
         # Return #
         return area_faos
 
@@ -105,35 +108,37 @@ class AreaComparison(Graph):
         selector  = area_hpff.groupby('country')['year'].idxmin()
         area_hpff = area_hpff.loc[selector]
         # Extend the line to the start year #
-        other    = pandas.concat([self.area_ipcc, self.area_soef])
-        selector = other.groupby('country')['year'].idxmin()
-        other    = other.loc[selector]
-        area_hpff   = pandas.concat(area_hpff, other, ignore_index=True)
+        other     = pandas.concat([self.area_ipcc, self.area_soef], ignore_index=True)
+        selector  = other.groupby('country')['year'].idxmin()
+        other     = other.loc[selector][['country', 'year']]
+        other     = other.left_join(area_hpff[['area', 'country']], on='country')
+        other     = other.dropna()
+        area_hpff = pandas.concat((area_hpff, other), ignore_index=True)
         # Add source #
         area_hpff.insert(0, 'source', "hpffre")
         # Return #
         return area_hpff
 
     @property
-    def area_roberto(self):
+    def area_eu_cbm(self):
         # Load #
-        area_robt = 0
-        # Filter #
-        pass
-        # Columns #
-        area_robt = area_hpff[['country', 'year', 'area']]
+        area_cbm = forest_puller.cbm.concat.df.copy()
         # Add source #
-        area_robt.insert(0, 'source', "roberto")
+        area_cbm.insert(0, 'source', 'eu-cbm')
         # Return #
-        return area_robt
+        return area_cbm
 
     #----------------------------- Visualization -----------------------------#
     @property
     def data(self):
-        # Load #
-        df = self.area_ipcc
+        # Load all data sources #
+        sources = [self.area_ipcc,
+                   self.area_soef,
+                   self.area_faostat,
+                   self.area_hpffre,
+                   self.area_eu_cbm]
         # Combine data sources #
-        df = pandas.concat([self.area_ipcc, self.area_soef, self.area_hpffre])
+        df = pandas.concat(sources, ignore_index=True)
         # Add country long name #
         long_names = country_codes[['iso2_code', 'country']]
         long_names.columns = ['country', 'long_name']
@@ -153,7 +158,7 @@ class AreaComparison(Graph):
                          'SOEF':      colors[1],
                          'HPFFRE':    colors[2],
                          'FAOSTAT':   colors[3],
-                         'ROBERTO':   colors[4]}
+                         'EU-CBM':    colors[4]}
 
         # Facet grid #
         p = seaborn.FacetGrid(data     = self.data,
@@ -181,6 +186,8 @@ class AreaComparison(Graph):
         p.map_dataframe(line_plot, 'year', 'area', 'ipcc')
         p.map_dataframe(line_plot, 'year', 'area', 'soef')
         p.map_dataframe(line_plot, 'year', 'area', 'hpffre')
+        p.map_dataframe(line_plot, 'year', 'area', 'faostat')
+        p.map_dataframe(line_plot, 'year', 'area', 'eu-cbm')
 
         # Add horizontal lines on the x axis #
         def grid_on(**kw):

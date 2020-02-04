@@ -25,4 +25,4 @@ import pandas
 
 ##############################################################################
 every_year = (y.year_country_cols for c in all_countries for y in c)
-df = pandas.concat(every_year)
+df = pandas.concat(every_year, ignore_index=True)

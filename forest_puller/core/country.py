@@ -73,7 +73,7 @@ class Country:
         faostat.insert(0, 'source', 'faostat')
         hpffre.insert(0,  'source', 'hpffre')
         # Combine #
-        df = pandas.concat(ipcc, soef, faostat, hpffre)
+        df = pandas.concat((ipcc, soef, faostat, hpffre), ignore_index=True)
         # Minimum #
         start_year = min(df['year'])
         # Return #
