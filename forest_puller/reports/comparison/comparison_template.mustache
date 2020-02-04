@@ -1,0 +1,68 @@
+Country report for "{{short_name}}" ({{iso2_code}})
+===================================================
+
+General information
+-------------------
+This is an country report that can include information from several scenarios.
+
+Processing
+----------
+* This report and all the analysis was generated using the `{{project_name}}` python pipeline at:
+
+<{{project_url}}>
+
+* Version `{{project_version}}` of the pipeline was used.
+
+* This document was generated at `{{now}}` on host `{{hostname}}`.
+
+{{#git}}
+* The exact git hash of the latest commit was: {{git_hash}}
+
+* Also more simply referred to by its shortened tag `{{git_tag}}`.
+{{/git}}
+-------
+
+Comparison of predicted inventory
+---------------------------------
+Below we compare the outcome between the two different scenarios `static_demand` and `calibration` (respectively) by
+taking their "predicted inventory at simulation end" graphs.
+
+{{inventory_at_end_static}}
+
+{{inventory_at_end_calib}}
+
+{{inventory_discrepancy}}
+
+Comparison of predicted stock
+-----------------------------
+Below we compare the total merchantable biomass stock per forest type between
+the two different scenarios `static_demand` and `calibration`.
+It's an indication of the overall evolution of the growing stock (not yet disturbed).
+This is useful for making a high level check.
+The mass is measured as millions of tons of carbon.
+
+{{merch_stock_at_start}}
+
+{{merch_stock_at_end}}
+
+Comparison of harvest fulfillment
+---------------------------------
+Below we compare the outcome between the two different scenarios `static_demand` and `calibration` (respectively) by
+taking their "expected harvest against the provided harvest" graphs
+(one for disturbances by area, and one for disturbances by volume).
+
+NB: The calibration scenario does not have the adequate data to plot the area version.
+
+{{harvest_exp_pro_vol_static}}
+
+{{harvest_exp_pro_area_static}}
+
+{{harvest_exp_pro_vol_calib}}
+
+Reference tables
+----------------
+Below we provide tables for explaining the species and forest types abbreviations.
+
+{{table_forest_type}}
+
+{{table_disturbance_type}}
