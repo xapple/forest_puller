@@ -183,6 +183,8 @@ class TableParser:
         df.columns = self.header
         # Convert to short headers using col_name_map #
         df = convert_row_names(df, row_name_map, col_name_map, 'soef')
+        # The year column should be cast to integer #
+        df['year'] = pandas.to_numeric(df['year'])
         # Return #
         return df
 

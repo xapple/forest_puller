@@ -24,18 +24,24 @@ from tqdm import tqdm
 #from forest_puller.soef.country import all_countries, countries
 
 ###############################################################################
+#from forest_puller.core.continent import continent
+#print(continent.first.min_year_area)
+
+###############################################################################
 from forest_puller.viz.area import AreaComparison
-graph = AreaComparison()
+graph = AreaComparison(base_dir="~/test/forest_puller/")
 graph.plot()
 print(graph.path)
 
+###############################################################################
 #from forest_puller.hpffre.country import all_countries, countries
 #for c in tqdm(all_countries):
 #    c.df
 
-
+###############################################################################
 #from forest_puller.faostat.land.zip_file import zip_file
 #print(zip_file.raw_csv)
 
+###############################################################################
 #from forest_puller.faostat.land.country import all_countries, countries
 #at = countries['AT']

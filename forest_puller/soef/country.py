@@ -16,7 +16,7 @@ Typically you can use this class this like:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller import cache_dir, module_dir
+from forest_puller import cache_dir
 from forest_puller.soef.table_parser import ForestArea, AgeDist, Fellings
 from forest_puller.common import country_codes
 

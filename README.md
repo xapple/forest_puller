@@ -23,6 +23,8 @@ Currently `forest_puller` caches and provides programmatic access to the forest-
 * FAOSTAT (http://www.fao.org/faostat/en/#data/FO)
 * HPFFRE (https://doi.org/10.5061/dryad.4t880qh)
 
+What a data source you would like to see here ? Contact the authors by opening an issue in the issue tracker.
+
 ## Installing
 
 `forest_puller` is a python package and hence is compatible with all operating systems: Linux, macOS and Windows. Once python 3 is installed on your computer, if it is not already, simply type the following on your terminal:

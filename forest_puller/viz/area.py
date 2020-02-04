@@ -86,24 +86,33 @@ class AreaComparison(Graph):
     @property
     def area_hpffre(self):
         """
-        We are not going to plot the fututre projections,
-        Instead we are just gonna take one point
+        We are not going to plot the future projections,
+        Instead we are just gonna take one point and extend it
+        to the start_year.
         """
         # Load #
-        area_hppf = forest_puller.hpffre.concat.df.copy()
+        area_hpff = forest_puller.hpffre.concat.df.copy()
         # Filter #
-        area_hppf = area_hppf.query("scenario == 1")
-        # Note remove this once it has been corrected in forest_puller
-        area_hppf = (area_hppf
+        area_hpff = area_hpff.query("scenario == 1")
+        # Sum all the different categories #
+        area_hpff = (area_hpff
                       .groupby(['country', 'year'])
                       .agg({'area': sum})
                       .reset_index())
         # Columns #
-        area_hppf = area_hppf[['country', 'year', 'area']]
+        area_hpff = area_hpff[['country', 'year', 'area']]
+        # Take minimum year for each country #
+        selector  = area_hpff.groupby('country')['year'].idxmin()
+        area_hpff = area_hpff.loc[selector]
+        # Extend the line to the start year #
+        other    = pandas.concat([self.area_ipcc, self.area_soef])
+        selector = other.groupby('country')['year'].idxmin()
+        other    = other.loc[selector]
+        area_hpff   = pandas.concat(area_hpff, other, ignore_index=True)
         # Add source #
-        area_hppf.insert(0, 'source', "hpffre")
+        area_hpff.insert(0, 'source', "hpffre")
         # Return #
-        return area_hppf
+        return area_hpff
 
     @property
     def area_roberto(self):
@@ -112,7 +121,7 @@ class AreaComparison(Graph):
         # Filter #
         pass
         # Columns #
-        area_robt = area_hppf[['country', 'year', 'area']]
+        area_robt = area_hpff[['country', 'year', 'area']]
         # Add source #
         area_robt.insert(0, 'source', "roberto")
         # Return #
