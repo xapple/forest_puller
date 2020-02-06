@@ -31,10 +31,26 @@ from tqdm import tqdm
 #print(continent.first.min_year_area)
 
 ###############################################################################
-from forest_puller.viz.area import AreaComparison
-graph = AreaComparison(base_dir="~/test/forest_puller/")
-graph.plot()
-print(graph.path)
+#from forest_puller.viz.area import AreaComparison
+#graph = AreaComparison(base_dir="~/test/forest_puller/")
+#graph.plot()
+#print(graph.path)
+
+###############################################################################
+#from forest_puller.viz.area_aggregate import area_agg
+#area_agg.plot()
+#print(area_agg.path)
+
+#from forest_puller.viz.area_aggregate import area_agg
+#from forest_puller import cache_dir
+#export_path = cache_dir + 'exports/area_agg_interim.csv'
+#area_agg.data.to_csv(str(export_path))
+
+from forest_puller.ipcc.agg import source
+print(source.common_years)
+
+from forest_puller.faostat.land.agg import source
+print(source.common_years)
 
 ###############################################################################
 #from forest_puller.hpffre.country import all_countries, countries
@@ -48,3 +64,10 @@ print(graph.path)
 ###############################################################################
 #from forest_puller.faostat.land.country import all_countries, countries
 #at = countries['AT']
+
+###############################################################################
+#from forest_puller.viz.area import area_comp
+#print(area_comp(rerun=False))
+#
+#from forest_puller.core.continent import continent
+#print(continent.report())

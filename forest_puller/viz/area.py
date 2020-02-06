@@ -24,6 +24,7 @@ import forest_puller.soef.concat
 import forest_puller.faostat.land.concat
 import forest_puller.hpffre.concat
 import forest_puller.cbm.concat
+from forest_puller import cache_dir
 from forest_puller.common import country_codes
 
 # First party modules #
@@ -91,7 +92,7 @@ class AreaComparison(Graph):
         """
         We are not going to plot the future projections,
         Instead we are just gonna take one point and extend it
-        to the start_year.
+        to the present year.
         """
         # Load #
         area_hpff = forest_puller.hpffre.concat.df.copy()
@@ -107,9 +108,9 @@ class AreaComparison(Graph):
         # Take minimum year for each country #
         selector  = area_hpff.groupby('country')['year'].idxmin()
         area_hpff = area_hpff.loc[selector]
-        # Extend the line to the start year #
+        # Extend the line to the end year #
         other     = pandas.concat([self.area_ipcc, self.area_soef], ignore_index=True)
-        selector  = other.groupby('country')['year'].idxmin()
+        selector  = other.groupby('country')['year'].idxmax()
         other     = other.loc[selector][['country', 'year']]
         other     = other.left_join(area_hpff[['area', 'country']], on='country')
         other     = other.dropna()
@@ -150,7 +151,7 @@ class AreaComparison(Graph):
 
     def plot(self, **kwargs):
         # Number of columns #
-        col_wrap = math.ceil(len(self.data[self.facet_var].unique()) / 8.0) + 1
+        col_wrap = math.ceil(len(self.data[self.facet_var].unique()) / 9.0) + 1
 
         # Colors #
         colors = brewer2mpl.get_map('Set1', 'qualitative', 5).mpl_colors
@@ -235,3 +236,6 @@ class AreaComparison(Graph):
 
         # Convenience: return for display in notebooks for instance #
         return p
+
+###############################################################################
+area_comp = AreaComparison(base_dir = cache_dir + 'graphs/')

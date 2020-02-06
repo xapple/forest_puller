@@ -13,6 +13,7 @@ Unit D1 Bioeconomy.
 # Internal modules #
 from forest_puller.core.country import Country
 from forest_puller.common import country_codes
+from forest_puller.reports.comparison import ComparisonReport
 
 # Third party modules #
 
@@ -39,6 +40,10 @@ class Continent(object):
     @property
     def first(self):
         return self.countries[0]
+
+    @property_cached
+    def report(self):
+        return ComparisonReport(self)
 
 ###############################################################################
 # Main object #

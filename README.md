@@ -20,7 +20,7 @@ Currently `forest_puller` caches and provides programmatic access to the forest-
 
 * IPCC (https://tinyurl.com/y474yu9e)
 * SOEF (https://dbsoef.foresteurope.org/)
-* FAOSTAT (http://www.fao.org/faostat/en/#data/FO)
+* FAOSTAT (http://www.fao.org/faostat/en/)
 * HPFFRE (https://doi.org/10.5061/dryad.4t880qh)
 
 What a data source you would like to see here ? Contact the authors by opening an issue in the issue tracker.

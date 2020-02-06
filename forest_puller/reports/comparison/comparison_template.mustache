@@ -1,13 +1,15 @@
-Country report for "{{short_name}}" ({{iso2_code}})
-===================================================
+Comparison report
+=================
 
 General information
 -------------------
-This is an country report that can include information from several scenarios.
+This is a comparison report that can include information from several countries and several data sources.
 
 Processing
 ----------
-* This report and all the analysis was generated using the `{{project_name}}` python pipeline at:
+* This report and all the analysis was generated using the `{{project_name}}` python pipeline.
+
+* Documentation is available at:
 
 <{{project_url}}>
 
@@ -22,47 +24,26 @@ Processing
 {{/git}}
 -------
 
-Comparison of predicted inventory
----------------------------------
-Below we compare the outcome between the two different scenarios `static_demand` and `calibration` (respectively) by
-taking their "predicted inventory at simulation end" graphs.
+Comparison of total forest area
+--------------------------------
+Below we compare the total forest area as it is reported in five different data sources. We cover 26 of the 28 (past and present) EU member states. The list is the following:
 
-{{inventory_at_end_static}}
+Austria, Belgium, Bulgaria, Croatia, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden, United Kingdom
 
-{{inventory_at_end_calib}}
+The plot runs from the earliest official statistics around the year 1990 depending on the country to the latest estimates in 2018.
 
-{{inventory_discrepancy}}
+Currently `forest_puller` provides programmatic access (via web-scraping) to the forest area data from these data sources:
 
-Comparison of predicted stock
------------------------------
-Below we compare the total merchantable biomass stock per forest type between
-the two different scenarios `static_demand` and `calibration`.
-It's an indication of the overall evolution of the growing stock (not yet disturbed).
-This is useful for making a high level check.
-The mass is measured as millions of tons of carbon.
+* [IPCC](https://tinyurl.com/y474yu9e) in red.
+* [SOEF](https://dbsoef.foresteurope.org/) in blue.
+* [FAOSTAT-GF](http://www.fao.org/faostat/en/) in green.
+* [HPFFRE](https://doi.org/10.5061/dryad.4t880qh) in purple.
+* EU-CBM (an in-house custom and non-traceable dataset) in orange.
 
-{{merch_stock_at_start}}
+The Y-axis represents area in million of hectares. To provide better insight, the scale is not aligned between countries nor does it start at 0.
 
-{{merch_stock_at_end}}
+The HPFFRE dataset is post-processed before being graphed as we do not wish to show future predictions in this visualization. Instead we show the earliest year of that dataset for each country and extend it the current year.
 
-Comparison of harvest fulfillment
----------------------------------
-Below we compare the outcome between the two different scenarios `static_demand` and `calibration` (respectively) by
-taking their "expected harvest against the provided harvest" graphs
-(one for disturbances by area, and one for disturbances by volume).
+If the SOEF dataset is not visible for some countries, it is because the FAOSTAT precisely matches it in many cases and covers the line of the other dataset.
 
-NB: The calibration scenario does not have the adequate data to plot the area version.
-
-{{harvest_exp_pro_vol_static}}
-
-{{harvest_exp_pro_area_static}}
-
-{{harvest_exp_pro_vol_calib}}
-
-Reference tables
-----------------
-Below we provide tables for explaining the species and forest types abbreviations.
-
-{{table_forest_type}}
-
-{{table_disturbance_type}}
+{{comp_total_area}}

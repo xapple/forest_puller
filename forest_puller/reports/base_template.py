@@ -29,7 +29,7 @@ class ReportTemplate(Template):
     def now(self):               return pretty_now()
     def hostname(self):          return socket.gethostname()
     def git(self):
-        if not cbmcfs3_runner.git_repo: return False
+        if not forest_puller.git_repo: return False
         return {'git_hash'  : forest_puller.git_repo.hash,
                 'git_tag'   : forest_puller.git_repo.tag,
                 'git_branch': forest_puller.git_repo.branch}

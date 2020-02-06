@@ -69,22 +69,18 @@
 
 * Make area compare visualizations
 
-
-# TODO
-
 * Reverse the HPFFRE line
 
 * Make PDF with figure legend
 
-* Make comparison on increments
-
 * Make a total of all EU countries 
 
+
+# TODO
+
+* Make comparison of increments between different data sources
+
 * Add Malta and Cyprus to countries available
-
-* ?
-
-* ?
 
 * Write up introduction and methods
 

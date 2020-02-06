@@ -30,17 +30,17 @@ class Country:
         return '%s object code "%s"' % (self.__class__, self.iso2_code)
 
     #-------------------------------- Sources --------------------------------#
-    @property
+    @property_cached
     def ipcc(self):
         from forest_puller.ipcc.country import countries
         return countries[self.iso2_code]
 
-    @property
+    @property_cached
     def soef(self):
         from forest_puller.soef.country import countries
         return countries[self.iso2_code]
 
-    @property
+    @property_cached
     def faostat(self):
         # Imports #
         from forest_puller.faostat.forestry.country import countries as c_forest
@@ -53,7 +53,7 @@ class Country:
         # Make a fake object with two attributes #
         return type('faostat', (object,), attrs)
 
-    @property
+    @property_cached
     def hpffre(self):
         from forest_puller.hpffre.country import countries
         return countries[self.iso2_code]

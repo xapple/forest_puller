@@ -25,16 +25,16 @@ from tabulate import tabulate
 ###############################################################################
 class ComparisonReport(Document):
     """
-    A report generated in PDF describing a country and
-    results from several scenarios.
+    A report generated in PDF describing several countries and
+    several data sources.
     """
 
     builtin_template = 'sinclair_bio'
 
     def __init__(self, parent):
         # Attributes #
-        self.parent  = parent
-        self.country = parent
+        self.parent    = parent
+        self.continent = parent
         # Paths #
         self.output_path = cache_dir + 'reports/comparison.pdf'
 
@@ -51,17 +51,18 @@ class ComparisonTemplate(ReportTemplate):
 
     delimiters = (u'{{', u'}}')
 
-    def __repr__(self): return '<%s object on %s>' % (self.__class__.__name__, self.parent)
+    def __repr__(self):
+        return '<%s object on %s>' % (self.__class__.__name__, self.parent)
 
     def __init__(self, parent):
         # Attributes #
-        self.parent = parent
-        self.report = parent
-        self.country = self.report.parent
-        self.scenarios = self.country.scenarios
+        self.parent    = parent
+        self.report    = parent
+        self.continent = self.report.continent
 
-    def iso2_code(self):
-        return self.country.iso2_code
+    #-------------------------------- Area -----------------------------------#
+    def comp_total_area(self):
+        caption = "Comparison of total forest area reported in 26 countries and 5 data sources."
+        from forest_puller.viz.area import area_comp
+        return str(ScaledFigure(graph=area_comp, caption=caption))
 
-    def short_name(self):
-        return self.country.country_name
