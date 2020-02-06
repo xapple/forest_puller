@@ -73,7 +73,6 @@
 
 * Make PDF with figure legend
 
-* Make a total of all EU countries 
 
 
 # TODO
@@ -83,6 +82,8 @@
 * Add Malta and Cyprus to countries available
 
 * Write up introduction and methods
+
+* Make a total of all EU countries 
 
 
 # Ideas

@@ -13,12 +13,14 @@ Unit D1 Bioeconomy.
 # Internal modules #
 import forest_puller
 from forest_puller import cache_dir
+from forest_puller.viz import name_to_color
 
 # First party modules #
 from plumbing.graphs import Graph
+from plumbing.cache import property_cached
 
 # Third party modules #
-import seaborn
+import seaborn, pandas
 from matplotlib import pyplot
 
 ###############################################################################
@@ -32,29 +34,27 @@ class AreaAggregate(Graph):
     #----------------------------- Data sources ------------------------------#
     @property
     def area_ipcc(self):
+        # Import #
+        from forest_puller.ipcc.agg import source
         # Load #
-        area_ipcc = -1
-        # Filter #
-        area_ipcc = area_ipcc.query("land_use == 'total_forest'")
+        df = source.df.copy()
         # Columns #
-        area_ipcc = area_ipcc[['country', 'year', 'area']]
+        df = df[['year', 'area']]
         # Add source #
-        area_ipcc.insert(0, 'source', "ipcc")
+        df.insert(0, 'source', "ipcc")
         # Return #
-        return area_ipcc
+        return df
 
     @property
     def area_soef(self):
+        # Import #
+        from forest_puller.soef.agg import source
         # Load #
-        area_soef = -1
-        # Filter #
-        area_soef = area_soef.query("category == 'forest'")
-        # Columns #
-        area_soef = area_soef[['country', 'year', 'area']]
+        df = source.tables['forest_area'].copy()
         # Add source #
-        area_soef.insert(0, 'source', "soef")
+        df.insert(0, 'source', "soef")
         # Return #
-        return area_soef
+        return df
 
     @property
     def area_faostat(self):
@@ -81,7 +81,7 @@ class AreaAggregate(Graph):
         # Return #
         return area_cbm
 
-    @property
+    @property_cached
     def data(self):
         """
         Importing the other graph at: `forest_puller.viz.area.area_comp`
@@ -89,23 +89,40 @@ class AreaAggregate(Graph):
         one has to filter on the available years. One possible alternative
         approach is df.groupby([source,year]).agg(n=count).query(n==26)
         """
-        pass
+        # Load all data sources #
+        sources = [self.area_ipcc, self.area_soef]
+        # Combine data sources #
+        df = pandas.concat(sources, ignore_index=True)
+        # Adjust to million hectares #
+        df['area'] /= 1e6
         # Return #
         return df
 
     def plot(self, **kwargs):
-        # Load #
-        df = self.data
         # Plot #
-        pyplot.plot(df['year'], df['area'],
-                    marker     = ".",
-                    markersize = 10.0,
-                    color      = 'k',
-                    **kwargs)
+        fig  = pyplot.figure()
+        axes = fig.add_subplot(111)
+
+        # Functions #
+        def line_plot(x, y, source, **kw):
+            data = self.data.query("source == '%s'" % source)
+            pyplot.plot(data[x], data[y],
+                        marker     = ".",
+                        markersize = 10.0,
+                        color      = name_to_color[source.upper()],
+                        **kw)
+
+        # Plot every data source #
+        line_plot('year', 'area', 'ipcc')
+        line_plot('year', 'area', 'soef')
+        #line_plot('year', 'area', 'faostat')
+        #line_plot('year', 'area', 'eu-cbm')
+
         # Save #
         self.save_plot(**kwargs)
+
         # Return for display in notebooks for instance #
-        return g
+        return fig
 
 ###############################################################################
 area_agg = AreaAggregate(base_dir = cache_dir + 'graphs/')

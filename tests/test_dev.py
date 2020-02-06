@@ -37,20 +37,21 @@ from tqdm import tqdm
 #print(graph.path)
 
 ###############################################################################
-#from forest_puller.viz.area_aggregate import area_agg
-#area_agg.plot()
-#print(area_agg.path)
+from forest_puller.viz.area_aggregate import area_agg
+area_agg.plot()
+print(area_agg.path)
 
 #from forest_puller.viz.area_aggregate import area_agg
 #from forest_puller import cache_dir
 #export_path = cache_dir + 'exports/area_agg_interim.csv'
 #area_agg.data.to_csv(str(export_path))
 
-from forest_puller.ipcc.agg import source
-print(source.common_years)
+#from forest_puller.ipcc.agg import source
+#print(source.common_years)
 
-from forest_puller.faostat.land.agg import source
-print(source.common_years)
+#from forest_puller.faostat.land.agg import source
+#print(source.common_years)
+
 
 ###############################################################################
 #from forest_puller.hpffre.country import all_countries, countries

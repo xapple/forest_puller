@@ -70,19 +70,31 @@ class SOEF:
 
     @property
     def tables(self):
+        # Import #
+        from forest_puller.soef.concat import tables
         # Initialize #
-        table_names = ["forest_area", "age_dist", "fellings"]
-        tables      = {}
+        table_names = ["forest_area"] # , "age_dist", "fellings"]
+        result      = {}
         # Loop #
         for table_name in table_names:
-            ts = (getattr(c, table_name) for c in self.countries.values())
-            df  = pandas.concat((t.df for t in ts), ignore_index=True)
-            df  = df.groupby(['year'])
-            df  = df.agg({'area': sum})
-            df  = df.reset_index()
-            tables[table_name] = df
+            # Load #
+            df = tables[table_name].copy()
+            # Filter #
+            df = df.query("year in @self.common_years")
+            # This only works for forest_area table #
+            df = df.query("category == 'forest'")
+            df = df[['year', 'area']]
+            # Sum the countries and keep the years #
+            df = df.groupby(['year'])
+            df = df.agg(pandas.DataFrame.sum, skipna=False)
+            # Drop columns with NaNs #
+            df = df.dropna(axis=1, how='all')
+            # We don't want the year as an index #
+            df = df.reset_index()
+            # Assign #
+            result[table_name] = df
         # Return #
-        return tables
+        return result
 
 ###############################################################################
 source = SOEF()

@@ -21,6 +21,7 @@ Typically you can use this submodule this like:
 from plumbing.cache import property_cached
 
 # Third party modules #
+import pandas
 
 ###############################################################################
 class IPCC:
@@ -66,12 +67,28 @@ class IPCC:
 
     @property
     def df(self):
+        """
+        Doing a `df.groupby(['year']).sum(skipna=False)` will ignore the kwargs.
+        """
+        # Import #
+        from forest_puller.ipcc.concat import df as concat_df
+        # Load #
+        df = concat_df.copy()
+        # Take only the simple category #
+        df = df.query("land_use == 'total_forest'")
         # Filter #
-        pass
-        # Sum the countires and keep the years #
-        df  = df.groupby(['year'])
-        df  = df.agg({'area': sum})
-        df  = df.reset_index()
+        df = df.query("year in @self.common_years")
+        # Aggregate all numeric columns, drop non-numeric #
+        df = df.drop(columns=['country', 'subdivision', 'land_use'])
+        # Sum the countries and keep the years #
+        df = df.groupby(['year'])
+        df = df.agg(pandas.DataFrame.sum, skipna=False)
+        # Drop columns with NaNs #
+        df = df.dropna(axis=1, how='all')
+        # We don't want the year as an index #
+        df = df.reset_index()
+        # Return #
+        return df
 
 ###############################################################################
 source = IPCC()

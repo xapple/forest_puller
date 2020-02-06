@@ -26,12 +26,13 @@ import forest_puller.hpffre.concat
 import forest_puller.cbm.concat
 from forest_puller import cache_dir
 from forest_puller.common import country_codes
+from forest_puller.viz import name_to_color
 
 # First party modules #
 from plumbing.graphs import Graph
 
 # Third party modules #
-import seaborn, matplotlib, brewer2mpl, pandas
+import seaborn, matplotlib, pandas
 from matplotlib import pyplot
 from matplotlib import ticker
 
@@ -152,14 +153,6 @@ class AreaComparison(Graph):
     def plot(self, **kwargs):
         # Number of columns #
         col_wrap = math.ceil(len(self.data[self.facet_var].unique()) / 9.0) + 1
-
-        # Colors #
-        colors = brewer2mpl.get_map('Set1', 'qualitative', 5).mpl_colors
-        name_to_color = {'IPCC':      colors[0],
-                         'SOEF':      colors[1],
-                         'HPFFRE':    colors[2],
-                         'FAOSTAT':   colors[3],
-                         'EU-CBM':    colors[4]}
 
         # Facet grid #
         p = seaborn.FacetGrid(data     = self.data,
