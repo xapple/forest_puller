@@ -264,3 +264,11 @@ There is also a large data frame containing all countries concatenate together:
 from forest_puller.hpffre.concat import df
 print(df)
 ```
+
+## Visualizations
+
+The `forest_puller` package can also generate several plots that enable the user to compare and visualize the data.
+
+For instance here is are a series of graphs comparing the total reported forest area between five data sources as seen in the `forest_puller.viz.area` submodule:
+
+![Comparison of total forest area](documentation/viz/area.svg?raw=true "Comparison of total forest area")
