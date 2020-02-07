@@ -20,6 +20,7 @@ import math, warnings
 # Internal modules #
 import forest_puller
 import forest_puller.ipcc.concat
+import forest_puller.soef.concat
 from forest_puller.common import country_codes
 
 # First party modules #
@@ -68,14 +69,30 @@ class GainsLossNetData:
         # Load #
         area = forest_puller.soef.concat.tables['forest_area'].copy()
         fell = forest_puller.soef.concat.tables['fellings'].copy()
-        # Filter #
-        area_soef = area_soef.query("category == 'forest'")
+        # Keep only the columns we want #
+        info_cols = ['gross_increment', 'natural_losses', 'fellings_total']
+        fell      = fell[['country', 'year'] + info_cols]
+        # If there is no information at all, drop the line #
+        fell = fell.query("gross_increment == gross_increment or "
+                          "natural_losses  == natural_losses  or "
+                          "fellings_total  == fellings_total")
+        # Get the area that matches the right category #
+        area = area.query("category == 'forest_avail_for_supply'")
+        area = area.drop(columns=['category'])
+        # Add the area #
+        df = fell.left_join(area, on=['country', 'year'])
+        # If we didn't get the area for that line, drop the line #
+        df = df.query("area == area")
+        # Compute per hectare values #
+        df['gain_per_ha'] = df['gross_increment']                         / df['area']
+        df['loss_per_ha'] = (df['natural_losses'] + df['fellings_total']) / df['area']
+        df['net_per_ha']  = (df['gain_per_ha']    - df['loss_per_ha'])    / df['area']
         # Columns #
-        area_soef = area_soef[['country', 'year', 'area']]
+        df = df[['country', 'year', 'gain_per_ha', 'loss_per_ha', 'net_per_ha']]
         # Add source #
-        area_soef.insert(0, 'source', "soef")
+        df.insert(0, 'source', "soef")
         # Return #
-        return area_soef
+        return df
 
     @property
     def faostat(self):

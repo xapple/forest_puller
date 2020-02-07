@@ -31,10 +31,9 @@ from tqdm import tqdm
 #print(continent.first.min_year_area)
 
 ###############################################################################
-#from forest_puller.viz.area import AreaComparison
-#graph = AreaComparison(base_dir="~/test/forest_puller/")
-#graph.plot()
-#print(graph.path)
+#from forest_puller.viz.area import area_comp
+#area_comp.plot()
+#print(area_comp.path)
 
 ###############################################################################
 #from forest_puller.viz.area_aggregate import area_agg
@@ -52,7 +51,6 @@ from tqdm import tqdm
 #from forest_puller.faostat.land.agg import source
 #print(source.common_years)
 
-
 ###############################################################################
 #from forest_puller.hpffre.country import all_countries, countries
 #for c in tqdm(all_countries):
@@ -67,12 +65,12 @@ from tqdm import tqdm
 #at = countries['AT']
 
 ###############################################################################
-#from forest_puller.viz.area import area_comp
-#print(area_comp(rerun=False))
-#
+from forest_puller.viz.area import area_comp
+print(area_comp(rerun=True))
+
 #from forest_puller.core.continent import continent
 #print(continent.report())
 
 ###############################################################################
-from forest_puller.viz.increments import gain_loss_net_data
-print(gain_loss_net_data.ipcc)
+#from forest_puller.viz.increments import gain_loss_net_data
+#print(gain_loss_net_data.ipcc)

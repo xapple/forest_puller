@@ -41,6 +41,7 @@ class AreaComparison(Graph):
 
     short_name = 'area_comparison'
     facet_var  = "country"
+    formats    = ('pdf', 'svg')
 
     #----------------------------- Data sources ------------------------------#
     @property
@@ -49,7 +50,7 @@ class AreaComparison(Graph):
         area_ipcc = forest_puller.ipcc.concat.df.copy()
         # Index #
         area_ipcc = area_ipcc.reset_index(drop=True)
-        del area_ipcc.columns.name
+        area_ipcc.columns.name = None
         # Filter #
         area_ipcc = area_ipcc.query("land_use == 'total_forest'")
         # Columns #
