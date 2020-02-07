@@ -9,9 +9,9 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.viz.area_aggregate import area_agg
-    >>> area_agg.plot()
-    >>> print(area_agg.path)
+    >>> from forest_puller.viz.increments import increments
+    >>> increments.plot()
+    >>> print(increments.path)
 """
 
 # Built-in modules #
@@ -37,14 +37,14 @@ from matplotlib import pyplot
 from matplotlib import ticker
 
 ###############################################################################
-class AreaComparison(Graph):
+class IncrementsComparison(Graph):
 
-    short_name = 'area_comparison'
+    short_name = 'increments_comparison'
     facet_var  = "country"
 
     #----------------------------- Data sources ------------------------------#
     @property
-    def area_ipcc(self):
+    def inc_ipcc(self):
         # Load #
         area_ipcc = forest_puller.ipcc.concat.df.copy()
         # Index #
@@ -53,14 +53,14 @@ class AreaComparison(Graph):
         # Filter #
         area_ipcc = area_ipcc.query("land_use == 'total_forest'")
         # Columns #
-        area_ipcc = area_ipcc[['country', 'year', 'area']]
+        area_ipcc = area_ipcc[['country', 'year', 'inc']]
         # Add source #
         area_ipcc.insert(0, 'source', "ipcc")
         # Return #
         return area_ipcc
 
     @property
-    def area_soef(self):
+    def inc_soef(self):
         # Load #
         area_soef = forest_puller.soef.concat.tables['forest_area'].copy()
         # Filter #
@@ -73,9 +73,9 @@ class AreaComparison(Graph):
         return area_soef
 
     @property
-    def area_faostat(self):
+    def inc_faostat(self):
         # Load #
-        area_faos = forest_puller.faostat.land.concat.df.copy()
+        area_faos = forest_puller.faostat.forestry.concat.df.copy()
         # Filter #
         area_faos = area_faos.query('element == "Area"')
         area_faos = area_faos.query('item    == "Forest land"')
@@ -89,7 +89,7 @@ class AreaComparison(Graph):
         return area_faos
 
     @property
-    def area_hpffre(self):
+    def inc_hpffre(self):
         """
         We are not going to plot the future projections,
         Instead we are just gonna take one point and extend it
@@ -122,7 +122,7 @@ class AreaComparison(Graph):
         return area_hpff
 
     @property
-    def area_eu_cbm(self):
+    def inc_eu_cbm(self):
         # Load #
         area_cbm = forest_puller.cbm.concat.df.copy()
         # Add source #
@@ -134,11 +134,11 @@ class AreaComparison(Graph):
     @property
     def data(self):
         # Load all data sources #
-        sources = [self.area_ipcc,
-                   self.area_soef,
-                   self.area_faostat,
-                   self.area_hpffre,
-                   self.area_eu_cbm]
+        sources = [self.inc_ipcc,
+                   self.inc_soef,
+                   self.inc_faostat,
+                   self.inc_hpffre,
+                   self.inc_eu_cbm]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
         # Add country long name #
@@ -150,6 +150,13 @@ class AreaComparison(Graph):
         # Return #
         return df
 
+
+
+###############################################################################
+class GainsLossNet(Graph):
+
+    x_label = "Year"
+
     def plot(self, **kwargs):
         # Number of columns #
         col_wrap = math.ceil(len(self.data[self.facet_var].unique()) / 9.0) + 1
@@ -160,6 +167,12 @@ class AreaComparison(Graph):
                               sharey   = False,
                               col_wrap = col_wrap,
                               height   = 6.0)
+
+
+        # Colors #
+        name_to_color = {'Gains':  'green',
+                         'Losses': 'red',
+                         'Net':    'black'}
 
         # Functions #
         def line_plot(x, y, source, **kwargs):
@@ -177,11 +190,9 @@ class AreaComparison(Graph):
                         **kwargs)
 
         # Plot every data source #
-        p.map_dataframe(line_plot, 'year', 'area', 'ipcc')
-        p.map_dataframe(line_plot, 'year', 'area', 'soef')
-        p.map_dataframe(line_plot, 'year', 'area', 'hpffre')
-        p.map_dataframe(line_plot, 'year', 'area', 'faostat')
-        p.map_dataframe(line_plot, 'year', 'area', 'eu-cbm')
+        p.map_dataframe(line_plot, 'year', 'inc', 'gain')
+        p.map_dataframe(line_plot, 'year', 'inc', 'loss')
+        p.map_dataframe(line_plot, 'year', 'inc', 'net')
 
         # Add horizontal lines on the x axis #
         def grid_on(**kw):
@@ -219,7 +230,7 @@ class AreaComparison(Graph):
         p.map_dataframe(large_legend, 'long_name')
 
         # Change the labels #
-        p.set_axis_labels("Year", "Area in million hectares")
+        p.set_axis_labels(self.x_label, self.y_label)
 
         # Leave some space for the y axis labels #
         pyplot.subplots_adjust(left=0.025)
@@ -231,4 +242,60 @@ class AreaComparison(Graph):
         return p
 
 ###############################################################################
-area_comp = AreaComparison(base_dir = cache_dir + 'graphs/')
+class GainsLossNetIPCC(GainsLossNet):
+    y_label = "Tons of carbon per hectare"
+
+class GainsLossNetSOEF(GainsLossNet):
+    y_label = "Cubic meters over bark per hectare"
+
+class GainsLossNetFOATSTAT(GainsLossNet):
+    y_label = "x"
+
+class GainsLossNetHPFFRE(GainsLossNet):
+    y_label = "x"
+
+class GainsLossNetEUCBM(GainsLossNet):
+    y_label = "x"
+
+###############################################################################
+graph_dir = cache_dir + 'graphs/'
+
+# One graph per source #
+ipcc    = GainsLossNetIPCC(base_dir=graph_dir)
+soef    = GainsLossNetSOEF(base_dir=graph_dir)
+foastat = GainsLossNetFOATSTAT(base_dir=graph_dir)
+hpffre  = GainsLossNetHPFFRE(base_dir=graph_dir)
+eu_cbm  = GainsLossNetEUCBM(base_dir=graph_dir)
+
+
+###############################################################################
+###############################################################################
+###############################################################################
+class GainsLossNetData:
+
+    def __init__(self):
+        pass
+
+    @property
+    def df(self):
+        # Load all data sources #
+        sources = [self.ipcc,
+                   self.soef,
+                   self.faostat,
+                   self.hpffre,
+                   self.eu_cbm]
+        # Combine data sources #
+        df = pandas.concat(sources, ignore_index=True)
+        # Add country long name #
+        long_names = country_codes[['iso2_code', 'country']]
+        long_names.columns = ['country', 'long_name']
+        df = df.left_join(long_names, on=['country'])
+        # Return #
+        return df
+
+###############################################################################
+class GainsLossNetGraph(Graph):
+
+    @property
+    def plot(self):
+        pass

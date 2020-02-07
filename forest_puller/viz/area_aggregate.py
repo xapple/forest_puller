@@ -52,7 +52,7 @@ class AreaAggregate(Graph):
         # Load #
         df = source.tables['forest_area'].copy()
         # Add source #
-        df.insert(0, 'source', "soef")
+        df.insert(0, 'source', 'soef')
         # Return #
         return df
 
@@ -106,11 +106,11 @@ class AreaAggregate(Graph):
         # Functions #
         def line_plot(x, y, source, **kw):
             data = self.data.query("source == '%s'" % source)
-            pyplot.plot(data[x], data[y],
-                        marker     = ".",
-                        markersize = 10.0,
-                        color      = name_to_color[source.upper()],
-                        **kw)
+            axes.plot(data[x], data[y],
+                      marker     = ".",
+                      markersize = 10.0,
+                      color      = name_to_color[source.upper()],
+                      **kw)
 
         # Plot every data source #
         line_plot('year', 'area', 'ipcc')

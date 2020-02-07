@@ -7,11 +7,11 @@ Written by Lucas Sinclair and Paul Rougieux.
 JRC biomass Project.
 Unit D1 Bioeconomy.
 
-Typically you can use this class this like:
 
-    >>> from forest_puller.viz.area_aggregate import area_agg
-    >>> area_agg.plot()
-    >>> print(area_agg.path)
+Typically you can use this submodule this like:
+
+    >>> from forest_puller.viz.increments import gain_loss_net_data
+    >>> print(gain_loss_net_data.ipcc)
 """
 
 # Built-in modules #
@@ -20,13 +20,7 @@ import math, warnings
 # Internal modules #
 import forest_puller
 import forest_puller.ipcc.concat
-import forest_puller.soef.concat
-import forest_puller.faostat.land.concat
-import forest_puller.hpffre.concat
-import forest_puller.cbm.concat
-from forest_puller import cache_dir
 from forest_puller.common import country_codes
-from forest_puller.viz import name_to_color
 
 # First party modules #
 from plumbing.graphs import Graph
@@ -36,33 +30,44 @@ import seaborn, matplotlib, pandas
 from matplotlib import pyplot
 from matplotlib import ticker
 
-###############################################################################
-class AreaComparison(Graph):
+# Constants #
+source_to_y_label = {
+    'ipcc': "Tons of carbon per hectare",
+    'soef': "Cubic meters over bark per hectare",
+}
 
-    short_name = 'area_comparison'
-    facet_var  = "country"
+###############################################################################
+class GainsLossNetData:
+
+    def __init__(self):
+        pass
 
     #----------------------------- Data sources ------------------------------#
     @property
-    def area_ipcc(self):
+    def ipcc(self):
         # Load #
-        area_ipcc = forest_puller.ipcc.concat.df.copy()
+        df = forest_puller.ipcc.concat.df.copy()
         # Index #
-        area_ipcc = area_ipcc.reset_index(drop=True)
-        del area_ipcc.columns.name
+        df = df.reset_index(drop=True)
+        df.columns.name = None
         # Filter #
-        area_ipcc = area_ipcc.query("land_use == 'total_forest'")
+        df = df.query("land_use == 'total_forest'").copy()
+        # Compute per hectare values #
+        df['gain_per_ha'] = df['biomass_gains']      / df['area']
+        df['loss_per_ha'] = df['biomass_losses']     / df['area']
+        df['net_per_ha']  = df['biomass_net_change'] / df['area']
         # Columns #
-        area_ipcc = area_ipcc[['country', 'year', 'area']]
+        df = df[['country', 'year', 'gain_per_ha', 'loss_per_ha', 'net_per_ha']]
         # Add source #
-        area_ipcc.insert(0, 'source', "ipcc")
+        df.insert(0, 'source', "ipcc")
         # Return #
-        return area_ipcc
+        return df
 
     @property
-    def area_soef(self):
+    def soef(self):
         # Load #
-        area_soef = forest_puller.soef.concat.tables['forest_area'].copy()
+        area = forest_puller.soef.concat.tables['forest_area'].copy()
+        fell = forest_puller.soef.concat.tables['fellings'].copy()
         # Filter #
         area_soef = area_soef.query("category == 'forest'")
         # Columns #
@@ -73,9 +78,9 @@ class AreaComparison(Graph):
         return area_soef
 
     @property
-    def area_faostat(self):
+    def faostat(self):
         # Load #
-        area_faos = forest_puller.faostat.land.concat.df.copy()
+        area_faos = forest_puller.faostat.forestry.concat.df.copy()
         # Filter #
         area_faos = area_faos.query('element == "Area"')
         area_faos = area_faos.query('item    == "Forest land"')
@@ -89,7 +94,7 @@ class AreaComparison(Graph):
         return area_faos
 
     @property
-    def area_hpffre(self):
+    def hpffre(self):
         """
         We are not going to plot the future projections,
         Instead we are just gonna take one point and extend it
@@ -101,9 +106,9 @@ class AreaComparison(Graph):
         area_hpff = area_hpff.query("scenario == 1")
         # Sum all the different categories #
         area_hpff = (area_hpff
-                      .groupby(['country', 'year'])
-                      .agg({'area': sum})
-                      .reset_index())
+                     .groupby(['country', 'year'])
+                     .agg({'area': sum})
+                     .reset_index())
         # Columns #
         area_hpff = area_hpff[['country', 'year', 'area']]
         # Take minimum year for each country #
@@ -122,7 +127,7 @@ class AreaComparison(Graph):
         return area_hpff
 
     @property
-    def area_eu_cbm(self):
+    def eu_cbm(self):
         # Load #
         area_cbm = forest_puller.cbm.concat.df.copy()
         # Add source #
@@ -130,36 +135,42 @@ class AreaComparison(Graph):
         # Return #
         return area_cbm
 
-    #----------------------------- Visualization -----------------------------#
+    #----------------------------- Concatenation ------------------------------#
     @property
-    def data(self):
+    def df(self):
         # Load all data sources #
-        sources = [self.area_ipcc,
-                   self.area_soef,
-                   self.area_faostat,
-                   self.area_hpffre,
-                   self.area_eu_cbm]
+        sources = [self.ipcc,
+                   self.soef,
+                   self.faostat,
+                   self.hpffre,
+                   self.eu_cbm]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
         # Add country long name #
         long_names = country_codes[['iso2_code', 'country']]
         long_names.columns = ['country', 'long_name']
         df = df.left_join(long_names, on=['country'])
-        # Adjust to million hectares #
-        df['area'] /= 1e6
         # Return #
         return df
 
-    def plot(self, **kwargs):
-        # Number of columns #
-        col_wrap = math.ceil(len(self.data[self.facet_var].unique()) / 9.0) + 1
+###############################################################################
+class GainsLossNetGraphPerPage(Graph):
 
+    facet_col = 'source'
+    facet_row = 'country'
+
+    def plot(self, **kwargs):
         # Facet grid #
-        p = seaborn.FacetGrid(data     = self.data,
-                              col      = self.facet_var,
+        p = seaborn.FacetGrid(data     = self.df,
+                              row      = self.facet_row,
+                              col      = self.facet_col,
                               sharey   = False,
-                              col_wrap = col_wrap,
                               height   = 6.0)
+
+        # Colors #
+        name_to_color = {'Gains':  'green',
+                         'Losses': 'red',
+                         'Net':    'black'}
 
         # Functions #
         def line_plot(x, y, source, **kwargs):
@@ -177,11 +188,9 @@ class AreaComparison(Graph):
                         **kwargs)
 
         # Plot every data source #
-        p.map_dataframe(line_plot, 'year', 'area', 'ipcc')
-        p.map_dataframe(line_plot, 'year', 'area', 'soef')
-        p.map_dataframe(line_plot, 'year', 'area', 'hpffre')
-        p.map_dataframe(line_plot, 'year', 'area', 'faostat')
-        p.map_dataframe(line_plot, 'year', 'area', 'eu-cbm')
+        p.map_dataframe(line_plot, 'year', 'inc', 'gain')
+        p.map_dataframe(line_plot, 'year', 'inc', 'loss')
+        p.map_dataframe(line_plot, 'year', 'inc', 'net')
 
         # Add horizontal lines on the x axis #
         def grid_on(**kw):
@@ -219,7 +228,7 @@ class AreaComparison(Graph):
         p.map_dataframe(large_legend, 'long_name')
 
         # Change the labels #
-        p.set_axis_labels("Year", "Area in million hectares")
+        p.set_axis_labels(self.x_label, self.y_label)
 
         # Leave some space for the y axis labels #
         pyplot.subplots_adjust(left=0.025)
@@ -231,4 +240,16 @@ class AreaComparison(Graph):
         return p
 
 ###############################################################################
-area_comp = AreaComparison(base_dir = cache_dir + 'graphs/')
+# Create the large df #
+gain_loss_net_data = GainsLossNetData()
+
+# Seperate by pages #
+#pages = []
+#
+#country_per_page = 7
+#count_pages = math.ceil(len(countries) / country_per_page)
+#
+#for page_num in range(0, count_pages):
+#    klass = type('page_%i' % page_num, {}, {})
+#    pages.append()
+

@@ -37,9 +37,9 @@ from tqdm import tqdm
 #print(graph.path)
 
 ###############################################################################
-from forest_puller.viz.area_aggregate import area_agg
-area_agg.plot()
-print(area_agg.path)
+#from forest_puller.viz.area_aggregate import area_agg
+#area_agg.plot()
+#print(area_agg.path)
 
 #from forest_puller.viz.area_aggregate import area_agg
 #from forest_puller import cache_dir
@@ -72,3 +72,7 @@ print(area_agg.path)
 #
 #from forest_puller.core.continent import continent
 #print(continent.report())
+
+###############################################################################
+from forest_puller.viz.increments import gain_loss_net_data
+print(gain_loss_net_data.ipcc)
