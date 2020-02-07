@@ -271,4 +271,4 @@ The `forest_puller` package can also generate several plots that enable the user
 
 For instance here is are a series of graphs comparing the total reported forest area between five data sources as seen in the `forest_puller.viz.area` submodule:
 
-![Comparison of total forest area](documentation/viz/area.svg?raw=true "Comparison of total forest area")
+![Comparison of total forest area](documentation/viz/area.svg?raw=true?sanitize=true "Comparison of total forest area")
