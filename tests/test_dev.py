@@ -67,6 +67,7 @@ from tqdm import tqdm
 ###############################################################################
 from forest_puller.viz.area import area_comp
 print(area_comp(rerun=True))
+print(type(area_comp.facet))
 
 #from forest_puller.core.continent import continent
 #print(continent.report())

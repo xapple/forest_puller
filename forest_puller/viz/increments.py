@@ -19,9 +19,8 @@ import math, warnings
 
 # Internal modules #
 import forest_puller
-import forest_puller.ipcc.concat
-import forest_puller.soef.concat
 from forest_puller.common import country_codes
+from forest_puller.viz.facet import FacetPlot
 
 # First party modules #
 from plumbing.graphs import Graph
@@ -40,12 +39,11 @@ source_to_y_label = {
 ###############################################################################
 class GainsLossNetData:
 
-    def __init__(self):
-        pass
-
     #----------------------------- Data sources ------------------------------#
     @property
     def ipcc(self):
+        # Import #
+        import forest_puller.ipcc.concat
         # Load #
         df = forest_puller.ipcc.concat.df.copy()
         # Index #
@@ -66,6 +64,8 @@ class GainsLossNetData:
 
     @property
     def soef(self):
+        # Import #
+        import forest_puller.soef.concat
         # Load #
         area = forest_puller.soef.concat.tables['forest_area'].copy()
         fell = forest_puller.soef.concat.tables['fellings'].copy()
@@ -97,70 +97,38 @@ class GainsLossNetData:
     @property
     def faostat(self):
         # Load #
-        area_faos = forest_puller.faostat.forestry.concat.df.copy()
+        df = forest_puller.faostat.forestry.concat.df.copy()
         # Filter #
-        area_faos = area_faos.query('element == "Area"')
-        area_faos = area_faos.query('item    == "Forest land"')
-        area_faos = area_faos.query('flag    == "A"')
-        # Columns #
-        area_faos = area_faos[['country', 'year', 'value']]
-        area_faos.columns   = ['country', 'year', 'area']
         # Add source #
-        area_faos.insert(0, 'source', 'faostat')
+        df.insert(0, 'source', 'faostat')
         # Return #
-        return area_faos
+        return df
 
     @property
     def hpffre(self):
-        """
-        We are not going to plot the future projections,
-        Instead we are just gonna take one point and extend it
-        to the present year.
-        """
         # Load #
-        area_hpff = forest_puller.hpffre.concat.df.copy()
+        df = forest_puller.hpffre.concat.df.copy()
         # Filter #
-        area_hpff = area_hpff.query("scenario == 1")
-        # Sum all the different categories #
-        area_hpff = (area_hpff
-                     .groupby(['country', 'year'])
-                     .agg({'area': sum})
-                     .reset_index())
-        # Columns #
-        area_hpff = area_hpff[['country', 'year', 'area']]
-        # Take minimum year for each country #
-        selector  = area_hpff.groupby('country')['year'].idxmin()
-        area_hpff = area_hpff.loc[selector]
-        # Extend the line to the end year #
-        other     = pandas.concat([self.area_ipcc, self.area_soef], ignore_index=True)
-        selector  = other.groupby('country')['year'].idxmax()
-        other     = other.loc[selector][['country', 'year']]
-        other     = other.left_join(area_hpff[['area', 'country']], on='country')
-        other     = other.dropna()
-        area_hpff = pandas.concat((area_hpff, other), ignore_index=True)
+        df = df.query("scenario == 1")
         # Add source #
-        area_hpff.insert(0, 'source', "hpffre")
+        df.insert(0, 'source', "hpffre")
         # Return #
         return area_hpff
 
     @property
     def eu_cbm(self):
         # Load #
-        area_cbm = forest_puller.cbm.concat.df.copy()
+        df = forest_puller.cbm.concat.df.copy()
         # Add source #
-        area_cbm.insert(0, 'source', 'eu-cbm')
+        df.insert(0, 'source', 'eu-cbm')
         # Return #
-        return area_cbm
+        return df
 
-    #----------------------------- Concatenation ------------------------------#
+    #------------------------------- Combine ---------------------------------#
     @property
     def df(self):
         # Load all data sources #
-        sources = [self.ipcc,
-                   self.soef,
-                   self.faostat,
-                   self.hpffre,
-                   self.eu_cbm]
+        sources = [self.ipcc, self.soef, self.faostat, self.hpffre, self.eu_cbm]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
         # Add country long name #
@@ -171,81 +139,40 @@ class GainsLossNetData:
         return df
 
 ###############################################################################
-class GainsLossNetGraphPerPage(Graph):
+class GainsLossNetGraphPerPage(FacetPlot):
 
-    facet_col = 'source'
-    facet_row = 'country'
+    facet_col  = 'source'
+    facet_row  = 'country'
+
+    short_name = 'area_comparison'
+    formats    = ('pdf',)
+
+    facet_var  = "country"
+
+    x_label = 'Year'
+
+    @property
+    def df(self): return self.parent.df
 
     def plot(self, **kwargs):
-        # Facet grid #
-        p = seaborn.FacetGrid(data     = self.df,
-                              row      = self.facet_row,
-                              col      = self.facet_col,
-                              sharey   = False,
-                              height   = 6.0)
-
-        # Colors #
-        name_to_color = {'Gains':  'green',
-                         'Losses': 'red',
-                         'Net':    'black'}
-
-        # Functions #
-        def line_plot(x, y, source, **kwargs):
-            # Remove the color we get #
-            kwargs.pop("color")
-            # Get the data frame #
-            df = kwargs.pop("data")
-            # Filter the source #
-            df = df.query("source == '%s'" % source)
-            # Plot #
-            pyplot.plot(df[x], df[y],
-                        marker     = ".",
-                        markersize = 10.0,
-                        color      = name_to_color[source.upper()],
-                        **kwargs)
-
         # Plot every data source #
-        p.map_dataframe(line_plot, 'year', 'inc', 'gain')
-        p.map_dataframe(line_plot, 'year', 'inc', 'loss')
-        p.map_dataframe(line_plot, 'year', 'inc', 'net')
+        self.facet.map_dataframe(line_plot, 'year', 'inc', 'gain')
+        self.facet.map_dataframe(line_plot, 'year', 'inc', 'loss')
+        self.facet.map_dataframe(line_plot, 'year', 'inc', 'net')
 
-        # Add horizontal lines on the x axis #
-        def grid_on(**kw):
-            pyplot.gca().xaxis.grid(True, linestyle=':')
-        p.map(grid_on)
-
-        # Change the titles #
-        def hide_titles(**kw):
-            pyplot.gca().title.set_visible(False)
-        p.map(hide_titles)
-
-        # Force maximum two decimals for y axis #
-        def formatter(**kw):
-            str_formatter = matplotlib.ticker.FormatStrFormatter('%.2f')
-            pyplot.gca().yaxis.set_major_formatter(str_formatter)
-        p.map(formatter)
+        # Adjust subplots #
+        self.facet.map(self.y_grid_on)
+        self.facet.map(self.hide_titles)
+        self.facet.map(self.y_max_two_decimals)
 
         # Add a legend #
-        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in name_to_color.items()]
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            p.add_legend(handles   = patches,
-                         borderpad = 1,
-                         prop      = {'size': 20},
-                         frameon   = True,
-                         shadow    = True,
-                         loc       = 'lower right')
+        self.add_main_legend()
 
         # Put the title inside the graph and large #
-        def large_legend(x, **kw):
-            df = kw.pop("data")
-            iso2_code = df[x].iloc[0]
-            axes = pyplot.gca()
-            axes.text(0.08, 0.9, iso2_code, transform=axes.transAxes, ha="left", size=22)
-        p.map_dataframe(large_legend, 'long_name')
+        self.facet.map_dataframe(self.large_legend, 'long_name')
 
         # Change the labels #
-        p.set_axis_labels(self.x_label, self.y_label)
+        self.facet.set_axis_labels(self.x_label, self.y_label)
 
         # Leave some space for the y axis labels #
         pyplot.subplots_adjust(left=0.025)
@@ -254,13 +181,13 @@ class GainsLossNetGraphPerPage(Graph):
         self.save_plot(**kwargs)
 
         # Convenience: return for display in notebooks for instance #
-        return p
+        return self.facet
 
 ###############################################################################
 # Create the large df #
 gain_loss_net_data = GainsLossNetData()
 
-# Seperate by pages #
+# Separate by pages #
 #pages = []
 #
 #country_per_page = 7

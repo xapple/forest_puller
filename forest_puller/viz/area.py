@@ -15,212 +15,171 @@ Typically you can use this class this like:
 """
 
 # Built-in modules #
-import math, warnings
 
 # Internal modules #
-import forest_puller
-import forest_puller.ipcc.concat
-import forest_puller.soef.concat
-import forest_puller.faostat.land.concat
-import forest_puller.hpffre.concat
-import forest_puller.cbm.concat
-from forest_puller import cache_dir
-from forest_puller.common import country_codes
-from forest_puller.viz import name_to_color
+from forest_puller           import cache_dir
+from forest_puller.common    import country_codes
+from forest_puller.viz.facet import FacetPlot
 
 # First party modules #
-from plumbing.graphs import Graph
+from plumbing.cache import property_cached
 
 # Third party modules #
-import seaborn, matplotlib, pandas
+import pandas
 from matplotlib import pyplot
-from matplotlib import ticker
 
 ###############################################################################
-class AreaComparison(Graph):
-
-    short_name = 'area_comparison'
-    facet_var  = "country"
-    formats    = ('pdf', 'svg')
+class AreaCompData:
 
     #----------------------------- Data sources ------------------------------#
     @property
-    def area_ipcc(self):
+    def ipcc(self):
+        # Import #
+        import forest_puller.ipcc.concat
         # Load #
-        area_ipcc = forest_puller.ipcc.concat.df.copy()
+        df = forest_puller.ipcc.concat.df.copy()
         # Index #
-        area_ipcc = area_ipcc.reset_index(drop=True)
-        area_ipcc.columns.name = None
+        df = df.reset_index(drop=True)
+        df.columns.name = None
         # Filter #
-        area_ipcc = area_ipcc.query("land_use == 'total_forest'")
+        df = df.query("land_use == 'total_forest'")
         # Columns #
-        area_ipcc = area_ipcc[['country', 'year', 'area']]
+        df = df[['country', 'year', 'area']]
         # Add source #
-        area_ipcc.insert(0, 'source', "ipcc")
+        df.insert(0, 'source', "ipcc")
         # Return #
-        return area_ipcc
+        return df
 
     @property
-    def area_soef(self):
+    def soef(self):
+        # Import #
+        import forest_puller.soef.concat
         # Load #
-        area_soef = forest_puller.soef.concat.tables['forest_area'].copy()
+        df = forest_puller.soef.concat.tables['forest_area'].copy()
         # Filter #
-        area_soef = area_soef.query("category == 'forest'")
+        df = df.query("category == 'forest'")
         # Columns #
-        area_soef = area_soef[['country', 'year', 'area']]
+        df = df[['country', 'year', 'area']]
         # Add source #
-        area_soef.insert(0, 'source', "soef")
+        df.insert(0, 'source', "soef")
         # Return #
-        return area_soef
+        return df
 
     @property
-    def area_faostat(self):
+    def faostat(self):
+        # Import #
+        import forest_puller.faostat.land.concat
         # Load #
-        area_faos = forest_puller.faostat.land.concat.df.copy()
+        df = forest_puller.faostat.land.concat.df.copy()
         # Filter #
-        area_faos = area_faos.query('element == "Area"')
-        area_faos = area_faos.query('item    == "Forest land"')
-        area_faos = area_faos.query('flag    == "A"')
+        df = df.query('element == "Area"')
+        df = df.query('item    == "Forest land"')
+        df = df.query('flag    == "A"')
         # Columns #
-        area_faos = area_faos[['country', 'year', 'value']]
-        area_faos.columns   = ['country', 'year', 'area']
+        df = df[['country', 'year', 'value']]
+        df.columns   = ['country', 'year', 'area']
         # Add source #
-        area_faos.insert(0, 'source', 'faostat')
+        df.insert(0, 'source', 'faostat')
         # Return #
-        return area_faos
+        return df
 
     @property
-    def area_hpffre(self):
+    def hpffre(self):
         """
         We are not going to plot the future projections,
         Instead we are just gonna take one point and extend it
         to the present year.
         """
+        # Import #
+        import forest_puller.hpffre.concat
         # Load #
-        area_hpff = forest_puller.hpffre.concat.df.copy()
+        df = forest_puller.hpffre.concat.df.copy()
         # Filter #
-        area_hpff = area_hpff.query("scenario == 1")
+        df = df.query("scenario == 1")
         # Sum all the different categories #
-        area_hpff = (area_hpff
-                      .groupby(['country', 'year'])
-                      .agg({'area': sum})
-                      .reset_index())
+        df = (df
+                     .groupby(['country', 'year'])
+                     .agg({'area': sum})
+                     .reset_index())
         # Columns #
-        area_hpff = area_hpff[['country', 'year', 'area']]
+        df = df[['country', 'year', 'area']]
         # Take minimum year for each country #
-        selector  = area_hpff.groupby('country')['year'].idxmin()
-        area_hpff = area_hpff.loc[selector]
+        selector  = df.groupby('country')['year'].idxmin()
+        df = df.loc[selector]
         # Extend the line to the end year #
-        other     = pandas.concat([self.area_ipcc, self.area_soef], ignore_index=True)
+        other     = pandas.concat([self.ipcc, self.soef], ignore_index=True)
         selector  = other.groupby('country')['year'].idxmax()
         other     = other.loc[selector][['country', 'year']]
-        other     = other.left_join(area_hpff[['area', 'country']], on='country')
+        other     = other.left_join(df[['area', 'country']], on='country')
         other     = other.dropna()
-        area_hpff = pandas.concat((area_hpff, other), ignore_index=True)
+        df = pandas.concat((df, other), ignore_index=True)
         # Add source #
-        area_hpff.insert(0, 'source', "hpffre")
+        df.insert(0, 'source', "hpffre")
         # Return #
-        return area_hpff
+        return df
 
     @property
-    def area_eu_cbm(self):
+    def eu_cbm(self):
+        # Import #
+        import forest_puller.cbm.concat
         # Load #
-        area_cbm = forest_puller.cbm.concat.df.copy()
+        df = forest_puller.cbm.concat.df.copy()
         # Add source #
-        area_cbm.insert(0, 'source', 'eu-cbm')
+        df.insert(0, 'source', 'eu-cbm')
         # Return #
-        return area_cbm
+        return df
 
-    #----------------------------- Visualization -----------------------------#
-    @property
-    def data(self):
+    #------------------------------- Combine ---------------------------------#
+    @property_cached
+    def df(self):
         # Load all data sources #
-        sources = [self.area_ipcc,
-                   self.area_soef,
-                   self.area_faostat,
-                   self.area_hpffre,
-                   self.area_eu_cbm]
+        sources = [self.ipcc, self.soef, self.faostat, self.hpffre, self.eu_cbm]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
+        # Adjust to million hectares #
+        df['area'] /= 1e6
         # Add country long name #
         long_names = country_codes[['iso2_code', 'country']]
         long_names.columns = ['country', 'long_name']
         df = df.left_join(long_names, on=['country'])
-        # Adjust to million hectares #
-        df['area'] /= 1e6
         # Return #
         return df
 
+###############################################################################
+class AreaComparison(FacetPlot):
+
+    short_name = 'area_comparison'
+    formats    = ('pdf',)
+
+    facet_var  = "country"
+
+    x_label = 'Year'
+    y_label = 'Area in million hectares'
+
+    @property
+    def df(self): return self.parent.df
+
     def plot(self, **kwargs):
-        # Number of columns #
-        col_wrap = math.ceil(len(self.data[self.facet_var].unique()) / 9.0) + 1
-
-        # Facet grid #
-        p = seaborn.FacetGrid(data     = self.data,
-                              col      = self.facet_var,
-                              sharey   = False,
-                              col_wrap = col_wrap,
-                              height   = 6.0)
-
-        # Functions #
-        def line_plot(x, y, source, **kwargs):
-            # Remove the color we get #
-            kwargs.pop("color")
-            # Get the data frame #
-            df = kwargs.pop("data")
-            # Filter the source #
-            df = df.query("source == '%s'" % source)
-            # Plot #
-            pyplot.plot(df[x], df[y],
-                        marker     = ".",
-                        markersize = 10.0,
-                        color      = name_to_color[source.upper()],
-                        **kwargs)
-
         # Plot every data source #
-        p.map_dataframe(line_plot, 'year', 'area', 'ipcc')
-        p.map_dataframe(line_plot, 'year', 'area', 'soef')
-        p.map_dataframe(line_plot, 'year', 'area', 'hpffre')
-        p.map_dataframe(line_plot, 'year', 'area', 'faostat')
-        p.map_dataframe(line_plot, 'year', 'area', 'eu-cbm')
+        self.facet.map_dataframe(self.line_plot, 'year', 'area', 'ipcc')
+        self.facet.map_dataframe(self.line_plot, 'year', 'area', 'soef')
+        self.facet.map_dataframe(self.line_plot, 'year', 'area', 'hpffre')
+        self.facet.map_dataframe(self.line_plot, 'year', 'area', 'faostat')
+        self.facet.map_dataframe(self.line_plot, 'year', 'area', 'eu-cbm')
 
-        # Add horizontal lines on the x axis #
-        def grid_on(**kw):
-            pyplot.gca().xaxis.grid(True, linestyle=':')
-        p.map(grid_on)
-
-        # Change the titles #
-        def hide_titles(**kw):
-            pyplot.gca().title.set_visible(False)
-        p.map(hide_titles)
-
-        # Force maximum two decimals for y axis #
-        def formatter(**kw):
-            str_formatter = matplotlib.ticker.FormatStrFormatter('%.2f')
-            pyplot.gca().yaxis.set_major_formatter(str_formatter)
-        p.map(formatter)
+        # Adjust subplots #
+        self.facet.map(self.y_grid_on)
+        self.facet.map(self.hide_titles)
+        self.facet.map(self.y_max_two_decimals)
 
         # Add a legend #
-        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in name_to_color.items()]
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            p.add_legend(handles   = patches,
-                         borderpad = 1,
-                         prop      = {'size': 20},
-                         frameon   = True,
-                         shadow    = True,
-                         loc       = 'lower right')
+        self.add_main_legend()
 
         # Put the title inside the graph and large #
-        def large_legend(x, **kw):
-            df = kw.pop("data")
-            iso2_code = df[x].iloc[0]
-            axes = pyplot.gca()
-            axes.text(0.08, 0.9, iso2_code, transform=axes.transAxes, ha="left", size=22)
-        p.map_dataframe(large_legend, 'long_name')
+        self.facet.map_dataframe(self.large_legend, 'long_name')
 
         # Change the labels #
-        p.set_axis_labels("Year", "Area in million hectares")
+        self.facet.set_axis_labels(self.x_label, self.y_label)
 
         # Leave some space for the y axis labels #
         pyplot.subplots_adjust(left=0.025)
@@ -229,7 +188,12 @@ class AreaComparison(Graph):
         self.save_plot(**kwargs)
 
         # Convenience: return for display in notebooks for instance #
-        return p
+        return self.facet
 
 ###############################################################################
-area_comp = AreaComparison(base_dir = cache_dir + 'graphs/')
+# Create the large df #
+area_data = AreaCompData()
+
+# Create the graph #
+export_dir = cache_dir + 'graphs/'
+area_comp  = AreaComparison(area_data, export_dir)

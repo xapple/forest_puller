@@ -85,7 +85,7 @@
   -  for all source on one plot, using a conversion factor from m3 to tons of carbon plot fellings 
   - for all source on one plot, using a conversion factor from m3 to CO2 plot net emissions 
   
-* Possbility to Facet the data source and have one graph per country
+* Possibility to Facet the data source and have one graph per country
 
 * Add Malta and Cyprus to countries available
 
