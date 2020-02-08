@@ -36,11 +36,17 @@ class FacetPlot(Graph):
     @property_cached
     def facet(self):
         """The seaborn plot object."""
-        return seaborn.FacetGrid(data     = self.df,
-                                 col      = self.facet_var,
-                                 sharey   = False,
-                                 col_wrap = self.col_wrap,
-                                 height   = 6.0)
+        # Default values #
+        arguments = dict(data     = self.df,
+                         col      = self.facet_var,
+                         sharey   = False,
+                         col_wrap = self.col_wrap,
+                         height   = 6.0)
+        # Are we doing a 1 dimensional or two dimensional plot #
+        if hasattr(self, 'facet_var'): arguments['col'] = self.facet_var
+        else: arguments.update({'col': self.col_var, 'row': self.row_var})
+        # Return #
+        return seaborn.FacetGrid(**arguments)
 
     @property
     def col_wrap(self):

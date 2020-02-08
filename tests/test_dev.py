@@ -65,9 +65,9 @@ from tqdm import tqdm
 #at = countries['AT']
 
 ###############################################################################
-from forest_puller.viz.area import area_comp
-print(area_comp(rerun=True))
-print(type(area_comp.facet))
+#from forest_puller.viz.area import area_comp
+#print(area_comp(rerun=True))
+#print(type(area_comp.facet))
 
 #from forest_puller.core.continent import continent
 #print(continent.report())
@@ -75,3 +75,7 @@ print(type(area_comp.facet))
 ###############################################################################
 #from forest_puller.viz.increments import gain_loss_net_data
 #print(gain_loss_net_data.ipcc)
+
+from forest_puller.viz.increments import all_graphs
+g = all_graphs[0]
+print(g.plot(rerun=True))

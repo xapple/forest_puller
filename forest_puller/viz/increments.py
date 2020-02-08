@@ -15,26 +15,18 @@ Typically you can use this submodule this like:
 """
 
 # Built-in modules #
-import math, warnings
 
 # Internal modules #
 import forest_puller
-from forest_puller.common import country_codes
 from forest_puller.viz.facet import FacetPlot
+from forest_puller.common    import country_codes
+from forest_puller           import cache_dir
 
 # First party modules #
-from plumbing.graphs import Graph
 
 # Third party modules #
-import seaborn, matplotlib, pandas
+import pandas
 from matplotlib import pyplot
-from matplotlib import ticker
-
-# Constants #
-source_to_y_label = {
-    'ipcc': "Tons of carbon per hectare",
-    'soef': "Cubic meters over bark per hectare",
-}
 
 ###############################################################################
 class GainsLossNetData:
@@ -72,21 +64,19 @@ class GainsLossNetData:
         # Keep only the columns we want #
         info_cols = ['gross_increment', 'natural_losses', 'fellings_total']
         fell      = fell[['country', 'year'] + info_cols]
-        # If there is no information at all, drop the line #
-        fell = fell.query("gross_increment == gross_increment or "
-                          "natural_losses  == natural_losses  or "
-                          "fellings_total  == fellings_total")
         # Get the area that matches the right category #
         area = area.query("category == 'forest_avail_for_supply'")
         area = area.drop(columns=['category'])
         # Add the area #
         df = fell.left_join(area, on=['country', 'year'])
-        # If we didn't get the area for that line, drop the line #
-        df = df.query("area == area")
         # Compute per hectare values #
         df['gain_per_ha'] = df['gross_increment']                         / df['area']
         df['loss_per_ha'] = (df['natural_losses'] + df['fellings_total']) / df['area']
         df['net_per_ha']  = (df['gain_per_ha']    - df['loss_per_ha'])    / df['area']
+        # If there is no information at all, drop the line #
+        df = df.query("gain_per_ha == gain_per_ha or "
+                      "loss_per_ha == loss_per_ha or "
+                      "net_per_ha  == net_per_ha")
         # Columns #
         df = df[['country', 'year', 'gain_per_ha', 'loss_per_ha', 'net_per_ha']]
         # Add source #
@@ -113,7 +103,7 @@ class GainsLossNetData:
         # Add source #
         df.insert(0, 'source', "hpffre")
         # Return #
-        return area_hpff
+        return df
 
     @property
     def eu_cbm(self):
@@ -128,7 +118,7 @@ class GainsLossNetData:
     @property
     def df(self):
         # Load all data sources #
-        sources = [self.ipcc, self.soef, self.faostat, self.hpffre, self.eu_cbm]
+        sources = [self.ipcc, self.soef] #, self.faostat, self.hpffre, self.eu_cbm]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
         # Add country long name #
@@ -139,26 +129,62 @@ class GainsLossNetData:
         return df
 
 ###############################################################################
-class GainsLossNetGraphPerPage(FacetPlot):
+class GainsLossNetGraph(FacetPlot):
 
     facet_col  = 'source'
     facet_row  = 'country'
 
-    short_name = 'area_comparison'
     formats    = ('pdf',)
 
-    facet_var  = "country"
+    facet_var  = "source"
+    col_wrap   = 5
 
     x_label = 'Year'
+    y_label = 'Test'
+
+    name_to_color = {'gain_per_ha': 'green',
+                     'loss_per_ha': 'red',
+                     'net_per_ha':  'black'}
+
+    source_to_y_label = {
+        'ipcc': "Tons of carbon per hectare",
+        'soef': "Cubic meters over bark per hectare",
+    }
 
     @property
-    def df(self): return self.parent.df
+    def short_name(self): return self.parent
+
+    @property
+    def df(self):
+        # Load #
+        df = gain_loss_net_data.df
+        # Filter #
+        df = df.query("country == @self.parent").copy()
+        # Return #
+        return df
+
+    def line_plot(self, x, y, source, **kwargs):
+        # Remove the color we get #
+        kwargs.pop("color")
+        # Get the data frame #
+        df = kwargs.pop("data")
+        # Filter the source #
+        df = df.query("source == '%s'" % source)
+        # Plot #
+        pyplot.plot(df[x], df[y],
+                    marker     = ".",
+                    markersize = 10.0,
+                    color      = self.name_to_color[y],
+                    **kwargs)
 
     def plot(self, **kwargs):
         # Plot every data source #
-        self.facet.map_dataframe(line_plot, 'year', 'inc', 'gain')
-        self.facet.map_dataframe(line_plot, 'year', 'inc', 'loss')
-        self.facet.map_dataframe(line_plot, 'year', 'inc', 'net')
+        self.facet.map_dataframe(self.line_plot, 'year', 'gain_per_ha', 'ipcc')
+        self.facet.map_dataframe(self.line_plot, 'year', 'loss_per_ha', 'ipcc')
+        self.facet.map_dataframe(self.line_plot, 'year', 'net_per_ha',  'ipcc')
+        self.facet.map_dataframe(self.line_plot, 'year', 'gain_per_ha', 'soef')
+        self.facet.map_dataframe(self.line_plot, 'year', 'loss_per_ha', 'soef')
+        self.facet.map_dataframe(self.line_plot, 'year', 'net_per_ha',  'soef')
 
         # Adjust subplots #
         self.facet.map(self.y_grid_on)
@@ -187,13 +213,8 @@ class GainsLossNetGraphPerPage(FacetPlot):
 # Create the large df #
 gain_loss_net_data = GainsLossNetData()
 
-# Separate by pages #
-#pages = []
-#
-#country_per_page = 7
-#count_pages = math.ceil(len(countries) / country_per_page)
-#
-#for page_num in range(0, count_pages):
-#    klass = type('page_%i' % page_num, {}, {})
-#    pages.append()
+# Create a facet for each country #
+export_dir = cache_dir + 'graphs/increments/'
+all_graphs = [GainsLossNetGraph(iso2, export_dir) for iso2 in country_codes['iso2_code']]
+countries  = {c.parent: c for c in all_graphs}
 
