@@ -4,9 +4,8 @@
 """
 Written by Lucas Sinclair and Paul Rougieux.
 
-JRC biomass Project.
+JRC Biomass Project.
 Unit D1 Bioeconomy.
-
 Development script to test some of the methods in `forest_puller`
 
 Typically you would run this file from a command line like this:

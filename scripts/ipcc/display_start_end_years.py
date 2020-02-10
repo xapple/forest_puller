@@ -4,9 +4,8 @@
 """
 Written by Lucas Sinclair and Paul Rougieux.
 
-JRC biomass Project.
+JRC Biomass Project.
 Unit D1 Bioeconomy.
-
 Script to check what years are available for which country in `forest_puller.ipcc`
 
 Typically you would run this file from a command line like this:

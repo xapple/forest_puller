@@ -4,9 +4,8 @@
 """
 Written by Lucas Sinclair and Paul Rougieux.
 
-JRC Biomass project.
+JRC Biomass Project.
 Unit D1 Bioeconomy.
-
 A script to export an intermediary data frame to CSV for inspection
 and sharing.
 

@@ -4,9 +4,8 @@
 """
 Written by Lucas Sinclair and Paul Rougieux.
 
-JRC biomass Project.
+JRC Biomass Project.
 Unit D1 Bioeconomy.
-
 Typically you can use this submodule this like:
 
     >>> from forest_puller.faostat.land.agg import source

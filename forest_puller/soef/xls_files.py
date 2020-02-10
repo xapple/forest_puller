@@ -4,9 +4,8 @@
 """
 Written by Lucas Sinclair and Paul Rougieux.
 
-JRC biomass Project.
+JRC Biomass Project.
 Unit D1 Bioeconomy.
-
 Typically you can use this class this like:
 
     >>> from forest_puller.soef.xls_files import all_xls_files
