@@ -6,6 +6,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 
 JRC Biomass Project.
 Unit D1 Bioeconomy.
+
 Typically you can use this class this like:
 
     >>> from forest_puller.ipcc.zip_files import all_zip_files
