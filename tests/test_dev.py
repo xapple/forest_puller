@@ -80,5 +80,5 @@ g.plot(rerun=True)
 #for graph in all_graphs: graph.plot(rerun=True)
 
 ###############################################################################
-from forest_puller.core.continent import continent
-print(continent.report())
+#from forest_puller.core.continent import continent
+#print(continent.report())

@@ -41,7 +41,8 @@ class FacetPlot(Graph):
                          col      = self.facet_var,
                          sharey   = False,
                          col_wrap = self.col_wrap,
-                         height   = 6.0)
+                         height   = 6.0,
+                         dropna   = False)
         # Are we doing a one dimensional or two dimensional plot #
         if hasattr(self, 'facet_var'): arguments['col'] = self.facet_var
         else: arguments.update({'col': self.col_var, 'row': self.row_var})

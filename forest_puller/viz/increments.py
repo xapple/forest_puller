@@ -24,7 +24,7 @@ from forest_puller           import cache_dir
 from plumbing.cache import property_cached
 
 # Third party modules #
-import pandas
+import pandas, numpy
 from matplotlib import pyplot
 
 ###############################################################################
@@ -38,8 +38,7 @@ class GainsLossNetData:
         import forest_puller.ipcc.concat
         # Load #
         df = forest_puller.ipcc.concat.df.copy()
-        # Index #
-        df = df.reset_index(drop=True)
+        # Index name #
         df.columns.name = None
         # Filter #
         df = df.query("land_use == 'total_forest'").copy()
@@ -51,6 +50,8 @@ class GainsLossNetData:
         df = df[['country', 'year', 'gain_per_ha', 'loss_per_ha', 'net_per_ha']]
         # Add source #
         df.insert(0, 'source', "ipcc")
+        # Reset index #
+        df = df.reset_index(drop=True)
         # Return #
         return df
 
@@ -83,6 +84,8 @@ class GainsLossNetData:
         df = df[['country', 'year', 'gain_per_ha', 'loss_per_ha', 'net_per_ha']]
         # Add source #
         df.insert(0, 'source', "soef")
+        # Reset index #
+        df = df.reset_index(drop=True)
         # Return #
         return df
 
@@ -108,6 +111,13 @@ class GainsLossNetData:
         df = forestry.inner_join(land, on=['country', 'year'], rsuffix='_land', lsuffix='_forestry')
         # Compute per hectare values #
         df['loss_per_ha'] = df['loss'] / df['area']
+        # Add source #
+        df.insert(0, 'source', 'faostat')
+        # Check the flags #TODO #
+        df = df.drop(columns=['area', 'loss'])
+        df = df.drop(columns=['flag_forestry', 'flag_land'])
+        # Reset index #
+        df = df.reset_index(drop=True)
         # Return #
         return df
 
@@ -126,22 +136,26 @@ class GainsLossNetData:
                     'growing_stock_volume_per_ha': sum})
               .reset_index())
         # Take only the minimum year for each country #
-        selector = df.groupby('country')['year'].idxmin()
-        df = df.loc[selector]
-        # Extend the line to the end year #
-        other     = pandas.concat([self.ipcc, self.soef], ignore_index=True)
-        selector  = other.groupby('country')['year'].idxmax()
-        other     = other.loc[selector][['country', 'year']]
-        cols      = ['fellings_per_ha', 'growing_stock_volume_per_ha', 'country']
-        other     = other.left_join(df[cols], on='country')
-        other     = other.dropna()
-        # Add them together #
-        df = pandas.concat((df, other), ignore_index=True)
+        #selector = df.groupby('country')['year'].idxmin()
+        #df = df.loc[selector]
+        ## Extend the line to the end year #
+        #other     = pandas.concat([self.ipcc, self.soef], ignore_index=True)
+        #selector  = other.groupby('country')['year'].idxmax()
+        #other     = other.loc[selector][['country', 'year']]
+        #cols      = ['fellings_per_ha', 'growing_stock_volume_per_ha', 'country']
+        #other     = other.left_join(df[cols], on='country')
+        #other     = other.dropna()
+        ## Add them together #
+        #df = pandas.concat((df, other), ignore_index=True)
         # Rename #
         df = df.rename(columns = {'fellings_per_ha':             'loss_per_ha',
                                   'growing_stock_volume_per_ha': 'gain_per_ha'})
+        # Compute net #
+        df['net_per_ha']  = df['gain_per_ha'] - df['loss_per_ha']
         # Add source #
-        df.insert(0, 'source', "hpffre")
+        df.insert(0, 'source', 'hpffre')
+        # Reset index #
+        df = df.reset_index(drop=True)
         # Return #
         return df
 
@@ -152,11 +166,14 @@ class GainsLossNetData:
         # Load #
         df = forest_puller.cbm.concat.area.copy()
         # Temporary #TODO #
-        df['gain_per_ha'] = df['area'] * 2
-        df['loss_per_ha'] = df['area'] * 3
-        df['net_per_ha']  = df['area'] * 5
+        df['gain_per_ha'] = df['area'] / 2e6
+        df['loss_per_ha'] = df['area'] / 3e6
+        df['net_per_ha']  = df['area'] / 5e6
+        df = df.drop(columns=['area'])
         # Add source #
         df.insert(0, 'source', 'eu-cbm')
+        # Reset index #
+        df = df.reset_index(drop=True)
         # Return #
         return df
 
