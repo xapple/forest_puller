@@ -19,5 +19,5 @@ from forest_puller.cbm.country import all_countries
 import pandas
 
 ##############################################################################
-every_country = (c.country_cols for c in all_countries)
-df = pandas.concat(every_country, ignore_index=True)
+every_country = (c.area_country_cols for c in all_countries)
+area = pandas.concat(every_country, ignore_index=True)

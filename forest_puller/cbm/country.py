@@ -35,7 +35,7 @@ class Country:
         return '%s object code "%s"' % (self.__class__, self.iso2_code)
 
     @property_cached
-    def df(self):
+    def area_df(self):
         """
         Load the age indicators table for this country in the
         historical scenario and prepare the data.
@@ -62,10 +62,10 @@ class Country:
         return df
 
     @property
-    def country_cols(self):
+    def area_country_cols(self):
         """Same as `self.df` but we add a column with the current country."""
         # Load #
-        df = self.df.copy()
+        df = self.area_df.copy()
         # Add column #
         df.insert(0, 'country', self.iso2_code)
         # Return #

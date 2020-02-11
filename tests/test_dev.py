@@ -68,13 +68,17 @@ from tqdm import tqdm
 #print(area_comp(rerun=True))
 #print(type(area_comp.facet))
 
-#from forest_puller.core.continent import continent
-#print(continent.report())
-
 ###############################################################################
 #from forest_puller.viz.increments import gain_loss_net_data
 #print(gain_loss_net_data.ipcc)
 
 from forest_puller.viz.increments import all_graphs
 g = all_graphs[0]
-print(g.plot(rerun=True))
+g.plot(rerun=True)
+
+#from forest_puller.viz.increments import all_graphs
+#for graph in all_graphs: graph.plot(rerun=True)
+
+###############################################################################
+from forest_puller.core.continent import continent
+print(continent.report())

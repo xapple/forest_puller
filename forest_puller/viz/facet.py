@@ -27,11 +27,11 @@ class FacetPlot(Graph):
 
     # Colors #
     colors = brewer2mpl.get_map('Set1', 'qualitative', 5).mpl_colors
-    name_to_color = {'IPCC':      colors[0],
-                     'SOEF':      colors[1],
-                     'HPFFRE':    colors[2],
-                     'FAOSTAT':   colors[3],
-                     'EU-CBM':    colors[4]}
+    name_to_color = {'IPCC':    colors[0],
+                     'SOEF':    colors[1],
+                     'HPFFRE':  colors[2],
+                     'FAOSTAT': colors[3],
+                     'EU-CBM':  colors[4]}
 
     @property_cached
     def facet(self):
@@ -42,7 +42,7 @@ class FacetPlot(Graph):
                          sharey   = False,
                          col_wrap = self.col_wrap,
                          height   = 6.0)
-        # Are we doing a 1 dimensional or two dimensional plot #
+        # Are we doing a one dimensional or two dimensional plot #
         if hasattr(self, 'facet_var'): arguments['col'] = self.facet_var
         else: arguments.update({'col': self.col_var, 'row': self.row_var})
         # Return #
@@ -91,10 +91,11 @@ class FacetPlot(Graph):
         axes      = pyplot.gca()
         axes.text(0.08, 0.9, iso2_code, transform=axes.transAxes, ha="left", size=22)
 
-    def add_main_legend(self):
+    def add_main_legend(self, name_to_color=None):
         """Make a box with the legend for all plots."""
-        colors  = self.name_to_color.items()
-        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in colors]
+        if name_to_color is None: name_to_color = self.name_to_color
+        items   = name_to_color.items()
+        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in items]
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
             self.facet.add_legend(handles   = patches,

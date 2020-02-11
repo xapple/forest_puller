@@ -32,7 +32,7 @@ from matplotlib import pyplot
 class AreaCompData:
 
     #----------------------------- Data sources ------------------------------#
-    @property
+    @property_cached
     def ipcc(self):
         # Import #
         import forest_puller.ipcc.concat
@@ -50,7 +50,7 @@ class AreaCompData:
         # Return #
         return df
 
-    @property
+    @property_cached
     def soef(self):
         # Import #
         import forest_puller.soef.concat
@@ -65,7 +65,7 @@ class AreaCompData:
         # Return #
         return df
 
-    @property
+    @property_cached
     def faostat(self):
         # Import #
         import forest_puller.faostat.land.concat
@@ -83,7 +83,7 @@ class AreaCompData:
         # Return #
         return df
 
-    @property
+    @property_cached
     def hpffre(self):
         """
         We are not going to plot the future projections,
@@ -103,7 +103,7 @@ class AreaCompData:
                      .reset_index())
         # Columns #
         df = df[['country', 'year', 'area']]
-        # Take minimum year for each country #
+        # Take only the minimum year for each country #
         selector  = df.groupby('country')['year'].idxmin()
         df = df.loc[selector]
         # Extend the line to the end year #
@@ -112,18 +112,19 @@ class AreaCompData:
         other     = other.loc[selector][['country', 'year']]
         other     = other.left_join(df[['area', 'country']], on='country')
         other     = other.dropna()
+        # Add them together #
         df = pandas.concat((df, other), ignore_index=True)
         # Add source #
         df.insert(0, 'source', "hpffre")
         # Return #
         return df
 
-    @property
+    @property_cached
     def eu_cbm(self):
         # Import #
         import forest_puller.cbm.concat
         # Load #
-        df = forest_puller.cbm.concat.df.copy()
+        df = forest_puller.cbm.concat.area.copy()
         # Add source #
         df.insert(0, 'source', 'eu-cbm')
         # Return #
@@ -166,27 +167,20 @@ class AreaComparison(FacetPlot):
         self.facet.map_dataframe(self.line_plot, 'year', 'area', 'hpffre')
         self.facet.map_dataframe(self.line_plot, 'year', 'area', 'faostat')
         self.facet.map_dataframe(self.line_plot, 'year', 'area', 'eu-cbm')
-
         # Adjust subplots #
         self.facet.map(self.y_grid_on)
         self.facet.map(self.hide_titles)
         self.facet.map(self.y_max_two_decimals)
-
         # Add a legend #
         self.add_main_legend()
-
         # Put the title inside the graph and large #
         self.facet.map_dataframe(self.large_legend, 'long_name')
-
         # Change the labels #
         self.facet.set_axis_labels(self.x_label, self.y_label)
-
         # Leave some space for the y axis labels #
         pyplot.subplots_adjust(left=0.025)
-
         # Save #
         self.save_plot(**kwargs)
-
         # Convenience: return for display in notebooks for instance #
         return self.facet
 
