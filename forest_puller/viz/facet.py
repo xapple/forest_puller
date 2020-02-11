@@ -26,8 +26,8 @@ from matplotlib import ticker
 class FacetPlot(Graph):
 
     # Defaults #
-    sharey = True
-    sharex = True
+    share_y = True
+    share_x = True
 
     # Colors #
     colors = brewer2mpl.get_map('Set1', 'qualitative', 5).mpl_colors
@@ -43,8 +43,8 @@ class FacetPlot(Graph):
         # Default values #
         arguments = dict(data     = self.df,
                          col      = self.facet_var,
-                         sharey   = self.sharey,
-                         sharex   = self.sharex,
+                         sharey   = self.share_y,
+                         sharex   = self.share_x,
                          col_wrap = self.col_wrap,
                          height   = 6.0,
                          dropna   = False)

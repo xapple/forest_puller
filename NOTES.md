@@ -78,6 +78,8 @@
 
 # TODO
 
+* High font size for y label in increments
+
 * Make comparison of net loss/gains between different data sources (convert the m^3 into net CO2 emission in tons for faostat and ipcc)
 
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot increment 

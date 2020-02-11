@@ -135,18 +135,6 @@ class GainsLossNetData:
               .agg({'fellings_per_ha': sum,
                     'growing_stock_volume_per_ha': sum})
               .reset_index())
-        # Take only the minimum year for each country #
-        #selector = df.groupby('country')['year'].idxmin()
-        #df = df.loc[selector]
-        ## Extend the line to the end year #
-        #other     = pandas.concat([self.ipcc, self.soef], ignore_index=True)
-        #selector  = other.groupby('country')['year'].idxmax()
-        #other     = other.loc[selector][['country', 'year']]
-        #cols      = ['fellings_per_ha', 'growing_stock_volume_per_ha', 'country']
-        #other     = other.left_join(df[cols], on='country')
-        #other     = other.dropna()
-        ## Add them together #
-        #df = pandas.concat((df, other), ignore_index=True)
         # Rename #
         df = df.rename(columns = {'fellings_per_ha':             'loss_per_ha',
                                   'growing_stock_volume_per_ha': 'gain_per_ha'})
@@ -202,8 +190,8 @@ class GainsLossNetGraph(FacetPlot):
 
     display_legend = False
 
-    sharey = False
-    sharex = False
+    share_y = False
+    share_x = False
 
     name_to_color = {'gain_per_ha': 'green',
                      'loss_per_ha': 'red',
@@ -213,7 +201,7 @@ class GainsLossNetGraph(FacetPlot):
         'ipcc':    "Tons of carbon per hectare",
         'soef':    "Cubic meters over bark per hectare",
         'faostat': "Cubic meters XXX per hectare",
-        'hpffre':  "Lorem ipsum dolor sit amet",
+        'hpffre':  "Cubic meters of stemwood over bark per hectare",
         'eu-cbm':  "Lorem ipsum dolor sit amet",
     }
 
@@ -272,8 +260,9 @@ class GainsLossNetGraph(FacetPlot):
         for label, ax in label_and_axes: ax.set_ylabel(label)
 
         # Add the present line for HPFFRE dataset #
-        ax = self.facet.axes[3]
-        ax.axvline(x=2018, color='black', linestyle=":", linewidth=0.8)
+        if False:
+            ax = self.facet.axes[3]
+            ax.axvline(x=2018, color='black', linestyle=":", linewidth=0.8)
 
         # Add a legend if requested #
         legend_titles = {'Gains':            'green',

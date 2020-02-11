@@ -157,8 +157,8 @@ class AreaComparison(FacetPlot):
     x_label = 'Year'
     y_label = 'Area in million hectares'
 
-    sharey = False
-    sharex = True
+    share_y = False
+    share_x = True
 
     @property
     def df(self): return self.parent.df
