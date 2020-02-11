@@ -202,6 +202,9 @@ class GainsLossNetGraph(FacetPlot):
 
     display_legend = False
 
+    sharey = False
+    sharex = False
+
     name_to_color = {'gain_per_ha': 'green',
                      'loss_per_ha': 'red',
                      'net_per_ha':  'black'}
@@ -267,6 +270,10 @@ class GainsLossNetGraph(FacetPlot):
         # Set the custom Y labels (hackish, no better way found) #
         label_and_axes = zip(self.source_to_y_label.values(), self.facet.axes)
         for label, ax in label_and_axes: ax.set_ylabel(label)
+
+        # Add the present line for HPFFRE dataset #
+        ax = self.facet.axes[3]
+        ax.axvline(x=2018, color='black', linestyle=":", linewidth=0.8)
 
         # Add a legend if requested #
         legend_titles = {'Gains':            'green',

@@ -73,20 +73,17 @@
 
 * Make PDF with figure legend
 
+* For each source a separate plot of increment and fellings in unit/ha on total forest area if available otherwise on forest area available for wood supply. 
 
 
 # TODO
 
-* For each source a separate plot of increment and fellings in unit/ha on total forest area if available otherwise on forest area available for wood supply. 
-
-* Make comparison of net loss/gains between different data sources (Convert the m^3 into net CO2 emission in tons for faostat and ipcc)
+* Make comparison of net loss/gains between different data sources (convert the m^3 into net CO2 emission in tons for faostat and ipcc)
 
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot increment 
-  -  for all source on one plot, using a conversion factor from m3 to tons of carbon plot fellings 
+  - for all source on one plot, using a conversion factor from m3 to tons of carbon plot fellings 
   - for all source on one plot, using a conversion factor from m3 to CO2 plot net emissions 
   
-* Possibility to Facet the data source and have one graph per country
-
 * Add Malta and Cyprus to countries available
 
 * Write up introduction and methods

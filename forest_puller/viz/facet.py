@@ -25,6 +25,10 @@ from matplotlib import ticker
 ###############################################################################
 class FacetPlot(Graph):
 
+    # Defaults #
+    sharey = True
+    sharex = True
+
     # Colors #
     colors = brewer2mpl.get_map('Set1', 'qualitative', 5).mpl_colors
     name_to_color = {'IPCC':    colors[0],
@@ -39,7 +43,8 @@ class FacetPlot(Graph):
         # Default values #
         arguments = dict(data     = self.df,
                          col      = self.facet_var,
-                         sharey   = False,
+                         sharey   = self.sharey,
+                         sharex   = self.sharex,
                          col_wrap = self.col_wrap,
                          height   = 6.0,
                          dropna   = False)
