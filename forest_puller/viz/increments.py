@@ -98,7 +98,7 @@ class GainsLossNetData:
         forestry = forest_puller.faostat.forestry.concat.df.copy()
         land     = forest_puller.faostat.land.concat.df.copy()
         # Filter #
-        forestry = forestry.query("element == 'Production'")
+        forestry = forestry.query("element == 'Production' and unit == 'm3'")
         land     = land.query('element == "Area"')
         land     = land.query('item    == "Forest land"')
         land     = land.query('flag    == "A"')
@@ -200,7 +200,7 @@ class GainsLossNetGraph(FacetPlot):
     source_to_y_label = {
         'ipcc':    "Tons of carbon per hectare",
         'soef':    "Cubic meters over bark per hectare",
-        'faostat': "Cubic meters XXX per hectare",
+        'faostat': "Cubic meters under bark per hectare",
         'hpffre':  "Cubic meters of stemwood over bark per hectare",
         'eu-cbm':  "Lorem ipsum dolor sit amet",
     }
@@ -257,12 +257,8 @@ class GainsLossNetGraph(FacetPlot):
         self.facet.set_axis_labels(self.x_label, 'Test')
         # Set the custom Y labels (hackish, no better way found) #
         label_and_axes = zip(self.source_to_y_label.values(), self.facet.axes)
-        for label, ax in label_and_axes: ax.set_ylabel(label)
+        for label, ax in label_and_axes: ax.set_ylabel(label, fontsize=18)
 
-        # Add the present line for HPFFRE dataset #
-        if False:
-            ax = self.facet.axes[3]
-            ax.axvline(x=2018, color='black', linestyle=":", linewidth=0.8)
 
         # Add a legend if requested #
         legend_titles = {'Gains':            'green',
@@ -284,6 +280,8 @@ class GainsLossNetGraph(FacetPlot):
         title  = self.country_name + '     (from ' + source.upper() + ')'
         axes   = pyplot.gca()
         axes.text(0.05, 1.05, title, transform=axes.transAxes, ha="left", size=20)
+        # Also add the present line for the HPFFRE dataset #
+        if source == 'hpffre': axes.axvline(x=2018, color='black', linestyle=":")
 
 ###############################################################################
 # Create the large df #

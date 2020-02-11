@@ -63,13 +63,38 @@ class Country:
 
     @property
     def area_country_cols(self):
-        """Same as `self.df` but we add a column with the current country."""
+        """Same as `self.area_df` but we add a column with the current country."""
         # Load #
         df = self.area_df.copy()
         # Add column #
         df.insert(0, 'country', self.iso2_code)
         # Return #
         return df
+
+    @property_cached
+    def increments_df(self):
+        """
+        Lorem ipsum.
+        """
+        # Cross-module import #
+        from cbmcfs3_runner.core.continent import continent
+        # Get the corresponding country and scenario #
+        cbm_runner = continent.get_runner('historical', self.iso2_code, -1)
+        # Load the table that interests us #
+        pass #TODO
+        # Return #
+        return df
+
+    @property
+    def increments_country_cols(self):
+        """Same as `self.increments_df` but we add a column with the current country."""
+        # Load #
+        df = self.increments_df.copy()
+        # Add column #
+        df.insert(0, 'country', self.iso2_code)
+        # Return #
+        return df
+
 
 ###############################################################################
 # Create every country object #
