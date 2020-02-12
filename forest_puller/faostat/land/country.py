@@ -16,7 +16,7 @@ Typically you can use this class this like:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller import cache_dir, module_dir
+from forest_puller import cache_dir
 from forest_puller.faostat.land.zip_file import zip_file
 from forest_puller.common import country_codes
 
@@ -24,7 +24,6 @@ from forest_puller.common import country_codes
 from plumbing.cache import property_pickled_at
 
 # Third party modules #
-import pandas
 
 ###############################################################################
 class Country:

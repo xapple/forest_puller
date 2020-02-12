@@ -62,7 +62,7 @@ class Country:
         # We don't need the old index anymore #
         df = df.reset_index(drop=True)
         # Convert the units using col_name_map #
-        convert_units(df, col_name_map)
+        df = convert_units(df, col_name_map)
         # Return #
         return df
 

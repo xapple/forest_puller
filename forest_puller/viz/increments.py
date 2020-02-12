@@ -73,9 +73,10 @@ class GainsLossNetData:
         # Compute per hectare values #
         df['gain_per_ha'] = df['gross_increment']                         / df['area']
         df['loss_per_ha'] = (df['natural_losses'] + df['fellings_total']) / df['area']
-        df['net_per_ha']  = df['gain_per_ha'] - df['loss_per_ha']
         # By convention, losses should be negative values #
         df['loss_per_ha'] = - df['loss_per_ha']
+        # The net #
+        df['net_per_ha']  = df['gain_per_ha'] + df['loss_per_ha']
         # If there is no information at all, drop the line #
         df = df.query("gain_per_ha == gain_per_ha or "
                       "loss_per_ha == loss_per_ha or "
@@ -97,25 +98,35 @@ class GainsLossNetData:
         # Load #
         forestry = forest_puller.faostat.forestry.concat.df.copy()
         land     = forest_puller.faostat.land.concat.df.copy()
-        # Filter #
-        forestry = forestry.query("element == 'Production' and unit == 'm3'")
+        # Filter forestry #
+        forestry = forestry.query("element == 'Production'")
+        forestry = forestry.query("unit == 'm3'")
+        forestry = forestry.query("flag != flag")
+        # Group forestry #
+        forestry = (forestry.groupby(['country', 'year'])
+                    .agg({'value': sum})
+                    .reset_index())
+        # Filter land #
         land     = land.query('element == "Area"')
         land     = land.query('item    == "Forest land"')
-        land     = land.query('flag    == "A"')
+        land     = land.query('flag    == "F"')
         # Keep columns #
-        forestry = forestry[['country', 'year', 'value', 'flag']]
+        land     = land[['country', 'year', 'value']]
+        # Rename columns #
         forestry = forestry.rename(columns = {'value': 'loss'})
-        land     = land[['country', 'year', 'value', 'flag']]
-        land     = land.rename(columns = {'value': 'area'})
+        land     = land.rename(    columns = {'value': 'area'})
         # Add the area #
-        df = forestry.inner_join(land, on=['country', 'year'], rsuffix='_land', lsuffix='_forestry')
+        df = forestry.inner_join(land, on=['country', 'year'])
+        # Sort the result #
+        df = df.sort_values(['country', 'year'])
         # Compute per hectare values #
         df['loss_per_ha'] = df['loss'] / df['area']
+        # By convention, losses should be negative values #
+        df['loss_per_ha'] = - df['loss_per_ha']
         # Add source #
         df.insert(0, 'source', 'faostat')
-        # Check the flags #TODO #
+        # Drop the other columns #
         df = df.drop(columns=['area', 'loss'])
-        df = df.drop(columns=['flag_forestry', 'flag_land'])
         # Reset index #
         df = df.reset_index(drop=True)
         # Return #
@@ -138,8 +149,10 @@ class GainsLossNetData:
         # Rename #
         df = df.rename(columns = {'fellings_per_ha':             'loss_per_ha',
                                   'growing_stock_volume_per_ha': 'gain_per_ha'})
+        # By convention, losses should be negative values #
+        df['loss_per_ha'] = - df['loss_per_ha']
         # Compute net #
-        df['net_per_ha']  = df['gain_per_ha'] - df['loss_per_ha']
+        df['net_per_ha']  = df['gain_per_ha'] + df['loss_per_ha']
         # Add source #
         df.insert(0, 'source', 'hpffre')
         # Reset index #
@@ -255,10 +268,10 @@ class GainsLossNetGraph(FacetPlot):
 
         # Change the X labels #
         self.facet.set_axis_labels(self.x_label, 'Test')
-        # Set the custom Y labels (hackish, no better way found) #
-        label_and_axes = zip(self.source_to_y_label.values(), self.facet.axes)
-        for label, ax in label_and_axes: ax.set_ylabel(label, fontsize=18)
 
+        # Set the custom Y labels (hackish, no better way found in seaborn) #
+        label_and_axes = zip(self.source_to_y_label.values(), self.facet.axes)
+        for label, ax in label_and_axes: ax.set_ylabel(label, fontsize=13)
 
         # Add a legend if requested #
         legend_titles = {'Gains':            'green',

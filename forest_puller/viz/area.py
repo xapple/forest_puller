@@ -97,10 +97,9 @@ class AreaCompData:
         # Filter #
         df = df.query("scenario == 1")
         # Sum all the different categories #
-        df = (df
-                     .groupby(['country', 'year'])
-                     .agg({'area': sum})
-                     .reset_index())
+        df = (df.groupby(['country', 'year'])
+                .agg({'area': sum})
+                .reset_index())
         # Columns #
         df = df[['country', 'year', 'area']]
         # Take only the minimum year for each country #

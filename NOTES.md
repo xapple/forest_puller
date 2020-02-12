@@ -57,8 +57,6 @@
 
 * Add data source: diabolo
 
-* Check conversion factor for hpffre
-
 * Drop a mail for the extra C++ model
 
 * Check that the FRA faostat matches the classical faostat data for area
@@ -77,6 +75,8 @@
 
 
 # TODO
+
+* Check conversion factor for hpffre
 
 * High font size for y label in increments
 

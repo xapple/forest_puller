@@ -47,3 +47,5 @@ def convert_units(df, col_name_map):
         if numpy.isnan(ratio): continue
         df[col_name] = df[col_name].astype(float)
         df[col_name] = df[col_name] * ratio
+    # Return #
+    return df

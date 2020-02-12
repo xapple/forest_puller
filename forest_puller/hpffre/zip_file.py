@@ -95,8 +95,6 @@ class ZipFile:
         df = self.raw_csv.copy()
         # Lower case column titles #
         df.columns = map(str.lower, df.columns)
-        # Convert units of columns #
-        pass #TODO
         # Wrong name for several countries #
         df['country'] = df['country'].replace({'Czech': 'Czech Republic'})
         df['country'] = df['country'].replace({'UK': 'United Kingdom'})
