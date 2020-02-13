@@ -28,7 +28,6 @@ import pandas, numpy
 from matplotlib import pyplot
 
 ###############################################################################
-# noinspection DuplicatedCode
 class GainsLossNetData:
 
     #----------------------------- Data sources ------------------------------#
@@ -101,7 +100,7 @@ class GainsLossNetData:
         # Filter forestry #
         forestry = forestry.query("element == 'Production'")
         forestry = forestry.query("unit == 'm3'")
-        forestry = forestry.query("flag != flag")
+        #forestry = forestry.query("flag != flag")
         # Group forestry #
         forestry = (forestry.groupby(['country', 'year'])
                     .agg({'value': sum})
@@ -109,7 +108,7 @@ class GainsLossNetData:
         # Filter land #
         land     = land.query('element == "Area"')
         land     = land.query('item    == "Forest land"')
-        land     = land.query('flag    == "F"')
+        land     = land.query('flag    == "A"')
         # Keep columns #
         land     = land[['country', 'year', 'value']]
         # Rename columns #
@@ -204,7 +203,7 @@ class GainsLossNetGraph(FacetPlot):
     display_legend = False
 
     share_y = False
-    share_x = False
+    share_x = True
 
     name_to_color = {'gain_per_ha': 'green',
                      'loss_per_ha': 'red',

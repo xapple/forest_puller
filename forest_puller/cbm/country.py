@@ -52,7 +52,7 @@ class Country:
         df = df.rename(columns = {'status': 'category'})
         # Drop the categories that have NaNs #
         df = df.dropna()
-        # Take all categories that are not non-forested #
+        # Take all categories that are forested (not non-forested) #
         df = df.query("category != 'NF'").copy()
         # We have to sum the area over all classifiers #
         df = df.groupby(['year'])
@@ -74,14 +74,14 @@ class Country:
     @property_cached
     def increments_df(self):
         """
-        Lorem ipsum.
+        Lorem ipsum
         """
         # Cross-module import #
         from cbmcfs3_runner.core.continent import continent
         # Get the corresponding country and scenario #
         cbm_runner = continent.get_runner('historical', self.iso2_code, -1)
         # Load the table that interests us #
-        pass #TODO
+        df = cbm_runner.post_processor.harvest.df.copy()
         # Return #
         return df
 
@@ -94,7 +94,6 @@ class Country:
         df.insert(0, 'country', self.iso2_code)
         # Return #
         return df
-
 
 ###############################################################################
 # Create every country object #

@@ -29,8 +29,8 @@ from plumbing.cache import property_pickled_at
 class Country:
     """Represents one country's dataset."""
 
-    products = ['Roundwood, coniferous (production)',
-                'Roundwood, non-coniferous (production)',
+    products = ['Roundwood, coniferous',
+                'Roundwood, non-coniferous',
                 'Wood fuel, coniferous',
                 'Wood fuel, non-coniferous']
 

@@ -73,15 +73,20 @@
 
 * For each source a separate plot of increment and fellings in unit/ha on total forest area if available otherwise on forest area available for wood supply. 
 
-
-# TODO
-
 * Check conversion factor for hpffre
 
 * High font size for y label in increments
 
-* Make comparison of net loss/gains between different data sources (convert the m^3 into net CO2 emission in tons for faostat and ipcc)
 
+# TODO
+
+* Place the zero at the same spot on the Y axis for every graph.
+
+* Remove future values from HPFFRE and remove dotted line.
+
+* Create statistic that shows (e.g. for the last year available) in form of a table maybe, the total surface for the given country and the proportion of that that is "available for wood supply", for each given source that has this information (IPCC, SOEF, FAOSTAT).
+
+* Possibly convert the m^3 into net CO2 emission in tons for faostat and ipcc:
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot increment 
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot fellings 
   - for all source on one plot, using a conversion factor from m3 to CO2 plot net emissions 
