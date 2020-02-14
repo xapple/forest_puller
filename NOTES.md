@@ -80,17 +80,26 @@
 
 # TODO
 
+* HPPFRE, make a rolling difference window to estimate the increments
+
 * Place the zero at the same spot on the Y axis for every graph.
 
 * Remove future values from HPFFRE and remove dotted line.
 
-* Create statistic that shows (e.g. for the last year available) in form of a table maybe, the total surface for the given country and the proportion of that that is "available for wood supply", for each given source that has this information (IPCC, SOEF, FAOSTAT).
+* For EU-CBM the red line: plot `provided_volume` and filter NF.
 
-* Possibly convert the m^3 into net CO2 emission in tons for faostat and ipcc:
+* For EU-CBM the green line: take the above ground biomass in tons of carbon.
+
+* Possibly convert the m^3 into net CO2 emission in tons for faostat ipcc, hpffre:
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot increment 
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot fellings 
   - for all source on one plot, using a conversion factor from m3 to CO2 plot net emissions 
-  
+  - See demand_to_dist in dist_maker
+  - We make a simplifying assumption that the wood basic density in dry weight/m3 is equal to the average in this table: 450
+  - See https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
+
+* Create statistic that shows (e.g. for the last year available) in form of a table maybe, the total surface for the given country and the proportion of that that is "available for wood supply", for each given source that has this information (IPCC, SOEF, FAOSTAT).
+
 * Add Malta and Cyprus to countries available
 
 * Write up introduction and methods

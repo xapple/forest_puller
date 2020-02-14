@@ -24,7 +24,7 @@ from forest_puller           import cache_dir
 from plumbing.cache import property_cached
 
 # Third party modules #
-import pandas, numpy
+import pandas
 from matplotlib import pyplot
 
 ###############################################################################
@@ -100,7 +100,6 @@ class GainsLossNetData:
         # Filter forestry #
         forestry = forestry.query("element == 'Production'")
         forestry = forestry.query("unit == 'm3'")
-        #forestry = forestry.query("flag != flag")
         # Group forestry #
         forestry = (forestry.groupby(['country', 'year'])
                     .agg({'value': sum})
