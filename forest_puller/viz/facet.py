@@ -110,3 +110,14 @@ class FacetPlot(Graph):
                                   frameon   = True,
                                   shadow    = True,
                                   loc       = 'lower right')
+
+    def y_center_origin(self, **kw):
+        """
+        Place the zero-intercept exactly the middle of the graph.
+        This is not the same as doing:
+        `axes.spines['left'].set_position('center')`
+        """
+        axes        = pyplot.gca()
+        bottom, top = axes.get_ylim()
+        highest     = max(abs(top), abs(bottom))
+        axes.set_ylim(-highest, highest)

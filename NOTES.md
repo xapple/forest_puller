@@ -75,16 +75,16 @@
 
 * Check conversion factor for hpffre
 
-* High font size for y label in increments
+* Higher font size for y label in increments
 
+* HPFFRE, make a rolling difference window to estimate the increments
 
-# TODO
-
-* HPPFRE, make a rolling difference window to estimate the increments
+* Remove future values from HPFFRE and remove dotted line.
 
 * Place the zero at the same spot on the Y axis for every graph.
 
-* Remove future values from HPFFRE and remove dotted line.
+
+# TODO
 
 * For EU-CBM the red line: plot `provided_volume` and filter NF.
 

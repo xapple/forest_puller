@@ -21,3 +21,6 @@ import pandas
 ##############################################################################
 every_country = (c.area_country_cols for c in all_countries)
 area = pandas.concat(every_country, ignore_index=True)
+
+every_country = (c.increments_country_cols for c in all_countries)
+increments = pandas.concat(every_country, ignore_index=True)

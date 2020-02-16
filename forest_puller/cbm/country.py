@@ -11,6 +11,7 @@ Unit D1 Bioeconomy.
 # Built-in modules #
 
 # Internal modules #
+from forest_puller import cache_dir
 from forest_puller.common import country_codes
 
 # First party modules #
@@ -81,7 +82,22 @@ class Country:
         # Get the corresponding country and scenario #
         cbm_runner = continent.get_runner('historical', self.iso2_code, -1)
         # Load the table that interests us #
-        df = cbm_runner.post_processor.harvest.df.copy()
+        df = cbm_runner.post_processor.harvest.provided _volume.copy()
+        # We have to add the year column #
+        df['year'] = cbm_runner.country.timestep_to_year(df['time_step'])
+        # Drop the categories that have NaNs #
+        df = df.dropna()
+        # The status variable represents more a "category" in fact #
+        df = df.rename(columns = {'status': 'category'})
+        # Take all categories that are forested (not non-forested) #
+        df = df.query("category != 'NF'").copy()
+        # The values we are interested in #
+        values = ['vol_merch', 'vol_snags', 'vol_sub_merch', 'vol_forest_residues',
+                  'prov_carbon', 'tc', 'tot_vol']
+        # We have to sum the values over all classifiers but keep the years #
+        df = df.groupby(['year'])
+        df = df.agg({v:'sum' for v in values})
+        df = df.reset_index()
         # Return #
         return df
 
@@ -94,6 +110,15 @@ class Country:
         df.insert(0, 'country', self.iso2_code)
         # Return #
         return df
+
+    #--------------------------------- Cache ---------------------------------#
+    @property
+    def area_cache_path(self):
+        return cache_dir + 'eu_cbm/area/' + self.iso2_code + '.pickle'
+
+    @property
+    def increments_cache_path(self):
+        return cache_dir + 'eu_cbm/increments/' + self.iso2_code + '.pickle'
 
 ###############################################################################
 # Create every country object #

@@ -98,7 +98,7 @@ class AreaCompData:
         df = df.query("scenario == 1")
         # Sum all the different categories #
         df = (df.groupby(['country', 'year'])
-                .agg({'area': sum})
+                .agg({'area': 'sum'})
                 .reset_index())
         # Columns #
         df = df[['country', 'year', 'area']]

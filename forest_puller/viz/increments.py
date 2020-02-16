@@ -136,21 +136,30 @@ class GainsLossNetData:
         import forest_puller.hpffre.concat
         # Load #
         df = forest_puller.hpffre.concat.df.copy()
-        # Filter #
+        # Filter for only the first scenario #
         df = df.query("scenario == 1")
         # Sum all the different categories #
         df = (df
               .groupby(['country', 'year'])
-              .agg({'fellings_per_ha': sum,
-                    'growing_stock_volume_per_ha': sum})
+              .agg({'fellings_per_ha':            'sum',
+                    'growing_stock_volume_total': 'sum',
+                    'area':                       'sum',})
               .reset_index())
-        # Rename #
-        df = df.rename(columns = {'fellings_per_ha':             'loss_per_ha',
-                                  'growing_stock_volume_per_ha': 'gain_per_ha'})
+        # The growth reported here is the total stock, not the delta
+        # So we need to operate a rolling subtraction and divide by years
+        group              = df.groupby(['country'])
+        df['net_diff']     = group['growing_stock_volume_total'].diff()
+        df['year_diff']    = group['year'].diff()
+        df['net_per_year'] = df['net_diff']     / df['year_diff']
+        df['net_per_ha']   = df['net_per_year'] / df['area']
+        # The fellings however are per year already
+        df = df.rename(columns = {'fellings_per_ha': 'loss_per_ha'})
         # By convention, losses should be negative values #
         df['loss_per_ha'] = - df['loss_per_ha']
-        # Compute net #
-        df['net_per_ha']  = df['gain_per_ha'] + df['loss_per_ha']
+        # Compute gain starting from the net #
+        df['gain_per_ha'] = df['net_per_ha'] - df['loss_per_ha']
+        # Remove all years that are in the future #
+        df = df.query("year <= 2018")
         # Add source #
         df.insert(0, 'source', 'hpffre')
         # Reset index #
@@ -259,8 +268,13 @@ class GainsLossNetGraph(FacetPlot):
         # Adjust details on the subplots #
         self.facet.map(self.y_grid_on)
         self.facet.map(self.y_max_two_decimals)
+
         # Hide the default titles #
         self.facet.map(self.hide_titles)
+
+        # Center the Y axis origin  #
+        self.facet.map(self.y_center_origin)
+
         # Add the custom title  #
         self.facet.map(self.custom_title, 'source')
 
@@ -291,8 +305,6 @@ class GainsLossNetGraph(FacetPlot):
         title  = self.country_name + '     (from ' + source.upper() + ')'
         axes   = pyplot.gca()
         axes.text(0.05, 1.05, title, transform=axes.transAxes, ha="left", size=20)
-        # Also add the present line for the HPFFRE dataset #
-        if source == 'hpffre': axes.axvline(x=2018, color='black', linestyle=":")
 
 ###############################################################################
 # Create the large df #
