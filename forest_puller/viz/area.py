@@ -147,6 +147,10 @@ class AreaCompData:
 
 ###############################################################################
 class AreaComparison(FacetPlot):
+    """
+    This graph will show the total forested area by making one sub-plot for
+    each country on a facet plot.
+    """
 
     short_name = 'area_comparison'
     formats    = ('pdf',)

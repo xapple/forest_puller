@@ -83,14 +83,16 @@
 
 * Place the zero at the same spot on the Y axis for every graph.
 
+* For EU-CBM the red line: plot `provided_volume` and filter NF.
+
 
 # TODO
 
-* For EU-CBM the red line: plot `provided_volume` and filter NF.
+Debug apalike
 
-* For EU-CBM the green line: take the above ground biomass in tons of carbon. From the table "flux_indicators". Take soft_production + hard_production at first.
+* For EU-CBM the green line: Plot 'gross_growth_ag'. And remain in tons of carbon.
 
-* For the README add a graph of increments and losses but with only one source so it doesn't take too much space.
+* For the README add a graph of increments and losses but with only one source so it doesn't take too much space. The country 5 biggest surfaces.
 
 * Possibly convert the m^3 into net CO2 emission in tons for faostat ipcc, hpffre:
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot increment 
@@ -99,14 +101,15 @@
   - See demand_to_dist in dist_maker
   - We make a simplifying assumption that the wood basic density in dry weight/m3 is equal to the average in this table: 450
   - See https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
-
-* Create statistic that shows (e.g. for the last year available) in form of a table maybe, the total surface for the given country and the proportion of that that is "available for wood supply", for each given source that has this information (IPCC, SOEF, FAOSTAT).
+  - To go from over to under: 0.88 conversion factor. See UNEC.
 
 * Add Malta and Cyprus to countries available
 
 * Write up introduction and methods
 
 * Make a total of all EU countries 
+
+* Create statistic that shows (e.g. for the last year available) in form of a table maybe, the total surface for the given country and the proportion of that that is "available for wood supply", for each given source that has this information (IPCC, SOEF, FAOSTAT).
 
 
 # Ideas

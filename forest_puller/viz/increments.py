@@ -193,18 +193,12 @@ class GainsLossNetData:
 ###############################################################################
 class GainsLossNetGraph(FacetPlot):
 
-    facet_col  = 'source'
-    facet_row  = 'country'
-
-    formats    = ('pdf',)
-
     facet_var  = "source"
     col_wrap   = 5
-
-    x_label = 'Year'
+    x_label    = 'Year'
+    formats    = ('pdf',)
 
     display_legend = False
-
     share_y = False
     share_x = True
 

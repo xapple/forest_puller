@@ -25,6 +25,10 @@ from matplotlib import pyplot
 
 ###############################################################################
 class AreaAggregate(Graph):
+    """
+    This graph will show the combined forested area by summing all countries
+    together into one graph.
+    """
 
     short_name = 'area_aggregate'
     y_grid  = True
