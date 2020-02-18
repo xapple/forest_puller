@@ -88,7 +88,9 @@
 
 * For EU-CBM the red line: plot `provided_volume` and filter NF.
 
-* For EU-CBM the green line: take the above ground biomass in tons of carbon.
+* For EU-CBM the green line: take the above ground biomass in tons of carbon. From the table "flux_indicators". Take soft_production + hard_production at first.
+
+* For the README add a graph of increments and losses but with only one source so it doesn't take too much space.
 
 * Possibly convert the m^3 into net CO2 emission in tons for faostat ipcc, hpffre:
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot increment 

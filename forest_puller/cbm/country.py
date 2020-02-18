@@ -73,16 +73,17 @@ class Country:
         return df
 
     @property_cached
-    def increments_df(self):
+    def losses_df(self):
         """
-        Lorem ipsum
+        Retrieve the provided volume from the post_processor in the
+        historical scenario for this country.
         """
         # Cross-module import #
         from cbmcfs3_runner.core.continent import continent
         # Get the corresponding country and scenario #
         cbm_runner = continent.get_runner('historical', self.iso2_code, -1)
         # Load the table that interests us #
-        df = cbm_runner.post_processor.harvest.provided _volume.copy()
+        df = cbm_runner.post_processor.harvest.provided_volume.copy()
         # We have to add the year column #
         df['year'] = cbm_runner.country.timestep_to_year(df['time_step'])
         # Drop the categories that have NaNs #
@@ -96,8 +97,41 @@ class Country:
                   'prov_carbon', 'tc', 'tot_vol']
         # We have to sum the values over all classifiers but keep the years #
         df = df.groupby(['year'])
-        df = df.agg({v:'sum' for v in values})
+        df = df.agg({v: 'sum' for v in values})
         df = df.reset_index()
+        # Rename #
+        df = df.rename(columns={'tot_vol': 'losses'})
+        # Add the area #
+        df = df.left_join(self.area_df, on='year')
+        # Divide by the area #
+        df['loss_per_ha'] = df['losses'] / df['area']
+        # Keep only one columns #
+        df = df.filter(['year', 'loss_per_ha'])
+        # Return #
+        return df
+
+    @property_cached
+    def gains_df(self):
+        """
+        Lorem ipsum.
+        """
+        # Cross-module import #
+        from cbmcfs3_runner.core.continent import continent
+        # Get the corresponding country and scenario #
+        cbm_runner = continent.get_runner('historical', self.iso2_code, -1)
+        # Return #
+        return df
+
+    @property_cached
+    def increments_df(self):
+        """Combine the losses and gains data"""
+        # Load #
+        losses = self.losses_df
+        gains  = None # self.gains_df
+        # Combine #
+        df     = losses
+        # Process #
+        #df.rename(columns={'tot_vol': 'loss_per_ha'})
         # Return #
         return df
 
