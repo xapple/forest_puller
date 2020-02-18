@@ -76,7 +76,14 @@ class Country:
     def losses_df(self):
         """
         Retrieve the provided volume from the post_processor in the
-        historical scenario for this country.
+        historical scenario for this country and divide by the area.
+
+        Relevant lines in `cbmcfs3_runner` are:
+
+            df['vol_merch']     = (df['tc'] * 2)             / df['density']
+            df['vol_sub_merch'] = (df['co2_production'] * 2) / df['density']
+            df['vol_snags']     = (df['dom_production'] * 2) / df['density']
+            df['tot_vol']       = df['vol_merch'] + df['vol_sub_merch'] + df['vol_snags']
         """
         # Cross-module import #
         from cbmcfs3_runner.core.continent import continent
@@ -100,12 +107,14 @@ class Country:
         df = df.agg({v: 'sum' for v in values})
         df = df.reset_index()
         # Rename #
-        df = df.rename(columns={'tot_vol': 'losses'})
+        df = df.rename(columns = {'tot_vol': 'losses'})
         # Add the area #
         df = df.left_join(self.area_df, on='year')
         # Divide by the area #
         df['loss_per_ha'] = df['losses'] / df['area']
-        # Keep only one columns #
+        # By default losses are negative #
+        df['loss_per_ha'] = - df['loss_per_ha']
+        # Keep only some columns #
         df = df.filter(['year', 'loss_per_ha'])
         # Return #
         return df
@@ -119,12 +128,14 @@ class Country:
         from cbmcfs3_runner.core.continent import continent
         # Get the corresponding country and scenario #
         cbm_runner = continent.get_runner('historical', self.iso2_code, -1)
+        # Load straight from the database #
+        flux_indicators  = self.database['tblFluxIndicators']
         # Return #
         return df
 
     @property_cached
     def increments_df(self):
-        """Combine the losses and gains data"""
+        """Combine the losses and gains data frames for plotting."""
         # Load #
         losses = self.losses_df
         gains  = None # self.gains_df
@@ -135,6 +146,7 @@ class Country:
         # Return #
         return df
 
+    #TODO cache this property once it's done
     @property
     def increments_country_cols(self):
         """Same as `self.increments_df` but we add a column with the current country."""

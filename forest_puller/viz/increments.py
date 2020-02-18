@@ -173,11 +173,6 @@ class GainsLossNetData:
         import forest_puller.cbm.concat
         # Load #
         df = forest_puller.cbm.concat.increments.copy()
-        # Temporary #TODO #
-        df['gain_per_ha'] = df['area'] / 2e6
-        df['loss_per_ha'] = df['area'] / 3e6
-        df['net_per_ha']  = df['area'] / 5e6
-        df = df.drop(columns=['area'])
         # Add source #
         df.insert(0, 'source', 'eu-cbm')
         # Reset index #
