@@ -10,6 +10,11 @@ Unit D1 Bioeconomy.
 Typically you can use this submodule this like:
 
     >>> from forest_puller.ipcc.agg import source
+    >>> print(source.df)
+
+Or like this:
+
+    >>> from forest_puller.ipcc.agg import source
     >>> print(source.common_years)
 """
 
@@ -68,6 +73,7 @@ class IPCC:
     @property
     def df(self):
         """
+        To note:
         Doing a `df.groupby(['year']).sum(skipna=False)` will ignore the kwargs.
         """
         # Import #

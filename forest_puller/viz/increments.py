@@ -225,7 +225,7 @@ class GainsLossNetGraph(FacetPlot):
         # Return long name #
         return row['country']
 
-    @property
+    @property_cached
     def df(self):
         # Load #
         df = gain_loss_net_data.df
