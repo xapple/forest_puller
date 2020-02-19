@@ -13,6 +13,8 @@ and showcasing.
 Typically you would run this file from a command line like this:
 
      ipython3 -i -- ~/deploy/forest_puller/scripts/viz/export_increments_svg.py
+
+This takes about 1 minute and 30 seconds to run.
 """
 
 # Built-in modules #
@@ -38,6 +40,9 @@ for g in graphs.values():
     df = g.df.copy()
     df = df.query("source != 'eu-cbm'").copy()
     g.df = df
+
+# Put the legend on the first one #
+list(graphs.values())[0].display_legend = True
 
 ###############################################################################
 # Plot all graphs #
