@@ -91,10 +91,10 @@
 
 * Cache CBM dataframes.
 
+* Add Cyprus to countries available.
+
 
 # TODO
-
-* Add Cyprus to countries available.
 
 * Make a total of all EU countries.
 

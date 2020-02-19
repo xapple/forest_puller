@@ -1,27 +1,28 @@
-country_code,country,m49_code,iso2_code,iso3_code,start_year,end_year,nuts_zero_2010,nuts_zero_2006
-11,Austria,40,AT,AUT,,,AT,AT
-255,Belgium,56,BE,BEL,2000,,BE,BE
-27,Bulgaria,100,BG,BGR,,,BG,BG
-98,Croatia,191,HR,HRV,1992,,HR,HR
-167,Czech Republic,203,CZ,CZE,1993,,CZ,CZ
-54,Denmark,208,DK,DNK,,,DK,DK
-63,Estonia,233,EE,EST,1992,,EE,EE
-67,Finland,246,FI,FIN,,,FI,FI
-68,France,250,FR,FRA,,,FR,FR
-79,Germany,276,DE,DEU,,,DE,DE
-84,Greece,300,GR,GRC,,,EL,GR
-97,Hungary,348,HU,HUN,,,HU,HU
-104,Ireland,372,IE,IRL,,,IE,IE
-106,Italy,380,IT,ITA,,,IT,IT
-119,Latvia,428,LV,LVA,1992,,LV,LV
-126,Lithuania,440,LT,LTU,1992,,LT,LT
-256,Luxembourg,442,LU,LUX,2000,,LU,LU
-150,Netherlands,528,NL,NLD,,,NL,NL
-173,Poland,616,PL,POL,,,PL,PL
-174,Portugal,620,PT,PRT,,,PT,PT
-183,Romania,642,RO,ROU,,,RO,RO
-199,Slovakia,703,SK,SVK,1993,,SK,SK
-198,Slovenia,705,SI,SVN,1992,,SI,SI
-203,Spain,724,ES,ESP,,,ES,ES
-210,Sweden,752,SE,SWE,,,SE,SE
-229,United Kingdom,826,GB,GBR,,,UK,UK
+country_code,country,m49_code,iso2_code,iso3_code
+11,Austria,40,AT,AUT
+255,Belgium,56,BE,BEL
+27,Bulgaria,100,BG,BGR
+98,Croatia,191,HR,HRV
+50,Cyprus,196,CY,CYP
+167,Czech Republic,203,CZ,CZE
+54,Denmark,208,DK,DNK
+63,Estonia,233,EE,EST
+67,Finland,246,FI,FIN
+68,France,250,FR,FRA
+79,Germany,276,DE,DEU
+84,Greece,300,GR,GRC
+97,Hungary,348,HU,HUN
+104,Ireland,372,IE,IRL
+106,Italy,380,IT,ITA
+119,Latvia,428,LV,LVA
+126,Lithuania,440,LT,LTU
+256,Luxembourg,442,LU,LUX
+150,Netherlands,528,NL,NLD
+173,Poland,616,PL,POL
+174,Portugal,620,PT,PRT
+183,Romania,642,RO,ROU
+199,Slovakia,703,SK,SVK
+198,Slovenia,705,SI,SVN
+203,Spain,724,ES,ESP
+210,Sweden,752,SE,SWE
+229,United Kingdom,826,GB,GBR

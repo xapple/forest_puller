@@ -18,7 +18,7 @@ from forest_puller.common import country_codes
 from plumbing.cache import property_cached, property_pickled_at
 
 # Third party modules #
-import numpy
+import numpy, pandas
 
 ###############################################################################
 class Country:
@@ -32,6 +32,10 @@ class Country:
     def __init__(self, iso2_code):
         # The reference ISO2 code #
         self.iso2_code = iso2_code
+        # Create fake dataframes for cyprus that is missing #
+        if self.iso2_code == 'CY':
+            self.area_df       = pandas.DataFrame()
+            self.increments_df = pandas.DataFrame()
 
     def __repr__(self):
         return '%s object code "%s"' % (self.__class__, self.iso2_code)

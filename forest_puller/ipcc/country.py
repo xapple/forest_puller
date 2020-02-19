@@ -147,6 +147,8 @@ class Country:
         if len(all_dirs) == 1 and len(all_files) == 0:
             nested_dir = all_dirs[0]
             nested_dir.unnest()
+        # Return #
+        return len(self.xls_dir)
 
     # ------------------------------- Caching ---------------------------------#
     @property
@@ -159,8 +161,12 @@ class Country:
         Create the file that will be used for caching the list of xls files.
         We have to record relative paths starting from self.xls_dir
         """
+        # Get all paths #
         paths = (f.rel_path_from(self.xls_dir) for f in self.all_xls_files)
-        self.cached_xls_list.writelines(l + '\n' for l in paths)
+        # Write to text file #
+        self.cached_xls_list.writelines(line + '\n' for line in paths)
+        # Return #
+        return self.cached_xls_list
 
 ###############################################################################
 # Create every country object #

@@ -12,9 +12,9 @@ Once `forest_puller` is installed you can easily access forest data through stan
 
 ## Scope and sources
 
-Currently `forest_puller` provides data for the following 26 member states (past and current):
+Currently `forest_puller` provides data for the following 27 member states (past and present):
 
-* Austria, Belgium, Bulgaria, Croatia, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden, United Kingdom
+* Austria, Belgium, Bulgaria, Croatia, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden, United Kingdom
 
 Currently `forest_puller` caches and provides programmatic access to the forest-relevent data from these data sources:
 
