@@ -192,6 +192,10 @@ class GainsLossNetData:
 
 ###############################################################################
 class GainsLossNetGraph(FacetPlot):
+    """
+    This facet plot will produce five graphs, one per data source, for a
+    given country.
+    """
 
     facet_var  = "source"
     col_wrap   = 5
@@ -211,7 +215,7 @@ class GainsLossNetGraph(FacetPlot):
         'soef':    "Cubic meters over bark per hectare",
         'faostat': "Cubic meters under bark per hectare",
         'hpffre':  "Cubic meters of stemwood over bark per hectare",
-        'eu-cbm':  "Lorem ipsum dolor sit amet",
+        'eu-cbm':  "Tons of carbon per hectare",
     }
 
     @property

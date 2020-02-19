@@ -85,14 +85,18 @@
 
 * For EU-CBM the red line: plot `provided_volume` and filter NF.
 
-
-# TODO
-
 * For EU-CBM the green line: Plot 'gross_growth_ag'. And remain in tons of carbon.
 
 * For the README add a graph of increments and losses but with only one source so it doesn't take too much space. The country 5 biggest surfaces.
 
+# TODO
+
+* Add Malta and Cyprus to countries available
+
+* Write up introduction and methods
+
 * Possibly convert the m^3 into net CO2 emission in tons for faostat ipcc, hpffre:
+
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot increment 
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot fellings 
   - for all source on one plot, using a conversion factor from m3 to CO2 plot net emissions 
@@ -100,10 +104,6 @@
   - We make a simplifying assumption that the wood basic density in dry weight/m3 is equal to the average in this table: 450
   - See https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
   - To go from over to under: 0.88 conversion factor. See UNEC.
-
-* Add Malta and Cyprus to countries available
-
-* Write up introduction and methods
 
 * Make a total of all EU countries 
 
