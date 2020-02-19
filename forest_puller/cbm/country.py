@@ -37,7 +37,7 @@ class Country:
         return '%s object code "%s"' % (self.__class__, self.iso2_code)
 
     #-------------------------------- Area -----------------------------------#
-    @property_cached
+    @property_pickled_at('area_cache_path')
     def area_df(self):
         """
         Load the age indicators table for this country in the
@@ -64,7 +64,7 @@ class Country:
         # Return #
         return df
 
-    @property_pickled_at('area_cache_path')
+    @property
     def area_country_cols(self):
         """Same as `self.area_df` but we add a column with the current country."""
         # Load #
@@ -74,7 +74,7 @@ class Country:
         # Return #
         return df
 
-    #----------------------------- Increments --------------------------------#
+    #------------------------------- Fluxes ----------------------------------#
     @property_cached
     def fluxes(self):
         """
@@ -121,10 +121,11 @@ class Country:
         # Return #
         return df
 
+    #----------------------------- Increments --------------------------------#
     loss_cols = ['soft_production', 'hard_production']
     gain_cols = ['gross_growth_ag'] # 'delta_biomass_ag'
 
-    @property_cached
+    @property_pickled_at('increments_cache_path')
     def increments_df(self):
         """
         Combine the losses and gains into a dataframe for plotting.
@@ -158,7 +159,7 @@ class Country:
         # Return #
         return df
 
-    @property_pickled_at('increments_cache_path')
+    @property
     def increments_country_cols(self):
         """Same as `self.increments_df` but we add a column with the current country."""
         # Load #

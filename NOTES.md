@@ -89,10 +89,10 @@
 
 * For the README add a graph of increments and losses but with only one source so it doesn't take too much space. The country 5 biggest surfaces.
 
+* Cache CBM dataframes.
+
 
 # TODO
-
-* Cache CBM dataframes.
 
 * Add Cyprus to countries available.
 
