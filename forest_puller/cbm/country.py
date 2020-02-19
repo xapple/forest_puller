@@ -15,7 +15,7 @@ from forest_puller import cache_dir
 from forest_puller.common import country_codes
 
 # First party modules #
-from plumbing.cache import property_cached
+from plumbing.cache import property_cached, property_pickled_at
 
 # Third party modules #
 import numpy
@@ -64,7 +64,7 @@ class Country:
         # Return #
         return df
 
-    @property
+    @property_pickled_at('area_cache_path')
     def area_country_cols(self):
         """Same as `self.area_df` but we add a column with the current country."""
         # Load #
@@ -121,17 +121,22 @@ class Country:
         # Return #
         return df
 
+    loss_cols = ['soft_production', 'hard_production']
+    gain_cols = ['gross_growth_ag'] # 'delta_biomass_ag'
+
     @property_cached
     def increments_df(self):
-        """Combine the losses and gains dataframe for plotting."""
+        """
+        Combine the losses and gains into a dataframe for plotting.
+        The columns used for losses and gains are variable.
+        NB: Possibly there are some clues in the old
+            `volume_increment_summary` MDB query.
+        """
         # Load #
         df = self.fluxes
-        # Losses #
-        loss_cols = ['soft_production', 'hard_production']
-        loss      = df.loc[df['pool'].isin(loss_cols)]
-        # Gains #
-        gain_cols = ['gross_growth_ag']
-        gain      = df.loc[df['pool'].isin(gain_cols)]
+        # Filter based on list of pools #
+        loss = df.loc[df['pool'].isin(self.loss_cols)]
+        gain = df.loc[df['pool'].isin(self.gain_cols)]
         # Sum all things to make one pool #
         gain = (gain
                 .groupby(['year'])
@@ -153,8 +158,7 @@ class Country:
         # Return #
         return df
 
-    #TODO cache this property once it's done
-    @property
+    @property_pickled_at('increments_cache_path')
     def increments_country_cols(self):
         """Same as `self.increments_df` but we add a column with the current country."""
         # Load #

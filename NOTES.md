@@ -89,11 +89,16 @@
 
 * For the README add a graph of increments and losses but with only one source so it doesn't take too much space. The country 5 biggest surfaces.
 
+
 # TODO
 
-* Add Malta and Cyprus to countries available
+* Cache CBM dataframes.
 
-* Write up introduction and methods
+* Add Cyprus to countries available.
+
+* Make a total of all EU countries.
+
+* Write up introduction and methods.
 
 * Possibly convert the m^3 into net CO2 emission in tons for faostat ipcc, hpffre:
 
@@ -105,10 +110,15 @@
   - See https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
   - To go from over to under: 0.88 conversion factor. See UNEC.
 
-* Make a total of all EU countries 
-
 * Create statistic that shows (e.g. for the last year available) in form of a table maybe, the total surface for the given country and the proportion of that that is "available for wood supply", for each given source that has this information (IPCC, SOEF, FAOSTAT).
 
+* Strategy for converting into tons of carbon:
+    - First get the proportion of species from each country from either FAOSTAT or SOEF. Not sure yet.
+    - Then get species-specific conversion coefficients from "IPCC basic wood density of selected tree species"
+    - Combine the two.
+    - Reference: Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories 4.71 TABLE 4.14 BASIC WOOD DENSITY (D) OF SELECTED TEMPERATE AND BOREAL TREE TAXA
+    - Link: https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
+ 
 
 # Ideas
 
