@@ -209,7 +209,8 @@ class GainsLossNetGraph(FacetPlot):
     name_to_color = {'gain_per_ha': 'green',
                      'loss_per_ha': 'red',
                      'net_per_ha':  'black'}
-
+    
+    # Mapping of unit to each source.
     source_to_y_label = {
         'ipcc':    "Tons of carbon per hectare",
         'soef':    "Cubic meters over bark per hectare",
