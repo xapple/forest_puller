@@ -100,6 +100,8 @@
 
 * Write up introduction and methods.
 
+* Table in 1.2c in SOEF can enable us to perform an inter-source check of consitency
+
 * Possibly convert the m^3 into net CO2 emission in tons for faostat ipcc, hpffre:
 
   - for all source on one plot, using a conversion factor from m3 to tons of carbon plot increment 
@@ -110,15 +112,17 @@
   - See https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
   - To go from over to under: 0.88 conversion factor. See UNEC.
 
-* Create statistic that shows (e.g. for the last year available) in form of a table maybe, the total surface for the given country and the proportion of that that is "available for wood supply", for each given source that has this information (IPCC, SOEF, FAOSTAT).
-
-* Strategy for converting into tons of carbon:
+* Strategy for converting volume into tons of carbon:
     - First get the proportion of species from each country from either FAOSTAT or SOEF. Not sure yet.
     - Then get species-specific conversion coefficients from "IPCC basic wood density of selected tree species"
     - Combine the two.
     - Reference: Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories 4.71 TABLE 4.14 BASIC WOOD DENSITY (D) OF SELECTED TEMPERATE AND BOREAL TREE TAXA
     - Link: https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
  
+* Create statistic that shows (e.g. for the last year available) in form of a table maybe, the total surface for the given country and the proportion of that that is "available for wood supply", for each given source that has this information (IPCC, SOEF, FAOSTAT).
+
+* Reset the history of the puller_cache repository for faster downloads
+
 
 # Ideas
 

@@ -245,7 +245,7 @@ One of the outcomes of the Diabolo project is the following publication:
 
 Vauhkonen et al. 2019 - [Harmonised projections of future forest resources in Europe](https://doi.org/10.1007/s13595-019-0863-6)
 
-Abbreviated "hpffre". The authors used EFDM (mainly) to project forest area, growing stock, fellings and above ground carbon for European countries. There are several scenario outcomes.
+Abbreviated "hpffre". The authors used EFDM (mainly) to project forest area, growing stock, fellings and above ground carbon for European countries. There are severtal scenario outcomes.
 
 The dataset is available at: https://doi.org/10.5061/dryad.4t880qh
 
