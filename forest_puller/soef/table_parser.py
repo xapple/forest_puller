@@ -129,7 +129,7 @@ class TableParser:
         # Remaining NaNs are uninteresting #
         df = df.fillna('')
         # Concatenate from top to bottom #
-        df = list(' '.join(row.tolist()) for i, row in df.T.iterrows())
+        df = list(' '.join(map(str,row.tolist())) for i, row in df.T.iterrows())
         # Remove any new lines #
         df = [col.replace("\n", " ").strip() for col in df]
         # Sometimes there is a useless space in '1 000' #
@@ -184,7 +184,7 @@ class TableParser:
         # Convert to short headers using col_name_map #
         df = convert_row_names(df, row_name_map, col_name_map, 'soef')
         # The year column should be cast to integer #
-        df['year'] = pandas.to_numeric(df['year'])
+        if 'year' in df.columns: df['year'] = pandas.to_numeric(df['year'])
         # Return #
         return df
 
@@ -216,9 +216,6 @@ class TableParser:
 
 ###############################################################################
 class ForestArea(TableParser):
-    """
-    This table is interesting because blah blah.
-    """
 
     sheet_name    = "1.1"
     title         = "Table 1.1a: Forest area"
@@ -228,9 +225,6 @@ class ForestArea(TableParser):
 
 #-----------------------------------------------------------------------------#
 class AgeDist(TableParser):
-    """
-    This table is interesting because blah blah.
-    """
 
     sheet_name    = "1.3a"
     title         = "Table 1.3a1: Age class distribution (area of even-aged stands)"
@@ -248,9 +242,6 @@ class AgeDist(TableParser):
 
 #-----------------------------------------------------------------------------#
 class Fellings(TableParser):
-    """
-    This table is interesting because blah blah.
-    """
 
     sheet_name    = "3.1"
     title         = "Table 3.1: Increment and fellings"
@@ -258,3 +249,20 @@ class Fellings(TableParser):
     header_len    = 4
     fixed_end_col = 7
     fixed_end_row = 15
+
+#-----------------------------------------------------------------------------#
+class GrowingStockComp(TableParser):
+
+    sheet_name    = "1.2"
+    title         = "Table 1.2c: Growing stock composition"
+    short_name    = "stock_comp"
+    header_len    = 3
+    fixed_end_col = 7
+
+    @property_cached
+    def end_row(self):
+        for i, row in self.full_sheet.iterrows():
+            if i <= self.start_row + 3:         continue
+            if row.iloc[0].startswith("Note:"): return i
+        self.raise_exception("Could not find the end row of the table.")
+
