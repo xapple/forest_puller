@@ -123,6 +123,7 @@
 
 * Reset the history of the puller_cache repository for faster downloads
 
+* Adapt the CBM-EU fluxes used in gains and losses based on expert input
 
 # Ideas
 

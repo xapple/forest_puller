@@ -44,6 +44,7 @@ class TableParser:
     header_len    = -1 # Subclass these attributes
     fixed_end_col = None
     fixed_end_row = None
+    start_offset  = None
 
     def __init__(self, country):
         # Save the parent #
@@ -72,9 +73,11 @@ class TableParser:
     @property_cached
     def start_row(self):
         """Determine where the table of interest starts within the sheet."""
+        # You can manually add an offset to this value in the attributes #
+        offset = 0 if self.start_offset is None else self.start_offset
         # Get the first cell that matches the title #
         for i, row in self.full_sheet.iterrows():
-            if row[0] == self.title: return i+1
+            if row[0] == self.title: return i+1+offset
         self.raise_exception("Could not find the start row of the table.")
 
     @property_cached
@@ -122,7 +125,7 @@ class TableParser:
         """Return the column names for the final data frame."""
         # Load only the first few rows #
         df = self.cropped_sheet.iloc[0:self.header_len]
-        # Last row is just NaNs #
+        # Last row is always just NaNs #
         df = df[:-1].copy()
         # Fill from left to right (not top to bottom) #
         df = df.T.fillna(method='ffill').T
@@ -134,12 +137,14 @@ class TableParser:
         df = [col.replace("\n", " ").strip() for col in df]
         # Sometimes there is a useless space in '1 000' #
         df = [re.sub('1 000', '1000', col) for col in df]
-        # Apply custom fixes #
+        # Apply custom fixes if one is specified #
         df = self.header_fix(df)
         # Rename the fields to their short-version #
         before = list(col_name_map['soef'])
         after  = list(col_name_map['forest_puller'])
         df     = pandas.Series(df).replace(before, after)
+        # Sometimes we get years in the columns #
+        df = df.apply(pandas.to_numeric, errors='ignore', downcast='integer')
         # Return #
         return df
 
@@ -249,20 +254,3 @@ class Fellings(TableParser):
     header_len    = 4
     fixed_end_col = 7
     fixed_end_row = 15
-
-#-----------------------------------------------------------------------------#
-class GrowingStockComp(TableParser):
-
-    sheet_name    = "1.2"
-    title         = "Table 1.2c: Growing stock composition"
-    short_name    = "stock_comp"
-    header_len    = 3
-    fixed_end_col = 7
-
-    @property_cached
-    def end_row(self):
-        for i, row in self.full_sheet.iterrows():
-            if i <= self.start_row + 3:         continue
-            if row.iloc[0].startswith("Note:"): return i
-        self.raise_exception("Could not find the end row of the table.")
-
