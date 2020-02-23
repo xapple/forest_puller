@@ -16,9 +16,9 @@ Typically you can use this submodule this like:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.viz.facet import FacetPlot
 from forest_puller.common    import country_codes
 from forest_puller           import cache_dir
+from forest_puller.viz.multiplot import Multiplot
 
 # First party modules #
 from plumbing.cache import property_cached
@@ -180,6 +180,52 @@ class GainsLossNetData:
         # Return #
         return df
 
+    #------------------------------- Special ---------------------------------#
+    @property_cached
+    def soef_stock(self):
+        """
+        Add the line that shows net increments estimated via the
+        growing stock table in SOEF.
+        """
+        # Import #
+        import forest_puller.soef.concat
+        # Load #
+        area  = forest_puller.soef.concat.tables['forest_area'].copy()
+        stock = forest_puller.soef.concat.tables['stock_comp'].copy()
+        # Get the area that matches the right category #
+        area = area.query("category == 'forest_avail_for_supply'")
+        area = area.drop(columns=['category'])
+        # Get only the stock that represents the total #
+        stock = stock.query("rank=='total'")
+        # Add the area to make one big dataframe #
+        df = stock.left_join(area, on=['country', 'year'])
+        # The growth reported here is the total stock, not the delta
+        # So we need to operate a rolling subtraction and divide by years
+        group              = df.groupby(['rank'])
+        df['net_diff']     = group['growing_stock'].diff()
+        df['year_diff']    = group['year'].diff()
+        df['area_diff']    = group['area'].diff()
+        df['growth']       = df['net_diff'] / df['year_diff']
+        # Keep only those with values #
+        df = df.query("growth==growth").copy()
+        # Set the year in the middle #
+        def year_in_middle(row): return row['year'] - row['year_diff']/2
+        df['year'] = df.apply(year_in_middle, axis=1)
+        # Set the area in the middle #
+        def area_in_middle(row): return row['area'] - row['area_diff']/2
+        df['area'] = df.apply(area_in_middle, axis=1)
+        # Calculate the net per hectare #
+        def compute_net_per_ha(row): return row['growth'] / row['area']
+        df['net_per_ha'] = df.apply(compute_net_per_ha, axis=1)
+        # Keep only the columns that interest us #
+        df = df[['country', 'year', 'net_per_ha']].copy()
+        # Add source #
+        df.insert(0, 'source', 'soef-stock')
+        # Reset index #
+        df = df.reset_index(drop=True)
+        # Return #
+        return df
+
     #------------------------------- Combine ---------------------------------#
     @property_cached
     def df(self):
@@ -191,26 +237,26 @@ class GainsLossNetData:
         return df
 
 ###############################################################################
-class GainsLossNetGraph(FacetPlot):
+class GainsLossNetGraph(Multiplot):
     """
     This facet plot will produce five graphs, one per data source, for a
     given country.
     """
 
     facet_var  = "source"
-    col_wrap   = 5
     x_label    = 'Year'
     formats    = ('pdf',)
 
     display_legend = False
-    share_y = False
-    share_x = True
+    share_y        = False
+    share_x        = True
 
+    # Mapping of lines to colors #
     name_to_color = {'gain_per_ha': 'green',
                      'loss_per_ha': 'red',
                      'net_per_ha':  'black'}
-    
-    # Mapping of unit to each source.
+
+    # Mapping of unit to each source #
     source_to_y_label = {
         'ipcc':    "Tons of carbon per hectare",
         'soef':    "Cubic meters over bark per hectare",
@@ -219,6 +265,7 @@ class GainsLossNetGraph(FacetPlot):
         'eu-cbm':  "Tons of carbon per hectare",
     }
 
+    # The ISO2 code of the country #
     @property
     def short_name(self): return self.parent
 
@@ -232,6 +279,7 @@ class GainsLossNetGraph(FacetPlot):
 
     @property_cached
     def df(self):
+        """Take only data that concerns the current country from the dataframe."""
         # Load #
         df = gain_loss_net_data.df
         # Filter #
@@ -239,7 +287,7 @@ class GainsLossNetGraph(FacetPlot):
         # Return #
         return df
 
-    def line_plot(self, x, y, source, **kwargs):
+    def line_plot(self, x, y, source, marker, **kwargs):
         # Remove the color we get #
         kwargs.pop("color")
         # Get the data frame #
@@ -248,16 +296,23 @@ class GainsLossNetGraph(FacetPlot):
         df = df.query("source == '%s'" % source)
         # Plot #
         pyplot.plot(df[x], df[y],
-                    marker     = ".",
+                    marker     = marker,
                     markersize = 10.0,
                     color      = self.name_to_color[y],
                     **kwargs)
 
     def plot(self, **kwargs):
+        # Make five subplots in a line #
+
+
         # Plot every curve on every data source #
         for curve in ('gain_per_ha', 'loss_per_ha', 'net_per_ha'):
             for source in ('ipcc', 'soef', 'faostat', 'hpffre', 'eu-cbm'):
-                self.facet.map_dataframe(self.line_plot, 'year', curve, source)
+                self.facet.map_dataframe(self.line_plot, 'year', curve, source, '.')
+
+        # We also want the special extra SOEF stock line #
+        #soef = self.facet.axes[2]
+        #self.facet.map_dataframe(self.line_plot, 'year', 'net_per_ha', 'soef', '*')
 
         # Adjust details on the subplots #
         self.facet.map(self.y_grid_on)

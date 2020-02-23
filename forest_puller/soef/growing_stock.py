@@ -17,6 +17,7 @@ from forest_puller.soef.table_parser import TableParser
 from plumbing.cache import property_cached, property_pickled_at
 
 # Third party modules #
+import pandas
 
 ###############################################################################
 class GrowingStockComp(TableParser):
@@ -37,7 +38,10 @@ class GrowingStockComp(TableParser):
 
     @property_pickled_at('df_cache_path')
     def df(self):
-        """Return the table of interest correctly parsed and formatted."""
+        """
+        Special parsing for the table of growing_stock as years are now columns.
+        The units are specified in million m³ over bark.
+        """
         # Load but skip the header #
         df = self.cropped_sheet.iloc[self.header_len:].copy()
         # Reset index #
@@ -51,6 +55,10 @@ class GrowingStockComp(TableParser):
         df = df.melt(id_vars    = ['rank', 'species', 'common_name'],
                      var_name   = 'year',
                      value_name = 'growing_stock')
+        # Make numeric #
+        df['growing_stock'] = df['growing_stock'].apply(pandas.to_numeric, errors="coerce", downcast='float')
+        # Turn into cubic meters, not millions of cubic meters #
+        df['growing_stock'] = df['growing_stock'] * 1e6
         # Remove empty values #
         df = df.query("growing_stock==growing_stock").copy()
         # Sanitize names #
@@ -67,3 +75,8 @@ class GrowingStockComp(TableParser):
         result = result.replace('\n', ' ')
         # Return #
         return result
+
+    @property
+    def indexed(self):
+        """Same as `self.df` but with an index on the first column."""
+        return self.df.set_index(['rank'])
