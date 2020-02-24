@@ -22,6 +22,7 @@ from forest_puller.viz.multiplot import Multiplot
 
 # First party modules #
 from plumbing.cache import property_cached
+from plumbing.graphs import Graph
 
 # Third party modules #
 import pandas
@@ -29,6 +30,10 @@ from matplotlib import pyplot
 
 ###############################################################################
 class GainsLossNetData:
+    """
+    Aggregate and prepare all the data frames that will be used in the increments
+    plot.
+    """
 
     #----------------------------- Data sources ------------------------------#
     @property_cached
@@ -259,11 +264,6 @@ class GainsLossNetGraph(Multiplot):
                      'loss_per_ha': 'red',
                      'net_per_ha':  'black'}
 
-    # Titles displayed in the legend #
-    title_to_color = {'Gains':            'green',
-                      'Losses':           'red',
-                      'Net (Gain+Loss)':  'black'}
-
     # Mapping of unit to each source #
     source_to_y_label = {
         'ipcc':    "Tons of carbon per hectare",
@@ -344,9 +344,6 @@ class GainsLossNetGraph(Multiplot):
         for source, axes in self.source_to_axes.items():
             axes.set_ylabel(self.source_to_y_label[source], fontsize=13)
 
-        # Add a legend if requested #
-        if self.display_legend: self.add_main_legend()
-
         # Leave some space for the y axis labels and custom titles #
         pyplot.subplots_adjust(wspace=0.3, top=0.9, left=0.04, right=0.985, bottom=0.1)
 
@@ -357,6 +354,51 @@ class GainsLossNetGraph(Multiplot):
         return self.fig
 
 ###############################################################################
+class GainsLossNetLegend(Graph):
+    """
+    A figure that contains not plot, only the legend, for composition purposes
+    with the other graphs.
+    """
+
+    short_name = "legend"
+
+    def plot(self, **kwargs):
+        # Parameters #
+        title_to_color = {'Gains':            'green',
+                          'Losses':           'red',
+                          'Net (Gain+Loss)':  'black'}
+        # Plot #
+        fig  = pyplot.figure()
+        axes = fig.add_subplot(111)
+        # Imports #
+        import warnings
+        import matplotlib.patches
+        # Create patches #
+        items   = self.title_to_color.items()
+        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in items]
+        # Suppress a warning #
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            fig.legend(handles   = patches,
+                       borderpad = 1,
+                       prop      = {'size': 20},
+                       frameon   = True,
+                       shadow    = True,
+                       loc       = 'center')
+        # Remove the axes #
+        axes.axis('off')
+        # Find the bounding box to remove useless white space #
+        #fig.canvas.draw()
+        #bbox  = legend.get_window_extent()
+        #bbox = bbox.from_extents(*(bbox.extents + np.array(expand)))
+        #bbox = bbox.transformed(fig.dpi_scale_trans.inverted())
+        #fig.savefig(filename, dpi="figure", bbox_inches=bbox)
+        # Save #
+        self.save_plot(**kwargs)
+        # Return for display in notebooks for instance #
+        return fig
+
+###############################################################################
 # Create the large df #
 gain_loss_net_data = GainsLossNetData()
 
@@ -365,5 +407,5 @@ export_dir = cache_dir + 'graphs/increments/'
 all_graphs = [GainsLossNetGraph(iso2, export_dir) for iso2 in country_codes['iso2_code']]
 countries  = {c.parent: c for c in all_graphs}
 
-# Add legend only on the last graph #
-all_graphs[-1].display_legend = True
+# Create a separate standalone legend #
+legend = GainsLossNetLegend(base_dir = cache_dir + 'graphs/increments/')

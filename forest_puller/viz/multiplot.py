@@ -108,24 +108,3 @@ class Multiplot(Graph):
             highest     = max(abs(top), abs(bottom))
             axes.set_ylim(-highest, highest)
         self.iterate_all_axes(fn)
-
-    def add_main_legend(self, title_to_color=None):
-        """Make a box with the legend for all plots."""
-        # Imports #
-        import warnings
-        import matplotlib.patches
-        # Default to the attribute #
-        if title_to_color is None: title_to_color = self.title_to_color
-        # Create patches #
-        items   = title_to_color.items()
-        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in items]
-        # Suppress a warning #
-        with warnings.catch_warnings():
-            warnings.simplefilter('ignore')
-            self.fig.legend(handles   = patches,
-                            borderpad = 1,
-                            prop      = {'size': 20},
-                            frameon   = True,
-                            shadow    = True,
-                            loc       = 'lower right')
-

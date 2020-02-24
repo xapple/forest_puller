@@ -77,11 +77,15 @@ from tqdm import tqdm
 #g.plot(rerun=True)
 #print(g.path)
 
-from forest_puller.viz.increments import all_graphs
-for graph in all_graphs: graph.plot(rerun=True)
+#from forest_puller.viz.increments import all_graphs
+#for graph in all_graphs: graph.plot(rerun=True)
 
-from forest_puller.core.continent import continent
-print(continent.report())
+#from forest_puller.core.continent import continent
+#print(continent.report())
+
+from forest_puller.viz.increments import legend
+legend.plot(rerun=True)
+print(legend.path)
 
 ###############################################################################
 #from forest_puller.soef.country import all_countries
