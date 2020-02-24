@@ -201,7 +201,7 @@ class GainsLossNetData:
         df = stock.left_join(area, on=['country', 'year'])
         # The growth reported here is the total stock, not the delta
         # So we need to operate a rolling subtraction and divide by years
-        group              = df.groupby(['rank'])
+        group              = df.groupby(['country', 'rank'])
         df['net_diff']     = group['growing_stock'].diff()
         df['year_diff']    = group['year'].diff()
         df['area_diff']    = group['area'].diff()
@@ -220,7 +220,7 @@ class GainsLossNetData:
         # Keep only the columns that interest us #
         df = df[['country', 'year', 'net_per_ha']].copy()
         # Add source #
-        df.insert(0, 'source', 'soef-stock')
+        df.insert(0, 'source', 'soef')
         # Reset index #
         df = df.reset_index(drop=True)
         # Return #
@@ -246,22 +246,30 @@ class GainsLossNetGraph(Multiplot):
     facet_var  = "source"
     x_label    = 'Year'
     formats    = ('pdf',)
+    ncols      = 5
 
     display_legend = False
     share_y        = False
     share_x        = True
+    height         = 5
+    width          = 30
 
     # Mapping of lines to colors #
     name_to_color = {'gain_per_ha': 'green',
                      'loss_per_ha': 'red',
                      'net_per_ha':  'black'}
 
+    # Titles displayed in the legend #
+    title_to_color = {'Gains':            'green',
+                      'Losses':           'red',
+                      'Net (Gain+Loss)':  'black'}
+
     # Mapping of unit to each source #
     source_to_y_label = {
         'ipcc':    "Tons of carbon per hectare",
         'soef':    "Cubic meters over bark per hectare",
         'faostat': "Cubic meters under bark per hectare",
-        'hpffre':  "Cubic meters of stemwood over bark per hectare",
+        'hpffre':  "Cubic meters over bark per hectare",
         'eu-cbm':  "Tons of carbon per hectare",
     }
 
@@ -274,86 +282,79 @@ class GainsLossNetGraph(Multiplot):
         # Load name mappings #
         row = country_codes.loc[country_codes['iso2_code'] == self.parent]
         row = row.iloc[0]
-        # Return long name #
+        # Return the long name #
         return row['country']
 
     @property_cached
     def df(self):
-        """Take only data that concerns the current country from the dataframe."""
-        # Load #
-        df = gain_loss_net_data.df
-        # Filter #
-        df = df.query("country == @self.parent").copy()
-        # Return #
-        return df
+        """Take only data that concerns the current country from the big dataframe."""
+        return gain_loss_net_data.df.query("country == @self.parent").copy()
 
-    def line_plot(self, x, y, source, marker, **kwargs):
-        # Remove the color we get #
-        kwargs.pop("color")
-        # Get the data frame #
-        df = kwargs.pop("data")
-        # Filter the source #
+    @property_cached
+    def soef_stock(self):
+        """Take the data for the special SOEF extra line."""
+        return gain_loss_net_data.soef_stock.query("country == @self.parent").copy()
+
+    @property_cached
+    def source_to_axes(self):
+        return dict(zip(self.source_to_y_label.keys(), self.axes))
+
+    def line_plot(self, df, axes, source, curve, **kw):
+        # Filter for the source #
         df = df.query("source == '%s'" % source)
+        # Add arguments #
+        if 'marker' not in kw:     kw['marker'] = '.'
+        if 'markersize' not in kw: kw['markersize'] = 10
+        if 'color' not in kw:      kw['color'] = self.name_to_color[curve]
         # Plot #
-        pyplot.plot(df[x], df[y],
-                    marker     = marker,
-                    markersize = 10.0,
-                    color      = self.name_to_color[y],
-                    **kwargs)
+        axes.plot(df['year'], df[curve], **kw)
 
     def plot(self, **kwargs):
-        # Make five subplots in a line #
-
-
         # Plot every curve on every data source #
-        for curve in ('gain_per_ha', 'loss_per_ha', 'net_per_ha'):
-            for source in ('ipcc', 'soef', 'faostat', 'hpffre', 'eu-cbm'):
-                self.facet.map_dataframe(self.line_plot, 'year', curve, source, '.')
+        for source, axes in self.source_to_axes.items():
+            for curve in ('gain_per_ha', 'loss_per_ha', 'net_per_ha'):
+                self.line_plot(self.df, axes, source, curve)
 
         # We also want the special extra SOEF stock line #
-        #soef = self.facet.axes[2]
-        #self.facet.map_dataframe(self.line_plot, 'year', 'net_per_ha', 'soef', '*')
+        self.line_plot(self.soef_stock, self.source_to_axes['soef'],
+                       'soef', 'net_per_ha', marker='+', linestyle='--')
 
         # Adjust details on the subplots #
-        self.facet.map(self.y_grid_on)
-        self.facet.map(self.y_max_two_decimals)
+        self.y_grid_on()
+        self.y_max_two_decimals()
 
         # Hide the default titles #
-        self.facet.map(self.hide_titles)
+        self.hide_titles()
 
         # Center the Y axis origin  #
-        self.facet.map(self.y_center_origin)
-
-        # Add the custom title  #
-        self.facet.map(self.custom_title, 'source')
+        self.y_center_origin()
 
         # Change the X labels #
-        self.facet.set_axis_labels(self.x_label, 'Test')
+        self.set_x_labels(self.x_label)
 
-        # Set the custom Y labels (hackish, no better way found in seaborn) #
-        label_and_axes = zip(self.source_to_y_label.values(), self.facet.axes)
-        for label, ax in label_and_axes: ax.set_ylabel(label, fontsize=13)
+        # Remove ugly box around figures #
+        self.remove_frame()
+
+        # Add the custom title  #
+        for source, axes in self.source_to_axes.items():
+            title  = self.country_name + '  (from ' + source.upper() + ')'
+            axes.text(0.05, 1.05, title, transform=axes.transAxes, ha="left", size=18)
+
+        # Set the custom Y labels #
+        for source, axes in self.source_to_axes.items():
+            axes.set_ylabel(self.source_to_y_label[source], fontsize=13)
 
         # Add a legend if requested #
-        legend_titles = {'Gains':            'green',
-                         'Losses':           'red',
-                         'Net (Gain+Loss)':  'black'}
-        if self.display_legend: self.add_main_legend(legend_titles)
+        if self.display_legend: self.add_main_legend()
 
         # Leave some space for the y axis labels and custom titles #
-        pyplot.subplots_adjust(top=0.89, left=0.025, wspace=0.2)
+        pyplot.subplots_adjust(wspace=0.3, top=0.9, left=0.04, right=0.985, bottom=0.1)
 
         # Save #
         self.save_plot(**kwargs)
-        # Convenience: return for display in notebooks for instance #
-        return self.facet
 
-    def custom_title(self, source, **kw):
-        """Add the custom title for each subplot."""
-        source = source.iloc[0]
-        title  = self.country_name + '     (from ' + source.upper() + ')'
-        axes   = pyplot.gca()
-        axes.text(0.05, 1.05, title, transform=axes.transAxes, ha="left", size=20)
+        # Convenience: return for display in notebooks for instance #
+        return self.fig
 
 ###############################################################################
 # Create the large df #

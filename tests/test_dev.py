@@ -72,16 +72,16 @@ from tqdm import tqdm
 #from forest_puller.viz.increments import gain_loss_net_data
 #print(gain_loss_net_data.ipcc)
 
-from forest_puller.viz.increments import all_graphs
-g = all_graphs[0]
-g.plot(rerun=True)
-print(g.path)
-
 #from forest_puller.viz.increments import all_graphs
-#for graph in all_graphs: graph.plot(rerun=True)
+#g = all_graphs[0]
+#g.plot(rerun=True)
+#print(g.path)
 
-#from forest_puller.core.continent import continent
-#print(continent.report())
+from forest_puller.viz.increments import all_graphs
+for graph in all_graphs: graph.plot(rerun=True)
+
+from forest_puller.core.continent import continent
+print(continent.report())
 
 ###############################################################################
 #from forest_puller.soef.country import all_countries

@@ -9,7 +9,6 @@ Unit D1 Bioeconomy.
 """
 
 # Built-in modules #
-import warnings
 
 # Internal modules #
 
@@ -36,16 +35,24 @@ class Multiplot(Graph):
     share_y = True
     share_x = True
 
+    # Defaults #
+    height = None
+    width  = None
+
     @property_cached
     def fig_and_axes(self):
         # Synonyms #
         if self.share_x is True: self.share_x = 'all'
         if self.share_y is True: self.share_y = 'all'
+        # Figure size #
+        width  = self.ncols * 5 if self.width  is None else self.width
+        height = self.nrows * 5 if self.height is None else self.height
         # Create #
-        fig, axes = pyplot.subplots(nrows  = self.nrows,
-                                    ncols  = self.ncols,
-                                    sharex = self.share_x,
-                                    sharey = self.share_y)
+        fig, axes = pyplot.subplots(nrows   = self.nrows,
+                                    ncols   = self.ncols,
+                                    sharex  = self.share_x,
+                                    sharey  = self.share_y,
+                                    figsize = (width, height))
         # Return #
         return fig, axes
 
@@ -55,56 +62,70 @@ class Multiplot(Graph):
     @property
     def axes(self): return self.fig_and_axes[1]
 
-    #--------------- Conveniance ---------------------------------------------#
+    #--------------------------- Convenience ---------------------------------#
     def iterate_all_axes(self, fn):
-        for axes in numpy.nditer(self.axes, flags=['refs_ok']): fn(axes)
+        for axes in numpy.nditer(self.axes, flags=['refs_ok']): fn(axes[()])
 
-    def x_grid_on(self, **kw):
+    def x_grid_on(self):
         """Add horizontal lines on the x axis."""
         fn = lambda axes: axes.xaxis.grid(True, linestyle=':')
         self.iterate_all_axes(fn)
 
-    def y_grid_on(self, **kw):
+    def y_grid_on(self):
         """Add horizontal lines on the y axis."""
-        pyplot.gca().yaxis.grid(True, linestyle=':')
+        fn = lambda axes: axes.yaxis.grid(True, linestyle=':')
+        self.iterate_all_axes(fn)
 
-    def hide_titles(self, **kw):
+    def hide_titles(self):
         """Remove the subplot titles."""
-        pyplot.gca().title.set_visible(False)
+        fn = lambda axes: axes.title.set_visible(False)
+        self.iterate_all_axes(fn)
 
-    def y_max_two_decimals(self, **kw):
+    def y_max_two_decimals(self):
         """Force maximum two decimals for y axis."""
         str_formatter = matplotlib.ticker.FormatStrFormatter('%.2f')
-        pyplot.gca().yaxis.set_major_formatter(str_formatter)
+        fn = lambda axes: axes.yaxis.set_major_formatter(str_formatter)
+        self.iterate_all_axes(fn)
 
-    def large_legend(self, x, **kw):
-        """Put the title inside the graph and large."""
-        df        = kw.pop("data")
-        iso2_code = df[x].iloc[0]
-        axes      = pyplot.gca()
-        axes.text(0.08, 0.9, iso2_code, transform=axes.transAxes, ha="left", size=22)
+    def set_x_labels(self, label):
+        fn = lambda axes: axes.set_xlabel(label)
+        self.iterate_all_axes(fn)
 
-    def add_main_legend(self, name_to_color=None):
-        """Make a single box with the legend for the whole graph."""
-        if name_to_color is None: name_to_color = self.name_to_color
-        items   = name_to_color.items()
-        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in items]
-        with warnings.catch_warnings():
-            warnings.simplefilter('ignore')
-            self.facet.add_legend(handles   = patches,
-                                  borderpad = 1,
-                                  prop      = {'size': 20},
-                                  frameon   = True,
-                                  shadow    = True,
-                                  loc       = 'lower right')
+    def remove_frame(self):
+        fn = lambda axes: axes.spines["top"].set_visible(False)
+        self.iterate_all_axes(fn)
+        fn = lambda axes: axes.spines["right"].set_visible(False)
+        self.iterate_all_axes(fn)
 
-    def y_center_origin(self, **kw):
+    def y_center_origin(self):
         """
         Place the zero-intercept exactly the middle of the graph.
         This is not the same as doing:
         `axes.spines['left'].set_position('center')`
         """
-        axes        = pyplot.gca()
-        bottom, top = axes.get_ylim()
-        highest     = max(abs(top), abs(bottom))
-        axes.set_ylim(-highest, highest)
+        def fn(axes):
+            bottom, top = axes.get_ylim()
+            highest     = max(abs(top), abs(bottom))
+            axes.set_ylim(-highest, highest)
+        self.iterate_all_axes(fn)
+
+    def add_main_legend(self, title_to_color=None):
+        """Make a box with the legend for all plots."""
+        # Imports #
+        import warnings
+        import matplotlib.patches
+        # Default to the attribute #
+        if title_to_color is None: title_to_color = self.title_to_color
+        # Create patches #
+        items   = title_to_color.items()
+        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in items]
+        # Suppress a warning #
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            self.fig.legend(handles   = patches,
+                            borderpad = 1,
+                            prop      = {'size': 20},
+                            frameon   = True,
+                            shadow    = True,
+                            loc       = 'lower right')
+

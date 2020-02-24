@@ -93,14 +93,14 @@
 
 * Add Cyprus to countries available.
 
+* Table in 1.2c in SOEF can enable us to perform an inter-source check of consistency
+
 
 # TODO
 
 * Make a total of all EU countries.
 
 * Write up introduction and methods.
-
-* Table in 1.2c in SOEF can enable us to perform an inter-source check of consitency
 
 * Possibly convert the m^3 into net CO2 emission in tons for faostat ipcc, hpffre:
 
@@ -124,6 +124,7 @@
 * Reset the history of the puller_cache repository for faster downloads
 
 * Adapt the CBM-EU fluxes used in gains and losses based on expert input
+
 
 # Ideas
 

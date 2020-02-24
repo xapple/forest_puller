@@ -90,7 +90,7 @@ class FacetPlot(Graph):
         str_formatter = matplotlib.ticker.FormatStrFormatter('%.2f')
         pyplot.gca().yaxis.set_major_formatter(str_formatter)
 
-    def large_legend(self, x, **kw):
+    def large_title(self, x, **kw):
         """Put the title inside the graph and large."""
         df        = kw.pop("data")
         iso2_code = df[x].iloc[0]

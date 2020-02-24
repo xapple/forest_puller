@@ -180,7 +180,7 @@ class AreaComparison(FacetPlot):
         # Add a legend #
         self.add_main_legend()
         # Put the title inside the graph and large #
-        self.facet.map_dataframe(self.large_legend, 'long_name')
+        self.facet.map_dataframe(self.large_title, 'long_name')
         # Change the labels #
         self.facet.set_axis_labels(self.x_label, self.y_label)
         # Leave some space for the y axis labels #
