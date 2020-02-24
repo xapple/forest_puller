@@ -16,16 +16,16 @@ Typically you can use this submodule this like:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.common    import country_codes
-from forest_puller           import cache_dir
+from forest_puller.common        import country_codes
+from forest_puller               import cache_dir
 from forest_puller.viz.multiplot import Multiplot
 
 # First party modules #
-from plumbing.cache import property_cached
+from plumbing.cache  import property_cached
 from plumbing.graphs import Graph
 
 # Third party modules #
-import pandas
+import pandas, numpy
 from matplotlib import pyplot
 
 ###############################################################################
@@ -362,38 +362,43 @@ class GainsLossNetLegend(Graph):
 
     short_name = "legend"
 
+    title_to_color = {'Gains':            'green',
+                      'Losses':           'red',
+                      'Net (Gain+Loss)':  'black'}
+
     def plot(self, **kwargs):
-        # Parameters #
-        title_to_color = {'Gains':            'green',
-                          'Losses':           'red',
-                          'Net (Gain+Loss)':  'black'}
         # Plot #
         fig  = pyplot.figure()
         axes = fig.add_subplot(111)
-        # Imports #
-        import warnings
-        import matplotlib.patches
-        # Create patches #
-        items   = self.title_to_color.items()
-        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in items]
+        # Create lines #
+        from matplotlib.lines import Line2D
+        items = self.title_to_color.items()
+        kw    = {'linewidth': 10, 'linestyle': '-'}
+        lines = [Line2D([0], [0], color=v, label=k, **kw) for k,v in items]
+        # Add a special line #
+        kw.update({'color': 'black', 'label': 'Net estimated', 'linestyle': ':'})
+        lines += [Line2D([0], [0], **kw)]
         # Suppress a warning #
+        import warnings
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            fig.legend(handles   = patches,
-                       borderpad = 1,
-                       prop      = {'size': 20},
-                       frameon   = True,
-                       shadow    = True,
-                       loc       = 'center')
+            leg = fig.legend(handles   = lines,
+                             borderpad = 1,
+                             prop      = {'size': 20},
+                             frameon   = True,
+                             shadow    = True,
+                             loc       = 'center')
         # Remove the axes #
         axes.axis('off')
         # Find the bounding box to remove useless white space #
-        #fig.canvas.draw()
-        #bbox  = legend.get_window_extent()
-        #bbox = bbox.from_extents(*(bbox.extents + np.array(expand)))
-        #bbox = bbox.transformed(fig.dpi_scale_trans.inverted())
-        #fig.savefig(filename, dpi="figure", bbox_inches=bbox)
+        fig.canvas.draw()
+        expand = [-10, -10, 10, 10]
+        bbox   = leg.get_window_extent()
+        bbox   = bbox.from_extents(*(bbox.extents + numpy.array(expand)))
+        bbox   = bbox.transformed(fig.dpi_scale_trans.inverted())
         # Save #
+        self.dpi  = 'figure'
+        self.bbox = bbox
         self.save_plot(**kwargs)
         # Return for display in notebooks for instance #
         return fig

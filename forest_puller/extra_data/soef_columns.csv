@@ -13,5 +13,5 @@ Net annual increment   Volume (1000 m³ o.b.),net_increment,1000
 Fellings Total Volume (1000 m³ o.b.),fellings_total,1000
 Fellings ... of which: of natural losses Volume (1000 m³ o.b.),fellings_nat_losses,1000
 Rank,rank,NaN
-Scientific name,species,NaN
+Scientific name,latin_name,NaN
 Common name,common_name,NaN

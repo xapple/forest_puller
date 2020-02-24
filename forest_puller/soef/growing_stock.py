@@ -52,7 +52,7 @@ class GrowingStockComp(TableParser):
         df.iloc[-1, 0:3] = 'total'
         df.iloc[-2, 0:3] = 'remaining'
         # Melt #
-        df = df.melt(id_vars    = ['rank', 'species', 'common_name'],
+        df = df.melt(id_vars    = ['rank', 'latin_name', 'common_name'],
                      var_name   = 'year',
                      value_name = 'growing_stock')
         # Make numeric #
