@@ -95,6 +95,10 @@
 
 * Table in 1.2c in SOEF can enable us to perform an inter-source check of consistency
 
+* Deal with special case genus is 'pinus'.
+
+* Collapse missing species into remaining.
+
 
 # TODO
 
@@ -104,10 +108,6 @@
 
 * Possibly convert the m^3 into net CO2 emission in tons for faostat, ipcc, hpffre.  Strategy for converting volume into tons of carbon:
 
-  - Deal with special case 'pinus'.
-  
-  - Collapse missing speices into remaining.
-  
   - See demand_to_dist in dist_maker
 
   - To go from over to under: 0.88 conversion factor. See UNEC.

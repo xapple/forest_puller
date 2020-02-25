@@ -63,20 +63,26 @@ class GrowingStockComp(TableParser):
         df = df.query("growing_stock==growing_stock").copy()
         # Sanitize names #
         df.iloc[:,0:2] = df.iloc[:,0:2].applymap(self.sanitize)
+        # Sanitize the rank column #
+        df['rank'] = df['rank'].apply(self.sanitize_rank)
         # Return #
         return df
 
     def sanitize(self, text):
-        # Load #
-        result = text
         # Eliminate trailing spaces #
-        result = result.strip(' ,')
+        text = text.strip(' ,')
         # Eliminate newlines #
-        result = result.replace('\n', ' ')
+        text = text.replace('\n', ' ')
         # Return #
-        return result
+        return text
+
+    def sanitize_rank(self, text):
+        if text[0].isnumeric():
+            return int(text[:-2])
+        else:
+            return text
 
     @property
     def indexed(self):
-        """Same as `self.df` but with an index on the first column."""
-        return self.df.set_index(['rank'])
+        """Same as `self.df` but with an index on the first columns."""
+        return self.df.set_index(['rank', 'year'])
