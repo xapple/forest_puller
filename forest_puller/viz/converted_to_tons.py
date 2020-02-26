@@ -46,23 +46,7 @@ class ConvertedTonsData:
     """
 
     #----------------------------- Data sources ------------------------------#
-    @property_cached
-    def species_fractions(self):
-        """
-        A dataframe containing the relative proportion of genera, in each country,
-        where available.
-
-        Interesting cases are:
-
-            Carpinus betulus -> pinus
-        """
-        # Import #
-        import forest_puller.soef.concat
-        # Load #
-        area = forest_puller.soef.concat.tables['stock_comp'].copy()
-        # Load #
-        df = forest_puller.ipcc.concat.df.copy()
-        # Index name #
+    pass
 
     #----------------------------- Data sources ------------------------------#
     @property_cached
