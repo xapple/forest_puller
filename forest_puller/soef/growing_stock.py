@@ -55,7 +55,9 @@ class GrowingStockComp(TableParser):
         df = df.melt(id_vars    = ['rank', 'latin_name', 'common_name'],
                      var_name   = 'year',
                      value_name = 'growing_stock')
-        # Make numeric #
+        # Make the year numeric #
+        df['year'] = df['year'].apply(pandas.to_numeric, downcast='integer')
+        # Make the stock numeric #
         df['growing_stock'] = df['growing_stock'].apply(pandas.to_numeric, errors="coerce", downcast='float')
         # Turn into cubic meters, not millions of cubic meters #
         df['growing_stock'] = df['growing_stock'] * 1e6

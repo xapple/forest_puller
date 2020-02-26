@@ -64,6 +64,7 @@ class ConvertedTonsData:
         df = forest_puller.ipcc.concat.df.copy()
         # Index name #
 
+    #----------------------------- Data sources ------------------------------#
     @property_cached
     def soef(self):
         # Import #
@@ -186,6 +187,7 @@ class ConvertedTonsData:
         df = pandas.concat(sources, ignore_index=True)
         # Return #
         return df
+
 ###############################################################################
 # Create the large df #
 converted_tons_data = ConvertedTonsData()
