@@ -249,7 +249,6 @@ class GainsLossNetGraph(Multiplot):
     """
 
     # Basic params #
-    facet_var  = "source"
     x_label    = 'Year'
     formats    = ('pdf',)
     ncols      = 5
