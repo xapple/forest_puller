@@ -138,16 +138,19 @@ class ConvertedTonsData:
 ###############################################################################
 class ConvertedTonsGraph(GainsLossNetGraph):
 
+    # Cosmetic params #
+    share_y        = True
+
     # Optional extras #
     add_soef_line  = False
 
     # Mapping of unit to each source #
     source_to_y_label = {
         'ipcc':    "Tons of carbon per hectare",
-        'soef':    "Cubic meters over bark per hectare",
-        'faostat': "Cubic meters under bark per hectare",
-        'hpffre':  "Cubic meters over bark per hectare",
-        'eu-cbm':  "Tons of carbon per hectare",
+        'soef':    "",
+        'faostat': "",
+        'hpffre':  "",
+        'eu-cbm':  "",
     }
 
     @property

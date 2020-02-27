@@ -63,12 +63,19 @@ class ComparisonTemplate(ReportTemplate):
 
     #-------------------------------- Area -----------------------------------#
     def comp_total_area(self):
-        caption = "Comparison of total forest area reported in 26 countries and 5 data sources."
+        # Caption #
+        caption = "Comparison of total forest area reported in" \
+                  " 26 countries and 5 data sources."
+        # Import #
         from forest_puller.viz.area import area_comp
+        # Return #
         return str(ScaledFigure(graph=area_comp, caption=caption))
 
     #----------------------------- Increments --------------------------------#
     def comp_increments(self):
+        # Caption #
+        caption = "Comparison of gains, losses, and totals reported" \
+                  " in 26 countries and 5 data sources."
         # Import #
         from forest_puller.viz.increments import countries, legend
         # Initialize #
@@ -84,12 +91,15 @@ class ComparisonTemplate(ReportTemplate):
 
     #--------------------------- Converted to tons ----------------------------#
     def comp_conv_to_tons(self):
+        # Caption #
+        caption = "Comparison of gains, losses, and totals converted to tons of" \
+                  "carbon reported in 26 countries and 5 data sources."
         # Import #
-        from forest_puller.viz.converted_to_tons import countries, legend
+        from forest_puller.viz.converted_to_tons import countries, legend, all_codes
         # Initialize #
         result = ""
         # Loop every country #
-        for iso2_code in country_codes['iso2_code']:
+        for iso2_code in all_codes:
             graph = countries[iso2_code]
             result += str(BareFigure(graph=graph)) + '\n\n'
         # Add the legend #
