@@ -83,9 +83,9 @@ from tqdm import tqdm
 #from forest_puller.core.continent import continent
 #print(continent.report())
 
-from forest_puller.viz.increments import legend
-legend.plot(rerun=True)
-print(legend.path)
+#from forest_puller.viz.increments import legend
+#legend.plot(rerun=True)
+#print(legend.path)
 
 ###############################################################################
 #from forest_puller.soef.country import all_countries
@@ -95,3 +95,9 @@ print(legend.path)
 #    df = country.stock_comp.df
 #    print("--------- %s ----------" % country.iso2_code)
 #    print(df)
+
+###############################################################################
+# Import #
+from forest_puller.soef.composition import composition_data
+del composition_data.avg_dnsty_intrpld
+interpolated = composition_data.avg_dnsty_intrpld

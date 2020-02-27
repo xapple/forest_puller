@@ -37,9 +37,18 @@ class CompositionData:
         # Where we will pickle all the dataframes #
         self.cache_dir = cache
 
+    #----------------------------- Data sources ------------------------------#
     @property_cached
     def species_to_density(self):
-        """Parse the hard-coded table genus+species to density"""
+        """
+        Parse the hard-coded table genus+species to density.
+        These values come from a publication:
+
+            Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories
+            TABLE 4.14 BASIC WOOD DENSITY (D) OF SELECTED TEMPERATE AND BOREAL TREE TAXA
+            https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
+            See page 71.
+        """
         # Constants #
         result = module_dir + 'extra_data/species_to_wood_density.csv'
         result = pandas.read_csv(str(result))
@@ -64,6 +73,7 @@ class CompositionData:
         # Return #
         return result
 
+    #------------------------------ Processing -------------------------------#
     # Function to compute for each row #
     def latin_to_genus_species(self, latin_name):
         """
@@ -206,12 +216,10 @@ class CompositionData:
             # Sum the unassigned #
             total     = all_stock['growing_stock'].sum()
             # Add a 'remaining' row with the unassigned stock #
-            row = pandas.Series({'country':      country,
-                                 'year':         year,
-                                 'rank':         'total',
-                                 'growing_stock': total})
-            # Return #
-            return row
+            return pandas.Series({'country':      country,
+                                  'year':         year,
+                                  'rank':         'total',
+                                  'growing_stock': total})
         # Apply #
         ours = groups.apply(sanity_check_total)
         # Drop index #
@@ -276,9 +284,9 @@ class CompositionData:
         # Return #
         return row
 
-    @property_pickled
+    @property_cached
     def avg_densities(self):
-        """Collapse the unmatched into remaining."""
+        """Add the average density and fraction missing columns."""
         # Groups #
         groups = self.stock_collapsed.groupby(['country', 'year'])
         # Apply #
@@ -287,6 +295,71 @@ class CompositionData:
         result = result.dropna()
         # Drop index #
         result = result.reset_index(drop=True)
+        # Return #
+        return result
+
+    #----------------------------- Interpolation -----------------------------#
+    def resample_year(self, subdf, lower=None, upper=None):
+        """Resample a sub-dataframe on the year column."""
+        # Computer lower bound #
+        if lower is None: lower = int(subdf['year'].min())
+        # Compute upper bound #
+        if upper is None: upper = int(subdf['year'].max())
+        # Add rows with NaNs #
+        indexed = subdf.set_index(['year'])
+        reindex = indexed.reindex(range(lower, upper + 1))
+        ixreset = reindex.reset_index()
+        # Return #
+        return ixreset
+
+    def interpolate_density(self, subdf):
+        """Interpolate the values of a sub-dataframe on the density column."""
+
+        result['avg_density'] = result['avg_density'].interpolate(method='linear')
+        # Return #
+        return ixreset
+
+    def pad_density(self, subdf):
+        """Pad the values of a sub-dataframe on the density column."""
+        # Return #
+        return ixreset
+
+    @property_pickled
+    def avg_dnsty_intrpld(self):
+        """
+        Take the average densities and calculate missing years
+        by interpolation strategy.
+
+        Years available are:   1990, 2000, 2005, 2010.
+        We will extend to the: 1980 - 2020 range.
+
+        Years that are found within the known interval, will be interpolated
+        with the linear method.
+
+        The edges, or years that are outside the interval for which we have
+        data will be interpolated using the pad method (i.e. edges will be
+        assumed constant).
+        """
+        # Load #
+        result = self.avg_densities
+        # Apply first resample #
+        groups = result.groupby(['country'])
+        result = groups.apply(self.resample_year)
+        result = result.drop(columns=['country'])
+        result = result.reset_index()
+        result = result.drop(columns=['level_1'])
+        # Apply first interpolation #
+        groups = result.groupby(['country'])
+        result = groups.apply(self.interpolate_density)
+        # Apply second resample #
+        groups = result.groupby(['country'])
+        result = groups.apply(self.resample_year, lower=1980, upper=2021)
+        result = result.drop(columns=['country'])
+        result = result.reset_index()
+        result = result.drop(columns=['level_1'])
+        # Apply second interpolation #
+        groups = result.groupby(['country'])
+        result = groups.apply(self.pad_density)
         # Return #
         return result
 

@@ -30,9 +30,14 @@ from matplotlib import pyplot
 ###############################################################################
 class ConvertedTonsData:
     """
-    Aggregate and prepare all the data frames that will be used in the
+    Aggregate and prepare all the dataframes that will be used in the
     'converted to tons' visualization.
-    We will .... #TODO
+
+    * Start with: one cubic meter (in each country in each year).
+    * Obtain: the density in [tons / m^3] more precisely [oven-dry tonnes of C per moist m^3].
+    * Multiply the volume with the density to obtain [tons].
+    * Multiply the result with the bark correction factor to obtain over/under bark.
+    * The result is now in tons of carbon per hectare.
     """
 
     #----------------------------- Data sources ------------------------------#
