@@ -45,9 +45,13 @@ class CompositionData:
         These values come from a publication:
 
             Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories
-            TABLE 4.14 BASIC WOOD DENSITY (D) OF SELECTED TEMPERATE AND BOREAL TREE TAXA
+            Table 4.14 Basic Wood Density (d) Of Selected Temperate And Boreal Tree Taxa
             https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
             See page 71.
+
+        The density in [tons / m³] more precisely [oven-dry tonnes of C per moist m³].
+        We convert it to [kg / m³] here.
+        We do not know if they measure the volume over or under bark.
         """
         # Constants #
         result = module_dir + 'extra_data/species_to_wood_density.csv'
@@ -58,6 +62,8 @@ class CompositionData:
         # Fill missing values #
         for col in ['species', 'genus']:
             result[col] = result[col].fillna('missing')
+        # We want kilograms, not tons #
+        result['density'] *= 1000
         # Return #
         return result
 
@@ -132,7 +138,7 @@ class CompositionData:
 
     @property_cached
     def stock_density(self):
-        """Join stock_comp with latin_mapping and density"""
+        """Join stock_comp with latin_mapping and density."""
         # Join 1 #
         result = self.stock_comp.left_join(self.latin_mapping, on='latin_name')
         # Join 2 #
@@ -314,15 +320,18 @@ class CompositionData:
 
     def interpolate_density(self, subdf):
         """Interpolate the values of a sub-dataframe on the density column."""
-
-        result['avg_density'] = result['avg_density'].interpolate(method='linear')
+        # Process #
+        subdf['avg_density'] = subdf['avg_density'].interpolate(method='linear')
         # Return #
-        return ixreset
+        return subdf
 
     def pad_density(self, subdf):
         """Pad the values of a sub-dataframe on the density column."""
+        # Process #
+        subdf['avg_density'] = subdf['avg_density'].fillna(method='ffill')
+        subdf['avg_density'] = subdf['avg_density'].fillna(method='bfill')
         # Return #
-        return ixreset
+        return subdf
 
     @property_pickled
     def avg_dnsty_intrpld(self):

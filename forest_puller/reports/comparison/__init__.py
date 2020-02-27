@@ -82,3 +82,17 @@ class ComparisonTemplate(ReportTemplate):
         # Return #
         return result
 
+    #--------------------------- Converted to tons ----------------------------#
+    def comp_conv_to_tons(self):
+        # Import #
+        from forest_puller.viz.converted_to_tons import countries, legend
+        # Initialize #
+        result = ""
+        # Loop every country #
+        for iso2_code in country_codes['iso2_code']:
+            graph = countries[iso2_code]
+            result += str(BareFigure(graph=graph)) + '\n\n'
+        # Add the legend #
+        result += str(ScaledFigure(graph=legend, width='9em'))
+        # Return #
+        return result

@@ -41,6 +41,7 @@ class GrowingStockComp(TableParser):
         """
         Special parsing for the table of growing_stock as years are now columns.
         The units are specified in million m³ over bark.
+        We convert them to m³ over bark here.
         """
         # Load but skip the header #
         df = self.cropped_sheet.iloc[self.header_len:].copy()

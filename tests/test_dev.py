@@ -97,7 +97,13 @@ from tqdm import tqdm
 #    print(df)
 
 ###############################################################################
-# Import #
-from forest_puller.soef.composition import composition_data
-del composition_data.avg_dnsty_intrpld
-interpolated = composition_data.avg_dnsty_intrpld
+#from forest_puller.soef.composition import composition_data
+#del composition_data.avg_dnsty_intrpld
+#interpolated = composition_data.avg_dnsty_intrpld
+
+from forest_puller.viz.converted_to_tons import all_graphs
+for graph in all_graphs: graph.plot(rerun=True)
+from forest_puller.viz.converted_to_tons import legend
+legend.plot(rerun=True)
+from forest_puller.core.continent import continent
+print(continent.report())

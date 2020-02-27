@@ -11,6 +11,7 @@ setup(
         author           = 'Lucas Sinclair',
         author_email     = 'lucas.sinclair@me.com',
         packages         = find_packages(),
-        install_requires = ['pandas', 'numpy', 'autopaths>=2.5.8', 'plumbing>=1.3.5', 'lxml', 'requests', 'tqdm>=4.41.1'],
+        install_requires = ['pandas', 'numpy', 'autopaths>=2.5.8', 'plumbing>=1.3.5', 'lxml', 'requests', 'tqdm>=4.41.1',
+                            'matplotlib'],
         include_package_data = True,
 )

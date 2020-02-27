@@ -102,6 +102,8 @@
 
 # TODO
 
+* Graph of species proportion in each country
+
 * Make a total of all EU countries.
 
 * Write up introduction and methods.

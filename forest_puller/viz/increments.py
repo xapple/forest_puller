@@ -248,16 +248,21 @@ class GainsLossNetGraph(Multiplot):
     given country.
     """
 
+    # Basic params #
     facet_var  = "source"
     x_label    = 'Year'
     formats    = ('pdf',)
     ncols      = 5
 
+    # Cosmetic params #
     display_legend = False
     share_y        = False
     share_x        = True
     height         = 5
     width          = 30
+
+    # Optional extras #
+    add_soef_line  = True
 
     # Mapping of lines to colors #
     name_to_color = {'gain_per_ha': 'green',
@@ -285,10 +290,15 @@ class GainsLossNetGraph(Multiplot):
         # Return the long name #
         return row['country']
 
+    @property
+    def all_data(self):
+        """A link to the dataframe containing all countries."""
+        return gain_loss_net_data.df
+
     @property_cached
     def df(self):
         """Take only data that concerns the current country from the big dataframe."""
-        return gain_loss_net_data.df.query("country == @self.parent").copy()
+        return self.all_data.query("country == @self.parent").copy()
 
     @property_cached
     def soef_stock(self):
@@ -316,8 +326,9 @@ class GainsLossNetGraph(Multiplot):
                 self.line_plot(self.df, axes, source, curve)
 
         # We also want the special extra SOEF stock line #
-        self.line_plot(self.soef_stock, self.source_to_axes['soef'],
-                       'soef', 'net_per_ha', marker='+', linestyle='--')
+        if self.add_soef_line:
+            self.line_plot(self.soef_stock, self.source_to_axes['soef'],
+                           'soef', 'net_per_ha', marker='+', linestyle='--')
 
         # Adjust details on the subplots #
         self.y_grid_on()
@@ -356,11 +367,12 @@ class GainsLossNetGraph(Multiplot):
 ###############################################################################
 class GainsLossNetLegend(Graph):
     """
-    A figure that contains not plot, only the legend, for composition purposes
+    A figure that contains no plot, only the legend, for composition purposes
     with the other graphs.
     """
 
     short_name = "legend"
+    add_soef_line = True
 
     title_to_color = {'Gains':            'green',
                       'Losses':           'red',
@@ -376,8 +388,9 @@ class GainsLossNetLegend(Graph):
         kw    = {'linewidth': 10, 'linestyle': '-'}
         lines = [Line2D([0], [0], color=v, label=k, **kw) for k,v in items]
         # Add a special line #
-        kw.update({'color': 'black', 'label': 'Net estimated', 'linestyle': ':'})
-        lines += [Line2D([0], [0], **kw)]
+        if self.add_soef_line:
+            kw.update({'color': 'black', 'label': 'Net estimated', 'linestyle': ':'})
+            lines += [Line2D([0], [0], **kw)]
         # Suppress a warning #
         import warnings
         with warnings.catch_warnings():
@@ -413,4 +426,4 @@ all_graphs = [GainsLossNetGraph(iso2, export_dir) for iso2 in country_codes['iso
 countries  = {c.parent: c for c in all_graphs}
 
 # Create a separate standalone legend #
-legend = GainsLossNetLegend(base_dir = cache_dir + 'graphs/increments/')
+legend = GainsLossNetLegend(base_dir = export_dir)
