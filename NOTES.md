@@ -99,15 +99,6 @@
 
 * Collapse missing species into remaining.
 
-
-# TODO
-
-* Graph of species proportion in each country
-
-* Make a total of all EU countries.
-
-* Write up introduction and methods.
-
 * Possibly convert the m^3 into net CO2 emission in tons for faostat, ipcc, hpffre.  Strategy for converting volume into tons of carbon:
 
   - See demand_to_dist in dist_maker
@@ -125,12 +116,23 @@
      - Reference: Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories 4.71 TABLE 4.14 BASIC WOOD DENSITY (D) OF SELECTED TEMPERATE AND BOREAL TREE TAXA
     
     - Link: https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf   PAGE 71
+
+* Graph of species proportion in each country
+
+
+# TODO
+
+* Make a total of all EU countries.
+
+* Write up introduction and methods.
  
 * Create statistic that shows (e.g. for the last year available) in form of a table maybe, the total surface for the given country and the proportion of that that is "available for wood supply", for each given source that has this information (IPCC, SOEF, FAOSTAT).
 
-* Reset the history of the puller_cache repository for faster downloads
+* Reset the history of the puller_cache repository for faster downloads.
 
-* Adapt the CBM-EU fluxes used in gains and losses based on expert input
+* Switch all text that reads "26 countries" to "27 countries".
+
+* Adapt the CBM-EU fluxes used in gains and losses based on expert input.
 
 
 # Ideas

@@ -97,6 +97,8 @@ class GenusComposition:
             cols.remove('missing')
             cols.append('missing')
             df = df.reindex(columns=cols)
+        # Some countries like italy have NaNs in some cells #
+        df = df.fillna(0.0)
         # Return #
         return df
 
@@ -201,7 +203,7 @@ class GenusBarstack(Multiplot):
                 self.hide_full_axes(axes)
 
         # Leave some space around the graph #
-        pyplot.subplots_adjust(wspace=0.3, top=0.9, left=0.04, right=0.985, bottom=0.1)
+        pyplot.subplots_adjust(wspace=0.3, top=0.9, left=0.04, right=0.91, bottom=0.1)
         # Save #
         self.save_plot(**kwargs)
         # Convenience: return for display in notebooks for instance #

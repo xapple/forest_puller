@@ -85,7 +85,7 @@ class ComparisonTemplate(ReportTemplate):
             graph = countries[iso2_code]
             result += str(BareFigure(graph=graph)) + '\n\n'
         # Add the legend #
-        result += str(ScaledFigure(graph=legend, width='9em'))
+        result += str(ScaledFigure(graph=legend, width='9em', caption=caption))
         # Return #
         return result
 
@@ -93,7 +93,7 @@ class ComparisonTemplate(ReportTemplate):
     def comp_conv_to_tons(self):
         # Caption #
         caption = "Comparison of gains, losses, and totals converted to tons of" \
-                  "carbon reported in 26 countries and 5 data sources."
+                  " carbon reported in 26 countries and 5 data sources."
         # Import #
         from forest_puller.viz.converted_to_tons import countries, legend, all_codes
         # Initialize #
@@ -103,6 +103,23 @@ class ComparisonTemplate(ReportTemplate):
             graph = countries[iso2_code]
             result += str(BareFigure(graph=graph)) + '\n\n'
         # Add the legend #
-        result += str(ScaledFigure(graph=legend, width='9em'))
+        result += str(ScaledFigure(graph=legend, width='9em', caption=caption))
         # Return #
         return result
+
+    #--------------------------- Genus composition ---------------------------#
+    def genus_comp(self):
+        # Caption #
+        caption = "Comparison of genus composition in the growing stock at" \
+                  " 4 different time points in 26 countries."
+        # Import #
+        from forest_puller.viz.genus_barstack import all_graphs, genus_legend
+        # Initialize #
+        result = ""
+        # Loop every country #
+        for graph in all_graphs: result += str(BareFigure(graph=graph)) + '\n\n'
+        # Add the legend #
+        result += str(ScaledFigure(graph=genus_legend, caption=caption))
+        # Return #
+        return result
+
