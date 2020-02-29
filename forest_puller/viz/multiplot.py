@@ -76,6 +76,30 @@ class Multiplot(Graph):
         fn = lambda axes: axes.yaxis.grid(True, linestyle=':')
         self.iterate_all_axes(fn)
 
+    def set_x_lim(self, a, b):
+        fn = lambda axes: axes.set_xlim(a, b)
+        self.iterate_all_axes(fn)
+
+    def set_y_lim(self, a, b):
+        fn = lambda axes: axes.set_ylim(a, b)
+        self.iterate_all_axes(fn)
+
+    def set_x_ticks(self, ticks):
+        fn = lambda axes: axes.set_xticks(ticks)
+        self.iterate_all_axes(fn)
+
+    def set_y_ticks(self, ticks):
+        fn = lambda axes: axes.set_yticks(ticks)
+        self.iterate_all_axes(fn)
+
+    def set_x_tick_labels(self, labels):
+        fn = lambda axes: axes.set_xticklabels(labels)
+        self.iterate_all_axes(fn)
+
+    def set_y_tick_labels(self, labels):
+        fn = lambda axes: axes.set_yticklabels(labels)
+        self.iterate_all_axes(fn)
+
     def hide_titles(self):
         """Remove the subplot titles."""
         fn = lambda axes: axes.title.set_visible(False)
@@ -96,6 +120,17 @@ class Multiplot(Graph):
         self.iterate_all_axes(fn)
         fn = lambda axes: axes.spines["right"].set_visible(False)
         self.iterate_all_axes(fn)
+
+    def hide_full_axes(self, axes):
+        axes.spines["top"].set_visible(False)
+        axes.spines["right"].set_visible(False)
+        axes.spines["left"].set_visible(False)
+        axes.spines["bottom"].set_visible(False)
+        axes.set_xlabel(None)
+        for xlabel in axes.get_xticklabels():
+            xlabel.set_visible(False)
+        for tick in axes.get_xticklines():
+            tick.set_visible(False)
 
     def y_center_origin(self):
         """

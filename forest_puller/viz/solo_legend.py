@@ -21,19 +21,23 @@ Typically you can use this submodule this like:
 from plumbing.graphs import Graph
 
 # Third party modules #
-import numpy
+import numpy, matplotlib
 from matplotlib import pyplot
 
 ###############################################################################
 class SoloLegend(Graph):
     """
-    A figure that contains no plot, only the legend, for composition purposes
+    A figure that contains no plot, only a legend, for composition purposes
     with the other graphs.
     """
 
     short_name = "legend"
 
-    def title_to_color(self):
+    ncol = 1
+    capitalize = True
+
+    @property
+    def label_to_color(self):
         raise NotImplementedError()
 
     def plot(self, **kwargs):
@@ -41,20 +45,23 @@ class SoloLegend(Graph):
         fig  = pyplot.figure()
         axes = fig.add_subplot(111)
         # Create lines #
-        from matplotlib.lines import Line2D
-        items = self.title_to_color.items()
-        kw    = {'linewidth': 10, 'linestyle': '-'}
-        lines = [Line2D([0], [0], color=v, label=k, **kw) for k,v in items]
+        items = self.label_to_color.items()
+        # Modify the labels #
+        if self.capitalize: items = [(k.capitalize(), v) for k,v in items]
+        # Create the patches #
+        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in items]
         # Suppress a warning #
         import warnings
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
-            leg = fig.legend(handles   = lines,
+            leg = fig.legend(handles   = patches,
                              borderpad = 1,
                              prop      = {'size': 20},
                              frameon   = True,
                              shadow    = True,
-                             loc       = 'center')
+                             loc       = 'center',
+                             ncol      = self.ncol,
+                             fancybox  = True)
         # Remove the axes #
         axes.axis('off')
         # Find the bounding box to remove useless white space #

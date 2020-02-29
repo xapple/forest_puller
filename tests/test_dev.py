@@ -109,6 +109,9 @@ from tqdm import tqdm
 #print(continent.report())
 
 ###############################################################################
-from forest_puller.viz.genus_barstack import all_graphs
-barstack = all_graphs[0]
-barstack.plot(rerun=True)
+#from forest_puller.viz.genus_barstack import all_graphs
+#barstack = all_graphs[0]
+#barstack.plot(rerun=True)
+
+from forest_puller.viz.genus_barstack import genus_legend
+genus_legend.plot(rerun=True)

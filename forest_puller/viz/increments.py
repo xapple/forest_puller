@@ -369,7 +369,7 @@ class GainsLossNetGraph(Multiplot):
 ###############################################################################
 class GainsLossNetLegend(Graph):
     """
-    A figure that contains no plot, only the legend, for composition purposes
+    A figure that contains no plot, only a legend, for composition purposes
     with the other graphs.
     """
 
