@@ -109,5 +109,6 @@ from tqdm import tqdm
 #print(continent.report())
 
 ###############################################################################
-from forest_puller.viz.genus_barstack import batches
-print(batches)
+from forest_puller.viz.genus_barstack import all_graphs
+barstack = all_graphs[0]
+barstack.plot(rerun=True)

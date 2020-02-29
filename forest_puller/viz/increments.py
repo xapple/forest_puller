@@ -251,7 +251,10 @@ class GainsLossNetGraph(Multiplot):
     # Basic params #
     x_label    = 'Year'
     formats    = ('pdf',)
-    ncols      = 5
+
+    # Size of grid #
+    nrows = 1
+    ncols = 5
 
     # Cosmetic params #
     display_legend = False
