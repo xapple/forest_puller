@@ -122,7 +122,13 @@
 
 # TODO
 
-* Make a total of all EU countries.
+* Conifers (have 4 genera) vs broadleaved could have distinguished colors. Use black for missing. Abies (dark green), picea (dark green), pinus (green), pseudotsuga (light green).
+
+* Manage the case when the species name is the same as another possible genus name (e.g. picea abies in finland), the string matching algorithm should favor the first word.
+
+* Possibly plot the proportion of genera in CBM also and compare side by side.
+
+* Make a total of all EU countries (for soef only 2015, for ipcc only net cruve, pour faostat start in 2000)
 
 * Write up introduction and methods.
  
