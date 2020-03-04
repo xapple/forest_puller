@@ -47,7 +47,7 @@ class GenusBarstackData:
 class GenusComposition:
     """
     Produces one dataframe for each country detailing
-    the breakdown of the growing stock in terms of genera.
+    the breakdown of the growing stock () in terms of genera.
     """
 
     def __init__(self, soef_country):
