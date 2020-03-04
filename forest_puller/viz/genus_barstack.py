@@ -10,6 +10,10 @@ Unit D1 Bioeconomy.
 Typically you can use this submodule this like:
 
     >>> from forest_puller.viz.genus_barstack import genus_barstack_data
+    >>> print(genus_barstack_data.countries)
+    >>> country = genus_barstack_data.countries['AT']
+    >>> print(country.genus_comp.stock_comp_genus)
+    >>> print(country.genus_comp.stock_genus_by_year)
 """
 
 # Built-in modules #
@@ -46,8 +50,9 @@ class GenusBarstackData:
 ###############################################################################
 class GenusComposition:
     """
-    Produces one dataframe for each country detailing
-    the breakdown of the growing stock () in terms of genera.
+    Every SOEF country object gets one instance of this class as a property.
+    This class produces one dataframe (for each country) detailing
+    the breakdown of the growing stock (m^3) in terms of genera.
     """
 
     def __init__(self, soef_country):
@@ -61,14 +66,26 @@ class GenusComposition:
 
     @property_cached
     def stock_comp_genus(self):
+        """
+        Looks like:
+
+           country  year     genus  growing_stock
+                AT  1990  carpinus      5000000.0
+                AT  1990      acer      9000000.0
+                AT  1990     pinus      9000000.0
+                AT  1990     abies     43000000.0
+                AT  1990   missing     61000000.0
+                AT  1990     pinus     73000000.0
+                AT  1990     abies    550000000.0
+        """
         # Import #
         from forest_puller.soef.composition import composition_data as comp_data
         # Load #
         df = comp_data.stock_comp.query("country==@self.iso2_code")
-        # Join #
-        df = df.left_join(comp_data.latin_mapping, on='latin_name')
         # Drop totals #
         df = df.query('rank!="total"')
+        # Join #
+        df = df.left_join(comp_data.latin_mapping, on='latin_name')
         # Drop columns and reorder #
         cols_to_drop = ['latin_name', 'common_name', 'rank', 'species']
         cols_to_keep = ['country', 'year', 'genus', 'growing_stock']
@@ -81,17 +98,34 @@ class GenusComposition:
 
     @property_cached
     def stock_genus_by_year(self):
+        """
+        Looks like:
+
+            genus        abies        fagus       pinus     missing
+            year
+            1990   593000000.0   82000000.0  82000000.0  61000000.0
+            2000   686000000.0   96000000.0  83000000.0  70000000.0
+            2005   707000000.0  102000000.0  82000000.0  72000000.0
+            2010   721000000.0  106000000.0  81000000.0  76000000.0
+
+        We want to sort the columns as that the first level of
+        organization is always:  all conifers, missing, all broadleaved
+        then within each category we want to sort by the average
+        growing stock across all years with highest first.
+        """
         # Load #
         df = self.stock_comp_genus
-        # Join #
+        # Join and sum #
         df = df.pipe(pandas.pivot_table,
                      index   = ['year'],
                      columns = ['genus'],
                      values  = 'growing_stock',
                      aggfunc = numpy.sum)
+        # Sort the columns #
+        cols = list(df.columns)
         # Sort by average values #
         df = df.reindex(df.mean().sort_values(ascending=False).index, axis=1)
-        # But put missing last #
+        # Put the missing column last #
         cols = df.columns.tolist()
         if 'missing' in cols:
             cols.remove('missing')
@@ -114,17 +148,14 @@ class GenusBarstack(Multiplot):
     width      = 30
 
     # Size of grid #
-    nrows = 1
-    ncols = 5
+    n_rows = 1
+    n_cols = 5
 
-    # Mapping of genera to colors #
-    name_to_color = {}
-
-    # The ISO2 codes of these countries #
+    # The ISO2 codes of these countries in the current batch #
     @property
     def short_name(self): return '_'.join(c.iso2_code for c in self.parent)
 
-    # Where the years are shown #
+    # Where the years are shown on the X axis coordinates #
     year_to_index = {1990: 1,
                      2000: 2,
                      2005: 3,
@@ -163,7 +194,7 @@ class GenusBarstack(Multiplot):
             cum_size += values
 
     def plot(self, **kwargs):
-        # Plot every curve on every data source #
+        # Plot every country #
         for country, axes in zip(self.parent, self.axes):
             pyplot.sca(axes)
             self.stacked_barplot(country)
@@ -197,7 +228,7 @@ class GenusBarstack(Multiplot):
             title = country.genus_comp.country_name
             axes.text(0.05, 1.05, title, transform=axes.transAxes, ha="left", size=22)
 
-        # Prune graphs if we are shorter than ncols #
+        # Prune graphs if we are shorter than n_cols #
         if len(self.parent) < self.ncols:
             for axes in self.axes[len(self.parent):]:
                 self.hide_full_axes(axes)
@@ -213,6 +244,33 @@ class GenusBarstack(Multiplot):
 class GenusBarstackLegend(SoloLegend):
 
     ncol = 5
+
+    @property_cached
+    def labels(self):
+        # Import #
+        from forest_puller.other.tree_species_info import df as species_info
+        # Load #
+        genera = list(species_info['genus'].unique())
+        genera.insert(0, 'missing')
+        # Return #
+        return genera
+
+    @property_cached
+    def label_to_color(self):
+        """Mapping of genera to colors."""
+        # Zip #
+        result = dict(zip(self.labels, self.cool_colors))
+        # Return #
+        return result
+
+###############################################################################
+class ColorCodeLegend(GenusBarstackLegend):
+    """
+    So that we can view which color is which RGB code to
+    reorganize them.
+    """
+
+    short_name = 'color_codes'
 
     @property_cached
     def cool_colors(self):
@@ -231,16 +289,9 @@ class GenusBarstackLegend(SoloLegend):
 
     @property_cached
     def label_to_color(self):
-        # Import #
-        from forest_puller.soef.composition import composition_data as comp_data
-        # Load #
-        genera = list(comp_data.species_to_density['genus'].unique())
-        genera.insert(0, 'missing')
-        count  = len(genera)
-        # Zip #
-        result = dict(zip(genera, self.cool_colors[:count]))
-        # Return #
-        return result
+        colors = self.cool_colors[:len(self.labels)]
+        names  = [' '.join(map(lambda f: '%.3f' % f, rgb)) for rgb in colors]
+        return dict(zip(names, colors))
 
 ###############################################################################
 # Add the required properties #
@@ -252,7 +303,7 @@ missing_countries = ['DE', 'GR', 'LU']
 c_vals = [c for c in c_vals if c.iso2_code not in missing_countries]
 
 # Sort countries into batches of a given size #
-batch_size = GenusBarstack.ncols
+batch_size = GenusBarstack.n_cols
 batches    = [c_vals[i:i + batch_size] for i in range(0, len(c_vals), batch_size)]
 
 # Constants #
@@ -263,3 +314,4 @@ all_graphs = [GenusBarstack(batch, export_dir) for batch in batches]
 
 # Create a separate standalone legend #
 genus_legend = GenusBarstackLegend(base_dir = export_dir)
+color_legend = ColorCodeLegend(base_dir = export_dir)

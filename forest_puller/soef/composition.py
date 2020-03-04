@@ -17,7 +17,6 @@ Typically you can use this class this like:
 
 # Internal modules #
 from forest_puller import module_dir, cache_dir
-from forest_puller.other.species_density import df as species_to_density
 
 # First party modules #
 from plumbing.cache import property_cached, property_pickled
@@ -71,10 +70,12 @@ class CompositionData:
     @property_cached
     def stock_density(self):
         """Join stock_comp with latin_mapping and density."""
+        # Import #
+        from forest_puller.other.tree_species_info import df as species_info
         # Join 1 #
         result = self.stock_comp.left_join(self.latin_mapping, on='latin_name')
         # Join 2 #
-        result = result.left_join(species_to_density, on=['genus', 'species'])
+        result = result.left_join(species_info, on=['genus', 'species'])
         # Reorder columns #
         cols = ['country', 'year', 'rank', 'genus', 'species',
                 'latin_name', 'growing_stock', 'density']

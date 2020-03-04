@@ -253,8 +253,8 @@ class GainsLossNetGraph(Multiplot):
     formats    = ('pdf',)
 
     # Size of grid #
-    nrows = 1
-    ncols = 5
+    n_rows = 1
+    n_cols = 5
 
     # Cosmetic params #
     display_legend = False

@@ -10,7 +10,8 @@ Unit D1 Bioeconomy.
 Typically you can use this class this like:
 
     >>> from forest_puller.other.genus_npl import genus_parser
-    >>> print(genus_parser())
+    >>> print(genus_parser.known_species)
+    >>> print(genus_parser("Subtype 5 Carpinus (over bark)"))
 """
 
 # Built-in modules #
@@ -29,7 +30,7 @@ class GenusParser:
     It returns a specific pair of genus and species name from a free text
     user input. For instance:
 
-     "lkjhlk" --> ('aaa', 'missing')
+     "Subtype 5 Carpinus (over bark)"    -->      ('carpinus', 'missing')
 
     Note: non-recognized words are obviously ignored.
     """
@@ -41,8 +42,12 @@ class GenusParser:
         Load our reference species and genera list.
         For now we will just pick those from the density list.
         """
+        # Import #
+        from forest_puller.other.tree_species_info import df as species_info
+        # Filter #
+        df = species_info[['genus', 'species']]
         # Return #
-        return result
+        return df
 
     #------------------------------ Processing -------------------------------#
     # Function to compute for each row #

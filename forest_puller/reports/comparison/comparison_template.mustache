@@ -84,11 +84,11 @@ Conversion to tons of carbon
 
 Below we compare once again the total losses, gains and net changes in forest biomass for each country.
 
-Resulting in a series of graphs that are almost identica to the ones above.
+Resulting in a series of graphs that are almost identical to the ones above.
 
-The difference is that we harmonize the Y axis units and convert the data sources that were providing volumes into mass. These were SOEF, FAOSTAT, HPFFRE. Namely, we convert cubic meters over/under bark per hectare to tons of carbon per hecatre.
+The difference is that we harmonize the Y axis units and convert the data sources that were providing volumes into mass. These were SOEF, FAOSTAT, HPFFRE. Namely, we convert cubic meters over/under bark per hectare to tons of carbon per hectare.
 
-To do this we use a dataset provided by SOEF that indicates the proportion of the 10 most common species in terms of gorwing stock combined with a published table specifying different specie's wood densities.
+To do this we use a dataset provided by SOEF that indicates the proportion of the 10 most common species in terms of growing stock combined with a published table specifying different specie's wood densities.
 
 The wood density is in [tons / m³] more precisely [oven-dry tonnes of C per moist m³] and is found at:
 
@@ -99,11 +99,11 @@ The wood density is in [tons / m³] more precisely [oven-dry tonnes of C per moi
 
 Some countries are missing such as germany, which does not provide the total growing stock.
 
-The matching of the speice's latin as given in each country does not follow any standard and contains stochastic variations. THe matching of the user inputed latin name to it's cannocial genus is done through string matching strategies.
+The matching of the species latin as given in each country does not follow any standard and contains stochastic variations. THe matching of the user inputted latin name to its canonical genus is done through string matching strategies.
 
 The average density values are then linearly interpolated for missing years, and padded by copy outside of the bounds for which data is provided.
 
-A bark correction factor of 0.88 is applied to SOEF and HPPFRE data sources, which provided values in cubic meters over bark.
+A bark correction factor of 0.88 is applied to SOEF and HPFFRE data sources, which provided values in cubic meters over bark.
 
 \vspace{5mm}
 
@@ -113,5 +113,7 @@ Comparison of the growing stock genera composition
 --------------------------------------------------
 
 Below we compare the breakdown of a country's growing stock in terms of the tree species that compose it. Namely, we plot the fraction of each genus that the country reported at four different years in the SOEF dataset.
+
+The growing stock here is reported as volumes in cubic meters.
 
 {{genus_comp}}

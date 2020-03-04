@@ -28,8 +28,8 @@ class Multiplot(Graph):
     """
 
     # Size of grid #
-    nrows = 1
-    ncols = 1
+    n_rows = 1
+    n_cols = 1
 
     # Defaults #
     share_y = True
@@ -45,11 +45,11 @@ class Multiplot(Graph):
         if self.share_x is True: self.share_x = 'all'
         if self.share_y is True: self.share_y = 'all'
         # Figure size #
-        width  = self.ncols * 5 if self.width  is None else self.width
-        height = self.nrows * 5 if self.height is None else self.height
+        width  = self.n_cols * 5 if self.width is None else self.width
+        height = self.n_rows * 5 if self.height is None else self.height
         # Create #
-        fig, axes = pyplot.subplots(nrows   = self.nrows,
-                                    ncols   = self.ncols,
+        fig, axes = pyplot.subplots(nrows   = self.n_rows,
+                                    ncols   = self.n_cols,
                                     sharex  = self.share_x,
                                     sharey  = self.share_y,
                                     figsize = (width, height))

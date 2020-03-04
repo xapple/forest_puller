@@ -9,8 +9,8 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.other.species_density import df as species_to_density
-    >>> print(species_to_density)
+    >>> from forest_puller.other.tree_species_info import df as species_info
+    >>> print(species_info)
 """
 
 # Built-in modules #
@@ -24,7 +24,7 @@ from forest_puller import module_dir
 import pandas
 
 ###############################################################################
-def species_to_density(self):
+def load_species_info():
     """
     Parse the hard-coded table genus and species to density.
     These values come from a publication:
@@ -39,7 +39,7 @@ def species_to_density(self):
     Note: we do not know if they measure the volume over or under bark.
     """
     # Constants #
-    result = module_dir + 'extra_data/species_to_wood_density.csv'
+    result = module_dir + 'extra_data/tree_species_info.csv'
     result = pandas.read_csv(str(result))
     # Strip white space #
     for col in ['species', 'genus']:
@@ -54,4 +54,4 @@ def species_to_density(self):
 
 ###############################################################################
 # Create a dataframe #
-df = species_to_density()
+df = load_species_info()
