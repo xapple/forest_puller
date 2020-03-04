@@ -17,6 +17,7 @@ Typically you can use this class this like:
 
 # Internal modules #
 from forest_puller import module_dir, cache_dir
+from forest_puller.other.species_density import df as species_to_density
 
 # First party modules #
 from plumbing.cache import property_cached, property_pickled
@@ -39,35 +40,6 @@ class CompositionData:
 
     #----------------------------- Data sources ------------------------------#
     @property_cached
-    def species_to_density(self):
-        """
-        Parse the hard-coded table genus+species to density.
-        These values come from a publication:
-
-            Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories
-            Table 4.14 Basic Wood Density (d) Of Selected Temperate And Boreal Tree Taxa
-            https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
-            See page 71.
-
-        The density in [tons / m³] more precisely [oven-dry tonnes of C per moist m³].
-        We convert it to [kg / m³] here.
-        We do not know if they measure the volume over or under bark.
-        """
-        # Constants #
-        result = module_dir + 'extra_data/species_to_wood_density.csv'
-        result = pandas.read_csv(str(result))
-        # Strip white space #
-        for col in ['species', 'genus']:
-            result[col] = result[col].str.strip()
-        # Fill missing values #
-        for col in ['species', 'genus']:
-            result[col] = result[col].fillna('missing')
-        # We want kilograms, not tons #
-        result['density'] *= 1000
-        # Return #
-        return result
-
-    @property_cached
     def stock_comp(self):
         """Load the table with the species breakdown per year per country."""
         # Import #
@@ -79,54 +51,14 @@ class CompositionData:
         # Return #
         return result
 
-    #------------------------------ Processing -------------------------------#
-    # Function to compute for each row #
-    def latin_to_genus_species(self, latin_name):
-        """
-        Function used to compute each row (used below).
-        Takes a latin_name and returns genus_name, species_name.
-        """
-        # Default #
-        genus_name   = 'missing'
-        species_name = 'missing'
-        # Lower case the input #
-        latin_name  = latin_name.lower()
-        # Case remaining #
-        if latin_name in ['remaining']: return genus_name, species_name
-        # Case total #
-        if latin_name in ['total']:     return genus_name, species_name
-        # Check every genus in our table against the current latin_name #
-        is_in_fn = lambda s: s in latin_name
-        selector = self.species_to_density['genus'].apply(is_in_fn)
-        # Case no matches #
-        if not any(selector): return genus_name, species_name
-        # Case one or several matches, sort by length #
-        matched_rows = self.species_to_density[selector]
-        genera_found = list(matched_rows['genus'].unique())
-        genera_found = sorted(genera_found, key=len, reverse=True)
-        genus_name   = genera_found[0]
-        # Check for the species now #
-        selector   = self.species_to_density['genus'] == genus_name
-        genus_rows = self.species_to_density[selector]
-        # Case no species specified for this genera #
-        if len(genus_rows) == 1: return genus_name, species_name
-        # Case several species specified #
-        selector = genus_rows['species'].apply(is_in_fn)
-        if not any(selector): return genus_name, species_name
-        matched_rows = genus_rows[selector]
-        species_found = list(matched_rows['species'].unique())
-        species_found = sorted(species_found, key=len, reverse=True)
-        species_name  = species_found[0]
-        # Return #
-        return genus_name, species_name
-
     @property_cached
     def latin_mapping(self):
         """Assign a species and genus to each latin name."""
         # Load #
         all_latin_names = pandas.Series(self.stock_comp['latin_name'].unique())
         # Mapping table #
-        result = all_latin_names.map(self.latin_to_genus_species)
+        from forest_puller.other.genus_npl import genus_parser
+        result = all_latin_names.map(genus_parser)
         # Unzip #
         genus, species = list(zip(*result))
         # Make data frame #
@@ -142,7 +74,7 @@ class CompositionData:
         # Join 1 #
         result = self.stock_comp.left_join(self.latin_mapping, on='latin_name')
         # Join 2 #
-        result = result.left_join(self.species_to_density, on=['genus', 'species'])
+        result = result.left_join(species_to_density, on=['genus', 'species'])
         # Reorder columns #
         cols = ['country', 'year', 'rank', 'genus', 'species',
                 'latin_name', 'growing_stock', 'density']

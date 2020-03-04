@@ -71,7 +71,7 @@
 
 * Make PDF with figure legend
 
-* For each source a separate plot of increment and fellings in unit/ha on total forest area if available otherwise on forest area available for wood supply. 
+* For each source a separate plot of increment and fellings in unit/ha on total forest area if available otherwise on forest area available for wood supply.
 
 * Check conversion factor for hpffre
 
@@ -110,11 +110,11 @@
   - Tons of dry matter are converted to tons of carbon by applying a 0.5 conversion factor
 
     - First get the proportion of species from each country from either FAOSTAT or SOEF. Not sure yet.
-    
+
     - Then get species-specific conversion coefficients from "IPCC basic wood density of selected tree species"
-    
+
      - Reference: Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories 4.71 TABLE 4.14 BASIC WOOD DENSITY (D) OF SELECTED TEMPERATE AND BOREAL TREE TAXA
-    
+
     - Link: https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf   PAGE 71
 
 * Graph of species proportion in each country
@@ -122,16 +122,18 @@
 
 # TODO
 
+* We do not know if they measure the density over or under bark.
+
 * Conifers (have 4 genera) vs broadleaved could have distinguished colors. Use black for missing. Abies (dark green), picea (dark green), pinus (green), pseudotsuga (light green).
 
-* Manage the case when the species name is the same as another possible genus name (e.g. picea abies in finland), the string matching algorithm should favor the first word.
+* Manage the case when the species name is the same as another possible genus name (e.g. "picea abies" in finland), the string matching algorithm should favor the first word.
 
 * Possibly plot the proportion of genera in CBM also and compare side by side.
 
-* Make a total of all EU countries (for soef only 2015, for ipcc only net cruve, pour faostat start in 2000)
+* Make a total of all EU countries (for soef only 2015, for ipcc only net curve, pour faostat start in 2000)
 
 * Write up introduction and methods.
- 
+
 * Create statistic that shows (e.g. for the last year available) in form of a table maybe, the total surface for the given country and the proportion of that that is "available for wood supply", for each given source that has this information (IPCC, SOEF, FAOSTAT).
 
 * Reset the history of the puller_cache repository for faster downloads.
