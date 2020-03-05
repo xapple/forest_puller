@@ -121,13 +121,14 @@
 
 * Conifers (have 4 genera) vs broadleaved could have distinguished colors. Use black for missing. Abies (dark green), picea (dark green), pinus (green), pseudotsuga (light green).
 
-# TODO
+* Manage the case when the species name is the same as another possible genus name (e.g. "picea abies" in finland), the string matching algorithm should favor the first word.
 
 * Make a script for the security group
 
-* We do not know if they measure the density over or under bark.
 
-* Manage the case when the species name is the same as another possible genus name (e.g. "picea abies" in finland), the string matching algorithm should favor the first word.
+# TODO
+
+* We do not know if they measure the density over or under bark.
 
 * Possibly plot the proportion of genera in CBM also and compare side by side.
 

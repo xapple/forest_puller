@@ -88,7 +88,7 @@ class CompositionData:
     def collapse(self, subdf):
         """
         Function used to compute each extra row (used below).
-        Takes a dataframe and returns dataframe.
+        Takes a dataframe and returns a dataframe.
         """
         # Reset the index #
         subdf = subdf.reset_index(drop=True)

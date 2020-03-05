@@ -55,3 +55,8 @@ def load_species_info():
 ###############################################################################
 # Create a dataframe #
 df = load_species_info()
+
+# Make a list of conifers and broadleaved genera #
+genera   = df.groupby('genus').first().reset_index()
+conifers = genera.query('kind=="conifer"')['genus'].tolist()
+broads   = genera.query('kind=="broad"')['genus'].tolist()

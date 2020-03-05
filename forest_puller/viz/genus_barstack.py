@@ -12,7 +12,7 @@ Typically you can use this submodule this like:
     >>> from forest_puller.viz.genus_barstack import genus_barstack_data
     >>> country = genus_barstack_data.countries['FR']
     >>> print(country.genus_comp.stock_comp_genus)
-    >>> print(country.genus_comp.sort_cols)
+    >>> print(country.genus_comp.sort_cols(country.genus_comp.stock_genus_by_year))
     >>> print(country.genus_comp.stock_genus_by_year)
 
 Or if you want to look at the legend:
@@ -104,22 +104,21 @@ class GenusComposition:
     def sort_cols(self, df):
         """
         We want to sort the columns so that the first level of
-        organization is always:  all conifers, missing, all broadleaved
-        then within each category we want to sort by the average
+        organization is always:  all conifers, missing, all broadleaved.
+        Then, within each category, we want to sort by the average
         growing stock across all years with highest first.
+
+        Looks like: ['quercus', 'fagus', 'missing', 'pseudotsuga', ...]
         """
-        # Make a list of conifers and broadleaved genera #
-        from forest_puller.other.tree_species_info import df as species_info
-        genera   = species_info.groupby('genus').first().reset_index()
-        conifers = genera.query('kind=="conifer"')['genus'].tolist()
-        broads   = genera.query('kind=="broad"')['genus'].tolist()
-        # Get the genera #
-        genera = df.columns.tolist()
+        # Import #
+        from forest_puller.other.tree_species_info import conifers, broads
         # Function to sort the columns #
         def genus_to_placement(genus):
             if genus == 'missing': return 0
             if genus in conifers:  return  df[genus].mean()
             if genus in broads:    return -df[genus].mean()
+        # Get the column names which are genera #
+        genera = df.columns.tolist()
         # Sort the columns by custom arrangement #
         genera.sort(key=genus_to_placement)
         # Return #

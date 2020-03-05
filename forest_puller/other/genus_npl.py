@@ -11,7 +11,7 @@ Typically you can use this class this like:
 
     >>> from forest_puller.other.genus_npl import genus_parser
     >>> print(genus_parser.known_species)
-    >>> print(genus_parser("Subtype 5 Carpinus (over bark)"))
+    >>> genus_parser.test()
 """
 
 # Built-in modules #
@@ -40,7 +40,7 @@ class GenusParser:
     def known_species(self):
         """
         Load our reference species and genera list.
-        For now we will just pick those from the density list.
+        For now we will just pick those from the density CSV.
         """
         # Import #
         from forest_puller.other.tree_species_info import df as species_info
@@ -50,45 +50,79 @@ class GenusParser:
         return df
 
     #------------------------------ Processing -------------------------------#
-    # Function to compute for each row #
     def latin_to_genus_species(self, latin_name):
         """
         Function used to compute each row (used below).
         Takes a latin_name and returns genus_name, species_name.
+        This function should account for several special cases:
+
+           * The species name is the same as another possible genus
+             name (e.g. "picea abies" in finland),
+           * The genus name is a substring of an other possible genus
+             name (e.g. "pinus" and "carpinus")
+
+                   | carpinus | abies | tree  ||             | carpinus | abies | tree
+        abies      |          |   X   |       ||  pinaster   |          |       |
+        acer       |          |       |       ||  radiata    |          |       |
+        alnus      |          |       |       ||  strobus    |          |       |
+        betula     |          |       |       ||  sylvestris |          |       |
+        carpinus   |    X     |       |       ||  silvestris |          |       |
+        castanea   |          |       |       ||  contorta   |          |       |
+        fagus      |          |       |       ||  nigra      |          |       |
+        fraxinus   |          |       |       ||
+        larix      |          |       |       ||
+        picea      |          |       |       ||
+        pinus      |    -     |       |       ||
+        populus    |          |       |       ||
+        prunus     |          |       |       ||
+        pseudotsuga|          |       |       ||
+        quercus    |          |       |       ||
+        robinia    |          |       |       ||
+        salix      |          |       |       ||
+        tilia      |          |       |       ||
         """
         # Default #
         genus_name   = 'missing'
         species_name = 'missing'
         # Lower case the input #
         latin_name  = latin_name.lower()
-        # Case remaining #
-        if latin_name in ['remaining']: return genus_name, species_name
-        # Case total #
-        if latin_name in ['total']:     return genus_name, species_name
-        # Check every genus in our table against the current latin_name #
-        is_in_fn = lambda s: s in latin_name
-        selector = self.known_species['genus'].apply(is_in_fn)
-        # Case no matches #
-        if not any(selector): return genus_name, species_name
-        # Case one or several matches, sort by length #
-        matched_rows = self.known_species[selector]
-        genera_found = list(matched_rows['genus'].unique())
-        genera_found = sorted(genera_found, key=len, reverse=True)
-        genus_name   = genera_found[0]
-        # Check for the species now #
-        selector   = self.known_species['genus'] == genus_name
-        genus_rows = self.known_species[selector]
-        # Case no species specified for this genera #
-        if len(genus_rows) == 1: return genus_name, species_name
-        # Case several species specified #
-        selector = genus_rows['species'].apply(is_in_fn)
-        if not any(selector): return genus_name, species_name
-        matched_rows = genus_rows[selector]
-        species_found = list(matched_rows['species'].unique())
-        species_found = sorted(species_found, key=len, reverse=True)
-        species_name  = species_found[0]
+        # Split into words #
+        words = latin_name.split()
+        # Get all possible genera #
+        genera = self.known_species['genus'].unique().tolist()
+        # Compare against all possible genera, take first match #
+        for word in words:
+            if genus_name != 'missing': break
+            for genus in genera:
+                if genus_name != 'missing': break
+                if word == genus: genus_name = genus
+        # Get all possible species #
+        all_species = self.known_species.query("genus==@genus_name")
+        all_species = all_species['species'].unique().tolist()
+        # Compare against all possible species, take first match #
+        for word in words:
+            if species_name != 'missing': break
+            for species in all_species:
+                if species_name != 'missing': break
+                if word == species: species_name = species
         # Return #
         return genus_name, species_name
+
+    #------------------------------ Testing ----------------------------------#
+    test_cases = [
+        'Pinus silvestris',
+        'Pinus lorem ipsum',
+        'Fagus sylvatica',
+        'Abies alba (xyz)',
+        'Picea abies',
+        'Pseudotsuga nigra',
+        'Carpinus betulus',
+        'Peugot 305'
+    ]
+
+    def test(self):
+        for case in self.test_cases:
+            print(case, '---', self.latin_to_genus_species(case))
 
     #------------------------------ Convenience ------------------------------#
     def __call__(self, x): return self.latin_to_genus_species(x)
