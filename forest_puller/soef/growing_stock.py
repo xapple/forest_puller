@@ -6,6 +6,13 @@ Written by Lucas Sinclair and Paul Rougieux.
 
 JRC Biomass Project.
 Unit D1 Bioeconomy.
+
+Typically you can use this class this like:
+
+    >>> from forest_puller.soef.country import countries
+    >>> country = countries['DE']
+    >>> print(country.stock_comp.stock_comp)
+    >>> print(country.stock_comp.df)
 """
 
 # Built-in modules #
@@ -78,33 +85,32 @@ class GrowingStockComp(TableParser):
         Hack: manually edit Germany to add missing values
         """
         # Default case #
-        if self.iso2_code != 'DE':
-            return self.stock_comp
+        if self.iso2_code != 'DE': return self.stock_comp
+        # Add total and remaining values for Germany #
+        df = self.stock_comp
+        # These total copied from soef "Table 1.2a" #
+        de_total = pandas.DataFrame({'year':  [1990, 2000, 2010],
+                                     'total': [2815*1e6, 3381*1e6, 3617*1e6]})
         # Special case for germany #
-        stock_comp = self.stock_comp
-        # Add total and remaining values for Germany
-        # (total copied from soef "Table 1.2a: Growing stock") because it is not parsed currently
-        de_total = pandas.DataFrame({'year':[1990, 2000, 2010],
-                             'total':[2815*1e6,3381*1e6,3617*1e6]})
-        # Compute remaining
-        df = stock_comp_de.groupby(['year']).agg({'growing_stock':sum}).reset_index()
+        # Compute remaining #
+        df = df.groupby(['year']).agg({'growing_stock': 'sum'}).reset_index()
         df = df.left_join(de_total, on='year')
+        # Add remaining column #
         df['remaining'] = df['total'] - df['growing_stock']
         df = df.drop(columns=['growing_stock'])
-        # Reshape to long format
-        df = df.melt(id_vars='year',var_name='rank', value_name='growing_stock')
-        # Add missing columns
-        df['latin_name'] = df['rank']
+        # Reshape to long format #
+        df = df.melt(id_vars='year', var_name='rank', value_name='growing_stock')
+        # Add missing columns #
+        df['latin_name']  = df['rank']
         df['common_name'] = df['rank']
-        df['country'] = 'DE'
-        # Re-order columns
-        columns = list(stock_comp.columns)
+        # Re-order columns #
+        columns = list(self.stock_comp.columns)
         df = df[columns]
-        # Add total and remaining values back to the main data frame
-        df = pandas.concat([stock_comp, df])
-        # Reorder values years are together again
-        df=  df.sort_values(['year', 'rank'])
-       # Return #
+        # Add total and remaining values back to the main data frame #
+        df = pandas.concat([self.stock_comp, df])
+        # Reorder values years are together again #
+        df = df.sort_values(['year', 'rank'])
+        # Return #
         return df
 
     def sanitize(self, text):

@@ -128,8 +128,6 @@
 
 # TODO
 
-* We do not know if they measure the density over or under bark.
-
 * Possibly plot the proportion of genera in CBM also and compare side by side.
 
 * Make a total of all EU countries (for soef only 2015, for ipcc only net curve, pour faostat start in 2000)

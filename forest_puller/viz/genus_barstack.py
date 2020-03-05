@@ -293,7 +293,7 @@ genus_barstack_data = GenusBarstackData()
 c_vals = list(genus_barstack_data.countries.values())
 
 # Remove countries that don't have data #
-missing_countries = ['DE', 'GR', 'LU']
+missing_countries = ['GR', 'LU']
 c_vals = [c for c in c_vals if c.iso2_code not in missing_countries]
 
 # Sort countries into batches of a given size #

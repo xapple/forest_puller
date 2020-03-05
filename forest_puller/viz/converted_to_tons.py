@@ -42,7 +42,8 @@ class ConvertedTonsData:
     * The result is now in tons of carbon over bark.
     """
 
-    # This value ... #
+    # This value comes from:
+    # https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
     bark_correction_factor = 0.88
 
     #----------------------------- Data sources ------------------------------#
@@ -172,7 +173,6 @@ converted_tons_data = ConvertedTonsData()
 # Create a facet for each country #
 export_dir = cache_dir + 'graphs/converted_tons/'
 all_codes  = list(country_codes['iso2_code'])
-all_codes.remove('DE')
 all_graphs = [ConvertedTonsGraph(iso2, export_dir) for iso2 in all_codes]
 countries  = {c.parent: c for c in all_graphs}
 

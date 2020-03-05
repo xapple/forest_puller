@@ -45,8 +45,6 @@ class CompositionData:
         import forest_puller.soef.concat
         # Load #
         result = forest_puller.soef.concat.tables['stock_comp']
-        # Germany does not provide totals -- cannot be used for this analysis #
-        result = result.query("country != 'DE'").copy()
         # Return #
         return result
 
