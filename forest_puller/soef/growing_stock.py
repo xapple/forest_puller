@@ -101,9 +101,9 @@ class GrowingStockComp(TableParser):
         columns = list(stock_comp.columns)
         df = df[columns]
         # Add total and remaining values back to the main data frame
-        stock_comp2 = pandas.concat([stock_comp, df])
+        df = pandas.concat([stock_comp, df])
         # Reorder values years are together again
-        stock_comp2 = stock_comp2.sort_values(['year', 'rank'])
+        df=  df.sort_values(['year', 'rank'])
        # Return #
         return df
 
