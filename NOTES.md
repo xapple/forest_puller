@@ -144,6 +144,7 @@
 
 * Adapt the CBM-EU fluxes used in gains and losses based on expert input.
 
+* Ask Roberto about the fluxes to include in EU CBM fluxes
 
 # Ideas
 
