@@ -10,10 +10,15 @@ Unit D1 Bioeconomy.
 Typically you can use this submodule this like:
 
     >>> from forest_puller.viz.genus_barstack import genus_barstack_data
-    >>> print(genus_barstack_data.countries)
-    >>> country = genus_barstack_data.countries['AT']
+    >>> country = genus_barstack_data.countries['FR']
     >>> print(country.genus_comp.stock_comp_genus)
+    >>> print(country.genus_comp.sort_cols)
     >>> print(country.genus_comp.stock_genus_by_year)
+
+Or if you want to look at the legend:
+
+    >>> from forest_puller.viz.genus_barstack import genus_legend
+    >>> print(genus_legend.label_to_color)
 """
 
 # Built-in modules #
@@ -96,6 +101,30 @@ class GenusComposition:
         # Return #
         return df
 
+    def sort_cols(self, df):
+        """
+        We want to sort the columns so that the first level of
+        organization is always:  all conifers, missing, all broadleaved
+        then within each category we want to sort by the average
+        growing stock across all years with highest first.
+        """
+        # Make a list of conifers and broadleaved genera #
+        from forest_puller.other.tree_species_info import df as species_info
+        genera   = species_info.groupby('genus').first().reset_index()
+        conifers = genera.query('kind=="conifer"')['genus'].tolist()
+        broads   = genera.query('kind=="broad"')['genus'].tolist()
+        # Get the genera #
+        genera = df.columns.tolist()
+        # Function to sort the columns #
+        def genus_to_placement(genus):
+            if genus == 'missing': return 0
+            if genus in conifers:  return  df[genus].mean()
+            if genus in broads:    return -df[genus].mean()
+        # Sort the columns by custom arrangement #
+        genera.sort(key=genus_to_placement)
+        # Return #
+        return genera
+
     @property_cached
     def stock_genus_by_year(self):
         """
@@ -121,16 +150,8 @@ class GenusComposition:
                      columns = ['genus'],
                      values  = 'growing_stock',
                      aggfunc = numpy.sum)
-        # Sort the columns #
-        cols = list(df.columns)
-        # Sort by average values #
-        df = df.reindex(df.mean().sort_values(ascending=False).index, axis=1)
-        # Put the missing column last #
-        cols = df.columns.tolist()
-        if 'missing' in cols:
-            cols.remove('missing')
-            cols.append('missing')
-            df = df.reindex(columns=cols)
+        # Sort the columns by custom arrangement #
+        df = df.reindex(columns=self.sort_cols(df))
         # Some countries like italy have NaNs in some cells #
         df = df.fillna(0.0)
         # Return #
@@ -161,9 +182,6 @@ class GenusBarstack(Multiplot):
                      2005: 3,
                      2010: 4}
 
-    @property
-    def genus_to_color(self): return genus_legend.label_to_color
-
     def stacked_barplot(self, country):
         # Load #
         df = country.genus_comp.stock_genus_by_year
@@ -184,7 +202,7 @@ class GenusBarstack(Multiplot):
             # Space each bar one unit apart from the next #
             x_locations = [self.year_to_index[y] for y in years]
             # Pick the right color #
-            color = self.genus_to_color[genus]
+            color = genus_legend.label_to_color[genus]
             # Plot #
             pyplot.bar(x_locations,
                        values,
@@ -229,7 +247,7 @@ class GenusBarstack(Multiplot):
             axes.text(0.05, 1.05, title, transform=axes.transAxes, ha="left", size=22)
 
         # Prune graphs if we are shorter than n_cols #
-        if len(self.parent) < self.ncols:
+        if len(self.parent) < self.n_cols:
             for axes in self.axes[len(self.parent):]:
                 self.hide_full_axes(axes)
 
@@ -243,55 +261,32 @@ class GenusBarstack(Multiplot):
 ###############################################################################
 class GenusBarstackLegend(SoloLegend):
 
-    ncol = 5
-
-    @property_cached
-    def labels(self):
-        # Import #
-        from forest_puller.other.tree_species_info import df as species_info
-        # Load #
-        genera = list(species_info['genus'].unique())
-        genera.insert(0, 'missing')
-        # Return #
-        return genera
+    n_col = 5
 
     @property_cached
     def label_to_color(self):
         """Mapping of genera to colors."""
-        # Zip #
-        result = dict(zip(self.labels, self.cool_colors))
-        # Return #
-        return result
-
-###############################################################################
-class ColorCodeLegend(GenusBarstackLegend):
-    """
-    So that we can view which color is which RGB code to
-    reorganize them.
-    """
-
-    short_name = 'color_codes'
-
-    @property_cached
-    def cool_colors(self):
         # Import #
-        import brewer2mpl
-        # Base #
-        result = brewer2mpl.get_map('Set1', 'qualitative', 8).mpl_colors
-        result.reverse()
-        # Pastels #
-        result += brewer2mpl.get_map('Pastel2', 'qualitative', 8).mpl_colors
-        # Missing 3 more #
-        extras  = brewer2mpl.get_map('Set3', 'qualitative', 8).mpl_colors[4:7]
-        result += extras
+        from forest_puller.other.tree_species_info import df as species_info
+        # Uniquify on genera #
+        df = species_info.groupby('genus').first()
+        # Index #
+        df = df.reset_index()
+        # Keys #
+        genera = df['genus'].tolist()
+        # Values #
+        colors = [tuple(map(float, rgb.split(' '))) for rgb in df['plot_color']]
+        # The missing value #
+        genera.append('missing')
+        colors.append((0, 0, 0))
+        # To make it more readable, we could sort by rank aggregation #
+        countries = genus_barstack_data.countries.values()
+        all_rankings = [c.genus_comp.stock_genus_by_year.columns.tolist() for c in countries]
+        consensus_rank = 0
+        # Zip #
+        result = dict(zip(genera, colors))
         # Return #
         return result
-
-    @property_cached
-    def label_to_color(self):
-        colors = self.cool_colors[:len(self.labels)]
-        names  = [' '.join(map(lambda f: '%.3f' % f, rgb)) for rgb in colors]
-        return dict(zip(names, colors))
 
 ###############################################################################
 # Add the required properties #
@@ -306,7 +301,7 @@ c_vals = [c for c in c_vals if c.iso2_code not in missing_countries]
 batch_size = GenusBarstack.n_cols
 batches    = [c_vals[i:i + batch_size] for i in range(0, len(c_vals), batch_size)]
 
-# Constants #
+# Where to save the graphs #
 export_dir = cache_dir + 'graphs/genus_barstack/'
 
 # Create a multiplot for each batch of countries #
@@ -314,4 +309,3 @@ all_graphs = [GenusBarstack(batch, export_dir) for batch in batches]
 
 # Create a separate standalone legend #
 genus_legend = GenusBarstackLegend(base_dir = export_dir)
-color_legend = ColorCodeLegend(base_dir = export_dir)

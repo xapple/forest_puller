@@ -33,7 +33,7 @@ class SoloLegend(Graph):
 
     short_name = "legend"
 
-    ncol = 1
+    n_col = 1
     capitalize = True
 
     @property
@@ -60,7 +60,7 @@ class SoloLegend(Graph):
                              frameon   = True,
                              shadow    = True,
                              loc       = 'center',
-                             ncol      = self.ncol,
+                             ncol      = self.n_col,
                              fancybox  = True)
         # Remove the axes #
         axes.axis('off')
