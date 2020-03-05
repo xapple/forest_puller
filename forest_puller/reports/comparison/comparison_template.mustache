@@ -63,11 +63,11 @@ Below we compare the total losses, gains and net changes in forest biomass for e
 
 The Y-axis represents different units depending on the data source considered. Therefor, vertical scales are not directly comparable in the plots. Each source provides a different measure and a slightly different definition for losses and gains.
 
-* IPCC indicates "tons of carbon per hectare".
+* IPCC indicates "tons of carbon per hectare (over bark)".
 * SOEF indicates "cubic meters over bark per hectare".
 * FAOSTAT writes: "Removals of roundwood comprise all quantities of wood felled and removed from the forest and other wooded land or other felling sites. They are measured in cubic meters under bark (without bark)".
 * HPFFRE writes: "Stemwood volume measured over bark expressed as unit area volume". It further specifies: "Total stemwood volume measured over bark. Part of tree stem from the felling cut to the tree top with the branches removed, including bark".
-* The EU-CBM datasets is composed of "Tons of carbon per hectare" as reported in the [CBM-CFS3](https://en.wikipedia.org/wiki/CBM-CFS3) Microsoft Access database. Losses are obtained by summing `soft_production` and `hard_production`. Gains are obtained from the `gross_growth_ag` pool.
+* The EU-CBM datasets is composed of "Tons of carbon per hectare (over bark)" as reported in the [CBM-CFS3](https://en.wikipedia.org/wiki/CBM-CFS3) Microsoft Access database. Losses are obtained by summing `soft_production` and `hard_production`. Gains are obtained from the `gross_growth_ag` pool.
 
 Also of note is that the X-axis is not aligned between the different subplots.
 
@@ -86,9 +86,9 @@ Below we compare once again the total losses, gains and net changes in forest bi
 
 Resulting in a series of graphs that are almost identical to the ones above.
 
-The difference is that we harmonize the Y axis units and convert the data sources that were providing volumes into mass. These were SOEF, FAOSTAT, HPFFRE. Namely, we convert cubic meters over/under bark per hectare to tons of carbon per hectare.
+The difference is that we harmonize the Y axis units and convert the data sources which were providing volumes into mass. These were SOEF, FAOSTAT, HPFFRE. Namely, we convert cubic meters over/under bark per hectare to tons of carbon per hectare.
 
-To do this we use a dataset provided by SOEF that indicates the proportion of the 10 most common species in terms of growing stock combined with a published table specifying different specie's wood densities.
+To do this we use a dataset provided by SOEF that indicates the proportion of the 10 most common species in terms of growing stock combined with a published table specifying wood densities for different species.
 
 The wood density is in [tons / m³] more precisely [oven-dry tonnes of C per moist m³] and is found at:
 
@@ -99,11 +99,11 @@ The wood density is in [tons / m³] more precisely [oven-dry tonnes of C per moi
 
 Some countries are missing such as germany, which does not provide the total growing stock.
 
-The matching of the species latin as given in each country does not follow any standard and contains stochastic variations. THe matching of the user inputted latin name to its canonical genus is done through string matching strategies.
+The matching of the species latin as given in each country does not follow any standard and contains stochastic variations. The matching of the user inputted latin name to its canonical genus is done through NLP and string matching strategies.
 
 The average density values are then linearly interpolated for missing years, and padded by copy outside of the bounds for which data is provided.
 
-A bark correction factor of 0.88 is applied to SOEF and HPFFRE data sources, which provided values in cubic meters over bark.
+A bark correction factor of 0.88 is applied to the FAOSTAT data source, which provided values in cubic meters under bark instead of over bark.
 
 \vspace{5mm}
 

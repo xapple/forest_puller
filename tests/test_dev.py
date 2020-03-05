@@ -101,25 +101,25 @@ from tqdm import tqdm
 #del composition_data.avg_dnsty_intrpld
 #interpolated = composition_data.avg_dnsty_intrpld
 
-#from forest_puller.viz.converted_to_tons import all_graphs
-#for graph in all_graphs: graph.plot(rerun=True)
-#from forest_puller.viz.converted_to_tons import legend
-#legend.plot(rerun=True)
-#from forest_puller.core.continent import continent
-#print(continent.report())
-
-###############################################################################
-from forest_puller.viz.genus_barstack import all_graphs
-for g in all_graphs[:]: g.plot(rerun=True)
-
-###############################################################################
-from forest_puller.viz.color_rgb_code import color_legend
-color_legend.plot(rerun=True)
-
-###############################################################################
-from forest_puller.viz.genus_barstack import genus_legend
-genus_legend.plot(rerun=True)
-
-###############################################################################
+from forest_puller.viz.converted_to_tons import all_graphs
+for graph in all_graphs: graph.plot(rerun=True)
+from forest_puller.viz.converted_to_tons import legend
+legend.plot(rerun=True)
 from forest_puller.core.continent import continent
 print(continent.report())
+
+###############################################################################
+#from forest_puller.viz.genus_barstack import all_graphs
+#for g in all_graphs[:]: g.plot(rerun=True)
+#
+################################################################################
+#from forest_puller.viz.color_rgb_code import color_legend
+#color_legend.plot(rerun=True)
+#
+################################################################################
+#from forest_puller.viz.genus_barstack import genus_legend
+#genus_legend.plot(rerun=True)
+#
+################################################################################
+#from forest_puller.core.continent import continent
+#print(continent.report())

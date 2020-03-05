@@ -36,8 +36,8 @@ class GrowingStockComp(TableParser):
             if row.iloc[0].startswith("Note:"): return i
         self.raise_exception("Could not find the end row of the table.")
 
-    @property_pickled_at('df_cache_path')
-    def df(self):
+    @property
+    def stock_comp(self):
         """
         Special parsing for the table of growing_stock as years are now columns.
         The units are specified in million m³ over bark.
@@ -65,9 +65,24 @@ class GrowingStockComp(TableParser):
         # Remove empty values #
         df = df.query("growing_stock==growing_stock").copy()
         # Sanitize names #
-        df.iloc[:,0:2] = df.iloc[:,0:2].applymap(self.sanitize)
+        df.iloc[:, 0:2] = df.iloc[:, 0:2].applymap(self.sanitize)
         # Sanitize the rank column #
         df['rank'] = df['rank'].apply(self.sanitize_rank)
+        # Return #
+        return df
+
+    @property_pickled_at('df_cache_path')
+    def df(self):
+        """
+        Return the stock_composition as is, unless we are Germany.
+        Hack: manually edit Germany to add missing values
+        """
+        # Default case #
+        if self.iso2_code != 'DE': return self.stock_comp
+        # Special case #
+        df = self.stock_comp
+        # Process #
+        pass
         # Return #
         return df
 

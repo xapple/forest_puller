@@ -51,13 +51,13 @@ class Country:
     def forest_area(self): return ForestArea(self)
 
     @property_cached
-    def age_dist(self): return AgeDist(self)
+    def age_dist(self):    return AgeDist(self)
 
     @property_cached
-    def fellings(self): return Fellings(self)
+    def fellings(self):    return Fellings(self)
 
     @property_cached
-    def stock_comp(self): return GrowingStockComp(self)
+    def stock_comp(self):  return GrowingStockComp(self)
 
 ###############################################################################
 # Create every country object #

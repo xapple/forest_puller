@@ -38,9 +38,12 @@ class ConvertedTonsData:
     * Obtain: the density in [kg / m^3].
     * Multiply the volume with the density to obtain [kg].
     * Multiply the result by 1000 to obtain [tons].
-    * Multiply the result with the bark correction factor?
-    * The result is now in tons of carbon XXXYYY bark.
+    * Multiply the result with the bark correction factor.
+    * The result is now in tons of carbon over bark.
     """
+
+    # This value ... #
+    bark_correction_factor = 0.88
 
     #----------------------------- Data sources ------------------------------#
     @property
@@ -58,15 +61,15 @@ class ConvertedTonsData:
     #------------------------ Data sources modified --------------------------#
     @property
     def soef(self):
-        """HPFFRE data is over bark."""
+        """SOEF data is over bark."""
         # Load #
         df = gain_loss_net_data.soef
         # Join #
         df = df.left_join(self.avg_dnsty_intrpld, on=['country', 'year'])
         # Multiply #
-        df['gain_per_ha'] *= df['avg_density'] * 0.88 / 1000
-        df['loss_per_ha'] *= df['avg_density'] * 0.88 / 1000
-        df['net_per_ha']  *= df['avg_density'] * 0.88 / 1000
+        df['gain_per_ha'] *= df['avg_density'] / 1000
+        df['loss_per_ha'] *= df['avg_density'] / 1000
+        df['net_per_ha']  *= df['avg_density'] / 1000
         # Drop #
         df = df.drop(columns=['avg_density'])
         # Reset index #
@@ -76,13 +79,13 @@ class ConvertedTonsData:
 
     @property_cached
     def faostat(self):
-        """HPFFRE data is under bark."""
+        """FAOSTAT data is under bark."""
         # Load #
         df = gain_loss_net_data.faostat.copy()
         # Join #
         df = df.left_join(self.avg_dnsty_intrpld, on=['country', 'year'])
         # Multiply #
-        df['loss_per_ha'] *= df['avg_density'] / 1000
+        df['loss_per_ha'] *= df['avg_density'] / (1000 * self.bark_correction_factor)
         # Drop #
         df = df.drop(columns=['avg_density'])
         # Reset index #
@@ -98,9 +101,9 @@ class ConvertedTonsData:
         # Join #
         df = df.left_join(self.avg_dnsty_intrpld, on=['country', 'year'])
         # Multiply #
-        df['gain_per_ha'] *= df['avg_density'] * 0.88 / 1000
-        df['loss_per_ha'] *= df['avg_density'] * 0.88 / 1000
-        df['net_per_ha']  *= df['avg_density'] * 0.88 / 1000
+        df['gain_per_ha'] *= df['avg_density'] / 1000
+        df['loss_per_ha'] *= df['avg_density'] / 1000
+        df['net_per_ha']  *= df['avg_density'] / 1000
         # Drop #
         df = df.drop(columns=['avg_density'])
         # Reset index #
@@ -121,7 +124,7 @@ class ConvertedTonsData:
     def eu_cbm(self):
         """No changes for the EU-CBM data."""
         # Load #
-        df = gain_loss_net_data.eu_cbm
+        df = gain_loss_net_data.eu_cbm.copy()
         # Return #
         return df
 
