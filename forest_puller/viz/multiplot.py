@@ -115,6 +115,10 @@ class Multiplot(Graph):
         fn = lambda axes: axes.set_xlabel(label)
         self.iterate_all_axes(fn)
 
+    def set_y_labels(self, label):
+        fn = lambda axes: axes.set_ylabel(label)
+        self.iterate_all_axes(fn)
+
     def remove_frame(self):
         fn = lambda axes: axes.spines["top"].set_visible(False)
         self.iterate_all_axes(fn)

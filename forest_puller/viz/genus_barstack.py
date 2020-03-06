@@ -164,7 +164,7 @@ class GenusBarstack(Multiplot):
     formats    = ('pdf',)
     share_y    = True
     share_x    = False
-    height     = 5
+    height     = 8
     width      = 30
 
     # Size of grid #
@@ -224,6 +224,10 @@ class GenusBarstack(Multiplot):
         self.iterate_all_axes(fn)
         self.set_y_ticks([])
 
+        # Change the Y labels only for the rightmost graph #
+        self.axes[0].set_ylabel("Fraction of growing stock volume",
+                                fontsize=12)
+
         # Change the X labels #
         self.set_x_labels(self.x_label)
 
@@ -269,20 +273,29 @@ class GenusBarstackLegend(SoloLegend):
         from forest_puller.other.tree_species_info import df as species_info
         # Uniquify on genera #
         df = species_info.groupby('genus').first()
-        # Index #
         df = df.reset_index()
-        # Keys #
-        genera = df['genus'].tolist()
-        # Values #
-        colors = [tuple(map(float, rgb.split(' '))) for rgb in df['plot_color']]
-        # The missing value #
-        genera.append('missing')
-        colors.append((0, 0, 0))
         # To make it more readable, we could sort by rank aggregation #
-        countries = genus_barstack_data.countries.values()
-        all_rankings = [c.genus_comp.stock_genus_by_year.columns.tolist() for c in countries]
-        consensus_rank = 0
+        stocks = pandas.concat(c.genus_comp.stock_comp_genus for c in c_vals)
+        # Sum all the growing stock in all countries #
+        stocks = stocks.groupby(['genus']).aggregate({'growing_stock': 'sum'})
+        stocks = stocks.reset_index()
+        # Join #
+        df = df.left_join(stocks, on='genus')
+        # Remove those that don't have any stock #
+        df = df.query("growing_stock == growing_stock").copy()
+        # Make all coniferous negative #
+        df['growing_stock'] = numpy.where(df['kind'] == 'broad',
+                                          -df['growing_stock'],
+                                           df['growing_stock'])
+        # Add the 'missing' category #
+        df = df.append({'genus':         'missing',
+                        'plot_color':    '0 0 0',
+                        'growing_stock': 0}, ignore_index=True)
+        # Sort by growing_stock #
+        df = df.sort_values(['growing_stock'], ascending=False)
         # Zip #
+        genera = df['genus'].tolist()
+        colors = [tuple(map(float, rgb.split(' '))) for rgb in df['plot_color']]
         result = dict(zip(genera, colors))
         # Return #
         return result
@@ -308,3 +321,7 @@ all_graphs = [GenusBarstack(batch, export_dir) for batch in batches]
 
 # Create a separate standalone legend #
 genus_legend = GenusBarstackLegend(base_dir = export_dir)
+
+# To re-plot the graphs do the following #
+# for g in all_graphs: g.plot(rerun=True)
+# genus_legend.plot(rerun=True)

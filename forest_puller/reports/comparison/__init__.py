@@ -6,6 +6,13 @@ Written by Lucas Sinclair and Paul Rougieux.
 
 JRC Biomass Project.
 Unit D1 Bioeconomy.
+
+To regenerate the report, simply do:
+
+    >>> from forest_puller.core.continent import continent
+    >>> print(continent.report())
+
+To also regenerate the graphs, simply delete them from puller_cache.
 """
 
 # Built-in modules #
