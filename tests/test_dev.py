@@ -128,4 +128,6 @@ from tqdm import tqdm
 
 ###############################################################################
 from forest_puller.viz.genus_soef_vs_cbm import all_graphs
-for g in all_graphs[:]: print(g.widths)
+for g in all_graphs[:]:
+    print(g.plot(rerun=True))
+    break

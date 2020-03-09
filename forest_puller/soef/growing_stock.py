@@ -89,7 +89,7 @@ class GrowingStockComp(TableParser):
         # Add total and remaining values for Germany #
         df = self.stock_comp
         # These total copied from soef "Table 1.2a" #
-        de_total = pandas.DataFrame({'year':  [1990, 2000, 2010],
+        de_total = pandas.DataFrame({'year':  [    1990,     2000,     2010],
                                      'total': [2815*1e6, 3381*1e6, 3617*1e6]})
         # Special case for germany #
         # Compute remaining #

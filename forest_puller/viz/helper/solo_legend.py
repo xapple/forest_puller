@@ -32,8 +32,7 @@ class SoloLegend(Graph):
     """
 
     short_name = "legend"
-
-    n_col = 1
+    n_col      = 1
     capitalize = True
 
     @property

@@ -49,6 +49,9 @@ def load_species_info():
         result[col] = result[col].fillna('missing')
     # We want kilograms, not tons #
     result['density'] *= 1000
+    # Transform the plot colors form strings to tuples #
+    to_color = lambda s: tuple(map(float, s.split(' ')))
+    result['plot_color'] = result['plot_color'].apply(to_color)
     # Return #
     return result
 

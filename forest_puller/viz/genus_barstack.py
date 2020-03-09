@@ -24,10 +24,10 @@ Or if you want to look at the legend:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.viz.helper.multiplot import Multiplot
-from forest_puller                 import cache_dir
+from forest_puller.viz.helper.multiplot   import Multiplot
+from forest_puller                        import cache_dir
 from forest_puller.viz.helper.solo_legend import SoloLegend
-from forest_puller.common          import country_codes
+from forest_puller.common                 import country_codes
 
 # First party modules #
 from plumbing.cache import property_cached
@@ -74,30 +74,30 @@ class GenusComposition:
         """
         Looks like:
 
-           country  year     genus  growing_stock
-                AT  1990  carpinus      5000000.0
-                AT  1990      acer      9000000.0
-                AT  1990     pinus      9000000.0
-                AT  1990     abies     43000000.0
-                AT  1990   missing     61000000.0
-                AT  1990     pinus     73000000.0
-                AT  1990     abies    550000000.0
+            year     genus       stock_m3
+            1990  carpinus      5000000.0
+            1990      acer      9000000.0
+            1990     pinus      9000000.0
+            1990     abies     43000000.0
+            1990   missing     61000000.0
+            1990     abies    550000000.0
         """
         # Import #
         from forest_puller.soef.composition import composition_data as comp_data
         # Load #
         df = comp_data.stock_comp.query("country==@self.iso2_code")
+        # The stock is in cubic meters #
+        df = df.rename(columns={'growing_stock': 'stock_m3'})
         # Drop totals #
         df = df.query('rank!="total"')
         # Join #
         df = df.left_join(comp_data.latin_mapping, on='latin_name')
-        # Drop columns and reorder #
-        cols_to_drop = ['latin_name', 'common_name', 'rank', 'species']
-        cols_to_keep = ['country', 'year', 'genus', 'growing_stock']
-        df = df.drop(columns=cols_to_drop)
-        df = df[cols_to_keep]
+        # Sum rows that are the same genus #
+        df = df.groupby(['genus', 'year']).aggregate({'stock_m3': 'sum'})
+        # Reset index #
+        df = df.reset_index()
         # Sort the dataframe #
-        df = df.sort_values(by=['country', 'year', 'growing_stock'])
+        df = df.sort_values(by=['year', 'stock_m3'])
         # Return #
         return df
 
@@ -142,7 +142,7 @@ class GenusComposition:
         df = df.pipe(pandas.pivot_table,
                      index   = ['year'],
                      columns = ['genus'],
-                     values  = 'growing_stock',
+                     values  = 'stock_m3',
                      aggfunc = numpy.sum)
         # Sort the columns by custom arrangement #
         df = df.reindex(columns=self.sort_cols(df))
@@ -273,25 +273,21 @@ class GenusBarstackLegend(SoloLegend):
         # To make it more readable, we could sort by rank aggregation #
         stocks = pandas.concat(c.genus_comp.stock_comp_genus for c in c_vals)
         # Sum all the growing stock in all countries #
-        stocks = stocks.groupby(['genus']).aggregate({'growing_stock': 'sum'})
+        stocks = stocks.groupby(['genus']).aggregate({'stock_m3': 'sum'})
         stocks = stocks.reset_index()
         # Join #
         df = df.left_join(stocks, on='genus')
         # Remove those that don't have any stock #
-        df = df.query("growing_stock == growing_stock").copy()
+        df = df.query("stock_m3 == stock_m3").copy()
         # Make all coniferous negative #
-        df['growing_stock'] = numpy.where(df['kind'] == 'broad',
-                                          -df['growing_stock'],
-                                          df['growing_stock'])
-        # Add the 'missing' category #
-        df = df.append({'genus':         'missing',
-                        'plot_color':    '0 0 0',
-                        'growing_stock': 0}, ignore_index=True)
-        # Sort by growing_stock #
-        df = df.sort_values(['growing_stock'], ascending=False)
+        df['stock_m3'] = numpy.where(df['kind'] == 'broad',
+                                          -df['stock_m3'],
+                                          df['stock_m3'])
+        # Sort by stock_m3 #
+        df = df.sort_values(['stock_m3'], ascending=False)
         # Zip #
         genera = df['genus'].tolist()
-        colors = [tuple(map(float, rgb.split(' '))) for rgb in df['plot_color']]
+        colors = df['plot_color'].tolist()
         result = dict(zip(genera, colors))
         # Return #
         return result

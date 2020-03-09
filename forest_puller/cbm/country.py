@@ -43,7 +43,7 @@ class Country:
         if self.iso2_code == 'CY':
             self.area_df          = pandas.DataFrame()
             self.increments_df    = pandas.DataFrame()
-            self.stock_comp_genus = pandas.DataFrame()
+            self.stock_comp_genus = pandas.DataFrame(columns=['genus', 'year', 'stock_m3'])
 
     def __repr__(self):
         return '%s object code "%s"' % (self.__class__, self.iso2_code)
@@ -238,6 +238,8 @@ class Country:
         df = df.groupby(['genus', 'year'])
         df = df.aggregate({'stock_m3': 'sum'})
         df = df.reset_index()
+        # Sort the dataframe #
+        df = df.sort_values(by=['year', 'stock_m3'])
         # Return #
         return df
 
