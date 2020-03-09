@@ -131,3 +131,6 @@ from forest_puller.viz.genus_soef_vs_cbm import all_graphs
 for g in all_graphs[:]:
     print(g.plot(rerun=True))
     break
+
+from forest_puller.viz.genus_soef_vs_cbm import genus_legend
+print(genus_legend.label_to_color)

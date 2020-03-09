@@ -182,7 +182,7 @@ class Country:
         return df
 
     #------------------------------- Genera ----------------------------------#
-    @property_cached
+    @property_pickled_at('stock_comp_cache_path')
     def stock_comp_genus(self):
         """
         Looks like:
@@ -251,6 +251,10 @@ class Country:
     @property
     def increments_cache_path(self):
         return cache_dir + 'eu_cbm/increments/' + self.iso2_code + '.pickle'
+
+    @property
+    def stock_comp_cache_path(self):
+        return cache_dir + 'eu_cbm/stock_comp/' + self.iso2_code + '.pickle'
 
 ###############################################################################
 # Create every country object #

@@ -184,22 +184,18 @@ class CountryGenusComparison:
         # Make a dictionary #
         return {year: compute(year) for year in self.years}
 
-    @property_cached
-    def genera_used(self):
-        """Return a set of all the genera seen in this comparison."""
-        return {genus for df in self.year_to_df.values() for genus in df.index}
-
-    def plot(self, **kwargs):
+    def plot(self, **kw):
         """Takes care of plotting all years of a given country."""
         for axes, year in zip(self.axes, self.years):
-            self.plot_one_year(axes, year, **kwargs)
+            self.plot_one_year(axes, year, **kw)
 
-    def plot_one_year(self, axes, year, **kwargs):
+    def plot_one_year(self, axes, year, **kw):
         """Takes care of plotting a single year and two bars."""
         # Get the stock data #
         df = self.year_to_df[year]
         # Reorder the rows #
-        pass #TODO
+        df = df.reindex(genus_legend.label_to_color.keys())
+        df = df.dropna()
         # Number of bars and numbers of categories within bars #
         num_cats, num_bars = df.shape
         # Record the bottoms for each successive new bar #
@@ -227,24 +223,8 @@ class GenusPairedLegend(SoloLegend):
 
     @property_cached
     def label_to_color(self):
-        """Mapping of genera to colors."""
-        # Each country's genus comparison #
-        comps = [c for graph in all_graphs for c in graph.countries]
-        # Find all genera used #
-        genera = list(set.union(*(comp.genera_used for comp in comps)))
-        # Sort the genera #
-        genera.sort(key=self.genus_to_placement)
-        # Import #
-        from forest_puller.other.tree_species_info import df as species_info
-        # Uniquify on genera #
-        df = species_info.groupby('genus').first()
-        # Filter for the genera we have #
-        df = df.loc[genera, 'plot_color']
-        # Return #
-        return df.to_dict()
-
-    def genus_to_placement(self, genus):
         """
+        Mapping of genera to colors.
         Sort the genera according to the following rules.
         The first level of organization is always:
 
@@ -253,18 +233,34 @@ class GenusPairedLegend(SoloLegend):
         Then, within each category, we want to sort by the average
         growing stock across all years with highest first.
         """
-        # Import #
-        from forest_puller.other.tree_species_info import conifers, broads
-        # Function to sort the columns #
-        if genus == 'missing': return 0
-        if genus in conifers:  return  self.tot_stock[genus].mean()
-        if genus in broads:    return -self.tot_stock[genus].mean()
-
-    @property_cached
-    def tot_stock(self):
-        """xxxx"""
         # Each country's genus comparison #
-
+        comps    = [c for graph in all_graphs for c in graph.countries]
+        # Each dataframe for each year for each country #
+        year_dfs = [y for c in comps for y in c.year_to_df.values()]
+        # All the stock fractions data together #
+        df = pandas.concat(y.reset_index() for y in year_dfs)
+        # Sum all the fractions to determine optimal sorting #
+        df['cum_frac'] = df['stock_m3_soef'] + df['stock_m3_ecbm']
+        df = df.groupby(['genus']).aggregate({'cum_frac': 'sum'})
+        df = df.reset_index()
+        # Import #
+        from forest_puller.other.tree_species_info import df as species_info
+        # Uniquify on genera #
+        info = species_info.groupby('genus').first().reset_index()
+        # Add the species information #
+        df = df.left_join(info, on='genus').reset_index()
+        # Make all broadleaved negative #
+        df['cum_frac'] = numpy.where(df['kind'] == 'broad',
+                                    -df['cum_frac'], df['cum_frac'])
+        # Make all missing null #
+        df['cum_frac'] = numpy.where(df['genus'] == 'missing',
+                                     0, df['cum_frac'])
+        # Sort by cumulative fraction #
+        df = df.sort_values(['cum_frac'], ascending=False)
+        # Keep only two columns #
+        df = df.set_index('genus')['plot_color']
+        # Return #
+        return df.to_dict()
 
 ###############################################################################
 # List of all countries #
@@ -282,4 +278,3 @@ all_graphs = [GenusPairedBarstack(batch, export_dir) for batch in batches]
 
 # Create a separate standalone legend #
 genus_legend = GenusPairedLegend(base_dir = export_dir)
-1/0
