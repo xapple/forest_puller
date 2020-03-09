@@ -19,7 +19,7 @@ Typically you can use this class this like:
 # Internal modules #
 from forest_puller           import cache_dir
 from forest_puller.common    import country_codes
-from forest_puller.viz.facet import FacetPlot
+from forest_puller.viz.helper.facet import FacetPlot
 
 # First party modules #
 from plumbing.cache import property_cached

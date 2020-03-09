@@ -6,6 +6,13 @@ Written by Lucas Sinclair and Paul Rougieux.
 
 JRC Biomass Project.
 Unit D1 Bioeconomy.
+
+Typically you can use this submodule this like:
+
+    >>> from forest_puller.cbm.country import countries
+    >>> country = countries['FR']
+    >>> print(country.stock_comp_genus)
+
 """
 
 # Built-in modules #
@@ -34,8 +41,9 @@ class Country:
         self.iso2_code = iso2_code
         # Create fake dataframes for cyprus that is missing #
         if self.iso2_code == 'CY':
-            self.area_df       = pandas.DataFrame()
-            self.increments_df = pandas.DataFrame()
+            self.area_df          = pandas.DataFrame()
+            self.increments_df    = pandas.DataFrame()
+            self.stock_comp_genus = pandas.DataFrame()
 
     def __repr__(self):
         return '%s object code "%s"' % (self.__class__, self.iso2_code)
@@ -170,6 +178,66 @@ class Country:
         df = self.increments_df.copy()
         # Add column #
         df.insert(0, 'country', self.iso2_code)
+        # Return #
+        return df
+
+    #------------------------------- Genera ----------------------------------#
+    @property_cached
+    def stock_comp_genus(self):
+        """
+        Looks like:
+
+               genus  year      stock_m3
+               -----  ----      --------
+               abies  1997  1.003850e+08
+               abies  1998  1.009454e+08
+               abies  1999  1.014880e+08
+                 ...   ...           ...
+             quercus  2013  6.360644e+08
+             quercus  2014  6.478733e+08
+             quercus  2015  6.596905e+08
+        """
+        # Cross-module import #
+        from cbmcfs3_runner.core.continent import continent
+        # Get the corresponding country and scenario #
+        cbm_runner = continent.get_runner('historical', self.iso2_code, -1)
+        # Load the table that interests us #
+        df = cbm_runner.post_processor.ipcc.pool_indicators_long.copy()
+        # The status variable represents more a "category" in fact #
+        df = df.rename(columns = {'status': 'category'})
+        # Take all categories that are forested (not non-forested) #
+        df = df.query("category != 'NF'").copy()
+        # Keep only the above ground biomass entries #
+        df = df.query("ipcc_pool == 'abogr_bmass'")
+        # Add the conversion coefficient's from mass to density #
+        coefs = cbm_runner.post_processor.coefficients[['forest_type', 'density']]
+        # Join the volumetric mass density in [tons/m^3] #
+        df = df.left_join(coefs, on='forest_type')
+        # Check there are no NaNs in density #
+        assert not df['density'].isna().any()
+        # Multiply mass by coef #
+        df['stock_m3'] = df['tc'] / df['density']
+        # Import species names #
+        from cbmcfs3_runner.pump.tree_species_info import df as species_info_cbm
+        # Join species names #
+        df = df.left_join(species_info_cbm, on='forest_type')
+        # Replace NaN values by 'missing' #
+        df['genus']   = df['genus'].fillna('missing')
+        df['species'] = df['species'].fillna('missing')
+        # Reorder the two columns columns #
+        cols = list(df.columns)
+        cols.remove("genus")
+        cols.remove("species")
+        cols.insert(0, "species")
+        cols.insert(0, "genus")
+        df = df.reindex(columns=cols)
+        # Drop some columns #
+        to_drop = ['time_step', 'area', 'ipcc_pool', 'common_name', 'tc', 'density']
+        df = df.drop(columns=to_drop)
+        # Aggregate by year and genus #
+        df = df.groupby(['genus', 'year'])
+        df = df.aggregate({'stock_m3': 'sum'})
+        df = df.reset_index()
         # Return #
         return df
 

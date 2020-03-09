@@ -24,9 +24,9 @@ Or if you want to look at the legend:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.viz.multiplot   import Multiplot
+from forest_puller.viz.helper.multiplot import Multiplot
 from forest_puller                 import cache_dir
-from forest_puller.viz.solo_legend import SoloLegend
+from forest_puller.viz.helper.solo_legend import SoloLegend
 from forest_puller.common          import country_codes
 
 # First party modules #
@@ -135,11 +135,6 @@ class GenusComposition:
             2000   686000000.0   96000000.0  83000000.0  70000000.0
             2005   707000000.0  102000000.0  82000000.0  72000000.0
             2010   721000000.0  106000000.0  81000000.0  76000000.0
-
-        We want to sort the columns as that the first level of
-        organization is always:  all conifers, missing, all broadleaved
-        then within each category we want to sort by the average
-        growing stock across all years with highest first.
         """
         # Load #
         df = self.stock_comp_genus
@@ -171,7 +166,7 @@ class GenusBarstack(Multiplot):
     n_rows = 1
     n_cols = 5
 
-    # The ISO2 codes of these countries in the current batch #
+    # The ISO2 codes of the countries in the current batch #
     @property
     def short_name(self): return '_'.join(c.iso2_code for c in self.parent)
 
@@ -182,6 +177,7 @@ class GenusBarstack(Multiplot):
                      2010: 4}
 
     def stacked_barplot(self, country):
+        """Plotting function for one single country."""
         # Load #
         df = country.genus_comp.stock_genus_by_year
         # Convert to fractions #
@@ -286,7 +282,7 @@ class GenusBarstackLegend(SoloLegend):
         # Make all coniferous negative #
         df['growing_stock'] = numpy.where(df['kind'] == 'broad',
                                           -df['growing_stock'],
-                                           df['growing_stock'])
+                                          df['growing_stock'])
         # Add the 'missing' category #
         df = df.append({'genus':         'missing',
                         'plot_color':    '0 0 0',

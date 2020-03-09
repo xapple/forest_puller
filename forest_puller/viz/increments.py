@@ -18,7 +18,7 @@ Typically you can use this submodule this like:
 # Internal modules #
 from forest_puller.common        import country_codes
 from forest_puller               import cache_dir
-from forest_puller.viz.multiplot import Multiplot
+from forest_puller.viz.helper.multiplot import Multiplot
 
 # First party modules #
 from plumbing.cache  import property_cached
