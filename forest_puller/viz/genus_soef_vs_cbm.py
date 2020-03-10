@@ -37,7 +37,7 @@ class GenusPairedBarstack(GridspecPlot):
 
     # Size of the final PDF #
     height = 8
-    width  = 30
+    width  = 24
 
     # Spacing between countries #
     cntry_spacer = 0.2
@@ -61,8 +61,8 @@ class GenusPairedBarstack(GridspecPlot):
         return self.fig.add_gridspec(nrows  = self.n_rows,
                                      ncols  = self.n_cols,
                                      wspace = self.cntry_spacer,
-                                     left   = 0.05,
-                                     right  = 0.95)
+                                     left   = 0.03,
+                                     right  = 0.97)
 
     @property_cached
     def countries(self):
@@ -98,9 +98,6 @@ class CountryGenusComparison:
         self.parent    = parent
         self.num       = num
         self.iso2_code = iso2_code
-        # Shortcuts #
-        self.fig        = self.parent.fig
-        self.outer_grid = self.parent.gridspec
 
     @property_cached
     def country_name(self):
@@ -112,7 +109,7 @@ class CountryGenusComparison:
     def gridspec(self):
         """Return the inner `GridSpec` object."""
         # This is a `SubplotSpec` object #
-        sub_spec = self.outer_grid[self.num]
+        sub_spec = self.parent.gridspec[self.num]
         # The inner grid #
         return sub_spec.subgridspec(nrows  = self.n_rows,
                                     ncols  = self.n_cols,
@@ -128,7 +125,7 @@ class CountryGenusComparison:
         # Loop #
         for i, year in enumerate(self.years):
             sub_spec = self.gridspec[i]
-            sub_axes = self.fig.add_subplot(sub_spec)
+            sub_axes = self.parent.fig.add_subplot(sub_spec)
             axes.append(sub_axes)
         # Return #
         return axes
@@ -145,7 +142,7 @@ class CountryGenusComparison:
         """Return a dataframe with the data for EU-CBM."""
         from forest_puller.cbm.country import countries
         country = countries[self.iso2_code]
-        return country.stock_comp_genus
+        return country.stock_comp_genusl
 
     @property_cached
     def year_to_df(self):
@@ -187,13 +184,16 @@ class CountryGenusComparison:
     def plot(self, **kw):
         """Takes care of plotting all years of a given country."""
         for axes, year in zip(self.axes, self.years):
-            self.plot_one_year(axes, year, **kw)
+            # The main stacked bars #
+            self.plot_bars_one_year(axes, year, **kw)
+            # The cosmetics #
+            self.add_style(axes, year)
 
-    def plot_one_year(self, axes, year, **kw):
+    def plot_bars_one_year(self, axes, year, **kw):
         """Takes care of plotting a single year and two bars."""
         # Get the stock data #
         df = self.year_to_df[year]
-        # Reorder the rows #
+        # Reorder the rows always in the same order #
         df = df.reindex(genus_legend.label_to_color.keys())
         df = df.dropna()
         # Number of bars and numbers of categories within bars #
@@ -209,12 +209,17 @@ class CountryGenusComparison:
             # Pick the right color #
             color = genus_legend.label_to_color[genus]
             # Plot #
-            pyplot.bar([0,1],
-                       values,
-                       bottom = cum_size,
-                       color  = color)
+            axes.bar([0, 1],
+                     values,
+                     bottom = cum_size,
+                     color  = color)
             # Increase #
             cum_size += values
+
+    def add_style(self, axes, year, **kw):
+        """Takes care of styling the plot for a single year."""
+        pass
+
 
 ###############################################################################
 class GenusPairedLegend(SoloLegend):

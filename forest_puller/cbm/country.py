@@ -215,7 +215,7 @@ class Country:
         df = df.left_join(coefs, on='forest_type')
         # Check there are no NaNs in density #
         assert not df['density'].isna().any()
-        # Multiply mass by coef #
+        # Multiply mass by coefficients #
         df['stock_m3'] = df['tc'] / df['density']
         # Import species names #
         from cbmcfs3_runner.pump.tree_species_info import df as species_info_cbm
