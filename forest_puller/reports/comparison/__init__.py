@@ -130,3 +130,19 @@ class ComparisonTemplate(ReportTemplate):
         # Return #
         return result
 
+    #-------------------------- Compare SOEF vs CBM --------------------------#
+    def genus_soef_vs_cbm(self):
+        # Caption #
+        caption = "Comparison of genus composition between the SOEF and CBM-EU" \
+                  " datasets at 3 different time points."
+        # Import #
+        from forest_puller.viz.genus_soef_vs_cbm import all_graphs, genus_legend
+        # Initialize #
+        result = ""
+        # Loop every country #
+        for graph in all_graphs: result += str(BareFigure(graph=graph)) + '\n\n'
+        # Add the legend #
+        result += str(ScaledFigure(graph=genus_legend, caption=caption))
+        # Return #
+        return result
+

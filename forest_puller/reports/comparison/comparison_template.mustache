@@ -1,6 +1,7 @@
 Comparison report
 =================
 
+
 General information
 -------------------
 This is a comparison report that can include information from several countries and several data sources.
@@ -25,6 +26,7 @@ Processing
 {{/git}}
 -------
 
+
 Scope and extend of data sources
 --------------------------------
 In the following visualizations we cover 26 of the 28 (past and present) EU member states. The list is the following:
@@ -40,6 +42,7 @@ Several data sources are also represented. Currently `forest_puller` provides pr
 * [FAOSTAT-GF](http://www.fao.org/faostat/en/) in green.
 * [HPFFRE](https://doi.org/10.5061/dryad.4t880qh) in purple.
 * EU-CBM (an in-house custom and non-traceable dataset) in orange.
+
 
 Comparison of total forest area
 --------------------------------
@@ -79,6 +82,7 @@ All values are per annum.
 
 {{comp_increments}}
 
+
 Conversion to tons of carbon
 -----------------------------
 
@@ -111,6 +115,7 @@ This value comes from: https://www.unece.org/fileadmin/DAM/timber/publications/D
 
 {{comp_conv_to_tons}}
 
+
 Comparison of the growing stock genera composition
 --------------------------------------------------
 
@@ -118,4 +123,16 @@ Below we compare the breakdown of a country's growing stock in terms of the tree
 
 The growing stock here is reported as volumes in cubic meters.
 
+\vspace{1cm}
 {{genus_comp}}
+
+
+\clearpage
+
+Comparison of the genera composition between SOEF and EU-CBM
+------------------------------------------------------------
+
+These graphs are similar to the ones above, except we produce a paired stacked barchart this time, comparing the genus breakdown of the growing stock (in terms of volume) between the SOEF dataset and the EU-CBM dataset.
+
+\vspace{1cm}
+{{genus_soef_vs_cbm}}

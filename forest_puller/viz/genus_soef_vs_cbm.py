@@ -6,6 +6,14 @@ Written by Lucas Sinclair and Paul Rougieux.
 
 JRC Biomass Project.
 Unit D1 Bioeconomy.
+
+Typically you can use this submodule this like:
+
+    >>> from forest_puller.viz.genus_soef_vs_cbm import all_graphs
+    >>> comps   = [c for graph in all_graphs for c in graph.countries]
+    >>> country = [c for c in comps if c.iso2_code == 'CY'][0]
+    >>> df      = country.year_to_df[2005]
+    >>> print(df)
 """
 
 # Built-in modules #
@@ -73,6 +81,9 @@ class GenusPairedBarstack(GridspecPlot):
     def plot(self, **kwargs):
         # Call each country #
         for country in self.countries: country.plot()
+        # Change the Y labels only for the rightmost graph #
+        axes = self.countries[0].axes[0]
+        axes.set_ylabel("Fraction of growing stock volume", fontsize=12)
         # Save #
         self.save_plot(**kwargs)
         # Convenience: return for display in notebooks for instance #
@@ -142,7 +153,7 @@ class CountryGenusComparison:
         """Return a dataframe with the data for EU-CBM."""
         from forest_puller.cbm.country import countries
         country = countries[self.iso2_code]
-        return country.stock_comp_genusl
+        return country.stock_comp_genus
 
     @property_cached
     def year_to_df(self):
@@ -170,12 +181,14 @@ class CountryGenusComparison:
                                     on      = 'genus',
                                     rsuffix = '_ecbm',
                                     lsuffix = '_soef')
-            # Fill empty cells #
-            df = df.fillna(0.0)
             # Set index #
             df = df.set_index('genus')
+            # Fill empty cells #
+            df = df.fillna(0.0)
             # Convert to fractions #
             df = df.div(df.sum(axis=0), axis=1)
+            # Fill empty cells #
+            df = df.fillna(0.0)
             # Return #
             return df
         # Make a dictionary #
@@ -183,11 +196,17 @@ class CountryGenusComparison:
 
     def plot(self, **kw):
         """Takes care of plotting all years of a given country."""
+        # For every year #
         for axes, year in zip(self.axes, self.years):
             # The main stacked bars #
             self.plot_bars_one_year(axes, year, **kw)
             # The cosmetics #
             self.add_style(axes, year)
+        # Only on the first axes #
+        axes = self.axes[0]
+        # Add the custom title #
+        axes.text(0.05, 1.09, self.country_name,
+                  transform=axes.transAxes, ha="left", size=30)
 
     def plot_bars_one_year(self, axes, year, **kw):
         """Takes care of plotting a single year and two bars."""
@@ -218,8 +237,22 @@ class CountryGenusComparison:
 
     def add_style(self, axes, year, **kw):
         """Takes care of styling the plot for a single year."""
-        pass
-
+        # Hide spines #
+        for s in axes.spines.values(): s.set_visible(False)
+        axes.spines["bottom"].set_visible(True)
+        # Hide Y ticks #
+        axes.set_yticks([])
+        # Set X ticks #
+        axes.set_xticks([0, 1])
+        axes.set_xticklabels(['SOEF', 'EU-CBM'])
+        # Rotate them a bit #
+        pyplot.setp(axes.xaxis.get_majorticklabels(), rotation=70)
+        # Add the year title #
+        axes.set_title(year, fontsize="14", fontweight="bold")
+        # Set the limits on X #
+        axes.set_xlim(-0.5, 1.5)
+        # Set the limits on Y #
+        axes.set_ylim(0, 1)
 
 ###############################################################################
 class GenusPairedLegend(SoloLegend):
