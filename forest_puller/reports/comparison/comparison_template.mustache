@@ -29,7 +29,7 @@ Processing
 
 Scope and extend of data sources
 --------------------------------
-In the following visualizations we cover 26 of the 28 (past and present) EU member states. The list is the following:
+In the following visualizations we cover 27 of the 28 (past and present) EU member states. The list is the following and excludes Malta:
 
 * Austria, Belgium, Bulgaria, Croatia, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden, United Kingdom.
 
@@ -37,11 +37,11 @@ The plots usually run from the earliest official statistics around the year 1990
 
 Several data sources are also represented. Currently `forest_puller` provides programmatic access (via web-scraping) to the forest area data from these data sources:
 
-* [IPCC](https://tinyurl.com/y474yu9e) in red.
-* [SOEF](https://dbsoef.foresteurope.org/) in blue.
-* [FAOSTAT-GF](http://www.fao.org/faostat/en/) in green.
-* [HPFFRE](https://doi.org/10.5061/dryad.4t880qh) in purple.
-* EU-CBM (an in-house custom and non-traceable dataset) in orange.
+* [IPCC](https://tinyurl.com/y474yu9e).
+* [SOEF](https://dbsoef.foresteurope.org/).
+* [FAOSTAT-GF](http://www.fao.org/faostat/en/).
+* [HPFFRE](https://doi.org/10.5061/dryad.4t880qh).
+* EU-CBM (an in-house custom and non-traceable dataset).
 
 
 Comparison of total forest area
@@ -50,11 +50,11 @@ Below we compare the total forest area as it is reported in five different data 
 
 The Y-axis represents area in million of hectares. To provide better insight, the scale is not aligned between countries nor does it start at 0.
 
-The HPFFRE dataset is post-processed before being graphed as we do not wish to show future predictions in this visualization. Instead we show the earliest year of that dataset for each country and extend it the current year.
+The HPFFRE dataset is post-processed before being graphed as we do not wish to show future predictions in this visualization. Instead we show the earliest year of that dataset for each country and extend it to the current year.
 
-If the SOEF dataset is not visible for some countries, it is because the FAOSTAT precisely matches it in many cases and covers the line of the other dataset.
+If the SOEF dataset is not visible for some countries, it is because the FAOSTAT source precisely matches it and covers the line of the other dataset.
 
-Also, not all datasets are available for all countries.
+Also, not all datasets are available for all countries, unfortunately.
 
 {{comp_total_area}}
 
@@ -62,7 +62,7 @@ Also, not all datasets are available for all countries.
 Comparison of gain and losses
 -----------------------------
 
-Below we compare the total losses, gains and net changes in forest biomass for each country. We cover 26 of the 28 (past and present) EU member states.
+Below we compare the total losses, gains and net changes in forest biomass for each country.
 
 The Y-axis represents different units depending on the data source considered. Therefor, vertical scales are not directly comparable in the plots. Each source provides a different measure and a slightly different definition for losses and gains.
 
@@ -88,11 +88,11 @@ Conversion to tons of carbon
 
 Below we compare once again the total losses, gains and net changes in forest biomass for each country.
 
-Resulting in a series of graphs that are almost identical to the ones above.
+This results in a series of graphs that are almost identical to the ones above.
 
 The difference is that we harmonize the Y axis units and convert the data sources which were providing volumes into mass. These were SOEF, FAOSTAT, HPFFRE. Namely, we convert cubic meters over/under bark per hectare to tons of carbon per hectare.
 
-To do this we use a dataset provided by SOEF that indicates the proportion of the 10 most common species in terms of growing stock combined with a published table specifying wood densities for different species.
+To operate this conversion, we use a dataset provided by SOEF that indicates the proportion of the 10 most common species in terms of growing stock. We then combine this information with a published table specifying wood densities for different species.
 
 The wood density is in [tons / m³] more precisely [oven-dry tonnes of C per moist m³] and is found at:
 
@@ -101,11 +101,9 @@ The wood density is in [tons / m³] more precisely [oven-dry tonnes of C per moi
     https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
     See page 71.
 
-Some countries are missing such as germany, which does not provide the total growing stock.
+The matching of the species latin as given in each country does not follow any standard and contains stochastic variations. The matching of the user inputted latin name to its canonical genus is done through natural language processing techniques and string matching strategies.
 
-The matching of the species latin as given in each country does not follow any standard and contains stochastic variations. The matching of the user inputted latin name to its canonical genus is done through NLP and string matching strategies.
-
-The average density values are then linearly interpolated for missing years, and padded by copy outside of the bounds for which data is provided.
+The average density values are then linearly interpolated for missing years, and padded-by-copy outside of the bounds for which data is provided.
 
 A bark correction factor of 0.88 is applied to the FAOSTAT data source, which provided values in cubic meters under bark instead of over bark.
 

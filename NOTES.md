@@ -125,14 +125,14 @@
 
 * Make a script for the security group
 
+* Plot the proportion of genera in CBM also and compare side by side.
+
 
 # TODO
 
-* Possibly plot the proportion of genera in CBM also and compare side by side.
-
 * Add species breakdown to README showcase
 
-* Make a total of all EU countries (for soef only 2015, for ipcc only net curve, for faostat start in 2000)
+* Make a total of all EU countries (for soef only 2015, for ipcc only net curve, for faostat start in 2000).
 
 * Write up introduction and methods.
 
@@ -144,7 +144,7 @@
 
 * Adapt the CBM-EU fluxes used in gains and losses based on expert input.
 
-* Ask Roberto about the fluxes to include in EU-CBM fluxes
+* Make a total of all EU also for genus composition.
 
 
 # Ideas

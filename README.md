@@ -271,12 +271,21 @@ The `forest_puller` package can also generate several plots that enable the user
 
 For instance here is are a series of graphs comparing the total reported forest area between five data sources as seen in the `forest_puller.viz.area` submodule:
 
-![Comparison of total forest area](documentation/viz/area.svg?sanitize=true "Comparison of total forest area")
+![Comparison of total forest area](documentation/viz/area/area.svg?sanitize=true "Comparison of total forest area")
 
 Another type of graph that can be produced is the comparison of gains and losses across several data-sources and across the five largest counties in terms of forest area. This code is found in the `forest_puller.viz.increments` submodule.
 
-![Comparison of increments for SE](documentation/viz/SE.svg?sanitize=true "Comparison of increments for SE")
-![Comparison of increments for FR](documentation/viz/FR.svg?sanitize=true "Comparison of increments for FR")
-![Comparison of increments for FI](documentation/viz/FI.svg?sanitize=true "Comparison of increments for FI")
-![Comparison of increments for ES](documentation/viz/ES.svg?sanitize=true "Comparison of increments for ES")
-![Comparison of increments for DE](documentation/viz/DE.svg?sanitize=true "Comparison of increments for DE")
+![Comparison of increments for SE](documentation/viz/increments/SE.svg?sanitize=true "Comparison of increments for SE")
+![Comparison of increments for FR](documentation/viz/increments/FR.svg?sanitize=true "Comparison of increments for FR")
+![Comparison of increments for FI](documentation/viz/increments/FI.svg?sanitize=true "Comparison of increments for FI")
+![Comparison of increments for ES](documentation/viz/increments/ES.svg?sanitize=true "Comparison of increments for ES")
+![Comparison of increments for DE](documentation/viz/increments/DE.svg?sanitize=true "Comparison of increments for DE")
+
+With data from the SOEF source, we can also plot a breakdown of the growing stock volume genus composition of many countries across time:
+
+![Comparison of genus breakdown](documentation/viz/genus/AT_BE_BG_HR_CY.svg?sanitize=true "Comparison of genus breakdown")
+![Comparison of genus breakdown](documentation/viz/genus/CZ_DK_EE_FI_FR.svg?sanitize=true "Comparison of genus breakdown")
+![Comparison of genus breakdown](documentation/viz/genus/DE_HU_IE_IT_LV.svg?sanitize=true "Comparison of genus breakdown")
+![Comparison of genus breakdown](documentation/viz/genus/LT_NL_PL_PT_RO.svg?sanitize=true "Comparison of genus breakdown")
+![Comparison of genus breakdown](documentation/viz/genus/SK_SI_ES_SE_GB.svg?sanitize=true "Comparison of genus breakdown")
+![Genera legend](documentation/viz/genus/legend.svg?sanitize=true "Genera legend")

@@ -261,6 +261,7 @@ class GenusBarstack(Multiplot):
 class GenusBarstackLegend(SoloLegend):
 
     n_col = 5
+    formats    = ('pdf', 'svg')
 
     @property_cached
     def label_to_color(self):

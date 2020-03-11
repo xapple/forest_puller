@@ -119,19 +119,19 @@ from tqdm import tqdm
 #color_legend.plot(rerun=True)
 #
 ################################################################################
-#from forest_puller.viz.genus_barstack import genus_legend
-#genus_legend.plot(rerun=True)
+from forest_puller.viz.genus_barstack import genus_legend
+genus_legend.plot(rerun=True)
 #
 ################################################################################
 #from forest_puller.core.continent import continent
 #print(continent.report())
 
 ###############################################################################
-from forest_puller.viz.genus_soef_vs_cbm import all_graphs
-for g in all_graphs[:]: g.plot(rerun=True)
-
-from forest_puller.viz.genus_soef_vs_cbm import genus_legend
-genus_legend.plot(rerun=True)
-
-from forest_puller.core.continent import continent
-print(continent.report())
+#from forest_puller.viz.genus_soef_vs_cbm import all_graphs
+#for g in all_graphs[:]: g.plot(rerun=True)
+#
+#from forest_puller.viz.genus_soef_vs_cbm import genus_legend
+#genus_legend.plot(rerun=True)
+#
+#from forest_puller.core.continent import continent
+#print(continent.report())
