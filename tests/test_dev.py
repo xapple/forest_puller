@@ -6,6 +6,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 
 JRC Biomass Project.
 Unit D1 Bioeconomy.
+
 Development script to test some of the methods in `forest_puller`
 
 Typically you would run this file from a command line like this:
@@ -37,7 +38,7 @@ from tqdm import tqdm
 
 ###############################################################################
 #from forest_puller.viz.area_aggregate import area_agg
-#area_agg.plot()
+#area_agg.plot(rerun=True)
 #print(area_agg.path)
 
 #from forest_puller.viz.area_aggregate import area_agg
@@ -112,14 +113,14 @@ from tqdm import tqdm
 #print(continent.report())
 
 ###############################################################################
-from forest_puller.viz.genus_barstack import all_graphs
-for g in all_graphs[:]: g.plot(rerun=True)
-
-from forest_puller.viz.genus_barstack import genus_legend
-genus_legend.plot(rerun=True)
-
-from forest_puller.core.continent import continent
-print(continent.report())
+#from forest_puller.viz.genus_barstack import all_graphs
+#for g in all_graphs[:]: g.plot(rerun=True)
+#
+#from forest_puller.viz.genus_barstack import genus_legend
+#genus_legend.plot(rerun=True)
+#
+#from forest_puller.core.continent import continent
+#print(continent.report())
 
 ################################################################################
 #from forest_puller.viz.color_rgb_code import color_legend

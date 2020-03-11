@@ -191,7 +191,7 @@ class AreaComparison(FacetPlot):
         return self.facet
 
 ###############################################################################
-# Create the large df #
+# Create the large df with all sources #
 area_data = AreaCompData()
 
 # Create the graph #

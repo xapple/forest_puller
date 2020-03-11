@@ -11,10 +11,6 @@ Typically you can use this submodule this like:
 
     >>> from forest_puller.ipcc.agg import source
     >>> print(source.df)
-
-Or like this:
-
-    >>> from forest_puller.ipcc.agg import source
     >>> print(source.common_years)
 """
 
@@ -29,7 +25,7 @@ from plumbing.cache import property_cached
 import pandas
 
 ###############################################################################
-class IPCC:
+class AggIPCC:
     """
     Represents one data source and contains all countries for that
     particular data source.
@@ -97,4 +93,4 @@ class IPCC:
         return df
 
 ###############################################################################
-source = IPCC()
+source = AggIPCC()
