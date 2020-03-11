@@ -24,10 +24,10 @@ from plumbing.cache import property_cached
 import pandas
 
 ###############################################################################
-class SOEF:
+class AggSOEF:
     """
     Represents one data source and contains all countries for that
-    particular data source. In this case faostat land.
+    particular data source.
     """
 
     def __getitem__(self, key): return [c for c in self.countries if c.iso2_code == key][0]
@@ -48,7 +48,7 @@ class SOEF:
     def first(self):
         return self.countries[0]
 
-    #-------------------------------- Other ----------------------------------#
+    #----------------------------- Common years ------------------------------#
     @property_cached
     def common_years(self):
         """
@@ -68,33 +68,29 @@ class SOEF:
         # Return #
         return tables
 
-    @property
-    def tables(self):
+    #-------------------------------- Tables ---------------------------------#
+    @property_cached
+    def forest_area(self):
         # Import #
         from forest_puller.soef.concat import tables
-        # Initialize #
-        table_names = ["forest_area"] # , "age_dist", "fellings"]
-        result      = {}
-        # Loop #
-        for table_name in table_names:
-            # Load #
-            df = tables[table_name].copy()
-            # Filter #
-            df = df.query("year in @self.common_years")
-            # This only works for forest_area table #
-            df = df.query("category == 'forest'")
-            df = df[['year', 'area']]
-            # Sum the countries and keep the years #
-            df = df.groupby(['year'])
-            df = df.agg(pandas.DataFrame.sum, skipna=False)
-            # Drop columns with NaNs #
-            df = df.dropna(axis=1, how='all')
-            # We don't want the year as an index #
-            df = df.reset_index()
-            # Assign #
-            result[table_name] = df
+        # Load #
+        df = tables['forest_area'].copy()
+        # Get the common years #
+        common_years = self.common_years['forest_area']
+        # Filter #
+        df = df.query("year in @common_years")
+        # This only works for the 'forest_area' table #
+        df = df.query("category == 'forest'")
+        # Check there are no NaNs #
+        assert not df.isna().any().any()
+        # Keep only two columns #
+        df = df[['year', 'area']]
+        # Sum the countries and keep the years #
+        df = df.groupby(['year']).agg({'area': 'sum'})
+        # We don't want the year as an index #
+        df = df.reset_index()
         # Return #
-        return result
+        return df
 
 ###############################################################################
-source = SOEF()
+source = AggSOEF()

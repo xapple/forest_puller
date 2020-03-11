@@ -9,8 +9,13 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
+    >>> from forest_puller.viz.area_aggregate import area_agg_data
+    >>> print(area_agg_data.area_ipcc)
+
+To generate the plot:
+
     >>> from forest_puller.viz.area_aggregate import area_agg
-    >>> area_agg.plot()
+    >>> area_agg.plot(rerun=True)
     >>> print(area_agg.path)
 """
 
@@ -24,7 +29,7 @@ from plumbing.graphs import Graph
 from plumbing.cache import property_cached
 
 # Third party modules #
-import pandas, brewer2mpl
+import pandas, brewer2mpl, matplotlib
 from matplotlib import pyplot
 
 ###############################################################################
@@ -52,7 +57,7 @@ class AreaAggregateData:
         # Import #
         from forest_puller.soef.agg import source
         # Load #
-        df = source.tables['forest_area'].copy()
+        df = source.forest_area.copy()
         # Add source #
         df.insert(0, 'source', 'soef')
         # Return #
@@ -112,6 +117,10 @@ class AreaAggregate(Graph):
     together into one graph.
     """
 
+    # Size #
+    height = 7
+    width  = 10
+
     # Basic params #
     short_name = 'area_aggregate'
     y_grid  = True
@@ -126,92 +135,43 @@ class AreaAggregate(Graph):
                      'FAOSTAT': colors[3],
                      'EU-CBM':  colors[4]}
 
-    #----------------------------- Data sources ------------------------------#
-    @property
-    def area_ipcc(self):
-        # Import #
-        from forest_puller.ipcc.agg import source
-        # Load #
-        df = source.df.copy()
-        # Columns #
-        df = df[['year', 'area']]
-        # Add source #
-        df.insert(0, 'source', "ipcc")
-        # Return #
-        return df
+    def line_plot(self, axes, x, y, source, **kw):
+        # Filter by source #
+        data = area_agg_data.df.query("source == '%s'" % source)
+        # Plot #
+        axes.plot(data[x], data[y],
+                  marker     = ".",
+                  markersize = 10.0,
+                  color      = self.name_to_color[source.upper()],
+                  **kw)
 
-    @property
-    def area_soef(self):
-        # Import #
-        from forest_puller.soef.agg import source
-        # Load #
-        df = source.tables['forest_area'].copy()
-        # Add source #
-        df.insert(0, 'source', 'soef')
-        # Return #
-        return df
-
-    @property
-    def area_faostat(self):
-        # Load #
-        area_faos = -1
-        # Filter #
-        area_faos = area_faos.query('element == "Area"')
-        area_faos = area_faos.query('item    == "Forest land"')
-        area_faos = area_faos.query('flag    == "A"')
-        # Columns #
-        area_faos = area_faos[['country', 'year', 'value']]
-        area_faos.columns   = ['country', 'year', 'area']
-        # Add source #
-        area_faos.insert(0, 'source', 'faostat')
-        # Return #
-        return area_faos
-
-    @property
-    def area_eu_cbm(self):
-        # Load #
-        area_cbm = -1
-        # Add source #
-        area_cbm.insert(0, 'source', 'eu-cbm')
-        # Return #
-        return area_cbm
-
-    @property_cached
-    def data(self):
-        """
-        Importing the other graph at: `forest_puller.viz.area.area_comp`
-        and using it's data frame to aggregate and sum doesn't work because
-        one has to filter on the available years. One possible alternative
-        approach is df.groupby([source,year]).agg(n=count).query(n==27)
-        """
-        # Load all data sources #
-        sources = [self.area_ipcc, self.area_soef]
-        # Combine data sources #
-        df = pandas.concat(sources, ignore_index=True)
-        # Adjust to million hectares #
-        df['area'] /= 1e6
-        # Return #
-        return df
+    def add_main_legend(self, axes):
+        items   = self.name_to_color.items()
+        patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in items]
+        axes.legend(handles   = patches,
+                       borderpad      = 1,
+                       prop           = {'size': 12},
+                       frameon        = True,
+                       shadow         = True,
+                       loc            = 'center left',
+                       bbox_to_anchor = (1.03, 0.5))
 
     def plot(self, **kwargs):
         # Plot #
         fig  = pyplot.figure()
         axes = fig.add_subplot(111)
 
-        # Functions #
-        def line_plot(x, y, source, **kw):
-            data = self.data.query("source == '%s'" % source)
-            axes.plot(data[x], data[y],
-                      marker     = ".",
-                      markersize = 10.0,
-                      color      = self.name_to_color[source.upper()],
-                      **kw)
-
         # Plot every data source #
-        line_plot('year', 'area', 'ipcc')
-        line_plot('year', 'area', 'soef')
+        self.line_plot(axes, 'year', 'area', 'ipcc')
+        self.line_plot(axes, 'year', 'area', 'soef')
         #line_plot('year', 'area', 'faostat')
         #line_plot('year', 'area', 'eu-cbm')
+
+        # Leave space for the legend #
+        fig.subplots_adjust(left=0.1, right=0.8)
+
+        # Add legend #
+        self.add_main_legend(axes)
 
         # Save #
         self.save_plot(**kwargs)
