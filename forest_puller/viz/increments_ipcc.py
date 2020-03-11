@@ -11,7 +11,6 @@ Unit D1 Bioeconomy.
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.common    import country_codes
 from forest_puller           import cache_dir
 from forest_puller.viz.increments import GainsLossNetGraph
 

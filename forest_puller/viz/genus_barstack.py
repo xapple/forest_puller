@@ -101,29 +101,6 @@ class GenusComposition:
         # Return #
         return df
 
-    def sort_cols(self, df):
-        """
-        We want to sort the columns so that the first level of
-        organization is always:  all conifers, missing, all broadleaved.
-        Then, within each category, we want to sort by the average
-        growing stock across all years with highest first.
-
-        Looks like: ['quercus', 'fagus', 'missing', 'pseudotsuga', ...]
-        """
-        # Import #
-        from forest_puller.other.tree_species_info import conifers, broads
-        # Function to sort the columns #
-        def genus_to_placement(genus):
-            if genus == 'missing': return 0
-            if genus in conifers:  return  df[genus].mean()
-            if genus in broads:    return -df[genus].mean()
-        # Get the column names which are genera #
-        genera = df.columns.tolist()
-        # Sort the columns by custom arrangement #
-        genera.sort(key=genus_to_placement)
-        # Return #
-        return genera
-
     @property_cached
     def stock_genus_by_year(self):
         """
@@ -144,10 +121,11 @@ class GenusComposition:
                      columns = ['genus'],
                      values  = 'stock_m3',
                      aggfunc = numpy.sum)
-        # Sort the columns by custom arrangement #
-        df = df.reindex(columns=self.sort_cols(df))
         # Some countries like italy have NaNs in some cells #
         df = df.fillna(0.0)
+        # Reorder the rows always in the same order #
+        df = df.reindex(columns=genus_legend.label_to_color.keys())
+        df = df.dropna(axis=1)
         # Return #
         return df
 
@@ -261,37 +239,44 @@ class GenusBarstack(Multiplot):
 class GenusBarstackLegend(SoloLegend):
 
     n_col = 5
-    formats    = ('pdf', 'svg')
 
     @property_cached
     def label_to_color(self):
-        """Mapping of genera to colors."""
+        """
+        Mapping of genera to colors.
+        Sort the genera according to the following rules.
+        The first level of organization is always:
+
+            <all conifers, missing, all broadleaved>
+
+        Then, within each category, we want to sort by the average
+        growing stock across all years with highest first.
+        """
+        # Each country's genus breakdown #
+        cntrys = [c.genus_comp.stock_comp_genus for c in c_vals]
+        # All the stock fractions data together #
+        df = pandas.concat(cntrys)
+        # Sum all the growing stock in all countries #
+        df = df.groupby(['genus']).aggregate({'stock_m3': 'sum'})
+        df = df.reset_index()
         # Import #
         from forest_puller.other.tree_species_info import df as species_info
         # Uniquify on genera #
-        df = species_info.groupby('genus').first()
-        df = df.reset_index()
-        # To make it more readable, we could sort by rank aggregation #
-        stocks = pandas.concat(c.genus_comp.stock_comp_genus for c in c_vals)
-        # Sum all the growing stock in all countries #
-        stocks = stocks.groupby(['genus']).aggregate({'stock_m3': 'sum'})
-        stocks = stocks.reset_index()
-        # Join #
-        df = df.left_join(stocks, on='genus')
-        # Remove those that don't have any stock #
-        df = df.query("stock_m3 == stock_m3").copy()
-        # Make all coniferous negative #
+        info = species_info.groupby('genus').first().reset_index()
+        # Add the species information #
+        df = df.left_join(info, on='genus')
+        # Make all broadleaved negative #
         df['stock_m3'] = numpy.where(df['kind'] == 'broad',
-                                          -df['stock_m3'],
-                                          df['stock_m3'])
-        # Sort by stock_m3 #
+                                     -df['stock_m3'], df['stock_m3'])
+        # Make all missing null #
+        df['stock_m3'] = numpy.where(df['genus'] == 'missing',
+                                     0, df['stock_m3'])
+        # Sort by total stock #
         df = df.sort_values(['stock_m3'], ascending=False)
-        # Zip #
-        genera = df['genus'].tolist()
-        colors = df['plot_color'].tolist()
-        result = dict(zip(genera, colors))
+        # Keep only two columns #
+        df = df.set_index('genus')['plot_color'].to_dict()
         # Return #
-        return result
+        return df
 
 ###############################################################################
 # Add the required properties #

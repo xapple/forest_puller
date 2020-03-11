@@ -286,7 +286,7 @@ class GenusPairedLegend(SoloLegend):
         # Uniquify on genera #
         info = species_info.groupby('genus').first().reset_index()
         # Add the species information #
-        df = df.left_join(info, on='genus').reset_index()
+        df = df.left_join(info, on='genus')
         # Make all broadleaved negative #
         df['cum_frac'] = numpy.where(df['kind'] == 'broad',
                                     -df['cum_frac'], df['cum_frac'])
@@ -296,9 +296,9 @@ class GenusPairedLegend(SoloLegend):
         # Sort by cumulative fraction #
         df = df.sort_values(['cum_frac'], ascending=False)
         # Keep only two columns #
-        df = df.set_index('genus')['plot_color']
+        df = df.set_index('genus')['plot_color'].to_dict()
         # Return #
-        return df.to_dict()
+        return df
 
 ###############################################################################
 # List of all countries #

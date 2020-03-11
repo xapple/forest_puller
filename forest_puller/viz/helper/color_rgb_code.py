@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 
 Typically you can use this submodule this like:
 
-    >>> from forest_puller.viz.color_rgb_code import color_legend
+    >>> from forest_puller.viz.helper.color_rgb_code import color_legend
     >>> print(color_legend.plot(rerun=True))
 """
 

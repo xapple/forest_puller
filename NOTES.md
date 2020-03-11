@@ -127,10 +127,10 @@
 
 * Plot the proportion of genera in CBM also and compare side by side.
 
+* Add species breakdown to README showcase
+
 
 # TODO
-
-* Add species breakdown to README showcase
 
 * Make a total of all EU countries (for soef only 2015, for ipcc only net curve, for faostat start in 2000).
 
