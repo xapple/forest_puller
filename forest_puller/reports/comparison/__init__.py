@@ -28,7 +28,6 @@ from pymarktex         import Document
 from pymarktex.figures import ScaledFigure, BareFigure
 
 # Third party modules #
-from tabulate import tabulate
 
 ###############################################################################
 class ComparisonReport(Document):
@@ -145,4 +144,14 @@ class ComparisonTemplate(ReportTemplate):
         result += str(ScaledFigure(graph=genus_legend, caption=caption))
         # Return #
         return result
+
+    #--------------------------- Total over Europe ---------------------------#
+    def eu_tot_area(self):
+        # Caption #
+        caption = "Sum of total forest area for 27 different countries" \
+                  " in four data sources."
+        # Import #
+        from forest_puller.viz.area_aggregate import area_agg
+        # Return #
+        return str(ScaledFigure(graph=area_agg, caption=caption))
 

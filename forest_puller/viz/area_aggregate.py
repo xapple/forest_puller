@@ -45,7 +45,7 @@ class AreaAggregateData:
         from forest_puller.ipcc.agg import source
         # Load #
         df = source.df.copy()
-        # Columns #
+        # Take only columns that interest us #
         df = df[['year', 'area']]
         # Add source #
         df.insert(0, 'source', "ipcc")
@@ -65,28 +65,25 @@ class AreaAggregateData:
 
     @property
     def area_faostat(self):
+        # Import #
+        from forest_puller.faostat.land.agg import source
         # Load #
-        area_faos = -1
-        # Filter #
-        area_faos = area_faos.query('element == "Area"')
-        area_faos = area_faos.query('item    == "Forest land"')
-        area_faos = area_faos.query('flag    == "A"')
-        # Columns #
-        area_faos = area_faos[['country', 'year', 'value']]
-        area_faos.columns   = ['country', 'year', 'area']
+        df = source.forest_area.copy()
         # Add source #
-        area_faos.insert(0, 'source', 'faostat')
+        df.insert(0, 'source', 'faostat')
         # Return #
-        return area_faos
+        return df
 
     @property
     def area_eu_cbm(self):
+        # Import #
+        from forest_puller.cbm.agg import source
         # Load #
-        area_cbm = -1
+        df = source.forest_area.copy()
         # Add source #
-        area_cbm.insert(0, 'source', 'eu-cbm')
+        df.insert(0, 'source', 'eu-cbm')
         # Return #
-        return area_cbm
+        return df
 
     #---------------------------- Data combined ------------------------------#
     @property_cached
@@ -102,7 +99,8 @@ class AreaAggregateData:
         This is not the road we have chosen here.
         """
         # Load all data sources #
-        sources = [self.area_ipcc, self.area_soef]
+        sources = [self.area_ipcc, self.area_soef, self.area_faostat,
+                   self.area_eu_cbm]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
         # Adjust to million hectares #
@@ -149,12 +147,12 @@ class AreaAggregate(Graph):
         items   = self.name_to_color.items()
         patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in items]
         axes.legend(handles   = patches,
-                       borderpad      = 1,
-                       prop           = {'size': 12},
-                       frameon        = True,
-                       shadow         = True,
-                       loc            = 'center left',
-                       bbox_to_anchor = (1.03, 0.5))
+                    borderpad      = 1,
+                    prop           = {'size': 12},
+                    frameon        = True,
+                    shadow         = True,
+                    loc            = 'center left',
+                    bbox_to_anchor = (1.03, 0.5))
 
     def plot(self, **kwargs):
         # Plot #
@@ -164,11 +162,11 @@ class AreaAggregate(Graph):
         # Plot every data source #
         self.line_plot(axes, 'year', 'area', 'ipcc')
         self.line_plot(axes, 'year', 'area', 'soef')
-        #line_plot('year', 'area', 'faostat')
-        #line_plot('year', 'area', 'eu-cbm')
+        self.line_plot(axes, 'year', 'area', 'faostat')
+        self.line_plot(axes, 'year', 'area', 'eu-cbm')
 
         # Leave space for the legend #
-        fig.subplots_adjust(left=0.1, right=0.8)
+        fig.subplots_adjust(left=0.1, right=0.8, top=0.95)
 
         # Add legend #
         self.add_main_legend(axes)

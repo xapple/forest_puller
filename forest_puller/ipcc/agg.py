@@ -49,7 +49,7 @@ class AggIPCC:
     def first(self):
         return self.countries[0]
 
-    #-------------------------------- Other ----------------------------------#
+    #----------------------------- Common years ------------------------------#
     @property_cached
     def common_years(self):
         """
@@ -66,7 +66,8 @@ class AggIPCC:
         # Return #
         return years
 
-    @property
+    #-------------------------------- Tables ---------------------------------#
+    @property_cached
     def df(self):
         """
         To note:
@@ -82,6 +83,10 @@ class AggIPCC:
         df = df.query("year in @self.common_years")
         # Aggregate all numeric columns, drop non-numeric #
         df = df.drop(columns=['country', 'subdivision', 'land_use'])
+        # Keep only two columns #
+        df = df[['year', 'area']]
+        # Check there are no NaNs #
+        assert not df.isna().any().any()
         # Sum the countries and keep the years #
         df = df.groupby(['year'])
         df = df.agg(pandas.DataFrame.sum, skipna=False)

@@ -15,7 +15,7 @@ import socket
 import forest_puller
 
 # First party modules #
-from pymarktex import Template
+from pymarktex       import Template
 from plumbing.common import pretty_now
 
 ###############################################################################

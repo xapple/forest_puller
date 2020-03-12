@@ -6,6 +6,12 @@ Written by Lucas Sinclair and Paul Rougieux.
 
 JRC Biomass Project.
 Unit D1 Bioeconomy.
+
+Typically you can use this submodule this like:
+
+    >>> import forest_puller.cbm.concat
+    >>> df = forest_puller.cbm.concat.area
+    >>> print(df)
 """
 
 # Built-in modules #

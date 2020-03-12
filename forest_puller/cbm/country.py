@@ -12,7 +12,6 @@ Typically you can use this submodule this like:
     >>> from forest_puller.cbm.country import countries
     >>> country = countries['FR']
     >>> print(country.stock_comp_genus)
-
 """
 
 # Built-in modules #
@@ -41,12 +40,22 @@ class Country:
         self.iso2_code = iso2_code
         # Create fake dataframes for cyprus that is missing #
         if self.iso2_code == 'CY':
-            self.area_df          = pandas.DataFrame()
+            self.area_df          = pandas.DataFrame(columns=['year', 'area'])
             self.increments_df    = pandas.DataFrame()
             self.stock_comp_genus = pandas.DataFrame(columns=['genus', 'year', 'stock_m3'])
 
     def __repr__(self):
         return '%s object code "%s"' % (self.__class__, self.iso2_code)
+
+    #----------------------------- Common years ------------------------------#
+    @property_cached
+    def area_years(self):
+        """
+        Determine the years for which there is a data point in every single
+        country of this data source for the area statistic.
+        Return a list of integers, e.g. [1999, 2000, 2001, 2004].
+        """
+        return self.area_df['year'].unique()
 
     #-------------------------------- Area -----------------------------------#
     @property_pickled_at('area_cache_path')

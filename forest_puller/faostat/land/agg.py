@@ -23,7 +23,7 @@ from plumbing.cache import property_cached
 # Third party modules #
 
 ###############################################################################
-class FaostatLand:
+class FaostatLandAgg:
     """
     Represents one data source and contains all countries for that
     particular data source. In this case faostat land.
@@ -47,16 +47,16 @@ class FaostatLand:
     def first(self):
         return self.countries[0]
 
-    #-------------------------------- Other ----------------------------------#
+    #----------------------------- Common years ------------------------------#
     @property_cached
-    def common_years(self):
+    def common_years_area(self):
         """
         Determine the years for which there is a data point in every single
-        country of this data source.
+        country of this data source for the area statistic.
         Return a list of integers, e.g. [1999, 2000, 2001, 2004].
         """
         # Every country's available years #
-        avail_years = (set(c.df['year']) for c in self.countries.values())
+        avail_years = (set(c.area_years) for c in self.countries.values())
         # Intersection of all country's years #
         years = set.intersection(*avail_years)
         # Convert to a list #
@@ -64,5 +64,31 @@ class FaostatLand:
         # Return #
         return years
 
+    #-------------------------------- Tables ---------------------------------#
+    @property_cached
+    def forest_area(self):
+        # Import #
+        import forest_puller.faostat.land.concat
+        # Load #
+        df = forest_puller.faostat.land.concat.df.copy()
+        # Filter years #
+        df = df.query("year in @self.common_years_area")
+        # Filter #
+        df = df.query('element == "Area"')
+        df = df.query('item    == "Forest land"')
+        df = df.query('flag    == "A"')
+        # The value now is the area #
+        df = df.rename(columns={'value': 'area'})
+        # Keep only two columns #
+        df = df[['year', 'area']]
+        # Check there are no NaNs #
+        assert not df.isna().any().any()
+        # Sum the countries and keep the years #
+        df = df.groupby(['year']).agg({'area': 'sum'})
+        # We don't want the year as an index #
+        df = df.reset_index()
+        # Return #
+        return df
+
 ###############################################################################
-source = FaostatLand()
+source = FaostatLandAgg()
