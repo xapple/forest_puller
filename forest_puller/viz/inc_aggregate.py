@@ -9,14 +9,8 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.viz.area_aggregate import area_agg_data
-    >>> print(area_agg_data.area_ipcc)
-
-To generate the plot:
-
-    >>> from forest_puller.viz.area_aggregate import area_agg
-    >>> area_agg.plot(rerun=True)
-    >>> print(area_agg.path)
+    >>> from forest_puller.viz.inc_aggregate import inc_agg_data
+    >>> print(inc_agg_data.ipcc)
 """
 
 # Built-in modules #
@@ -33,18 +27,18 @@ import pandas, brewer2mpl, matplotlib
 from matplotlib import pyplot
 
 ###############################################################################
-class AreaAggregateData:
+class IncrementsAggregateData:
     """
-    Prepare all aggregated by year dataframes.
+    Prepare all dataframes for each source.
     """
 
     #----------------------------- Data sources ------------------------------#
     @property
-    def area_ipcc(self):
+    def ipcc(self):
         # Import #
         from forest_puller.ipcc.agg import source
         # Load #
-        df = source.forest_area.copy()
+        df = source.df.copy()
         # Take only columns that interest us #
         df = df[['year', 'area']]
         # Add source #
@@ -53,7 +47,7 @@ class AreaAggregateData:
         return df
 
     @property
-    def area_soef(self):
+    def soef(self):
         # Import #
         from forest_puller.soef.agg import source
         # Load #
@@ -64,7 +58,7 @@ class AreaAggregateData:
         return df
 
     @property
-    def area_faostat(self):
+    def faostat(self):
         # Import #
         from forest_puller.faostat.land.agg import source
         # Load #
@@ -75,7 +69,7 @@ class AreaAggregateData:
         return df
 
     @property
-    def area_eu_cbm(self):
+    def eu_cbm(self):
         # Import #
         from forest_puller.cbm.agg import source
         # Load #
@@ -88,19 +82,8 @@ class AreaAggregateData:
     #---------------------------- Data combined ------------------------------#
     @property_cached
     def df(self):
-        """
-        Importing the other graph at: `forest_puller.viz.area.area_comp`
-        and using its data frame to aggregate and sum doesn't work because
-        one has to filter on the available years. One possible alternative
-        approach is some long dataframe processing starting with:
-
-            df.groupby([source,year]).agg(n=count).query(n==27)
-
-        This is not the road we have chosen here.
-        """
         # Load all data sources #
-        sources = [self.area_ipcc, self.area_soef, self.area_faostat,
-                   self.area_eu_cbm]
+        sources = [self.ipcc, self.soef, self.faostat, self.eu_cbm]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
         # Adjust to million hectares #
@@ -109,10 +92,10 @@ class AreaAggregateData:
         return df
 
 ###############################################################################
-class AreaAggregate(Graph):
+class IncAggregate(Graph):
     """
-    This graph will show the combined forested area by summing all countries
-    together into one graph.
+    This graph will show the combined increments (loss, gain, net) of all
+    countries together into one graph.
     """
 
     # Size #
@@ -120,10 +103,10 @@ class AreaAggregate(Graph):
     width  = 10
 
     # Basic params #
-    short_name = 'area_aggregate'
+    short_name = 'inc_aggregate'
     y_grid  = True
-    x_label = "Years"
-    y_label = "Area in million hectares"
+    x_label = "xx"
+    y_label = "xx"
 
     # Colors #
     colors = brewer2mpl.get_map('Set1', 'qualitative', 5).mpl_colors
@@ -134,7 +117,7 @@ class AreaAggregate(Graph):
 
     def line_plot(self, axes, x, y, source, **kw):
         # Filter by source #
-        data = area_agg_data.df.query("source == '%s'" % source)
+        data = inc_agg_data.df.query("source == '%s'" % source)
         # Plot #
         axes.plot(data[x], data[y],
                   marker     = ".",
@@ -178,8 +161,8 @@ class AreaAggregate(Graph):
 
 ###############################################################################
 # Create the large df with all sources #
-area_agg_data = AreaAggregateData()
+inc_agg_data = IncrementsAggregateData()
 
 # Create the graph #
 export_dir = cache_dir + 'graphs/eu_tot/'
-area_agg = AreaAggregate(base_dir = export_dir)
+inc_agg = IncAggregate(base_dir = export_dir)
