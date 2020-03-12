@@ -37,9 +37,9 @@ from tqdm import tqdm
 #print(area_comp.path)
 
 ###############################################################################
-#from forest_puller.viz.area_aggregate import area_agg
-#area_agg.plot(rerun=True)
-#print(area_agg.path)
+from forest_puller.viz.area_aggregate import area_agg
+area_agg.plot(rerun=True)
+print(area_agg.path)
 
 #from forest_puller.viz.area_aggregate import area_agg
 #from forest_puller import cache_dir

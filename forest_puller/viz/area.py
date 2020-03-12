@@ -195,5 +195,5 @@ class AreaComparison(FacetPlot):
 area_data = AreaCompData()
 
 # Create the graph #
-export_dir = cache_dir + 'graphs/'
+export_dir = cache_dir + 'graphs/area/'
 area_comp  = AreaComparison(area_data, export_dir)
