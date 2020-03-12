@@ -45,7 +45,8 @@ tex = avg_densities_wide.to_latex(float_format = "%.3f",
 
 # Pick the destination #
 #path = Path("/Users/sinclair/repos/sinclair/work/ispra_italy/repos/puller_pub/tables/density_table.tex")
-path = Path("~/repos/puller_pub/tables/density_table.tex")
+# TODO: pass path as an argument
+path = Path("~/repos/puller_pub/manuscript/tables/density_table.tex")
 
 # Add a little line #
 tex = tex.replace("lrrrrrrrr", "lrrrr|rrrr")
