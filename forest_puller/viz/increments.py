@@ -100,26 +100,26 @@ class GainsLossNetData:
         import forest_puller.faostat.forestry.concat
         import forest_puller.faostat.land.concat
         # Load #
-        forestry = forest_puller.faostat.forestry.concat.df.copy()
-        land     = forest_puller.faostat.land.concat.df.copy()
+        fell = forest_puller.faostat.forestry.concat.df.copy()
+        area = forest_puller.faostat.land.concat.df.copy()
         # Filter forestry #
-        forestry = forestry.query("element == 'Production'")
-        forestry = forestry.query("unit == 'm3'")
+        fell = fell.query("element == 'Production'")
+        fell = fell.query("unit == 'm3'")
         # Group forestry #
-        forestry = (forestry.groupby(['country', 'year'])
-                    .agg({'value': sum})
-                    .reset_index())
+        fell = (fell.groupby(['country', 'year'])
+                .agg({'value': sum})
+                .reset_index())
         # Filter land #
-        land     = land.query('element == "Area"')
-        land     = land.query('item    == "Forest land"')
-        land     = land.query('flag    == "A"')
+        area = area.query('element == "Area"')
+        area = area.query('item    == "Forest land"')
+        area = area.query('flag    == "A"')
         # Keep columns #
-        land     = land[['country', 'year', 'value']]
+        area = area[['country', 'year', 'value']]
         # Rename columns #
-        forestry = forestry.rename(columns = {'value': 'loss'})
-        land     = land.rename(    columns = {'value': 'area'})
+        fell = fell.rename(columns = {'value': 'loss'})
+        area = area.rename(columns = {'value': 'area'})
         # Add the area #
-        df = forestry.inner_join(land, on=['country', 'year'])
+        df = fell.inner_join(area, on=['country', 'year'])
         # Sort the result #
         df = df.sort_values(['country', 'year'])
         # Compute per hectare values #
@@ -206,11 +206,11 @@ class GainsLossNetData:
         df = stock.left_join(area, on=['country', 'year'])
         # The growth reported here is the total stock, not the delta
         # So we need to operate a rolling subtraction and divide by years
-        group              = df.groupby(['country', 'rank'])
-        df['net_diff']     = group['growing_stock'].diff()
-        df['year_diff']    = group['year'].diff()
-        df['area_diff']    = group['area'].diff()
-        df['growth']       = df['net_diff'] / df['year_diff']
+        group           = df.groupby(['country', 'rank'])
+        df['net_diff']  = group['growing_stock'].diff()
+        df['year_diff'] = group['year'].diff()
+        df['area_diff'] = group['area'].diff()
+        df['growth']    = df['net_diff'] / df['year_diff']
         # Keep only those with values #
         df = df.query("growth==growth").copy()
         # Set the year in the middle #

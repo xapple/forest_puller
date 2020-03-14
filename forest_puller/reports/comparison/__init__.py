@@ -155,3 +155,39 @@ class ComparisonTemplate(ReportTemplate):
         # Return #
         return str(ScaledFigure(graph=area_agg, caption=caption))
 
+    def inc_agg_ipcc(self):
+        # Caption #
+        caption = "Average of net change per hectare for 27 different countries" \
+                  " together from the IPCC data source."
+        # Import #
+        from forest_puller.viz.inc_aggregate import inc_agg_ipcc
+        # Return #
+        return str(ScaledFigure(graph=inc_agg_ipcc, caption=caption))
+
+    def inc_agg_soef(self):
+        # Caption #
+        caption = "Average of increments per hectare for 11 different countries" \
+                  " from the SOEF data source."
+        # Import #
+        from forest_puller.viz.inc_aggregate import inc_agg_soef
+        # Return #
+        return str(ScaledFigure(graph=inc_agg_soef, caption=caption))
+
+    def inc_agg_faostat(self):
+        # Caption #
+        caption = "Average of losses per hectare for 27 different countries" \
+                  " from the FAOSTAT data source."
+        # Import #
+        from forest_puller.viz.inc_aggregate import inc_agg_faostat
+        # Return #
+        return str(ScaledFigure(graph=inc_agg_faostat, caption=caption))
+
+    def inc_agg_cbm(self):
+        # Caption #
+        caption = "Average of increments per hectare for 26 different countries" \
+                  " from the EU-CBM data source."
+        # Import #
+        from forest_puller.viz.inc_aggregate import inc_agg_cbm
+        # Return #
+        return str(ScaledFigure(graph=inc_agg_cbm, caption=caption))
+

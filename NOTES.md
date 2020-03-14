@@ -129,10 +129,10 @@
 
 * Add species breakdown to README showcase
 
+* Make a total of all EU countries (for soef only some countries, for ipcc only net curve, for faostat start in 2000).
+
 
 # TODO
-
-* Make a total of all EU countries (for soef only 2015, for ipcc only net curve, for faostat start in 2000).
 
 * Write up introduction and methods.
 

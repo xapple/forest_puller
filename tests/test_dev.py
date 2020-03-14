@@ -37,9 +37,9 @@ from tqdm import tqdm
 #print(area_comp.path)
 
 ###############################################################################
-from forest_puller.viz.area_aggregate import area_agg
-area_agg.plot(rerun=True)
-print(area_agg.path)
+#from forest_puller.viz.area_aggregate import area_agg
+#area_agg.plot(rerun=True)
+#print(area_agg.path)
 
 #from forest_puller.viz.area_aggregate import area_agg
 #from forest_puller import cache_dir
@@ -133,10 +133,21 @@ print(area_agg.path)
 #from forest_puller.viz.genus_soef_vs_cbm import genus_legend
 #genus_legend.plot(rerun=True)
 #
-from forest_puller.core.continent import continent
-print(continent.report())
+#from forest_puller.core.continent import continent
+#print(continent.report())
 
 ###############################################################################
 #from forest_puller.viz.genus_barstack import genus_legend
 #pprint(genus_legend.label_to_color)
 #pprint(genus_legend.label_to_color_old)
+
+###############################################################################
+from forest_puller.viz.inc_aggregate import inc_agg_ipcc
+inc_agg_ipcc.plot(rerun=True)
+from forest_puller.viz.inc_aggregate import inc_agg_soef
+inc_agg_soef.plot(rerun=True)
+from forest_puller.viz.inc_aggregate import inc_agg_faostat
+inc_agg_faostat.plot(rerun=True)
+
+from forest_puller.core.continent import continent
+print(continent.report())

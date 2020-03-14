@@ -97,32 +97,6 @@ class AggIPCC:
         # Return #
         return df
 
-    @property_cached
-    def increments(self):
-        # Import #
-        from forest_puller.ipcc.concat import df as concat_df
-        # Load #
-        df = concat_df.copy()
-        # Take only the simple category #
-        df = df.query("land_use == 'total_forest'")
-        # Filter #
-        df = df.query("year in @self.common_years")
-        # Aggregate all numeric columns, drop non-numeric #
-        df = df.drop(columns=['country', 'subdivision', 'land_use'])
-        # Keep only two columns #
-        df = df[['year', 'area']]
-        # Check there are no NaNs #
-        assert not df.isna().any().any()
-        # Sum the countries and keep the years #
-        df = df.groupby(['year'])
-        df = df.agg(pandas.DataFrame.sum, skipna=False)
-        # Drop columns with NaNs #
-        df = df.dropna(axis=1, how='all')
-        # We don't want the year as an index #
-        df = df.reset_index()
-        # Return #
-        return df
-
 
 ###############################################################################
 source = AggIPCC()
