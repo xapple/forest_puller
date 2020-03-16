@@ -191,3 +191,12 @@ class ComparisonTemplate(ReportTemplate):
         # Return #
         return str(ScaledFigure(graph=inc_agg_cbm, caption=caption))
 
+    def eu_tot_genus(self):
+        # Caption #
+        caption = "Sum of the growing stock genus breakdown for 24 different" \
+                  " countries for the year 2010 in the SOEF data source."
+        # Import #
+        from forest_puller.viz.genus_aggregate import genus_agg
+        # Return #
+        return str(ScaledFigure(graph=genus_agg, caption=caption))
+

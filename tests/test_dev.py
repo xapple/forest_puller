@@ -148,6 +148,8 @@ from forest_puller.viz.inc_aggregate import inc_agg_soef
 inc_agg_soef.plot(rerun=True)
 from forest_puller.viz.inc_aggregate import inc_agg_faostat
 inc_agg_faostat.plot(rerun=True)
+from forest_puller.viz.genus_aggregate import genus_agg
+genus_agg.plot(rerun=True)
 
 from forest_puller.core.continent import continent
 print(continent.report())

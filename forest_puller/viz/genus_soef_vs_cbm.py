@@ -14,6 +14,11 @@ Typically you can use this submodule this like:
     >>> country = [c for c in comps if c.iso2_code == 'CY'][0]
     >>> df      = country.year_to_df[2005]
     >>> print(df)
+
+Or if you want to look at the legend:
+
+    >>> from forest_puller.viz.genus_soef_vs_cbm import genus_legend
+    >>> print(genus_legend.label_to_color)
 """
 
 # Built-in modules #

@@ -101,13 +101,13 @@
 
 * Possibly convert the m^3 into net CO2 emission in tons for faostat, ipcc, hpffre.  Strategy for converting volume into tons of carbon:
 
-  - See demand_to_dist in dist_maker
+  - See demand_to_dist in dist_maker.
 
   - To go from over to under: 0.88 conversion factor. See UNEC.
 
   - See https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
 
-  - Tons of dry matter are converted to tons of carbon by applying a 0.5 conversion factor
+  - Tons of dry matter are converted to tons of carbon by applying a 0.5 conversion factor.
 
     - First get the proportion of species from each country from either FAOSTAT or SOEF. Not sure yet.
 
@@ -117,19 +117,23 @@
 
     - Link: https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf   PAGE 71
 
-* Graph of species proportion in each country
+* Graph of species proportion in each country.
 
 * Conifers (have 4 genera) vs broadleaved could have distinguished colors. Use black for missing. Abies (dark green), picea (dark green), pinus (green), pseudotsuga (light green).
 
 * Manage the case when the species name is the same as another possible genus name (e.g. "picea abies" in finland), the string matching algorithm should favor the first word.
 
-* Make a script for the security group
+* Make a script for the security group.
 
 * Plot the proportion of genera in CBM also and compare side by side.
 
-* Add species breakdown to README showcase
+* Add species breakdown to README showcase.
 
-* Make a total of all EU countries (for soef only some countries, for ipcc only net curve, for faostat start in 2000).
+* Make a total of all EU countries for area.
+
+* Make a total of all EU countries increments (for soef only some countries, for ipcc only net curve, for faostat start in 2000).
+
+* Make a total of all EU also for genus composition.
 
 
 # TODO
@@ -144,7 +148,7 @@
 
 * Adapt the CBM-EU fluxes used in gains and losses based on expert input.
 
-* Make a total of all EU also for genus composition.
+* Make predictions based on data acquired?
 
 
 # Ideas
