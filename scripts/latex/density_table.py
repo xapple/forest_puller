@@ -11,21 +11,20 @@ Script to automatically generate a latex formatted table from a pandas data fram
 
 Typically you would run this file from a command line like this:
 
-    ipython3 -i -- ~/deploy/forest_puller/scripts/latex/density_table.py
+    python3 ~/repos/forest_puller/scripts/latex/density_table.py > ~/repos/puller_pub/tables/density_table.tex
 
-Or like this:
+Or like this (locally):
 
-    ipython3 -i -- ~/repos/forest_puller/scripts/latex/density_table.py
-
+    python3 /Users/sinclair/repos/sinclair/work/ispra_italy/repos/forest_puller/scripts/latex/density_table.py > /Users/sinclair/repos/sinclair/work/ispra_italy/repos/puller_pub/tables/density_table.tex
 """
 
 # Built-in modules #
+import sys
 
 # Internal modules #
 from forest_puller.soef.composition import composition_data
 
 # First party modules #
-from autopaths import Path
 
 # Third party modules #
 
@@ -35,34 +34,31 @@ df = composition_data.avg_densities.copy()
 
 # Downcast to integer #
 df['year'] = df['year'].apply(int)
-# Make frac missing in percent
+
+# Specifying float_format produces errors, let's format ourselves #
+df['avg_density']  = df['avg_density'].apply(lambda f: "%i" % f)
+
+# Express frac_missing as a percentage #
 df['frac_missing'] = df['frac_missing'] * 100
+df['frac_missing'] = df['frac_missing'].apply(lambda f: "%i\\%%" % f)
 
 # Pivot #
-df = df.pivot(index = 'country', columns='year', values=['avg_density', 'frac_missing'])
+df = df.pivot(index='country', columns='year', values=['avg_density', 'frac_missing'])
 
-# Rename columns
-df = df.rename(columns={'avg_density':'Average density ($kg/m^3$)',
-                        'frac_missing':'Fraction missing (percent)'})
+# Rename columns #
+df = df.rename(columns={'avg_density':  'Average density ($kg/m^3$)',
+                        'frac_missing': 'Fraction missing'})
 
-# Pick the title #
-label = 'average_density'
-caption = 'Weighted average density by country'
+# Rename indexes #
+df.index.name    = "Country"
+df.columns.names = [None, 'Year']
 
 # Generate LaTeX #
-tex = df.to_latex(float_format = "%.0f",
-                  na_rep       = '',
-                  escape       = False,
-                  label        = label,
-                  caption      = caption)
+tex = df.to_latex(na_rep='-', escape=False)
 
-# Pick the destination #
-#path = Path("/Users/sinclair/repos/sinclair/work/ispra_italy/repos/puller_pub/tables/density_table.tex")
-# TODO: pass path as an argument
-path = Path("~/repos/puller_pub/manuscript/tables/density_table.tex")
-
-# Add a little line #
-tex = tex.replace("lrrrrrrrr", "lrrrr|rrrr")
+# Add a little line and right align #
+tex = tex.replace("lllllllll", "lrrrr|rrrr")
 
 # Write to file #
-with open(path, 'w') as handle: handle.write(tex)
+sys.stdout.write(tex)
+sys.stdout.flush()
