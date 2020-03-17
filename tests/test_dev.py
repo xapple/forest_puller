@@ -142,6 +142,8 @@ from tqdm import tqdm
 #pprint(genus_legend.label_to_color_old)
 
 ###############################################################################
+from forest_puller.viz.area_aggregate import area_agg
+area_agg.plot(rerun=True)
 from forest_puller.viz.inc_aggregate import inc_agg_ipcc
 inc_agg_ipcc.plot(rerun=True)
 from forest_puller.viz.inc_aggregate import inc_agg_soef

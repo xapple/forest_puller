@@ -74,13 +74,21 @@ class GenusAggregate(Graph):
         fig  = pyplot.figure()
         axes = fig.add_subplot(111)
         # Load #
-        x = self.df['genus']
-        y = self.df['growing_stock']
+        x = list(self.df['genus'])
+        y = list(self.df['growing_stock'])
+        # Put missing as the last #
+        position    = x.index('missing')
+        missing_str = x.pop(position)
+        missing_val = y.pop(position)
+        x.append(missing_str)
+        y.append(missing_val)
         # Compute #
         x_enum = numpy.arange(len(x))
         # Pick colors #
         from forest_puller.viz.genus_soef_vs_cbm import genus_legend
         colors = [genus_legend.label_to_color.get(genus, 'gray') for genus in x]
+        # Upper case genus #
+        x = list(map(lambda s: s.capitalize(), x))
         # Plot #
         pyplot.bar(x_enum, y,
                    align     = 'center',
@@ -93,7 +101,7 @@ class GenusAggregate(Graph):
         # Label on Y #
         pyplot.ylabel('Growing stock in cubic meters')
         # Leave space for the legend #
-        #fig.subplots_adjust(left=0.1, right=0.8, top=0.95)
+        fig.subplots_adjust(left=0.08, right=0.96, bottom=0.17, top=0.94)
         # Save #
         self.save_plot(**kwargs)
         # Return for display in notebooks for instance #
