@@ -138,12 +138,9 @@
 
 # TODO
 
-* Write up introduction and methods.
+* The area comparison graph has a different country order: fix.
 
-* The sub-plots in "Comparison of total forest area"
-   should be ordered in alphabetical order of country name.
-   This is already the case for the other comparison plots.
-   The order must be in the df used by the class AreaComparison.
+* Write up introduction and methods.
 
 * Reset the history of the puller_cache repository for faster downloads.
 
@@ -154,23 +151,28 @@
 * Make predictions based on data acquired?
 
 
-
 ## Analysis tables
 
-Each table for all european countries.
+Each table should include for 27 european countries.
+
 * Create statistic that shows (e.g. for the last year available) in form of a table,
   the total surface for the given country and the proportion of that
   that is "available for wood supply",
   for each given source that has this information (SOEF, HPFFRE, FAOSTAT?).
-  Export SOEF table `Forest area` and `of which available for wood supply` (aws)
-  add a column prop_aws = area_aws / forest_area important for the discussion.
+
+* Export SOEF table "Forest area" and "of which available for wood supply" (aws)
+  add a column prop_aws = area_aws / forest_area (important for the discussion).
+  
 * Maximum forest area in million ha, one column per source
   (see picture of hand-written table)
+  
 * Maximum forest area in million ha for IPCC and SOEF only.
-  Add a column diff_percent =  (IPCC_area - SOEF_area) / SOEF_area * 100
+  Add a column diff_percent = (IPCC_area - SOEF_area) / SOEF_area * 100
   sort by the diff_percent column
+  
 * Average gains / growth per hectare
   (see picture of hand-written table)
+  
 * Average losses / harvest per hectare
 
 
