@@ -96,7 +96,7 @@ class AreaCompData:
         df = forest_puller.hpffre.concat.df.copy()
         # Filter #
         df = df.query("scenario == 1")
-        # Sum all the different categories #
+        # Sum all the different categories (FAWS, FNAWS, FRAWS) #
         df = (df.groupby(['country', 'year'])
                 .agg({'area': 'sum'})
                 .reset_index())

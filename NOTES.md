@@ -153,27 +153,24 @@
 
 ## Analysis tables
 
-Each table should include for 27 european countries.
+Each table should include the 27 european countries.
 
-* Create statistic that shows (e.g. for the last year available) in form of a table,
-  the total surface for the given country and the proportion of that
-  that is "available for wood supply",
-  for each given source that has this information (SOEF, HPFFRE, FAOSTAT?).
+* Maximum forest area in million hectares, one column per source
+  (see picture of hand-written table) and this time no column `diff_percent`.
 
-* Export SOEF table "Forest area" and "of which available for wood supply" (aws)
-  add a column prop_aws = area_aws / forest_area (important for the discussion).
+* Maximum (over time) forest area in million hectares for IPCC and SOEF only.
+  Add a column `diff_percent` = (IPCC_area - SOEF_area) / SOEF_area * 100
+  sort by the diff_percent column.
+
+* Create statistic that shows (e.g. for the last year available) in form of a table, the total surface for the given country and the proportion of that
+  that is "available for wood supply", for each given source that has this information (SOEF, HPFFRE).
+  For HPFFRE "FAWS" -vs- sum of FAWS, FNAWS, FRAWS. Replace NaNs by zero.
+  For SOEF, add a column prop_aws = area_aws / forest_area
+   
+* Table with average gains (i.e. growth per hectare) over all years available. (IPCC, SOEF, HPFFRE) (see picture of hand-written table)
+  For IPCC only in tons, for SOEF in both volume and tons, for HPFFRE both in volumes and tons.
   
-* Maximum forest area in million ha, one column per source
-  (see picture of hand-written table)
-  
-* Maximum forest area in million ha for IPCC and SOEF only.
-  Add a column diff_percent = (IPCC_area - SOEF_area) / SOEF_area * 100
-  sort by the diff_percent column
-  
-* Average gains / growth per hectare
-  (see picture of hand-written table)
-  
-* Average losses / harvest per hectare
+* Same for average losses (i.e. harvest per hectare). Add FOASTAT source.
 
 
 # Ideas
