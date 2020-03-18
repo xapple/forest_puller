@@ -150,6 +150,20 @@
 
 * Make predictions based on data acquired?
 
+## Analysis tables
+
+Each table for all european countries.
+* Export SOEF table `Forest area` and `of which available for wood supply` (aws)
+  add a column prop_aws = area_aws / forest_area important for the discussion.
+* Maximum forest area in million ha, one column per source
+  (see picture of hand-written table)
+* Maximum forest area in million ha for IPCC and SOEF only.
+  Add a column diff_percent =  (IPCC_area - SOEF_area) / SOEF_area * 100
+  sort by the diff_percent column
+* Average gains / growth per hectare
+  (see picture of hand-written table)
+* Average losses / harvest per hectare
+
 
 # Ideas
 
