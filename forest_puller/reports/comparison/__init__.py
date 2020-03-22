@@ -26,6 +26,7 @@ from forest_puller.common                import country_codes
 from plumbing.cache    import property_cached
 from pymarktex         import Document
 from pymarktex.figures import ScaledFigure, BareFigure
+from pymarktex.tables  import LatexTable
 
 # Third party modules #
 
@@ -91,7 +92,10 @@ class ComparisonTemplate(ReportTemplate):
             graph = countries[iso2_code]
             result += str(BareFigure(graph=graph)) + '\n\n'
         # Add the legend #
-        result += str(ScaledFigure(graph=legend, width='9em', caption=caption))
+        result += str(ScaledFigure(graph   = legend,
+                                   caption = caption,
+                                   label   = 'comp_increments',
+                                   width   = '9em'))
         # Return #
         return result
 
@@ -109,7 +113,10 @@ class ComparisonTemplate(ReportTemplate):
             graph = countries[iso2_code]
             result += str(BareFigure(graph=graph)) + '\n\n'
         # Add the legend #
-        result += str(ScaledFigure(graph=legend, width='9em', caption=caption))
+        result += str(ScaledFigure(graph   = legend,
+                                   caption = caption,
+                                   label   = 'comp_conv_to_tons',
+                                   width   = '9em'))
         # Return #
         return result
 
@@ -125,7 +132,9 @@ class ComparisonTemplate(ReportTemplate):
         # Loop every country #
         for graph in all_graphs: result += str(BareFigure(graph=graph)) + '\n\n'
         # Add the legend #
-        result += str(ScaledFigure(graph=genus_legend, caption=caption))
+        result += str(ScaledFigure(graph   = genus_legend,
+                                   caption = caption,
+                                   label   = 'genus_comp'))
         # Return #
         return result
 
@@ -141,7 +150,9 @@ class ComparisonTemplate(ReportTemplate):
         # Loop every country #
         for graph in all_graphs: result += str(BareFigure(graph=graph)) + '\n\n'
         # Add the legend #
-        result += str(ScaledFigure(graph=genus_legend, caption=caption))
+        result += str(ScaledFigure(graph   = genus_legend,
+                                   caption = caption,
+                                   label   = 'genus_soef_vs_cbm'))
         # Return #
         return result
 
@@ -200,3 +211,48 @@ class ComparisonTemplate(ReportTemplate):
         # Return #
         return str(ScaledFigure(graph=genus_agg, caption=caption))
 
+    #--------------------------------- Tables --------------------------------#
+    def max_area(self):
+        # Caption #
+        caption = "Maximum forest area over time for 27 different" \
+                  " countries in five data sources."
+        # Import #
+        from forest_puller.tables.max_area_over_time import max_area
+        # Return #
+        return str(LatexTable(table=max_area, caption=caption))
+
+    def area_ipcc_vs_soef(self):
+        # Caption #
+        caption = "Comparison of maximum areas between IPCC and SOEF " \
+                  " for 27 different countries."
+        # Import #
+        from forest_puller.tables.area_ipcc_vs_soef import soef_vs_ipcc
+        # Return #
+        return str(LatexTable(table=soef_vs_ipcc, caption=caption))
+
+    def avail_for_supply(self):
+        # Caption #
+        caption = "Comparison of area available for wood supply between" \
+                  " two data sources for 27 different countries."
+        # Import #
+        from forest_puller.tables.available_for_supply import afws_comp
+        # Return #
+        return str(LatexTable(table=afws_comp, caption=caption))
+
+    def avg_increments(self):
+        # Caption #
+        caption = "Comparison of heterogeneous gains and losses for" \
+                  " five data sources and for 27 different countries."
+        # Import #
+        from forest_puller.tables.average_growth import avg_inc
+        # Return #
+        return str(LatexTable(table=avg_inc, caption=caption))
+
+    def avg_inc_to_tons(self):
+        # Caption #
+        caption = "Comparison of converted gains and losses for" \
+                  " five data sources and for 27 different countries."
+        # Import #
+        from forest_puller.tables.average_growth import avg_tons
+        # Return #
+        return str(LatexTable(table=avg_tons, caption=caption))

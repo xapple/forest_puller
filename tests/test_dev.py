@@ -142,16 +142,33 @@ from tqdm import tqdm
 #pprint(genus_legend.label_to_color_old)
 
 ###############################################################################
-from forest_puller.viz.area_aggregate import area_agg
-area_agg.plot(rerun=True)
-from forest_puller.viz.inc_aggregate import inc_agg_ipcc
-inc_agg_ipcc.plot(rerun=True)
-from forest_puller.viz.inc_aggregate import inc_agg_soef
-inc_agg_soef.plot(rerun=True)
-from forest_puller.viz.inc_aggregate import inc_agg_faostat
-inc_agg_faostat.plot(rerun=True)
-from forest_puller.viz.genus_aggregate import genus_agg
-genus_agg.plot(rerun=True)
+#from forest_puller.viz.area_aggregate import area_agg
+#area_agg.plot(rerun=True)
+#from forest_puller.viz.inc_aggregate import inc_agg_ipcc
+#inc_agg_ipcc.plot(rerun=True)
+#from forest_puller.viz.inc_aggregate import inc_agg_soef
+#inc_agg_soef.plot(rerun=True)
+#from forest_puller.viz.inc_aggregate import inc_agg_faostat
+#inc_agg_faostat.plot(rerun=True)
+#from forest_puller.viz.genus_aggregate import genus_agg
+#genus_agg.plot(rerun=True)
+#
+#from forest_puller.core.continent import continent
+#print(continent.report())
+
+###############################################################################
+#from forest_puller.tables.max_area_over_time import max_area
+#print(max_area.save())
+
+#from forest_puller.tables.area_ipcc_vs_soef import soef_vs_ipcc
+#print(soef_vs_ipcc.save())
+
+#from forest_puller.tables.available_for_supply import afws_comp
+#print(afws_comp.save())
+
+from forest_puller.tables.average_growth import avg_inc, avg_tons
+print(avg_inc.save())
+print(avg_tons.save())
 
 from forest_puller.core.continent import continent
 print(continent.report())

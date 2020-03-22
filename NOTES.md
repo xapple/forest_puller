@@ -135,8 +135,23 @@
 
 * Make a total of all EU also for genus composition.
 
+* Maximum forest area in million hectares, one column per source
+  (see picture of hand-written table).
+
+* Maximum (over time) forest area in million hectares for IPCC and SOEF only.
+  Add a column `diff_percent` and sort by the diff_percent column.
+
+* Table showing available for wood supply in SOEF and HPFFRE.
+
 
 # TODO
+
+* Table with average gains (i.e. growth per hectare) over all years available. (IPCC, SOEF, HPFFRE) (see picture of hand-written table)
+  For IPCC only in tons, for SOEF in both volume and tons, for HPFFRE both in volumes and tons.
+  
+* Same for average losses (i.e. harvest per hectare). Add the FAOSTAT source.
+
+* Add the density table to the new Table system.
 
 * The area comparison graph has a different country order: fix.
 
@@ -149,29 +164,7 @@
 * Adapt the CBM-EU fluxes used in gains and losses based on expert input.
 
 * Make predictions based on data acquired?
-
-
-## Analysis tables
-
-Each table should include the 27 european countries.
-
-* Maximum forest area in million hectares, one column per source
-  (see picture of hand-written table) and this time no column `diff_percent`.
-
-* Maximum (over time) forest area in million hectares for IPCC and SOEF only.
-  Add a column `diff_percent` = (IPCC_area - SOEF_area) / SOEF_area * 100
-  sort by the diff_percent column.
-
-* Create statistic that shows (e.g. for the last year available) in form of a table, the total surface for the given country and the proportion of that
-  that is "available for wood supply", for each given source that has this information (SOEF, HPFFRE).
-  For HPFFRE "FAWS" -vs- sum of FAWS, FNAWS, FRAWS. Replace NaNs by zero.
-  For SOEF, add a column prop_aws = area_aws / forest_area
    
-* Table with average gains (i.e. growth per hectare) over all years available. (IPCC, SOEF, HPFFRE) (see picture of hand-written table)
-  For IPCC only in tons, for SOEF in both volume and tons, for HPFFRE both in volumes and tons.
-  
-* Same for average losses (i.e. harvest per hectare). Add FOASTAT source.
-
 
 # Ideas
 

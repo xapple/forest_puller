@@ -9,16 +9,22 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.viz.area_aggregate import area_agg
-    >>> area_agg.plot()
-    >>> print(area_agg.path)
+    >>> from forest_puller.viz.area import area_comp
+    >>> area_comp.plot()
+    >>> print(area_comp.path)
+
+Or to dig out the individual data sources:
+
+    >>> from forest_puller.viz.area import area_data
+    >>> print(area_data.ipcc)
+    >>> print(area_data.soef)
 """
 
 # Built-in modules #
 
 # Internal modules #
-from forest_puller           import cache_dir
-from forest_puller.common    import country_codes
+from forest_puller                  import cache_dir
+from forest_puller.common           import country_codes
 from forest_puller.viz.helper.facet import FacetPlot
 
 # First party modules #
@@ -148,8 +154,8 @@ class AreaCompData:
 ###############################################################################
 class AreaComparison(FacetPlot):
     """
-    This graph will show the total forested area by making one sub-plot for
-    each country on a facet plot.
+    This graph will show the total forested area in all sources by making one
+    sub-plot for each country on a facet plot.
     """
 
     short_name = 'area_comparison'
