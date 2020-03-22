@@ -144,10 +144,17 @@ class AreaCompData:
         df = pandas.concat(sources, ignore_index=True)
         # Adjust to million hectares #
         df['area'] /= 1e6
+        # Load the iso2 code to country long name mapping #
+        long_names_map = country_codes[['iso2_code', 'country']]
+        long_names_map.columns = ['country', 'long_name']
         # Add country long name #
-        long_names = country_codes[['iso2_code', 'country']]
-        long_names.columns = ['country', 'long_name']
-        df = df.left_join(long_names, on=['country'])
+        df = df.left_join(long_names_map, on=['country'])
+        # Make the countries categorical #
+        df['country'] = df['country'].astype("category")
+        order = [iso2 for iso2 in country_codes['iso2_code']]
+        df['country'].cat.set_categories(order, inplace=True)
+        # Sort the dataframe #
+        df = df.sort_values(['country', 'source', 'year'])
         # Return #
         return df
 

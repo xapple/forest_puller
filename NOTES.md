@@ -145,11 +145,12 @@
 
 * Table with average increments over all years available. Both in volume and converted to tons
 
-# TODO
-
 * Add the density table to the new Table system.
 
 * The area comparison graph has a different country order: fix.
+
+
+# TODO
 
 * Write up introduction and methods.
 
