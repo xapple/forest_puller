@@ -256,3 +256,12 @@ class ComparisonTemplate(ReportTemplate):
         from forest_puller.tables.average_growth import avg_tons
         # Return #
         return str(LatexTable(table=avg_tons, caption=caption))
+
+    def avg_density(self):
+        # Caption #
+        caption = "Weighted average wood density" \
+                  " for 27 different countries."
+        # Import #
+        from forest_puller.tables.density_table import wood_density
+        # Return #
+        return str(LatexTable(table=wood_density, caption=caption))

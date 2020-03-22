@@ -43,6 +43,7 @@ class Table:
     capital_index = True
     upper_columns = False
     column_format = None
+    escape_tex    = True
 
     def __init__(self, parent=None, base_dir=None, short_name=None):
         # Save parent if it was given #
@@ -109,6 +110,8 @@ class Table:
         # Special cases for float formatting #
         if self.float_format_tex == 'split_thousands':
             self.float_format_tex = self.split_thousands
+        # Make sure the directory exists #
+        self.base_dir.create_if_not_exists()
         # Latex version #
         if 'tex' in self.formats:
             df.to_latex(str(path),
@@ -116,7 +119,8 @@ class Table:
                         na_rep        = self.na_rep,
                         index         = self.index,
                         bold_rows     = self.bold_rows,
-                        column_format = self.column_format)
+                        column_format = self.column_format,
+                        escape        = self.escape_tex)
         # CSV version (plain text) #
         if 'csv' in self.formats:
             path = path.replace_extension('csv')

@@ -143,13 +143,9 @@
 
 * Table showing available for wood supply in SOEF and HPFFRE.
 
+* Table with average increments over all years available. Both in volume and converted to tons
 
 # TODO
-
-* Table with average gains (i.e. growth per hectare) over all years available. (IPCC, SOEF, HPFFRE) (see picture of hand-written table)
-  For IPCC only in tons, for SOEF in both volume and tons, for HPFFRE both in volumes and tons.
-  
-* Same for average losses (i.e. harvest per hectare). Add the FAOSTAT source.
 
 * Add the density table to the new Table system.
 
