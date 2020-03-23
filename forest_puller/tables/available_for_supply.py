@@ -39,6 +39,9 @@ class AvailableForSupply(Table):
 
     * For HPFFRE, the "FAWS" is compared to the sum of FAWS, FNAWS, FRAWS.
       NaNs are replaced by zero.
+      (AWS = Forest Available)
+      (FR = Forest Restricted)
+      (FN = Forest Not Available)
 
     * For SOEF, we add a column:     prop_aws = area_aws / forest_area
     """
@@ -82,21 +85,19 @@ class AvailableForSupply(Table):
         df = df.query("year == 2015")
         # Columns #
         df = df[['country', 'category', 'area']]
-        # Split total and available for wood supply #
-        total = df.groupby(['country']).agg({'area': 'sum'})
-        avail = df.query("category == 'FAWS'").set_index('country')[['area']]
-        # Reset all indexes #
-        total = total.reset_index()
-        avail = avail.reset_index()
-        # Rename column #
-        total = total.rename(columns={'area': 'total'})
-        avail = avail.rename(columns={'area': 'avail'})
-        # Join both together #
-        df = total.left_join(avail, on='country')
+        # Pivot #
+        df = df.pipe(pandas.pivot_table,
+                     index   = ['country'],
+                     columns = ['category'],
+                     values  = ['area'])
+        # We end up with a dual level column index #
+        df.columns = df.columns.get_level_values(1)
+        # Total #
+        df['total'] = df.sum(axis=1)
         # Calculate ratio #
-        df['avail_ratio'] = df['avail'] / df['total']
-        # Set index #
-        df = df.set_index('country')
+        df['ratio_aws'] = df['FAWS'] / df['total']
+        # Calculate ratio #
+        df['ratio_raws'] = (df['FAWS'] + df['FRAWS']) / df['total']
         # Return #
         return df
 
@@ -108,17 +109,17 @@ class AvailableForSupply(Table):
         hpffre = self.hpffre.copy()
         # Filter columns #
         soef   = soef[['avail_ratio']]
-        hpffre = hpffre[['avail_ratio']]
+        hpffre = hpffre[['ratio_aws', 'ratio_raws']]
         # Rename columns #
-        soef   = soef.rename(columns   = {'avail_ratio': 'soef_ratio'})
-        hpffre = hpffre.rename(columns = {'avail_ratio': 'hpffre_ratio'})
+        soef   = soef.rename(columns   = {'avail_ratio': 'SOEF AWS ratio'})
+        hpffre = hpffre.rename(columns = {'ratio_aws':   'HPFFRE AWS ratio',
+                                          'ratio_raws':  'HPFFRE RAWS ratio'})
         # Join both data sources together #
         df = soef.left_join(hpffre)
-        # Express difference as a percentage #
-        df['soef_ratio']   = self.make_percent(df['soef_ratio'])
-        df['hpffre_ratio'] = self.make_percent(df['hpffre_ratio'])
         # Set index #
         df = df.set_index('country')
+        # Express difference as a percentage #
+        df = df.apply(self.make_percent)
         # Return #
         return df
 

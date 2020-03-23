@@ -84,7 +84,7 @@ class Table:
         return number
 
     def make_percent(self, row):
-        # Remember where the NaNs are #
+        # Remember where the NaNs are located #
         nans = row.isna()
         # Multiply for percentage #
         row *= 100
