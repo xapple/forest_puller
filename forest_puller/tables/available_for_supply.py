@@ -119,7 +119,7 @@ class AvailableForSupply(Table):
         # Multi-index #
         df.columns = pandas.MultiIndex.from_tuples([('SOEF',   'AWS'),
                                                     ('HPFFRE', 'AWS'),
-                                                    ('HPFFRE', 'FRAWS')])
+                                                    ('HPFFRE', 'AWS+FRAWS')])
         # Express difference as a percentage #
         df = df.apply(self.make_percent)
         # Return #

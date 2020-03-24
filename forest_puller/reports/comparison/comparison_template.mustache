@@ -108,9 +108,14 @@ The average density values are then linearly interpolated for missing years, and
 
 A bark correction factor of 0.88 is applied to the FAOSTAT data source, which provided values in cubic meters under bark instead of over bark.
 
-The last step is to convert from tons of wood to tons of carbon by using a factor 2.
-
 This value comes from: https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
+
+The last step is to convert from tons of wood to tons of carbon by using a factor 0.74 (See page 48 of same chapter).
+
+Even after all this the values cannot be compared directly because of the above ground and below ground reporting that differs in some sources. In addition, another issue is that some sources report merchantable biomass and others report total biomass.
+
+This entails the inclusion of a factor "R" which corresponds to the ratio Of below-ground biomass To above-ground biomass (from Table 4.4), as well as the inclusion of a biomass expansion factor.
+""
 
 \vspace{5mm}
 {{comp_conv_to_tons}}
