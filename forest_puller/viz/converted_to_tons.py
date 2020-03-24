@@ -39,7 +39,9 @@ class ConvertedTonsData:
     * Multiply the volume with the density to obtain [kg].
     * Multiply the result by 1000 to obtain [tons].
     * Multiply the result with the bark correction factor.
-    * The result is now in tons of carbon over bark.
+    * The result is now in tons of wood (not carbon!) over bark.
+    * Divide by 2 to obtain tons of carbon from tons of wood.
+    * TODO: some sources include roots other don't, must use a biomass expansion factor.
     """
 
     # This value comes from:
@@ -71,6 +73,10 @@ class ConvertedTonsData:
         df['gain_per_ha'] *= df['avg_density'] / 1000
         df['loss_per_ha'] *= df['avg_density'] / 1000
         df['net_per_ha']  *= df['avg_density'] / 1000
+        # Convert from tons of wood to tons of carbon #
+        df['gain_per_ha'] /= 2
+        df['loss_per_ha'] /= 2
+        df['net_per_ha']  /= 2
         # Drop #
         df = df.drop(columns=['avg_density'])
         # Reset index #
@@ -87,6 +93,8 @@ class ConvertedTonsData:
         df = df.left_join(self.avg_dnsty_intrpld, on=['country', 'year'])
         # Multiply #
         df['loss_per_ha'] *= df['avg_density'] / (1000 * self.bark_correction_factor)
+        # Convert from tons of wood to tons of carbon #
+        df['loss_per_ha'] /= 2
         # Drop #
         df = df.drop(columns=['avg_density'])
         # Reset index #
@@ -105,6 +113,10 @@ class ConvertedTonsData:
         df['gain_per_ha'] *= df['avg_density'] / 1000
         df['loss_per_ha'] *= df['avg_density'] / 1000
         df['net_per_ha']  *= df['avg_density'] / 1000
+        # Convert from tons of wood to tons of carbon #
+        df['gain_per_ha'] /= 2
+        df['loss_per_ha'] /= 2
+        df['net_per_ha']  /= 2
         # Drop #
         df = df.drop(columns=['avg_density'])
         # Reset index #

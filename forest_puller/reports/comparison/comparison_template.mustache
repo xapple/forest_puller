@@ -95,7 +95,7 @@ The difference is that we harmonize the Y axis units and convert the data source
 
 To operate this conversion, we use a dataset provided by SOEF that indicates the proportion of the 10 most common species in terms of growing stock. We then combine this information with a published table specifying wood densities for different species.
 
-The wood density is in [tons / m³] more precisely [oven-dry tonnes of C per moist m³] and is found at:
+The wood density is in [tons / m³] more precisely [oven-dry tonnes of wood per moist m³] and is found at:
 
     Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories
     Table 4.14 Basic Wood Density (d) Of Selected Temperate And Boreal Tree Taxa
@@ -107,6 +107,8 @@ The matching of the species latin as given in each country does not follow any s
 The average density values are then linearly interpolated for missing years, and padded-by-copy outside of the bounds for which data is provided.
 
 A bark correction factor of 0.88 is applied to the FAOSTAT data source, which provided values in cubic meters under bark instead of over bark.
+
+The last step is to convert from tons of wood to tons of carbon by using a factor 2.
 
 This value comes from: https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
 
