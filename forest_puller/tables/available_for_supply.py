@@ -48,7 +48,7 @@ class AvailableForSupply(Table):
 
     # Parameters #
     short_name    = 'avail_for_supply'
-    column_format = 'lrrr'
+    column_format = 'lr|rr'
 
     #----------------------------- Data sources ------------------------------#
     @property_cached
@@ -110,14 +110,16 @@ class AvailableForSupply(Table):
         # Filter columns #
         soef   = soef[['avail_ratio']]
         hpffre = hpffre[['ratio_aws', 'ratio_raws']]
-        # Rename columns #
-        soef   = soef.rename(columns   = {'avail_ratio': 'SOEF AWS ratio'})
-        hpffre = hpffre.rename(columns = {'ratio_aws':   'HPFFRE AWS ratio',
-                                          'ratio_raws':  'HPFFRE RAWS ratio'})
         # Join both data sources together #
         df = soef.left_join(hpffre)
         # Set index #
         df = df.set_index('country')
+        # Remove name #
+        df.columns.name = None
+        # Multi-index #
+        df.columns = pandas.MultiIndex.from_tuples([('SOEF',   'AWS'),
+                                                    ('HPFFRE', 'AWS'),
+                                                    ('HPFFRE', 'FRAWS')])
         # Express difference as a percentage #
         df = df.apply(self.make_percent)
         # Return #
