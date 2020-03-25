@@ -23,17 +23,24 @@ Currently `forest_puller` caches and provides programmatic access to the forest-
 * FAOSTAT (http://www.fao.org/faostat/en/)
 * HPFFRE (https://doi.org/10.5061/dryad.4t880qh)
 
-What a data source you would like to see here ? Contact the authors by opening an issue in the issue tracker.
+What other data source you would like to see added here? Contact the authors by opening an issue in the issue tracker.
 
 ## Installing
 
-`forest_puller` is a python package and hence is compatible with all operating systems: Linux, macOS and Windows. Once python 3 is installed on your computer, if it is not already, simply type the following on your terminal:
+`forest_puller` is a python package and hence is compatible with all operating systems: Linux, macOS and Windows. The only prerequisite is python3 which is often installed by default. Simply type the following on your terminal:
 
     $ pip3 install --user forest_puller
 
 Or if you want to install it for all users of the system:
 
     $ sudo pip3 install forest_puller
+
+If you do not have `pip` on your system you can usually get it with these commands (fresh Ubuntu 18LTS):
+
+    sudo apt-get update
+    sudo apt-get install python3-distutils
+    curl -O https://bootstrap.pypa.io/get-pip.py
+    python3 get-pip.py --user
 
 ## Usage
 
@@ -105,7 +112,7 @@ When you import `forest_puller`, we will check the `$FOREST_PULLER_CACHE` enviro
 
 ### IPCC
 
-To access the same forest data directly from the IPCC website without `forest_puller` you would have to first select your country from the CRF country table in a browser at [this address](https://tinyurl.com/y474yu9e).
+To access the same forest data directly from the IPCC website without the use of `forest_puller`, you would have to first select your country of interest from the CRF country table in a browser at [this address](https://tinyurl.com/y474yu9e).
 
 ![IPCC demo screenshot 1](documentation/ipcc/ipcc_demo_1.png?raw=true "IPCC demo screenshot 1")
 
@@ -167,7 +174,7 @@ pprint.pprint(biomass_net_change)
 
 ### Forest Europe (SOEF)
 
-This data is provided by the Ministerial Conference on the Protection of Forests in Europe and is accessible at: https://dbsoef.foresteurope.org/
+This data is provided by the "Ministerial Conference on the Protection of Forests in Europe" and is accessible at: https://dbsoef.foresteurope.org/
 
 Three tables are provided for every country:
 
@@ -245,7 +252,7 @@ One of the outcomes of the Diabolo project is the following publication:
 
 Vauhkonen et al. 2019 - [Harmonised projections of future forest resources in Europe](https://doi.org/10.1007/s13595-019-0863-6)
 
-Abbreviated "hpffre". The authors used EFDM (mainly) to project forest area, growing stock, fellings and above ground carbon for European countries. There are severtal scenario outcomes.
+Abbreviated "hpffre". The authors used EFDM (mainly) to project forest area, growing stock, fellings and above ground carbon for European countries. There are several scenario outcomes.
 
 The dataset is available at: https://doi.org/10.5061/dryad.4t880qh
 
@@ -269,11 +276,11 @@ print(df)
 
 The `forest_puller` package can also generate several plots that enable the user to compare and visualize the data.
 
-For instance here is are a series of graphs comparing the total reported forest area between five data sources as seen in the `forest_puller.viz.area` submodule:
+For instance here is are a series of graphs comparing the total reported forest area between data sources as seen in the `forest_puller.viz.area` submodule:
 
 ![Comparison of total forest area](documentation/viz/area/area.svg?sanitize=true "Comparison of total forest area")
 
-Another type of graph that can be produced is the comparison of gains and losses across several data-sources and across the five largest counties in terms of forest area. This code is found in the `forest_puller.viz.increments` submodule.
+Another type of graph that can be produced is the comparison of gains and losses across several data-sources and across countries. This code is found in the `forest_puller.viz.increments` submodule and shows the five largest countries in terms of forest area.
 
 ![Comparison of increments for SE](documentation/viz/increments/SE.svg?sanitize=true "Comparison of increments for SE")
 ![Comparison of increments for FR](documentation/viz/increments/FR.svg?sanitize=true "Comparison of increments for FR")
@@ -281,7 +288,7 @@ Another type of graph that can be produced is the comparison of gains and losses
 ![Comparison of increments for ES](documentation/viz/increments/ES.svg?sanitize=true "Comparison of increments for ES")
 ![Comparison of increments for DE](documentation/viz/increments/DE.svg?sanitize=true "Comparison of increments for DE")
 
-With data from the SOEF source, we can also plot a breakdown of the growing stock volume genus composition of many countries across time:
+With data from the SOEF source, we can also plot a breakdown of the growing stock volume genus composition of many countries across time. This code is found in the `forest_puller.viz.increments` submodule.
 
 ![Comparison of genus breakdown](documentation/viz/genus/AT_BE_BG_HR_CY.svg?sanitize=true "Comparison of genus breakdown")
 ![Comparison of genus breakdown](documentation/viz/genus/CZ_DK_EE_FI_FR.svg?sanitize=true "Comparison of genus breakdown")
