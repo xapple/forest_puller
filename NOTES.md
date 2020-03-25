@@ -152,9 +152,13 @@
 
 # TODO
 
+* Can we integrate the R factor and biomass expansion factor?
+
 * Remove 'net estimated' from the converted to tons graphs legend.
 
 * The area of France includes over-sees territories. Can we fix this?
+
+* Find research projects which would be potential users of forest_puller data
 
 * Write up introduction and methods.
 
@@ -166,18 +170,10 @@
 
 * Make predictions based on data acquired?
 
-* Find research projects which would be potential users of forest_puller data   
-  
-* R factor + biomass expansion factor
-    above ground versus below ground inclusion that differs in some sources. 
-    In addition, another issue is that some sources report merchantable biomass and others report total biomass.
-    To fix this we would have to include yet another factor “R” which corresponds to
-    the ratio of below-ground biomass to above-ground biomass (from Table 4.4),
-    as well as the inclusion of “merchantable” biomass expansion factor.
-    We need a volume per hectare for the converstion and the volume per hectare
-    is dependent on the growing conditions and not available from the input data. 
-    We can make again a rough simplifying assumption that the national volume
-    hectare is the one we use for the biomass expanssion factor. 
+
+# Details 
+
+The above ground versus below ground inclusion differs in some sources. In addition, another issue is that some sources report merchantable biomass and others report total biomass. To fix this we would have to include yet another factor "R" which corresponds to the ratio of below-ground biomass to above-ground biomass (from Table 4.4), as well as the inclusion of the "merchantable" biomass expansion factor. We need a volume per hectare for the conversion and the volume per hectare is dependent on the growing conditions and not available from the input data. We can make a rough simplifying assumption that the national volume hectare is the one we use for the biomass expansion factor. 
 
 
 # Ideas
