@@ -152,7 +152,7 @@
 
 # TODO
 
-* Remove 'net estimated' from the converted to tons graphs.
+* Remove 'net estimated' from the converted to tons graphs legend.
 
 * The area of France includes over-sees territories. Can we fix this?
 
