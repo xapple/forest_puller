@@ -11,7 +11,7 @@ Processing
 ----------
 * This report and all the analysis was generated using the `{{project_name}}` python pipeline.
 
-* Documentation is available at:
+* Documentation and source code is available at:
 
 <{{project_url}}>
 
@@ -22,7 +22,7 @@ Processing
 {{#git}}
 * The exact git hash of the latest commit was: `{{git_hash}}`
 
-* Also more simply referred to by its shortened tag `{{git_tag}}`.
+* Also referred to by its shortened tag `{{git_tag}}`.
 {{/git}}
 
 -------
@@ -30,13 +30,13 @@ Processing
 
 Scope and extent of data sources
 --------------------------------
-In the following visualizations we cover 27 of the 28 (past and present) EU member states. The list is the following and excludes Malta:
+In the following visualizations, we cover 27 of the 28 (past and present) EU member states. The list is the following and excludes Malta:
 
 * Austria, Belgium, Bulgaria, Croatia, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden, United Kingdom.
 
 The plots usually run from the earliest official statistics around the year 1990 (depending on the country at hand) to the latest estimates in 2018.
 
-Several data sources are also represented. Currently `forest_puller` provides programmatic access (via web-scraping) to the forest area data from these data sources:
+Several data sources are also represented. Currently `forest_puller` provides programmatic access (via cached web-scraping) to the forest measurements from these data sources:
 
 * [IPCC](https://tinyurl.com/y474yu9e).
 * [SOEF](https://dbsoef.foresteurope.org/).
@@ -91,7 +91,7 @@ Below we compare once again the total losses, gains and net changes in forest bi
 
 This results in a series of graphs that are almost identical to the ones above.
 
-The difference is that we harmonize the Y axis units and convert the data sources which were providing volumes into mass. These were SOEF, FAOSTAT, HPFFRE. Namely, we convert cubic meters over/under bark per hectare to tons of carbon per hectare.
+The difference is that we harmonize the Y axis units and convert the units into mass for sources which were providing volumes. These were SOEF, FAOSTAT, HPFFRE. Namely, we convert cubic meters over/under bark per hectare to tons of carbon per hectare.
 
 To operate this conversion, we use a dataset provided by SOEF that indicates the proportion of the 10 most common species in terms of growing stock. We then combine this information with a published table specifying wood densities for different species.
 
@@ -102,7 +102,7 @@ The wood density is in [tons / m³] more precisely [oven-dry tonnes of wood per 
     https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
     See page 71.
 
-The matching of the species latin as given in each country does not follow any standard and contains stochastic variations. The matching of the user inputted latin name to its canonical genus is done through natural language processing techniques and string matching strategies.
+The matching of the species latin name as given in each country does not follow any standard and contains stochastic variations. The matching of the user inputted latin name to its canonical genus is done through natural language processing techniques and string matching strategies.
 
 The average density values are then linearly interpolated for missing years, and padded-by-copy outside of the bounds for which data is provided.
 
@@ -112,9 +112,11 @@ This value comes from: https://www.unece.org/fileadmin/DAM/timber/publications/D
 
 The last step is to convert from tons of wood to tons of carbon by using a factor 0.74 (See page 48 of same chapter).
 
-Even after all this the values cannot be compared directly because of the above ground and below ground reporting that differs in some sources. In addition, another issue is that some sources report merchantable biomass and others report total biomass.
+Even after all this, the values cannot be compared directly because of the above ground versus below ground inclusion that differs in some sources. In addition, another issue is that some sources report merchantable biomass and others report total biomass.
 
-This entails the inclusion of a factor "R" which corresponds to the ratio Of below-ground biomass To above-ground biomass (from Table 4.4), as well as the inclusion of a biomass expansion factor.
+To fix this we would have to include yet another factor "R" which corresponds to the ratio of below-ground biomass to above-ground biomass (from Table 4.4), as well as the inclusion of "merchantable" biomass expansion factor.
+
+In the case of SOEF we can also estimate the net stock change by another method. Parsing the growing stock table and subtracting each value from its preceding year will retrieve the stock net change. These estimates appear as crosses and dotted lines in the graphs.
 ""
 
 \vspace{5mm}
@@ -126,7 +128,7 @@ Comparison of the growing stock genera composition
 
 Below we compare the breakdown of a country's growing stock in terms of the tree species that compose it. Namely, we plot the fraction of each genus that the country reported at four different years in the SOEF dataset.
 
-The growing stock here is reported as volumes in cubic meters.
+The growing stock here is reported as volumes in cubic meters and converted to a fraction of total volume.
 
 \vspace{5mm}
 {{genus_comp}}
@@ -150,7 +152,7 @@ Aggregation of all countries together
 
 In the following graphs, we do not separate the results by country, but instead aggregate countries together by either summing or performing an average.
 
-To aggregate a particular statistic and display its evolution along time, the statistic at hand must be available for every single country for each time point. This means that if a single country out of the 27 is missing the value on a particular year, say 2004, we cannot display a point for that year at all in the final graph. Displaying a statistic for the year 2004 for only 26 countries while other points concern 27 countries would break the comparability between each point. Missing values therefor have a disproportionate effect on the following visualizations.
+To aggregate a particular statistic and display its evolution along time, the statistic at hand must be available for every single country for each time point. This means that if a single country out of the 27 is missing a value on a particular year, say 2004, we cannot display a point for that year at all in the final graph. Displaying a statistic for the year 2004 for only 26 countries while other points concern 27 countries would break the comparability between each point. Missing values therefor have a disproportionate effect on the following visualizations.
 
 \clearpage
 
@@ -225,12 +227,12 @@ Each source also reports the gains and losses in different units in this table. 
 
 \clearpage
 
-The fifth table is similar to table \ref{average_increments} except that all values are converted to mass, using an estimation of the wood density parameter, as explained in figure \ref{comp_conv_to_tons} (see above).
+The fifth table is similar to table \ref{average_increments} except that all values are converted to mass, using an estimation of the wood density parameter, as explained in figure \ref{comp_conv_to_tons} (see above). Values are in tons of carbon per hectare.
 
 {{avg_inc_to_tons}}
 
 \clearpage
 
-The sixth table shows the average wood density by country, as it was calculated using the species growing stock breakdown provided by SOEF.
+The sixth table shows the average wood density by country, as it was calculated by crossing the species growing stock breakdown provided by SOEF and the density per species table.
 
 {{avg_density}}

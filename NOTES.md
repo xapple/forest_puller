@@ -152,6 +152,10 @@
 
 # TODO
 
+* Remove 'net estimated' from the converted to tons graphs.
+
+* The area of France includes over-sees territories. Can we fix this?
+
 * Write up introduction and methods.
 
 * Reset the history of the puller_cache repository for faster downloads.
