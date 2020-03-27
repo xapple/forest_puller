@@ -156,7 +156,12 @@
 
 # TODO
 
+
 * Type up meeting notes 
+
+* Replace Czech Republic by the official short name "Czechia"
+    Czech Republic to be known as 'Czechia' ...  The country will retain its full name but Czechia will become the
+    official short geographic name, as "France" is to "The French Republic"."
 
 * Add Forest Resource Assessment data, available in csv and excel form.
 
