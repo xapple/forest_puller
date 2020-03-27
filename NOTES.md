@@ -158,6 +158,8 @@
 
 * Type up meeting notes 
 
+* Add Forest Resource Assessment data, available in csv and excel form.
+
 * Can we integrate the R factor and biomass expansion factor?
 
 * The area of France includes over-sees territories. Can we fix this?
@@ -175,7 +177,22 @@
 * Make predictions based on data acquired?
 
 
-# Details 
+# Details for FRA
+
+Note: there is information on forest area and stock and but there doesn't seem to be any information on the stock dynamics i.e. increments and fellings. 
+
+* Forest area under "Extent and characteristics" 
+  http://countrystat.org/home.aspx?c=FOR&tr=1
+  
+* "Forest Establishment" http://countrystat.org/home.aspx?c=FOR&tr=3
+
+* Growing stock http://countrystat.org/home.aspx?c=FOR&tr=4
+
+* Check also if more recent data is available here, under the "global tables":
+  http://countrystat.org/home.aspx?c=FOR
+
+
+# Details for expansion factor
 
 The above ground versus below ground inclusion differs in some sources. In addition, another issue is that some sources report merchantable biomass and others report total biomass. To fix this we would have to include yet another factor "R" which corresponds to the ratio of below-ground biomass to above-ground biomass (from Table 4.4), as well as the inclusion of the "merchantable" biomass expansion factor. We need a volume per hectare for the conversion and the volume per hectare is dependent on the growing conditions and not available from the input data. We can make a rough simplifying assumption that the national volume hectare is the one we use for the biomass expansion factor. 
 
