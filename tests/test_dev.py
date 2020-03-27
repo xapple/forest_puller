@@ -108,8 +108,8 @@ from tqdm import tqdm
 #from forest_puller.viz.converted_to_tons import all_graphs
 #for graph in all_graphs: graph.plot(rerun=True)
 
-#from forest_puller.viz.converted_to_tons import legend
-#legend.plot(rerun=True)
+from forest_puller.viz.converted_to_tons import legend
+legend.plot(rerun=True)
 
 #from forest_puller.core.continent import continent
 #print(continent.report())

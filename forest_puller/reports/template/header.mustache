@@ -1,0 +1,138 @@
+% ##################### PACKAGES  ##################### %
+% Standard
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{color}
+\usepackage[table]{xcolor}
+
+% For native UTF-8 characters in XeTeX
+\usepackage{fontspec}
+\setmonofont[Scale=0.8]{Menlo}
+
+% For better lists
+\usepackage{enumerate}
+
+% For figures and geometry
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{grffile}
+
+% Bold the 'Figure #' in the caption and separate it with a period %
+\usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
+\usepackage{subcaption}
+
+% For the fancy header
+\usepackage{fancyhdr}
+\usepackage{lipsum}
+\usepackage{lastpage}
+
+% For source code inclusion
+\usepackage{listings}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+
+% For special margins
+\usepackage[hmargin=3cm,vmargin=4cm]{geometry}
+
+% For cool tables
+\usepackage{longtable,booktabs}
+
+% For justifying text
+\usepackage{ragged2e}
+\setlength{\RaggedRightParindent}{\parindent}
+
+% Get URLs %
+\usepackage[unicode=true]{hyperref}
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=black,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+
+% So that figures don't overflow the page %
+% Redefine \includegraphics so that, unless explicit options are
+% given, the image width will not exceed the width or the height of the page.
+% Images get their normal width if they fit onto the page, but
+% are scaled down if they would overflow the margins.
+\makeatletter
+\def\ScaleWidthIfNeeded{%
+ \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\def\ScaleHeightIfNeeded{%
+  \ifdim\Gin@nat@height>0.9\textheight
+    0.9\textheight
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+\setkeys{Gin}{width=\ScaleWidthIfNeeded,height=\ScaleHeightIfNeeded,keepaspectratio}
+
+% ##################### PANDOC environment ##################### %
+\newenvironment{Shaded}{}{}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% ##################### FANCY HEADER ##################### %
+\pagestyle{fancy}
+\setlength\headheight{4\baselineskip}
+\fancyheadoffset{0cm}
+% Removes the footer page numbering
+\fancyfoot[C]{}
+\let\headrule\relax
+% Enables ability to get right aligned tabular paragraphs
+\newcolumntype{R}[1]{>{\RaggedLeft\arraybackslash}p{#1}}
+% Removes the section title from appearing
+\fancyhead[R]{}
+\fancyhead[L]{}
+% Body of the header
+\chead{
+  \begin{tabular}{ p{6.5cm} R{6.7cm}}
+    \small
+    From the \textbf{forest\_puller} project \newline
+  \vspace{1.0mm} \hspace{-2.3mm} This is an auto-generated report \newline
+  \textbf{\href{https://github.com/xapple/forest_puller}{github.com/xapple/forest\_puller}}
+  \vspace{1.0mm}
+  &
+    \small All comparison graphs \newline
+  \vspace{0.5mm}
+    \today \newline
+  \vspace{0.8mm}
+    Page \thepage\ of \pageref{LastPage}
+  \vspace{1.5mm}
+     \\
+    \hline
+  \end{tabular}
+\\[0.3cm]
+}
+
+% ##################### DOCUMENT ##################### %
+\begin{document}
+

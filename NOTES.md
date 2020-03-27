@@ -149,16 +149,20 @@
 
 * The area comparison graph has a different country order: fix.
 
-
-# TODO
-
-* Can we integrate the R factor and biomass expansion factor?
+* Add information the comparison report header
 
 * Remove 'net estimated' from the converted to tons graphs legend.
 
+
+# TODO
+
+* Type up meeting notes 
+
+* Can we integrate the R factor and biomass expansion factor?
+
 * The area of France includes over-sees territories. Can we fix this?
 
-* Find research projects which would be potential users of forest_puller data
+* Find research projects which would be potential users of forest_puller data.
 
 * Write up introduction and methods.
 

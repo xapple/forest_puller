@@ -15,8 +15,8 @@ import socket
 import forest_puller
 
 # First party modules #
-from pymarktex       import Template
-from plumbing.common import pretty_now
+from pymarktex.templates import Template
+from plumbing.common     import pretty_now
 
 ###############################################################################
 class ReportTemplate(Template):

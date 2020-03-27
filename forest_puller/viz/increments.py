@@ -373,9 +373,11 @@ class GainsLossNetLegend(Graph):
     with the other graphs.
     """
 
-    short_name = "legend"
+    # Parameters #
+    short_name    = "legend"
     add_soef_line = True
 
+    # Names #
     title_to_color = {'Gains':            'green',
                       'Losses':           'red',
                       'Net (Gain+Loss)':  'black'}

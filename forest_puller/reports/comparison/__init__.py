@@ -21,6 +21,7 @@ To also regenerate the graphs, simply delete them from puller_cache.
 from forest_puller.reports.base_template import ReportTemplate
 from forest_puller                       import cache_dir
 from forest_puller.common                import country_codes
+from forest_puller.reports.template      import Header, Footer
 
 # First party modules #
 from plumbing.cache    import property_cached
@@ -37,7 +38,8 @@ class ComparisonReport(Document):
     several data sources.
     """
 
-    builtin_template = 'sinclair_bio'
+    header_template = Header
+    footer_template = Footer
 
     def __init__(self, parent):
         # Attributes #
@@ -49,9 +51,7 @@ class ComparisonReport(Document):
     @property_cached
     def template(self): return ComparisonTemplate(self)
 
-    def load_markdown(self):
-        self.params = {'main_title': 'forest\_puller - Comparison report'}
-        self.markdown = str(self.template)
+    def load_markdown(self): self.markdown = str(self.template)
 
 ###############################################################################
 class ComparisonTemplate(ReportTemplate):

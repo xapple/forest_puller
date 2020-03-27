@@ -4,7 +4,7 @@
 
 # `forest_puller` version 1.1.9
 
-`forest_puller` is a python package for retrieving data concerning forests on the European continent. This includes the amount of forested areas, the forest inventory (standing stock), the forest growth rates as well as the forest loss dynamics (disturbances).
+`forest_puller` is a python package for retrieving data concerning forests of European countries. This includes the amount of forested areas, the forest inventory (standing stock), the forest growth rates as well as the forest loss dynamics (disturbances).
  
 There are several public data sources accessible online that provide these types of information in various forms and granularity. This package automates the process of scrapping these websites and parsing the resulting csv tables or excel files.
 
@@ -12,11 +12,11 @@ Once `forest_puller` is installed you can easily access forest data through stan
 
 ## Scope and sources
 
-Currently `forest_puller` provides data for the following 27 member states (past and present):
+Currently `forest_puller` provides data for the following 27 EU member states (past and present):
 
 * Austria, Belgium, Bulgaria, Croatia, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden, United Kingdom
 
-Currently `forest_puller` caches and provides programmatic access to the forest-relevent data from these data sources:
+Currently `forest_puller` caches and provides programmatic access to the forest-relevant data from these data sources:
 
 * IPCC (https://tinyurl.com/y474yu9e)
 * SOEF (https://dbsoef.foresteurope.org/)
@@ -244,7 +244,7 @@ print(df)
 
 ### Diabolo (hpffre)
 
-Is a consortium of 33 partners from 25 countries. Experts in the fields of policy analysis, forest inventory, forest modelling. 7 work packages.
+Was a project run by a consortium of 33 partners from 25 countries. Experts in the fields of policy analysis, forest inventory, forest modelling. 7 work packages.
 
  Link: http://diabolo-project.eu/
 
