@@ -152,6 +152,17 @@
 
 # TODO
 
+* Add Forest Resource Assessment data, available in csv and Excel form:
+    * Note: there is information on forest area and stock and but there doesn't seem to be any
+      information on the stock dynamics i.e. increments and fellings. 
+    * Forest area under "Extent and characteristics" 
+      http://countrystat.org/home.aspx?c=FOR&tr=1
+    * "Forest Establishment" http://countrystat.org/home.aspx?c=FOR&tr=3
+    * Growing stock http://countrystat.org/home.aspx?c=FOR&tr=4
+    * Check also if more recent data is available here, 
+      under the "global tables":
+      http://countrystat.org/home.aspx?c=FOR
+
 * Can we integrate the R factor and biomass expansion factor?
 
 * Remove 'net estimated' from the converted to tons graphs legend.
@@ -169,6 +180,8 @@
 * Adapt the CBM-EU fluxes used in gains and losses based on expert input.
 
 * Make predictions based on data acquired?
+
+
 
 
 # Details 
