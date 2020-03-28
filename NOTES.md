@@ -153,17 +153,17 @@
 
 * Remove 'net estimated' from the converted to tons graphs legend.
 
+* Type up meeting notes.
+
+
 
 # TODO
 
-
-* Type up meeting notes 
-
 * Replace Czech Republic by the official short name "Czechia"
-    Czech Republic to be known as 'Czechia' ...  The country will retain its full name but Czechia will become the
-    official short geographic name, as "France" is to "The French Republic"."
 
 * Add Forest Resource Assessment data, available in csv and excel form.
+
+* Test install on fresh ubuntu again (esp. dependencies)
 
 * Can we integrate the R factor and biomass expansion factor?
 
@@ -182,16 +182,21 @@
 * Make predictions based on data acquired?
 
 
-# Details for FRA
+# Details for the new FRA source
 
 Note: there is information on forest area and stock and but there doesn't seem to be any information on the stock dynamics i.e. increments and fellings. 
 
+* Official link http://www.fao.org/forest-resources-assessment/en/
+
 * Forest area under "Extent and characteristics" 
   http://countrystat.org/home.aspx?c=FOR&tr=1
+  T04FO000.csv
   
-* "Forest Establishment" http://countrystat.org/home.aspx?c=FOR&tr=3
+* "Forest Establishment"
+  http://countrystat.org/home.aspx?c=FOR&tr=3
 
-* Growing stock http://countrystat.org/home.aspx?c=FOR&tr=4
+* Growing stock
+  http://countrystat.org/home.aspx?c=FOR&tr=4
 
 * Check also if more recent data is available here, under the "global tables":
   http://countrystat.org/home.aspx?c=FOR
