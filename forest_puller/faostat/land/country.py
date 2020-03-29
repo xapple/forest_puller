@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.faostat.forestry.country import all_countries
+    >>> from forest_puller.faostat.land.country import all_countries
     >>> print([(c.df_cache_path, c.df_cache_path.exists) for c in all_countries])
 """
 

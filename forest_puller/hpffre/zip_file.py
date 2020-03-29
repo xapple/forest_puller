@@ -97,7 +97,7 @@ class ZipFile:
         df.columns = map(str.lower, df.columns)
         # Wrong name for several countries #
         df['country'] = df['country'].replace({'Czech': 'Czech Republic'})
-        df['country'] = df['country'].replace({'UK': 'United Kingdom'})
+        df['country'] = df['country'].replace({'UK':    'United Kingdom'})
         # Use country short codes instead of long names #
         name_to_iso_code = dict(zip(country_codes['country'], country_codes['iso2_code']))
         df['country'] = df['country'].replace(name_to_iso_code)

@@ -189,17 +189,19 @@ Note: there is information on forest area and stock and but there doesn't seem t
 * Official link http://www.fao.org/forest-resources-assessment/en/
 
 * Forest area under "Extent and characteristics" 
-  http://countrystat.org/home.aspx?c=FOR&tr=1
-  T04FO000.csv
+  - URL: http://countrystat.org/home.aspx?c=FOR&tr=1
+  - File: T04FO000.csv
   
-* "Forest Establishment"
-  http://countrystat.org/home.aspx?c=FOR&tr=3
+* Forest Establishment
+  - URL: http://countrystat.org/home.aspx?c=FOR&tr=3
+  - File: T05FO000.csv
 
 * Growing stock
-  http://countrystat.org/home.aspx?c=FOR&tr=4
+  - URL: http://countrystat.org/home.aspx?c=FOR&tr=4
+  - File: T06FO000.csv
 
 * Check also if more recent data is available here, under the "global tables":
-  http://countrystat.org/home.aspx?c=FOR
+  - URL: http://countrystat.org/home.aspx?c=FOR
 
 
 # Details for expansion factor

@@ -96,7 +96,7 @@ class ZipFile:
         """Format and filter the data frame and store it in cache."""
         # Fix the data frame #
         df = fix_faostat_tables(self.raw_csv)
-        # Fix the units (hecatres) #
+        # Fix the units (hectares) #
         selector = df['unit']     == '1000 ha'
         df.loc[selector, 'unit']   = 'hectares'
         df.loc[selector, 'value'] *= 1000
