@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 
 Typically you can use this submodule this like:
 
-    >>> from forest_puller.faostat.land.agg import source
+    >>> from forest_puller.fra.agg import source
     >>> print(source.common_years)
 """
 
@@ -23,10 +23,10 @@ from plumbing.cache import property_cached
 # Third party modules #
 
 ###############################################################################
-class AggSOEF:
+class AggFRA:
     """
     Represents one data source and contains all countries for that
-    particular data source.
+    particular data source. In this case faostat land.
     """
 
     def __getitem__(self, key): return [c for c in self.countries if c.iso2_code == key][0]
@@ -40,7 +40,7 @@ class AggSOEF:
 
     @property
     def countries(self):
-        from forest_puller.soef.country import countries
+        from forest_puller.fra.country import countries
         return countries
 
     @property
@@ -49,41 +49,38 @@ class AggSOEF:
 
     #----------------------------- Common years ------------------------------#
     @property_cached
-    def common_years(self):
+    def common_years_area(self):
         """
         Determine the years for which there is a data point in every single
-        country of this data source.
+        country of this data source for the area statistic.
         Return a list of integers, e.g. [1999, 2000, 2001, 2004].
         """
-        # Initialize #
-        table_names = ["forest_area", "age_dist", "fellings"]
-        tables      = {}
-        # Loop #
-        for table_name in table_names:
-            all_tables  = (getattr(c, table_name) for c in self.countries.values())
-            avail_years = (set(t.df['year']) for t in all_tables)
-            years       = sorted(list(set.intersection(*avail_years)))
-            tables[table_name] = years
+        # Every country's available years #
+        avail_years = (set(c.area_years) for c in self.countries.values())
+        # Intersection of all country's years #
+        years = set.intersection(*avail_years)
+        # Convert to a list #
+        years = sorted(list(years))
         # Return #
-        return tables
+        return years
 
     #-------------------------------- Tables ---------------------------------#
     @property_cached
     def forest_area(self):
         # Import #
-        from forest_puller.soef.concat import tables
+        import forest_puller.fra.concat
         # Load #
-        df = tables['forest_area'].copy()
-        # Get the common years #
-        common_years = self.common_years['forest_area']
+        df = forest_puller.fra.concat.df.copy()
+        # Filter years #
+        df = df.query("year in @self.common_years_area")
         # Filter #
-        df = df.query("year in @common_years")
-        # This only works for the 'forest_area' table #
-        df = df.query("category == 'forest'")
-        # Check there are no NaNs #
-        assert not df.isna().any().any()
+        df = df.query('category == "Forest"')
+        # The value now is the area #
+        df = df.rename(columns={'value': 'area'})
         # Keep only two columns #
         df = df[['year', 'area']]
+        # Check there are no NaNs #
+        assert not df.isna().any().any()
         # Sum the countries and keep the years #
         df = df.groupby(['year']).agg({'area': 'sum'})
         # We don't want the year as an index #
@@ -92,4 +89,4 @@ class AggSOEF:
         return df
 
 ###############################################################################
-source = AggSOEF()
+source = AggFRA()

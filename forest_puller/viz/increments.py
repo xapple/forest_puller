@@ -231,6 +231,27 @@ class GainsLossNetData:
         # Return #
         return df
 
+    @property_cached
+    def fra(self):
+        """
+        Add the line that shows net increments estimated via the
+        growing stock data in FRA.
+        """
+        # Import #
+        import forest_puller.fra.concat
+        # Load #
+        df = forest_puller.fra.concat.df.copy()
+        # Filter #
+        pass
+        # Keep only the columns that interest us #
+        df = df[['country', 'year', 'net_per_ha']].copy()
+        # Add source #
+        df.insert(0, 'source', "fra")
+        # Reset index #
+        df = df.reset_index(drop=True)
+        # Return #
+        return df
+
     #------------------------------- Combine ---------------------------------#
     @property_cached
     def df(self):

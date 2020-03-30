@@ -28,8 +28,11 @@ import pandas
 ###############################################################################
 class CSVFile:
     """
-    Lorem.
+    The original link is http://www.fao.org/forest-resources-assessment/en/
     """
+
+    # Params #
+    conv_fact = None
 
     def __init__(self, zip_cache_dir):
         # Record where the cache will be located on disk #
@@ -75,6 +78,8 @@ class CSVFile:
         before = 'Other nataturally regenerated forest'
         after  = 'Other naturally regenerated forest'
         df['category'].replace({before: after})
+        # Use the conversion factor for different units #
+        if self.conv_fact is not None: df['value'] *= self.conv_fact
         # Return #
         return df
 
@@ -83,19 +88,21 @@ class ForestChars(CSVFile):
     """
     ['Planted forest' 'Primary forest' 'Other naturally regenerated forest']
     """
-    name     = "forest_chars"
-    title    = "Forest characteristics (1 000 ha) by FRA categories"
-    filename = "T04FO000.csv"
-    url      = "http://countrystat.org/home.aspx?c=FOR&tr=1"
+    name      = "forest_chars"
+    title     = "Forest characteristics (1 000 ha) by FRA categories"
+    filename  = "T04FO000.csv"
+    url       = "http://countrystat.org/home.aspx?c=FOR&tr=1"
+    conv_fact = 1000
 
 class ForestExtent(CSVFile):
     """
     ['Other wooded land' 'Inland water' 'Forest' 'Other land']
     """
-    name     = "forest_extent"
-    title    = "Extent of forest and other wooded land (1 000 ha)"
-    filename = "T01FO000.csv"
-    url      = "http://countrystat.org/home.aspx?c=FOR&tr=1"
+    name      = "forest_extent"
+    title     = "Extent of forest and other wooded land (1 000 ha)"
+    filename  = "T01FO000.csv"
+    url       = "http://countrystat.org/home.aspx?c=FOR&tr=1"
+    conv_fact = 1000
 
 class ForestEstabl(CSVFile):
     """
@@ -111,10 +118,11 @@ class GrowingStock(CSVFile):
     * ['Total growing stock' 'Commercial']
     * ['Other wooded land' 'Forest']
     """
-    name     = "growing_stock"
-    title    = "Growing stock (Million m3 over bark) by Forest/Other wooded land"
-    filename = "T06FO000.csv"
-    url      = "http://countrystat.org/home.aspx?c=FOR&tr=4"
+    name      = "growing_stock"
+    title     = "Growing stock (Million m3 over bark) by Forest/Other wooded land"
+    filename  = "T06FO000.csv"
+    url       = "http://countrystat.org/home.aspx?c=FOR&tr=4"
+    conv_fact = 1e6
 
 class CarbonStock(CSVFile):
     """
@@ -123,20 +131,22 @@ class CarbonStock(CSVFile):
        'Carbon in above-ground biomass']
     * ['Other wooded land' 'Forest']
     """
-    name     = "carbon_stock"
-    title    = "Carbon stock (Million metric tonnes) by Forest/Other wooded land"
-    filename = "T08FO000.csv"
-    url      = "http://countrystat.org/home.aspx?c=FOR&tr=4"
+    name      = "carbon_stock"
+    title     = "Carbon stock (Million metric tonnes) by Forest/Other wooded land"
+    filename  = "T08FO000.csv"
+    url       = "http://countrystat.org/home.aspx?c=FOR&tr=4"
+    conv_fact = 1e6
 
 class BiomassStock(CSVFile):
     """
     * ['Above-ground biomass' 'Below-ground biomass' 'Dead wood']
     * ['Forest' 'Other wooded land']
     """
-    name     = "biomass_stock"
-    title    = "Biomass stock (Million metric tonnes) by Forest/Other wooded land"
-    filename = "T07FO000.csv"
-    url      = "http://countrystat.org/home.aspx?c=FOR&tr=4"
+    name      = "biomass_stock"
+    title     = "Biomass stock (Million metric tonnes) by Forest/Other wooded land"
+    filename  = "T07FO000.csv"
+    url       = "http://countrystat.org/home.aspx?c=FOR&tr=4"
+    conv_fact = 1e6
 
 ###############################################################################
 # Choose the cache location #

@@ -75,6 +75,17 @@ class AreaAggregateData:
         return df
 
     @property
+    def area_fra(self):
+        # Import #
+        from forest_puller.fra.agg import source
+        # Load #
+        df = source.forest_area.copy()
+        # Add source #
+        df.insert(0, 'source', 'fra')
+        # Return #
+        return df
+
+    @property
     def area_eu_cbm(self):
         # Import #
         from forest_puller.cbm.agg import source
@@ -100,7 +111,7 @@ class AreaAggregateData:
         """
         # Load all data sources #
         sources = [self.area_ipcc, self.area_soef, self.area_faostat,
-                   self.area_eu_cbm]
+                   self.area_fra, self.area_eu_cbm]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
         # Adjust to million hectares #
@@ -126,11 +137,14 @@ class AreaAggregate(Graph):
     y_label = "Area in million hectares"
 
     # Colors #
-    colors = brewer2mpl.get_map('Set1', 'qualitative', 5).mpl_colors
-    name_to_color = {'IPCC':    colors[0],
-                     'SOEF':    colors[1],
-                     'FAOSTAT': colors[3],
-                     'EU-CBM':  colors[4]}
+    colors = brewer2mpl.get_map('Set1', 'qualitative', 7).mpl_colors
+
+    # Name mapping #
+    label_to_color = {'IPCC':    colors[0],
+                      'SOEF':    colors[1],
+                      'FAOSTAT': colors[3],
+                      'FRA':     colors[4],
+                      'EU-CBM':  colors[6]}
 
     def line_plot(self, axes, x, y, source, **kw):
         # Filter by source #
@@ -139,11 +153,11 @@ class AreaAggregate(Graph):
         axes.plot(data[x], data[y],
                   marker     = ".",
                   markersize = 10.0,
-                  color      = self.name_to_color[source.upper()],
+                  color      = self.label_to_color[source.upper()],
                   **kw)
 
     def add_main_legend(self, axes):
-        items   = self.name_to_color.items()
+        items   = self.label_to_color.items()
         patches = [matplotlib.patches.Patch(color=v, label=k) for k,v in items]
         axes.legend(handles   = patches,
                     borderpad      = 1,
@@ -162,6 +176,7 @@ class AreaAggregate(Graph):
         self.line_plot(axes, 'year', 'area', 'ipcc')
         self.line_plot(axes, 'year', 'area', 'soef')
         self.line_plot(axes, 'year', 'area', 'faostat')
+        self.line_plot(axes, 'year', 'area', 'fra')
         self.line_plot(axes, 'year', 'area', 'eu-cbm')
 
         # Leave space for the legend #

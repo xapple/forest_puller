@@ -32,9 +32,14 @@ from tqdm import tqdm
 #print(continent.first.min_year_area)
 
 ###############################################################################
-#from forest_puller.viz.area import area_comp
-#area_comp.plot()
-#print(area_comp.path)
+#from forest_puller.viz.area_comp import all_graphs
+#for g in all_graphs[:]: g.plot(rerun=True)
+#
+#from forest_puller.viz.area_comp import legend
+#legend.plot(rerun=True)
+#
+#from forest_puller.core.continent import continent
+#print(continent.report())
 
 ###############################################################################
 #from forest_puller.viz.area_aggregate import area_agg
@@ -73,23 +78,14 @@ from tqdm import tqdm
 #print(continent.report())
 
 ###############################################################################
-#from forest_puller.viz.increments import gain_loss_net_data
-#print(gain_loss_net_data.ipcc)
+from forest_puller.viz.increments import all_graphs
+for graph in all_graphs: graph.plot(rerun=True)
 
-#from forest_puller.viz.increments import all_graphs
-#g = all_graphs[0]
-#g.plot(rerun=True)
-#print(g.path)
+from forest_puller.viz.increments import legend
+legend.plot(rerun=True)
 
-#from forest_puller.viz.increments import all_graphs
-#for graph in all_graphs: graph.plot(rerun=True)
-
-#from forest_puller.core.continent import continent
-#print(continent.report())
-
-#from forest_puller.viz.increments import legend
-#legend.plot(rerun=True)
-#print(legend.path)
+from forest_puller.core.continent import continent
+print(continent.report())
 
 ###############################################################################
 #from forest_puller.soef.country import all_countries
@@ -108,8 +104,8 @@ from tqdm import tqdm
 #from forest_puller.viz.converted_to_tons import all_graphs
 #for graph in all_graphs: graph.plot(rerun=True)
 
-from forest_puller.viz.converted_to_tons import legend
-legend.plot(rerun=True)
+#from forest_puller.viz.converted_to_tons import legend
+#legend.plot(rerun=True)
 
 #from forest_puller.core.continent import continent
 #print(continent.report())
@@ -175,5 +171,7 @@ legend.plot(rerun=True)
 #from forest_puller.tables.density_table import wood_density
 #print(wood_density.save())
 
-from forest_puller.core.continent import continent
-print(continent.report())
+#from forest_puller.core.continent import continent
+#print(continent.report())
+
+###############################################################################

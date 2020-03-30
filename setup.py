@@ -11,7 +11,9 @@ setup(
         author           = 'Lucas Sinclair',
         author_email     = 'lucas.sinclair@me.com',
         packages         = find_packages(),
-        install_requires = ['pandas', 'numpy', 'autopaths>=2.5.8', 'plumbing>=1.3.5', 'lxml', 'requests', 'tqdm>=4.41.1',
-                            'matplotlib', 'brewer2mpl'],
+        install_requires = ['pandas>=1.0.0', 'matplotlib>=3.0.0',
+                            'numpy', 'brewer2mpl', 'requests', 'lxml',
+                            'autopaths>=1.3.6', 'plumbing>=2.6.3',
+                            'pymarktex>=1.2.8', 'tqdm>=4.41.1'],
         include_package_data = True,
 )

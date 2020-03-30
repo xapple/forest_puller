@@ -20,8 +20,11 @@ Typically you would run this file from a command line like this:
 
 ###############################################################################
 # Area comparison #
-from forest_puller.viz.area import area_comp
-print(area_comp.plot(rerun=True))
+from forest_puller.viz.area_comp import all_graphs
+for g in all_graphs: print(g.plot(rerun=True))
+
+from forest_puller.viz.area_comp import legend
+print(legend.plot(rerun=True))
 
 #-----------------------------------------------------------------------------#
 # Increments #

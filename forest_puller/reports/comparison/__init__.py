@@ -72,17 +72,26 @@ class ComparisonTemplate(ReportTemplate):
     def comp_total_area(self):
         # Caption #
         caption = "Comparison of total forest area reported in" \
-                  " 26 countries and 5 data sources."
+                  " 27 countries and 5 data sources."
         # Import #
-        from forest_puller.viz.area import area_comp
+        from forest_puller.viz.area_comp import all_graphs, legend
+        # Initialize #
+        result = ""
+        # Loop every country batch #
+        for graph in all_graphs: result += str(BareFigure(graph=graph)) + '\n\n'
+        # Add the legend #
+        result += str(ScaledFigure(graph   = legend,
+                                   caption = caption,
+                                   label   = 'comp_total_area',
+                                   width   = '9em'))
         # Return #
-        return str(ScaledFigure(graph=area_comp, caption=caption))
+        return result
 
     #----------------------------- Increments --------------------------------#
     def comp_increments(self):
         # Caption #
         caption = "Comparison of gains, losses, and totals reported" \
-                  " in 26 countries and 5 data sources."
+                  " in 27 countries and 5 data sources."
         # Import #
         from forest_puller.viz.increments import countries, legend
         # Initialize #
@@ -103,7 +112,7 @@ class ComparisonTemplate(ReportTemplate):
     def comp_conv_to_tons(self):
         # Caption #
         caption = "Comparison of gains, losses, and totals converted to tons of" \
-                  " carbon reported in 26 countries and 5 data sources."
+                  " carbon reported in 27 countries and 5 data sources."
         # Import #
         from forest_puller.viz.converted_to_tons import countries, legend, all_codes
         # Initialize #
@@ -124,12 +133,12 @@ class ComparisonTemplate(ReportTemplate):
     def genus_comp(self):
         # Caption #
         caption = "Comparison of genus composition in the growing stock at" \
-                  " 4 different time points in 26 countries."
+                  " 4 different time points in 27 countries."
         # Import #
         from forest_puller.viz.genus_barstack import all_graphs, genus_legend
         # Initialize #
         result = ""
-        # Loop every country #
+        # Loop every country batch #
         for graph in all_graphs: result += str(BareFigure(graph=graph)) + '\n\n'
         # Add the legend #
         result += str(ScaledFigure(graph   = genus_legend,
@@ -147,7 +156,7 @@ class ComparisonTemplate(ReportTemplate):
         from forest_puller.viz.genus_soef_vs_cbm import all_graphs, genus_legend
         # Initialize #
         result = ""
-        # Loop every country #
+        # Loop every country batch #
         for graph in all_graphs: result += str(BareFigure(graph=graph)) + '\n\n'
         # Add the legend #
         result += str(ScaledFigure(graph   = genus_legend,

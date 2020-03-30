@@ -19,6 +19,13 @@ Or if you want to look at the legend:
 
     >>> from forest_puller.viz.genus_barstack import genus_legend
     >>> print(genus_legend.label_to_color)
+
+To re-plot the graphs do the following:
+
+    >>> from forest_puller.viz.genus_barstack import all_graphs
+    >>> for g in all_graphs: g.plot(rerun=True)
+    >>> from forest_puller.viz.genus_barstack import genus_legend
+    >>> genus_legend.plot(rerun=True)
 """
 
 # Built-in modules #
@@ -299,7 +306,3 @@ all_graphs = [GenusBarstack(batch, export_dir) for batch in batches]
 
 # Create a separate standalone legend #
 genus_legend = GenusBarstackLegend(base_dir = export_dir)
-
-# To re-plot the graphs do the following #
-# for g in all_graphs: g.plot(rerun=True)
-# genus_legend.plot(rerun=True)

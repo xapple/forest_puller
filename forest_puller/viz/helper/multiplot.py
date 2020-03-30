@@ -126,15 +126,19 @@ class Multiplot(Graph):
         self.iterate_all_axes(fn)
 
     def hide_full_axes(self, axes):
+        axes.xaxis.grid(False)
+        axes.yaxis.grid(False)
         axes.spines["top"].set_visible(False)
         axes.spines["right"].set_visible(False)
         axes.spines["left"].set_visible(False)
         axes.spines["bottom"].set_visible(False)
         axes.set_xlabel(None)
-        for xlabel in axes.get_xticklabels():
-            xlabel.set_visible(False)
-        for tick in axes.get_xticklines():
-            tick.set_visible(False)
+        # X axis #
+        for xlabel in axes.get_xticklabels(): xlabel.set_visible(False)
+        for tick in axes.get_xticklines(): tick.set_visible(False)
+        # Y axis #
+        for ylabel in axes.get_yticklabels(): ylabel.set_visible(False)
+        for tick in axes.get_yticklines(): tick.set_visible(False)
 
     def y_center_origin(self):
         """

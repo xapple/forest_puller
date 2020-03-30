@@ -75,6 +75,23 @@ class Country:
         """Specify where on the file system we will pickle the df property."""
         return cache_dir + 'fra/df/' + self.iso2_code + '.pickle'
 
+    #----------------------------- Common years ------------------------------#
+    @property
+    def area_years(self):
+        """
+        Determine the years for which there is a data point for
+        the forest area statistic in this country.
+        Return a list of integers, e.g. [1999, 2000, 2001, 2004].
+        """
+        # Load #
+        df = self.df
+        # Filter #
+        df = df.query('category == "Forest"')
+        # Process #
+        years = df['year'].unique()
+        # Return #
+        return years
+
 ###############################################################################
 # Create every country object #
 all_countries = [Country(iso2) for iso2 in country_codes['iso2_code']]
