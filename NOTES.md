@@ -155,13 +155,16 @@
 
 * Type up meeting notes.
 
+* Add Forest Resource Assessment data, available in csv and excel form.
+
+* Add an FRA section to the README and in the publication
 
 
 # TODO
 
-* Replace Czech Republic by the official short name "Czechia"
+* Add an estimation of net increment through FRA growing stock
 
-* Add Forest Resource Assessment data, available in csv and excel form.
+* Replace Czech Republic by the official short name "Czechia"
 
 * Test install on fresh ubuntu again (esp. dependencies)
 
@@ -181,27 +184,7 @@
 
 * Make predictions based on data acquired?
 
-
-# Details for the new FRA source
-
-Note: there is information on forest area and stock and but there doesn't seem to be any information on the stock dynamics i.e. increments and fellings. 
-
-* Official link http://www.fao.org/forest-resources-assessment/en/
-
-* Forest area under "Extent and characteristics" 
-  - URL: http://countrystat.org/home.aspx?c=FOR&tr=1
-  - File: T04FO000.csv
-  
-* Forest Establishment
-  - URL: http://countrystat.org/home.aspx?c=FOR&tr=3
-  - File: T05FO000.csv
-
-* Growing stock
-  - URL: http://countrystat.org/home.aspx?c=FOR&tr=4
-  - File: T06FO000.csv
-
-* Check also if more recent data is available here, under the "global tables":
-  - URL: http://countrystat.org/home.aspx?c=FOR
+* Check also if more recent data is available here, under the "global tables": http://countrystat.org/home.aspx?c=FOR
 
 
 # Details for expansion factor

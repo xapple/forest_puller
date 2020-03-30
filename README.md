@@ -22,6 +22,7 @@ Currently `forest_puller` caches and provides programmatic access to the forest-
 * SOEF (https://dbsoef.foresteurope.org/)
 * FAOSTAT (http://www.fao.org/faostat/en/)
 * HPFFRE (https://doi.org/10.5061/dryad.4t880qh)
+* FRA (http://www.fao.org/forest-resources-assessment/en/)
 
 What other data source you would like to see added here? Contact the authors by opening an issue in the issue tracker.
 
@@ -242,9 +243,9 @@ from forest_puller.faostat.land.concat import df
 print(df)
 ```
 
-### Diabolo (hpffre)
+### HPFFRE
 
-Was a project run by a consortium of 33 partners from 25 countries. Experts in the fields of policy analysis, forest inventory, forest modelling. 7 work packages.
+Diabolo was a project run by a consortium of 33 partners from 25 countries. Experts in the fields of policy analysis, forest inventory, forest modelling. 7 work packages.
 
  Link: http://diabolo-project.eu/
 
@@ -265,10 +266,44 @@ country = countries['AT']
 print(country.df)
 ```
 
-There is also a large data frame containing all countries concatenate together:
+There is also a large data frame containing all countries concatenated together:
 
 ```python
 from forest_puller.hpffre.concat import df
+print(df)
+```
+
+### FRA
+
+FRA stands for "Forest Resource Assessment".
+
+The data is acquired by picking the "CSV download" option from the page located at: http://countrystat.org/home.aspx?c=FOR&tr=3
+
+The home page is at: http://www.fao.org/forest-resources-assessment/en/
+
+Five datasets are provided in the package:
+
+    * "Forest characteristics (1 000 ha) by FRA categories"
+    * "Extent of forest and other wooded land (1 000 ha)"
+    * "Forest establishment total (ha/yr) by FRA categories"
+    * "Carbon stock (Million metric tonnes) by Forest/Other wooded land"
+    * "Biomass stock (Million metric tonnes) by Forest/Other wooded land"
+
+FRA is part of the FAOSTAT organization.
+
+It is accessed in a similar way to other data sources:
+
+```python
+from forest_puller.fra.country import countries
+
+country = countries['AT']
+print(country.df)
+```
+
+There is also a large data frame containing all countries concatenated together:
+
+```python
+from forest_puller.fra.concat import df
 print(df)
 ```
 
