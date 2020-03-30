@@ -2,7 +2,7 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/xapple/forest_puller.svg)](https://github.com/xapple/forest_puller/commits/master)
 [![GitHub](https://img.shields.io/github/license/xapple/forest_puller.svg)](https://github.com/xapple/forest_puller/blob/master/LICENSE)
 
-# `forest_puller` version 1.2.2
+# `forest_puller` version 1.2.3
 
 `forest_puller` is a python package for retrieving data concerning forests of European countries. This includes the amount of forested areas, the forest inventory (standing stock), the forest growth rates as well as the forest loss dynamics (disturbances).
  
