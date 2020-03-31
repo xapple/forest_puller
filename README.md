@@ -283,13 +283,13 @@ The home page is at: http://www.fao.org/forest-resources-assessment/en/
 
 Five datasets are provided in the package:
 
-    * "Forest characteristics (1 000 ha) by FRA categories"
-    * "Extent of forest and other wooded land (1 000 ha)"
-    * "Forest establishment total (ha/yr) by FRA categories"
-    * "Carbon stock (Million metric tonnes) by Forest/Other wooded land"
-    * "Biomass stock (Million metric tonnes) by Forest/Other wooded land"
+* "Forest characteristics (1 000 ha) by FRA categories"
+* "Extent of forest and other wooded land (1 000 ha)"
+* "Forest establishment total (ha/yr) by FRA categories"
+* "Carbon stock (Million metric tonnes) by Forest/Other wooded land"
+* "Biomass stock (Million metric tonnes) by Forest/Other wooded land"
 
-FRA is part of the FAOSTAT organization.
+FRA is an effort of the Food and Agriculture Organization of the United Nations (FAO)".
 
 It is accessed in a similar way to other data sources:
 

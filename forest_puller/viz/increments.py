@@ -232,7 +232,7 @@ class GainsLossNetData:
         return df
 
     @property_cached
-    def fra(self):
+    def fra_stock(self):
         """
         Add the line that shows net increments estimated via the
         growing stock data in FRA.
@@ -240,10 +240,43 @@ class GainsLossNetData:
         # Import #
         import forest_puller.fra.concat
         # Load #
-        df = forest_puller.fra.concat.df.copy()
-        # Filter #
-        pass
-        # Keep only the columns that interest us #
+        area  = forest_puller.fra.concat.df.copy()
+        stock = forest_puller.fra.concat.df.copy()
+        # Get the area #
+        area = area.query("category == 'Forest'")
+        area = area[['country', 'year', 'value']].copy()
+        area = area.rename(columns = {'value': 'area'})
+        # Get the stock #
+        stock = stock.query("category  == 'Total growing stock'")
+        stock = stock.query("land_type == 'Forest'")
+        stock = stock[['country', 'year', 'value']].copy()
+        stock = stock.rename(columns = {'value': 'stock'})
+        # Convert the stock from over bark to under bark #
+        from forest_puller.viz.converted_to_tons import ConvertedTonsData
+        factor = ConvertedTonsData.bark_correction_factor
+        stock['stock'] *= factor
+        # Add the area to make one big dataframe #
+        df = stock.left_join(area, on=['country', 'year'])
+        # Sort the dataframe so that years are ascending #
+        df = df.sort_values(['country', 'year'])
+        # Operate a rolling subtraction and divide by years
+        group           = df.groupby(['country'])
+        df['net_diff']  = group['stock'].diff()
+        df['year_diff'] = group['year'].diff()
+        df['area_diff'] = group['area'].diff()
+        df['growth']    = df['net_diff'] / df['year_diff']
+        # Keep only those with values (drop 1990) #
+        df = df.query("growth==growth").copy()
+        # Set the year in the middle #
+        def year_in_middle(row): return row['year'] - row['year_diff']/2
+        df['year'] = df.apply(year_in_middle, axis=1)
+        # Set the area in the middle #
+        def area_in_middle(row): return row['area'] - row['area_diff']/2
+        df['area'] = df.apply(area_in_middle, axis=1)
+        # Calculate the net per hectare #
+        def compute_net_per_ha(row): return row['growth'] / row['area']
+        df['net_per_ha'] = df.apply(compute_net_per_ha, axis=1)
+        # Drop other columns #
         df = df[['country', 'year', 'net_per_ha']].copy()
         # Add source #
         df.insert(0, 'source', "fra")
@@ -286,6 +319,7 @@ class GainsLossNetGraph(Multiplot):
 
     # Optional extras #
     add_soef_line  = True
+    add_fra_line   = True
 
     # Mapping of lines to colors #
     name_to_color = {'gain_per_ha': 'green',
@@ -329,6 +363,11 @@ class GainsLossNetGraph(Multiplot):
         return gain_loss_net_data.soef_stock.query("country == @self.parent").copy()
 
     @property_cached
+    def fra_stock(self):
+        """Take the data for the special SOEF extra line."""
+        return gain_loss_net_data.fra_stock.query("country == @self.parent").copy()
+
+    @property_cached
     def source_to_axes(self):
         return dict(zip(self.source_to_y_label.keys(), self.axes))
 
@@ -353,9 +392,13 @@ class GainsLossNetGraph(Multiplot):
             self.line_plot(self.soef_stock, self.source_to_axes['soef'],
                            'soef', 'net_per_ha', marker='+', linestyle='--')
 
+        # We also want the special extra FRA stock line #
+        if self.add_fra_line:
+            self.line_plot(self.fra_stock, self.source_to_axes['faostat'],
+                           'fra', 'net_per_ha', marker='+', linestyle='--')
+
         # Adjust details on the subplots #
         self.y_grid_on()
-        self.y_max_two_decimals()
 
         # Hide the default titles #
         self.hide_titles()

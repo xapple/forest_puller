@@ -166,6 +166,7 @@ class ConvertedTonsGraph(GainsLossNetGraph):
 
     # Optional extras #
     add_soef_line  = False
+    add_fra_line   = False
 
     # Mapping of unit to each source #
     source_to_y_label = {

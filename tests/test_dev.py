@@ -21,16 +21,6 @@ from pprint import pprint
 import pandas
 from tqdm import tqdm
 
-# Internal modules #
-#from forest_puller.soef.country import all_countries, countries
-
-###############################################################################
-#from forest_puller.cbm.concat import df as orig_eu_cbm
-
-###############################################################################
-#from forest_puller.core.continent import continent
-#print(continent.first.min_year_area)
-
 ###############################################################################
 #from forest_puller.viz.area_comp import all_graphs
 #for g in all_graphs[:]: g.plot(rerun=True)
@@ -46,37 +36,6 @@ from tqdm import tqdm
 #area_agg.plot(rerun=True)
 #print(area_agg.path)
 
-#from forest_puller.viz.area_aggregate import area_agg
-#from forest_puller import cache_dir
-#export_path = cache_dir + 'exports/area_agg_interim.csv'
-#area_agg.data.to_csv(str(export_path))
-
-#from forest_puller.ipcc.agg import source
-#print(source.common_years)
-
-#from forest_puller.faostat.land.agg import source
-#print(source.common_years)
-
-###############################################################################
-#from forest_puller.hpffre.country import all_countries, countries
-#for c in tqdm(all_countries):
-#    c.df
-
-###############################################################################
-#from forest_puller.faostat.land.zip_file import zip_file
-#print(zip_file.raw_csv)
-
-###############################################################################
-#from forest_puller.faostat.land.country import all_countries, countries
-#at = countries['AT']
-
-###############################################################################
-#from forest_puller.viz.area import area_comp
-#print(area_comp(rerun=True))
-#
-#from forest_puller.core.continent import continent
-#print(continent.report())
-
 ###############################################################################
 from forest_puller.viz.increments import all_graphs
 for graph in all_graphs: graph.plot(rerun=True)
@@ -89,7 +48,6 @@ print(continent.report())
 
 ###############################################################################
 #from forest_puller.soef.country import all_countries
-
 #for country in all_countries:
 #    del country.stock_comp.df
 #    df = country.stock_comp.df

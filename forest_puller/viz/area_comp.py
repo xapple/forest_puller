@@ -239,7 +239,6 @@ class AreaComparison(Multiplot):
 
         # Adjust details on the subplots #
         self.y_grid_on()
-        self.y_max_two_decimals()
 
         # Add the country name as a title  #
         for country, axes in zip(self.parent, self.axes):
