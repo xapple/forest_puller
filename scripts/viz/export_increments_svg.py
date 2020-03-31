@@ -13,8 +13,6 @@ and showcasing.
 Typically you would run this file from a command line like this:
 
      ipython3 -i -- ~/deploy/forest_puller/scripts/viz/export_increments_svg.py
-
-This takes about 1 minute and 30 seconds to run.
 """
 
 # Built-in modules #

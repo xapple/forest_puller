@@ -159,14 +159,14 @@
 
 * Add an FRA section to the README and in the publication
 
+* Add an estimation of net increment through FRA growing stock
+
+* Test install on fresh ubuntu again (esp. dependencies)
+
 
 # TODO
 
-* Add an estimation of net increment through FRA growing stock
-
 * Replace Czech Republic by the official short name "Czechia"
-
-* Test install on fresh ubuntu again (esp. dependencies)
 
 * Can we integrate the R factor and biomass expansion factor?
 

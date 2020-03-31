@@ -51,11 +51,11 @@ class MaxArea(Table):
     @property_cached
     def df(self):
         # Each source we want to include #
-        source_names = ['ipcc', 'soef', 'faostat', 'hpffre', 'eu_cbm']
+        source_names = ['ipcc', 'soef', 'faostat', 'hpffre', 'fra', 'eu_cbm']
         # Import the data from the area graph #
-        from forest_puller.viz.area import area_data
+        from forest_puller.viz.area_comp import area_comp_data
         # Put each dataframe in a list #
-        dfs = [getattr(area_data, source) for source in source_names]
+        dfs = [getattr(area_comp_data, source) for source in source_names]
         # Function to group each one by country and do max on area #
         fn = lambda d: d.groupby('country').aggregate({'area': 'max'})
         # Apply that function to each source #

@@ -25,4 +25,4 @@ from forest_puller.ipcc.country import all_countries
 ###############################################################################
 for country in all_countries:
     info = (country.iso2_code, country.first_year.year, country.last_year.year)
-    print("---%s---\nStart year: %i\nEnd year: %i\n" % info)
+    print("---%s---\n Start year: %i\n End year: %i\n" % info)
