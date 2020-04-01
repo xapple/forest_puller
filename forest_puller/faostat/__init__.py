@@ -14,7 +14,6 @@ Unit D1 Bioeconomy.
 import pandas
 
 # Internal modules #
-from forest_puller import module_dir
 from forest_puller.common import country_codes
 
 ###############################################################################
@@ -37,8 +36,6 @@ def fix_faostat_tables(df):
                          'Year':         'year',
                          'Value':        'value',
                          'Flag':         'flag'})
-    # Wrong name for one country "Czechia" #
-    df['country'] = df['country'].replace({'Czechia': 'Czech Republic'})
     # Remove countries we are not interested in #
     selector = df['country'].isin(country_codes['country'])
     df       = df[selector]

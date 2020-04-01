@@ -68,8 +68,8 @@ class Headers:
         df = df.reset_index(drop=True)
         # Take the fourth row (i.e. row no. 8 in excel GUI) #
         df = df.iloc[3]
-        # Remove the name of the headers is 3 because of the original parsing #
-        df.index.name = None
+        # Remove the name of the headers (was 3 because of the original parsing) #
+        df.name = None
         # Remove all newlines #
         df = df.replace('\n', ' ', regex=True)
         # Add '_per_area' to the columns that are already divided

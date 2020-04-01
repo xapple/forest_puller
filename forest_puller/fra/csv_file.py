@@ -78,6 +78,8 @@ class CSVFile:
         before = 'Other nataturally regenerated forest'
         after  = 'Other naturally regenerated forest'
         df['category'].replace({before: after})
+        # Wrong name for one country "Czech Republic" #
+        df['country'] = df['country'].replace({'Czech Republic': 'Czechia'})
         # Use the conversion factor for different units #
         if self.conv_fact is not None: df['value'] *= self.conv_fact
         # Return #

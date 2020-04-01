@@ -11,14 +11,12 @@ A script to regenerate all the pickle files in `puller_cache`
 
 Typically you would run this file from a command line like this:
 
-     ipython3 -i -- ~/deploy/forest_puller/tests/test_dev.py
+     ipython3 -i -- ~/deploy/forest_puller/scripts/dev/regen_prop_pickled.py
 """
 
 # Built-in modules #
-from pprint import pprint
 
 # Third party modules #
-import pandas
 from tqdm import tqdm
 
 ###############################################################################
@@ -31,6 +29,7 @@ for c in tqdm(all_countries, desc='Countries'):
 ###############################################################################
 from forest_puller.cbm.country import all_countries
 for country in tqdm(all_countries):
+    if country.iso2_code == 'CY': continue
     del country.area_df
     df = country.area_df
     del country.increments_df
@@ -59,8 +58,8 @@ for country in tqdm(all_countries):
 ###############################################################################
 from forest_puller.hpffre.country import all_countries
 for country in tqdm(all_countries):
-    del country.stock_comp.df
-    df = country.stock_comp.df
+    del country.df
+    df = country.df
 
 ###############################################################################
 from forest_puller.soef.country import all_countries
