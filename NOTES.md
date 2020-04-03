@@ -163,10 +163,12 @@
 
 * Test install on fresh ubuntu again (esp. dependencies)
 
+* Replace Czech Republic by the official short name "Czechia"
+
+* Switch all text that reads "26 countries" to "27 countries".
+
 
 # TODO
-
-* Replace Czech Republic by the official short name "Czechia"
 
 * Can we integrate the R factor and biomass expansion factor?
 
@@ -177,8 +179,6 @@
 * Write up introduction and methods.
 
 * Reset the history of the puller_cache repository for faster downloads.
-
-* Switch all text that reads "26 countries" to "27 countries".
 
 * Adapt the CBM-EU fluxes used in gains and losses based on expert input.
 
