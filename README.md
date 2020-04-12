@@ -10,6 +10,10 @@ There are several public data sources accessible online that provide these types
 
 Once `forest_puller` is installed you can easily access forest data through standard python pandas data frames.
 
+<p align="center">
+![Logo](forest_puller/reports/template/logo.png?raw=true "Logo")
+</p>
+
 ## Scope and sources
 
 Currently `forest_puller` provides data for the following 27 EU member states (past and present):

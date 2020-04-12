@@ -22,8 +22,8 @@ import pandas
 from tqdm import tqdm
 
 ###############################################################################
-from forest_puller.tables.max_area_over_time import max_area
-print(max_area.save())
+#from forest_puller.tables.max_area_over_time import max_area
+#print(max_area.save())
 
 from forest_puller.core.continent import continent
 print(continent.report())
