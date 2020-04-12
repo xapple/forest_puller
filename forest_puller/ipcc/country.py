@@ -110,7 +110,8 @@ class Country:
     def all_xls_files(self):
         """For each country we have N excel files, one for each year."""
         # If the xls_dir is empty, we need to reconstruct from cache #
-        if self.cache_dir.empty: return [self.xls_dir + f for f in self.cached_xls_list]
+        if self.cache_dir.empty:
+            return [self.xls_dir + f.strip('\n') for f in self.cached_xls_list]
         # Otherwise we can just look at each file #
         return [f for f in self.xls_dir.flat_files if f.extension == '.xlsx']
 
