@@ -11,7 +11,7 @@ There are several public data sources accessible online that provide these types
 Once `forest_puller` is installed you can easily access forest data through standard python pandas data frames.
 
 <p align="center">
-<img width="460" height="300" src="forest_puller/reports/template/logo.png?raw=true">
+<img height="300" src="forest_puller/reports/template/logo.png?raw=true">
 </p>
 
 ## Scope and sources
