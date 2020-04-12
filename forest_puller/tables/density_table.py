@@ -28,7 +28,6 @@ from forest_puller.tables import Table
 from plumbing.cache  import property_cached
 
 # Third party modules #
-import pandas
 
 ###############################################################################
 class WoodDensity(Table):

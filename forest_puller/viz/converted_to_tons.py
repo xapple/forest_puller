@@ -41,8 +41,8 @@ class ConvertedTonsData:
     * Multiply the result with the bark correction factor (from Table 1.3).
     * The result is now in tons over bark. But it's tons of wood not tons of carbon.
     * Multiply by 0.47 to obtain tons of carbon from tons of wood (Table 4.3)
-    * TODO: some sources include roots other don't, must use a biomass expansion factor.
-    * TODO: Ratio Of Below-ground Biomass To Above-ground Biomass (from Table 4.4)
+    * TODO: Some sources include roots other don't, must use a biomass expansion factor.
+    * TODO: Ratio Of below-ground biomass To above-ground biomass (from Table 4.4)
     """
 
     # This value comes from:
