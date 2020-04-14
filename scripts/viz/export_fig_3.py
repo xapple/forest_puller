@@ -32,15 +32,14 @@ LatexFigure.abs_path = lambda s: '../' + s.path.rel_path_from(cache_dir)
 
 ###############################################################################
 # Import #
-from forest_puller.viz.increments import countries, legend
+from forest_puller.viz.manuscript.dynamics_comparison import all_graphs
+from forest_puller.viz.increments import legend
 
 # Initialize #
 result = ""
 
 # Loop every country #
-for iso2_code in country_codes['iso2_code']:
-    g = countries[iso2_code]
-    result += str(BareFigure(graph=g, width='\\textwidth'))
+for g in all_graphs: result += str(BareFigure(graph=g, width='\\textwidth'))
 
 # Print #
 print(result)

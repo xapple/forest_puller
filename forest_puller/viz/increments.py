@@ -335,6 +335,9 @@ class GainsLossNetGraph(Multiplot):
         'eu-cbm':  "Tons of carbon per hectare",
     }
 
+    # The three lines we want on each axes #
+    curves = ('gain_per_ha', 'loss_per_ha', 'net_per_ha')
+
     # The ISO2 code of the country #
     @property
     def short_name(self): return self.parent
@@ -346,16 +349,6 @@ class GainsLossNetGraph(Multiplot):
         row = row.iloc[0]
         # Return the long name #
         return row['country']
-
-    @property
-    def all_data(self):
-        """A link to the dataframe containing all countries."""
-        return gain_loss_net_data.df
-
-    @property_cached
-    def df(self):
-        """Take only data that concerns the current country from the big dataframe."""
-        return self.all_data.query("country == @self.parent").copy()
 
     @property_cached
     def soef_stock(self):
@@ -371,9 +364,15 @@ class GainsLossNetGraph(Multiplot):
     def source_to_axes(self):
         return dict(zip(self.source_to_y_label.keys(), self.axes))
 
-    def line_plot(self, df, axes, source, curve, **kw):
-        # Filter for the source #
-        df = df.query("source == '%s'" % source)
+    def line_plot(self, axes, source, curve, df=None, **kw):
+        # Use underscores for property names #
+        source = source.replace('-', '_')
+        # Get the current data source if not given #
+        if df is None: df = getattr(gain_loss_net_data, source)
+        # Filter for this country #
+        df = df.query("country == @self.parent").copy()
+        # We only want two columns #
+        df = df.reindex(columns = ('year', curve))
         # Add arguments #
         if 'marker' not in kw:     kw['marker'] = '.'
         if 'markersize' not in kw: kw['markersize'] = 10
@@ -384,18 +383,18 @@ class GainsLossNetGraph(Multiplot):
     def plot(self, **kwargs):
         # Plot every curve on every data source #
         for source, axes in self.source_to_axes.items():
-            for curve in ('gain_per_ha', 'loss_per_ha', 'net_per_ha'):
-                self.line_plot(self.df, axes, source, curve)
+            for curve in self.curves:
+                self.line_plot(axes, source, curve)
 
         # We also want the special extra SOEF stock line #
         if self.add_soef_line:
-            self.line_plot(self.soef_stock, self.source_to_axes['soef'],
-                           'soef', 'net_per_ha', marker='+', linestyle='--')
+            self.line_plot(self.source_to_axes['soef'], 'soef', 'net_per_ha',
+                           df=self.soef_stock, marker='+', linestyle='--')
 
         # We also want the special extra FRA stock line #
         if self.add_fra_line:
-            self.line_plot(self.fra_stock, self.source_to_axes['faostat'],
-                           'fra', 'net_per_ha', marker='+', linestyle='--')
+            self.line_plot(self.source_to_axes['faostat'], 'fra', 'net_per_ha',
+                           df=self.fra_stock, marker='+', linestyle='--')
 
         # Adjust details on the subplots #
         self.y_grid_on()

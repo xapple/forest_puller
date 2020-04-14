@@ -20,7 +20,6 @@ Typically you would run this file from a command line like this:
 # Third party modules #
 
 # Internal modules #
-from forest_puller.common import country_codes
 from forest_puller import cache_dir
 
 # First party modules #
@@ -32,7 +31,7 @@ LatexFigure.abs_path = lambda s: '../' + s.path.rel_path_from(cache_dir)
 
 ###############################################################################
 # Import #
-from forest_puller.viz.area_comp import all_graphs, legend
+from forest_puller.viz.manuscript.area_comparison import all_graphs, legend
 
 # Initialize #
 result = ""
