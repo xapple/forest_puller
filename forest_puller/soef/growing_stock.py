@@ -27,6 +27,15 @@ from plumbing.cache import property_cached, property_pickled_at
 import pandas
 
 ###############################################################################
+class Stock(TableParser):
+
+    sheet_name    = "1.2"
+    title         = "Table 1.2a: Growing stock"
+    short_name    = "stock"
+    header_len    = 4
+    fixed_end_col = 5
+
+###############################################################################
 class GrowingStockComp(TableParser):
 
     sheet_name    = "1.2"

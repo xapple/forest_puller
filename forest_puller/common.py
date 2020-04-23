@@ -40,12 +40,29 @@ def convert_row_names(df, row_name_map, col_name_map, data_source_name):
 
 ###############################################################################
 def convert_units(df, col_name_map):
-    # Convert units (such that we never have kilo hectares, only hectares etc.) #
-    col_name_to_ratio = dict(zip(col_name_map['forest_puller'], col_name_map['unit_convert_ratio']))
+    """
+    Convert units, such that we never have kilo hectares,
+    only hectares etc.
+
+    It would be nice if we could check for some countries using a
+    comma instead of a period. Maybe something like this?
+
+        from pandas.api.types import is_string_dtype
+        if is_string_dtype(df[col_name]):
+            df[col_name] = df[col_name].str.replace(',', '.')
+    """
+    # Load #
+    col_name_to_ratio = dict(zip(col_name_map['forest_puller'],
+                                 col_name_map['unit_convert_ratio']))
+    # Loop #
     for col_name in df.columns:
         ratio = col_name_to_ratio.get(col_name, numpy.NaN)
         if numpy.isnan(ratio): continue
-        df[col_name] = df[col_name].astype(float)
-        df[col_name] = df[col_name] * ratio
+        # Check we can convert it #
+        try:
+            df[col_name] = df[col_name].astype(float)
+            df[col_name] = df[col_name] * ratio
+        except ValueError:
+            df[col_name] = numpy.NaN
     # Return #
     return df

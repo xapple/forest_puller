@@ -190,24 +190,27 @@ class GainsLossNetData:
     def soef_stock(self):
         """
         Add the line that shows net increments estimated via the
-        growing stock table in SOEF.
+        growing stock table in SOEF (table 1.2a).
         """
         # Import #
         import forest_puller.soef.concat
         # Load #
         area  = forest_puller.soef.concat.tables['forest_area'].copy()
-        stock = forest_puller.soef.concat.tables['stock_comp'].copy()
+        stock = forest_puller.soef.concat.tables['stock'].copy()
         # Get the area that matches the right category #
-        area = area.query("category == 'forest_avail_for_supply'")
-        area = area.drop(columns=['category'])
-        # Get only the stock that represents the total #
-        stock = stock.query("rank=='total'")
+        area  = area.query("category == 'forest'")
+        stock = stock.query("category == 'forest'")
+        # Drop unused columns #
+        area  = area.drop(columns=['category'])
+        stock = stock.drop(columns=['category', 'conif_stock', 'broad_stock'])
         # Add the area to make one big dataframe #
         df = stock.left_join(area, on=['country', 'year'])
+        # Drop missing values #
+        df = df.dropna()
         # The growth reported here is the total stock, not the delta
         # So we need to operate a rolling subtraction and divide by years
-        group           = df.groupby(['country', 'rank'])
-        df['net_diff']  = group['growing_stock'].diff()
+        group           = df.groupby(['country'])
+        df['net_diff']  = group['total_stock'].diff()
         df['year_diff'] = group['year'].diff()
         df['area_diff'] = group['area'].diff()
         df['growth']    = df['net_diff'] / df['year_diff']

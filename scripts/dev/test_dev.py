@@ -34,8 +34,31 @@ from tqdm import tqdm
 #from forest_puller.viz.increments import countries
 #countries['DK'].plot(rerun=True)
 
-from forest_puller.viz.correlation import all_graphs
+#from forest_puller.viz.correlation import all_graphs
+#for graph in all_graphs: print(graph.plot(rerun=True))
+
+#from forest_puller.core.continent import continent
+#print(continent.report())
+
+#from forest_puller.soef.country import all_countries, countries
+#
+#for country in all_countries:
+#    print("--------- %s ----------" % country.iso2_code)
+#    if country.iso2_code != 'EE': continue
+#    del country.stock.df
+#    df = country.stock.df
+#    print(df)
+#
+#from forest_puller.soef.country import all_countries, countries
+#country = countries['EE']
+#table5 = country.stock.indexed
+#print(table5)
+
+from forest_puller.viz.increments import all_graphs
 for graph in all_graphs: print(graph.plot(rerun=True))
+
+from forest_puller.viz.increments import legend
+print(legend.plot(rerun=True))
 
 from forest_puller.core.continent import continent
 print(continent.report())

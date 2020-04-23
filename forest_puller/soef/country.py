@@ -17,9 +17,9 @@ Typically you can use this class this like:
 
 # Internal modules #
 from forest_puller import cache_dir
-from forest_puller.soef.table_parser import ForestArea, AgeDist, Fellings
-from forest_puller.soef.growing_stock import GrowingStockComp
-from forest_puller.common import country_codes
+from forest_puller.soef.table_parser  import ForestArea, AgeDist, Fellings
+from forest_puller.soef.growing_stock import Stock, GrowingStockComp
+from forest_puller.common             import country_codes
 
 # First party modules #
 from plumbing.cache import property_cached
@@ -55,6 +55,9 @@ class Country:
 
     @property_cached
     def fellings(self):    return Fellings(self)
+
+    @property_cached
+    def stock(self):       return Stock(self)
 
     @property_cached
     def stock_comp(self):  return GrowingStockComp(self)

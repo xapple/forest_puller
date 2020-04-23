@@ -15,3 +15,6 @@ Fellings ... of which: of natural losses Volume (1000 m³ o.b.),fellings_nat_los
 Rank,rank,NaN
 Scientific name,latin_name,NaN
 Common name,common_name,NaN
+Growing stock (million m³ o.b.) Total,total_stock,1000000
+Growing stock (million m³ o.b.) ... of which: Coniferous,conif_stock,1000000
+Growing stock (million m³ o.b.) ... of which: Broadleaved,broad_stock,1000000

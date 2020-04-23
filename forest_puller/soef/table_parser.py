@@ -59,7 +59,7 @@ class TableParser:
         return pandas.read_excel(str(self.xls_file),
                                  sheet_name = self.sheet_name,
                                  header     = None,
-                                 na_values  = ["n.a.", "n./a.", "n. a. "])
+                                 na_values  = ["n.a.", "n./a.", "n. a. ", "n.a"])
 
     def raise_exception(self, message):
         """Print a nice message for when we need to raise an exception."""

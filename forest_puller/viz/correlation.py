@@ -80,8 +80,8 @@ class CorrelationPlot(Multiplot):
     width      = 30
 
     # Labels for axes #
-    label_x = 'Losses FAOSTAT in m^3 per hectare (under bark)'
-    label_y = 'Losses IPCC in m^3 per hectare (over bark)'
+    label_x = 'Losses FAOSTAT in m^3 per hectare'
+    label_y = 'Losses IPCC in tons per hectare'
 
     # Size of grid #
     n_rows = 1
@@ -97,9 +97,12 @@ class CorrelationPlot(Multiplot):
         # Filter for the country #
         df = df.query("country == '%s'" % country)
         # Plot #
-        axes.scatter(df['loss_per_ha_faos'],
+        axes.plot(df['loss_per_ha_faos'],
                      df['loss_per_ha_ipcc'],
-                     color = 'k',
+                  marker     = ".",
+                  markersize = 40.0,
+
+                  color = 'k',
                      **kw)
 
     def plot(self, **kwargs):

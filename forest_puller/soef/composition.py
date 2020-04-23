@@ -16,7 +16,7 @@ Typically you can use this class this like:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller import module_dir, cache_dir
+from forest_puller import cache_dir
 
 # First party modules #
 from plumbing.cache import property_cached, property_pickled
