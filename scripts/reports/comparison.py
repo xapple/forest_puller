@@ -93,6 +93,11 @@ print(avg_tons.save())
 from forest_puller.tables.density_table import wood_density
 print(wood_density.save())
 
+#-----------------------------------------------------------------------------#
+# Correlations #
+from forest_puller.viz.correlation import all_graphs
+for graph in all_graphs: print(graph.plot(rerun=True))
+
 ###############################################################################
 # Report #
 from forest_puller.core.continent import continent

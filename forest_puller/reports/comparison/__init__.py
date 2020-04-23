@@ -274,3 +274,21 @@ class ComparisonTemplate(ReportTemplate):
         from forest_puller.tables.density_table import wood_density
         # Return #
         return str(LatexTable(table=wood_density, caption=caption))
+
+    #----------------------------- Correlation -------------------------------#
+    def correlation(self):
+        # Caption #
+        caption = "Correlation of loss values in" \
+                  " 22 countries and 2 data sources."
+        # Import #
+        from forest_puller.viz.correlation import all_graphs
+        # Initialize #
+        result = ""
+        # Loop every country batch #
+        for graph in all_graphs[:-1]: result += str(BareFigure(graph=graph)) + '\n\n'
+        # The last one can have the caption #
+        result += str(ScaledFigure(graph   = all_graphs[-1],
+                                   caption = caption,
+                                   label   = 'correlation'))
+        # Return #
+        return result

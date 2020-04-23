@@ -167,6 +167,10 @@
 
 * Switch all text that reads "26 countries" to "27 countries".
 
+* Parse table 1.2c for SOEF
+
+* Correlation graph for 6 countries as examples
+
 
 # TODO
 
