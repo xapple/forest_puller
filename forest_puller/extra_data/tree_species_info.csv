@@ -1,5 +1,5 @@
 genus,species,density,kind,plot_color,ft_boreal,ft_temperate,ft_mediterranean
-abies,NaN,0.4,conifer,0.302 0.686 0.290,first and spruces,other conifers,conifers
+abies,NaN,0.4,conifer,0.302 0.686 0.290,firs and spruces,other conifers,conifers
 acer,NaN,0.52,broad,0.651 0.337 0.157,hardwoods,hardwoods,hardwoods
 alnus,NaN,0.45,broad,0.957 0.792 0.894,hardwoods,hardwoods,hardwoods
 betula,NaN,0.51,broad,1.000 0.498 0.000,hardwoods,hardwoods,hardwoods
@@ -8,7 +8,7 @@ castanea,NaN,NaN,broad,0.969 0.506 0.749,hardwoods,hardwoods,hardwoods
 fagus,NaN,0.58,broad,0.216 0.494 0.722,hardwoods,hardwoods,hardwoods
 fraxinus,NaN,0.57,broad,1.000 0.949 0.682,hardwoods,hardwoods,hardwoods
 larix,NaN,0.46,conifer,0.796 0.835 0.910,larch,other conifers,conifers
-picea,NaN,0.4,conifer,0.702 0.871 0.412,first and spruces,,conifers
+picea,NaN,0.4,conifer,0.702 0.871 0.412,firs and spruces,other conifers,conifers
 pinus,pinaster,0.44,conifer,0.702 0.886 0.804,pines,pines,conifers
 pinus,radiata,0.38,conifer,0.702 0.886 0.804,pines,pines,conifers
 pinus,strobus,0.32,conifer,0.702 0.886 0.804,pines,pines,conifers
@@ -18,10 +18,10 @@ pinus,contorta,NaN,conifer,0.702 0.886 0.804,pines,pines,conifers
 pinus,nigra,NaN,conifer,0.702 0.886 0.804,pines,pines,conifers
 populus,NaN,0.35,broad,0.945 0.886 0.800,hardwoods,hardwoods,hardwoods
 prunus,NaN,0.49,broad,0.800 0.800 0.800,hardwoods,hardwoods,hardwoods
-pseudotsuga,NaN,0.45,conifer,0.902 0.961 0.788,first and spruces,other conifers,conifers
+pseudotsuga,NaN,0.45,conifer,0.902 0.961 0.788,firs and spruces,other conifers,conifers
 quercus,NaN,0.58,broad,0.894 0.102 0.110,hardwoods,hardwoods,hardwoods
 robinia,NaN,NaN,broad,0.502 0.694 0.827,hardwoods,hardwoods,hardwoods
 salix,NaN,0.45,broad,0.992 0.706 0.384,hardwoods,hardwoods,hardwoods
 tilia,NaN,0.43,broad,0.992 0.804 0.675,hardwoods,hardwoods,hardwoods
 eucalyptus,NaN,NaN,broad,0.901 0.910 0.910,hardwoods,hardwoods,hardwoods
-NaN,NaN,NaN,broad,0.000 0.000 0.000,,,
+NaN,NaN,NaN,broad,0.000 0.000 0.000,NaN,NaN,NaN
