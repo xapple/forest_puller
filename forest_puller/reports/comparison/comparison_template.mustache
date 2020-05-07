@@ -94,43 +94,53 @@ All values are per annum.
 
 
 Conversion to tons of carbon
------------------------------
+----------------------------
 
 Below we compare once again the total losses, gains and net changes in forest biomass for each country.
 
 This results in a series of graphs that are almost identical to the ones above.
 
-The difference is that we harmonize the Y axis units and convert the units into mass for sources which were providing volumes. These were SOEF, FAOSTAT, HPFFRE. Namely, we convert cubic meters over/under bark per hectare to tons of carbon per hectare.
+The difference is that we harmonize the Y axis units and convert all measures into mass for sources which were providing volumes. These were SOEF, FAOSTAT, HPFFRE. In effect, all graphs will now share the IPCC measurements units.
 
-To operate this conversion, we use a dataset provided by SOEF that indicates the proportion of the 10 most common species in terms of growing stock. We then combine this information with a published table specifying wood densities for different species.
+These measurements are in:
 
-The wood density is in [tons / m³] more precisely [oven-dry tonnes of wood per moist m³] and is found at:
+    1. Dry carbon content (in the atomic sense).
+    2. Including both the above ground and below ground parts of the trees (all living biomass).
+    3. Including both the trunk and leaves (all above ground).
+    4. Mass (in tons).
+    5. The tree trunk includes the bark.
+    6. Per hectare.
+    7. Per year.
+
+The process we want to accomplish is the following:
+
+    Start --> FAOSTAT (vol, under bark, without branches, etc.)
+    End   --> IPCC (mass, over bark, with branches, etc.)
+
+To harmonize we use the following factors:
+
+    1. "CF" is the carbon fraction of dry biomass (0.47). This is variable per country (around 0.47). Taken from Table 4.3.
+
+    2. "R" is the root to shoot ratio. This is variable per country. Taken from Table 4.4 and is based on the result of B*E*D.
+
+    3. "E" the expansion factor from trunk to trunk+branches. This is variable per country. Taken from Table 4.5.
+
+    4. "D" the wood density (volumic mass). This is variable per country (around 0.25). Taken from Table 4.5.
+
+    5. "B" is the bark correction factor of 0.88. This is constant per country. This measures volume. This value comes from: https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
+
+The equation is thus:
+
+$$ L_{IPCC} = L_{FAO} * B * BCEF_I * (1+R) * CF $$
+
+The "BCEF" factors includes both the expansion factor E and the wood density D and are found at:
 
     Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories
-    Table 4.14 Basic Wood Density (d) Of Selected Temperate And Boreal Tree Taxa
+    Table 4.5 Basic Wood Density (d) Of Selected Temperate And Boreal Tree Taxa
     https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
-    See page 71.
+    See page 51.
 
-The matching of the species latin name as given in each country does not follow any standard and contains stochastic variations. The matching of the user inputted latin name to its canonical genus is done through natural language processing techniques and string matching strategies.
-
-The average density values are then linearly interpolated for missing years, and padded-by-copy outside of the bounds for which data is provided.
-
-A bark correction factor of 0.88 is applied to the FAOSTAT data source, which provided values in cubic meters under bark instead of over bark.
-
-This value comes from: https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
-
-The last step is to convert from tons of wood to tons of carbon by using a factor 0.47 (See page 48 of same chapter).
-
-Even after all this, the values cannot be compared directly because of the above ground versus below ground inclusion that differs in some sources. In addition, another issue is that some sources report merchantable biomass and others report total biomass.
-
-To fix this we would have to include yet another factor "R" which corresponds to the ratio of below-ground biomass to above-ground biomass (from Table 4.4), as well as the inclusion of "merchantable" biomass expansion factor.
-
-In the case of SOEF we can also estimate the net stock change by another method. Parsing the growing stock table and subtracting each value from its preceding year will retrieve the stock net change. These estimates appear as crosses and dotted lines in the graphs.
-
-In short the equivalent mass in tons of carbon is obtained by multiplying the volume $v$ by the average density $d_{avg}$
-and by the carbon content of dry biomass $0.47$:
-
-$$m = v * d_{avg} * 0.47$$
+The bark correction factor is applied only to the FAOSTAT data source, which provided values in cubic meters under bark instead of over bark.
 
 \vspace{5mm}
 {{comp_conv_to_tons}}

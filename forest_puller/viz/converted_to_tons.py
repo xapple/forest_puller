@@ -42,7 +42,7 @@ class ConvertedTonsData:
     * The result is now in tons over bark. But it's tons of wood not tons of carbon.
     * Multiply by 0.47 to obtain tons of carbon from tons of wood (Table 4.3)
     * TODO: Some sources include roots other don't, must use a biomass expansion factor.
-    * TODO: Ratio Of below-ground biomass To above-ground biomass (from Table 4.4)
+    * TODO: Ratio of below-ground biomass to above-ground biomass (from Table 4.4)
     """
 
     # This value comes from:
@@ -52,10 +52,6 @@ class ConvertedTonsData:
     # This value comes from:
     # https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
     carbon_fraction = 0.47
-
-    # This value comes from:
-    # https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
-    above_to_below_frac = 0.25
 
     #----------------------------- Data sources ------------------------------#
     @property
