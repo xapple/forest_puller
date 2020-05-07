@@ -123,7 +123,7 @@ class IncAggregateIPCC(IncAggregate):
 class IncAggregateSOEF(IncAggregate):
     """
     This graph will show the combined increments (loss, gain, net) of all
-    countries together into one graph for the FAOSTAT data source.
+    countries together into one graph for the SOEF data source.
     """
 
     # Name #

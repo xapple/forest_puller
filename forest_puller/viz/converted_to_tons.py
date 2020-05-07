@@ -53,6 +53,10 @@ class ConvertedTonsData:
     # https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
     carbon_fraction = 0.47
 
+    # This value comes from:
+    # https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
+    above_to_below_frac = 0.25
+
     #----------------------------- Data sources ------------------------------#
     @property
     def avg_dnsty_intrpld(self):
