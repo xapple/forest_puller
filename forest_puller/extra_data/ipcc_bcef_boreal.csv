@@ -1,0 +1,13 @@
+climatic zone,forest_type,BCEF,gs_20,gs_21_50,gs_51_100,gs_100
+Boreal,pines,BCEFS,1.2,0.68,0.57,0.5
+Boreal,pines,BCEFI,0.47,0.46,0.46,0.463
+Boreal,pines,BCEFR,1.33,0.75,0.63,0.55
+Boreal,larch,BCEFS,1.22,0.78,0.77,0.77
+Boreal,larch,BCEFI,0.9,0.75,0.77,0.77
+Boreal,larch,BCEFR,1.35,0.87,0.85,0.85
+Boreal,firs and spruces,BCEFS,1.16,0.66,0.58,0.53
+Boreal,firs and spruces,BCEFI,0.55,0.47,0.47,0.464
+Boreal,firs and spruces,BCEFR,1.29,0.73,0.64,0.59
+Boreal,hardwoods,BCEFS,0.9,0.7,0.62,0.55
+Boreal,hardwoods,BCEFI,0.65,0.54,0.52,0.505
+Boreal,hardwoods,BCEFR,1,0.77,0.69,0.61
