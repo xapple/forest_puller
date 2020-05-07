@@ -4,6 +4,8 @@
 """
 Written by Lucas Sinclair and Paul Rougieux.
 
+This test suite can be run with pytest.
+
 JRC Biomass Project.
 Unit D1 Bioeconomy.
 """
@@ -20,9 +22,9 @@ import pandas
 from pandas.testing import assert_frame_equal
 
 ###############################################################################
-def test_split_unknown_forest_type():
+def test_distribute_unknown_forest_type():
     """
-    Test the function that splits the unknown or mixed forest type to
+    Test the function that distribute the unknown or mixed forest type to
     the given categories, for example coniferous and broad leaves.
     """
     # Initialize input values #

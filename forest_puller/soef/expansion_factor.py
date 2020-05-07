@@ -16,7 +16,7 @@ Unit D1 Bioeconomy.
 # Third party modules #
 
 ###############################################################################
-def split_unknown_forest_type(df, remaining_forest_types, groups=None):
+def distribute_unknown_forest_type(df, remaining_forest_types, groups=None):
     """
     Distribute the unknown or mixed forest type among the given categories,
     for example if the input forest type are:

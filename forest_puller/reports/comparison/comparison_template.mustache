@@ -131,7 +131,15 @@ To harmonize we use the following factors:
 
 The equation is thus:
 
-$$ L_{IPCC} = L_{FAO} * B * BCEF_I * (1+R) * CF $$
+$$ L_{IPCC} = L_{FAO} * B * BCEF_R * (1+R) * CF $$
+
+The equation to convert SOEF losses (m3/ha) to IPCC losses (1000Kg of carbon/ha):
+
+$$ L_{IPCC} = L_{SOEF} * BCEF_R * (1+R) * CF $$
+
+The equation to convert SOEF increments (m3/ha) to IPCC gains (1000kg of carbon/ha):
+
+$$ I_{IPCC} = I_{SOEF} * BCEF_I * (1+R) * CF $$
 
 The "BCEF" factors includes both the expansion factor E and the wood density D and are found at:
 
