@@ -65,8 +65,3 @@ def load_bcef():
 # Create a dataframe #
 df = load_bcef()
 
-# Make a list of conifers and broadleaved genera #
-genera   = df.groupby('genus').first().reset_index()
-conifers = genera.query('kind=="conifer"')['genus'].tolist()
-broads   = genera.query('kind=="broad"')['genus'].tolist()
-
