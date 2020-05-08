@@ -1,4 +1,4 @@
-climatic zone,forest_type,BCEF,gs_20,gs_21_50,gs_51_100,gs_100
+climatic_zone,forest_type,bcef,gs_0_20,gs_21_50,gs_51_100,gs_100_INF
 Boreal,pines,BCEFS,1.2,0.68,0.57,0.5
 Boreal,pines,BCEFI,0.47,0.46,0.46,0.463
 Boreal,pines,BCEFR,1.33,0.75,0.63,0.55
