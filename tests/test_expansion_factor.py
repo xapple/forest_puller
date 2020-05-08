@@ -13,7 +13,7 @@ Unit D1 Bioeconomy.
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.soef import expansion_factor
+from forest_puller.conversion import expansion_factor
 
 # First party modules #
 
