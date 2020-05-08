@@ -31,7 +31,8 @@ def load_bcef():
     Copied from IPCC good practice guidance chapter 4, table 4.5.
     Load and assemble the biomass expansion factors into one table.
 
-    Replace hardwood by "broad" and "other conifers" by "con" this is performed as well as other replacements. 
+    Replace hardwood by "broad" and "other conifers" by "con" this is performed 
+    as well as other replacements.
     in the code to allow changing this in the future
     """
     # Constants #
