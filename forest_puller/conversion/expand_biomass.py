@@ -50,20 +50,30 @@ def distribute_unknown_forest_type(df, remaining_forest_types, groups=None):
     return df.query("")
 
 
-def compute_bcef(df):
+def choose_bcef(df):
     """
-    Compute the biomass conversion and expansion factors.
+    Choose the biomass conversion and expansion factors.
+    based on climatic_zone, forest_type 
+    and the lower and upper bounds on stock per hectare levels. 
 
-    Based on data from table 4.5 of
-    https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
+    # TODO, this function might actually be
+    # join_bcef() if that makes things easier to return df and the 3 additional bcef columns.
 
     Parameters
     ----------
-    df: data frame containing stock, area and forest type column.
+    df: data frame containing climatic_zone, forest_type, area and stock columns.
 
     Returns
     -------
     df: data frame containing the bcef factors.
     """
     return df
+
+def 
+
+def convert_abg_mass_to_abg_bg_c(df):
+    """
+    """
+    pass
+
 

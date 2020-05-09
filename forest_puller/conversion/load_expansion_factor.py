@@ -29,11 +29,20 @@ def load_bcef():
     """
     Parse the hard-coded table of biomass conversion and expansion factors BCEF.
     Copied from IPCC good practice guidance chapter 4, table 4.5.
-    Load and assemble the biomass expansion factors into one table.
+    https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
 
-    Replace hardwood by "broad" and "other conifers" by "con" this is performed 
-    as well as other replacements.
-    in the code to allow changing this in the future
+    Load and assemble the biomass expansion factors into one table.
+    Columns are:
+    ['climatic_zone', 'forest_type', 'lower', 'upper', 'bcefi', 'bcefr', 'bcefs']
+    lower and upper are bounds on the stock per hectare
+    bcefi is the biomass conversion and expansion factor for the increment 
+    bcefr is the biomass conversion and expansion factor for the removals
+    bcefs is the biomass conversion and expansion factor for the stock
+
+    Replace hardwood by "broad" and "other conifers" by "con" this replacement
+    as well as others are performed in the code to allow changing this in the
+    future.
+    
     """
     # Constants #
     bore = module_dir + 'extra_data/ipcc_bcef_boreal.csv'
