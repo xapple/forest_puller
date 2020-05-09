@@ -93,8 +93,6 @@ def test_convert_abg_mass_to_abg_bg_c():
     of trunk plus branches) to the above ground plus below ground biomass
     expressed in tons of carbon.
     
-    Note: only test for the increment. 
-    There is no test on removal below ground because that doesn't make sense.
     """
     # Input arguments
 

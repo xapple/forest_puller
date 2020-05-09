@@ -71,6 +71,8 @@ def load_bcef():
     # Return #
     return df 
 
+# TODO load the root to shoot ration here or somewhere else
+
 ###############################################################################
 # Create a dataframe #
 df = load_bcef()
