@@ -51,7 +51,7 @@ class ColorCodeLegend(GenusBarstackLegend):
     @property_cached
     def labels(self):
         # Import #
-        from forest_puller.other.tree_species_info import df as species_info
+        from forest_puller.conversion.tree_species_info import df as species_info
         # Load #
         genera = list(species_info['genus'].unique())
         genera.insert(0, 'missing')

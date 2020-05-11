@@ -287,7 +287,7 @@ class GenusPairedLegend(SoloLegend):
         df = df.groupby(['genus']).aggregate({'cum_frac': 'sum'})
         df = df.reset_index()
         # Import #
-        from forest_puller.other.tree_species_info import df as species_info
+        from forest_puller.conversion.tree_species_info import df as species_info
         # Uniquify on genera #
         info = species_info.groupby('genus').first().reset_index()
         # Add the species information #

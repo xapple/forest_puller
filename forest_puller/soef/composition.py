@@ -54,7 +54,7 @@ class CompositionData:
         # Load #
         all_latin_names = pandas.Series(self.stock_comp['latin_name'].unique())
         # Mapping table #
-        from forest_puller.other.genus_npl import genus_parser
+        from forest_puller.conversion.genus_npl import genus_parser
         result = all_latin_names.map(genus_parser)
         # Unzip #
         genus, species = list(zip(*result))
@@ -69,7 +69,7 @@ class CompositionData:
     def stock_density(self):
         """Join stock_comp with latin_mapping and density."""
         # Import #
-        from forest_puller.other.tree_species_info import df as species_info
+        from forest_puller.conversion.tree_species_info import df as species_info
         # Join 1 #
         result = self.stock_comp.left_join(self.latin_mapping, on='latin_name')
         # Join 2 #

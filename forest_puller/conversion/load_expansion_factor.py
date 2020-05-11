@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.other.tree_species_info import df as species_info
+    >>> from forest_puller.conversion.tree_species_info import df as species_info
     >>> print(species_info)
 """
 

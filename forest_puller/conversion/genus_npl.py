@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 
 Typically you can use this class this like:
 
-    >>> from forest_puller.other.genus_npl import genus_parser
+    >>> from forest_puller.conversion.genus_npl import genus_parser
     >>> print(genus_parser.known_species)
     >>> genus_parser.test()
 """
@@ -43,7 +43,7 @@ class GenusParser:
         For now we will just pick those from the density CSV.
         """
         # Import #
-        from forest_puller.other.tree_species_info import df as species_info
+        from forest_puller.conversion.tree_species_info import df as species_info
         # Filter #
         df = species_info[['genus', 'species']]
         # Return #
