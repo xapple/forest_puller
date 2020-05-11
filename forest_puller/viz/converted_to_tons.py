@@ -34,15 +34,8 @@ class ConvertedTonsData:
     'converted to tons' visualization.
 
     * The following is considered in each country per year per hectare.
-    * Start with: one cubic meter [m^3].
-    * Obtain: the density in [kg / m^3] (from Table 4.14).
-    * Multiply the volume with the density to obtain [kg].
-    * Multiply the result by 1000 to obtain [tons].
-    * Multiply the result with the bark correction factor (from Table 1.3).
-    * The result is now in tons over bark. But it's tons of wood not tons of carbon.
-    * Multiply by 0.47 to obtain tons of carbon from tons of wood (Table 4.3)
-    * TODO: Some sources include roots other don't, must use a biomass expansion factor.
-    * TODO: Ratio of below-ground biomass to above-ground biomass (from Table 4.4)
+    * Start with: cubic meter in [m^3].
+    * Obtain: the tons per carbon in [kg].
     """
 
     # This value comes from:

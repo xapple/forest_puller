@@ -18,6 +18,10 @@ Typically you would run this file from a command line like this:
 
 # Third party modules #
 from tqdm import tqdm
+import matplotlib
+
+# Set matplotlib to faceless mode #
+matplotlib.use('Agg')
 
 ###############################################################################
 from forest_puller.viz.manuscript.area_comparison import legend

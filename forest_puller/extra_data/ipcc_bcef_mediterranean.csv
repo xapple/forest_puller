@@ -1,7 +1,7 @@
 climatic_zone,forest_type,bcef,gs_0_20,gs_21_40,gs_41_80,gs_80_INF
-Mediterranean,hardwoods,bcefs,5,1.9,0.8,0.66
-Mediterranean,hardwoods,bcefi,1.5,0.5,0.55,0.66
-Mediterranean,hardwoods,bcefr,5.55,2.11,0.89,0.73
-Mediterranean,conifers,bcefs,6,1.2,0.6,0.55
-Mediterranean,conifers,bcefi,1.5,0.4,0.45,0.54
-Mediterranean,conifers,bcefr,6.67,1.33,0.67,0.61
+mediterranean,hardwoods,bcefs,5,1.9,0.8,0.66
+mediterranean,hardwoods,bcefi,1.5,0.5,0.55,0.66
+mediterranean,hardwoods,bcefr,5.55,2.11,0.89,0.73
+mediterranean,conifers,bcefs,6,1.2,0.6,0.55
+mediterranean,conifers,bcefi,1.5,0.4,0.45,0.54
+mediterranean,conifers,bcefr,6.67,1.33,0.67,0.61

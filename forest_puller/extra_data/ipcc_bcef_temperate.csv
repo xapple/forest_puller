@@ -1,10 +1,10 @@
 climatic_zone,forest_type,bcef,gs_0_20,gs_21_40,Gs_41_100,gs_100_200,gs_200_INF
-Temperate,hardwoods,bcefs,3,1.7,1.4,1.05,0.8
-Temperate,hardwoods,bcefi,1.5,1.3,0.9,0.6,0.48
-Temperate,hardwoods,bcefr,3.33,1.89,1.55,1.17,0.89
-Temperate,pines,bcefs,1.8,1,0.75,0.7,0.7
-Temperate,pines,bcefi,1.5,0.75,0.6,0.67,0.69
-Temperate,pines,bcefr,2,1.11,0.83,0.77,0.77
-Temperate,other conifers,bcefs,3,1.4,1,0.75,0.7
-Temperate,other conifers,bcefi,1,0.83,0.57,0.53,0.6
-Temperate,other conifers,bcefr,3.33,1.55,1.11,0.83,0.77
+temperate,hardwoods,bcefs,3,1.7,1.4,1.05,0.8
+temperate,hardwoods,bcefi,1.5,1.3,0.9,0.6,0.48
+temperate,hardwoods,bcefr,3.33,1.89,1.55,1.17,0.89
+temperate,pines,bcefs,1.8,1,0.75,0.7,0.7
+temperate,pines,bcefi,1.5,0.75,0.6,0.67,0.69
+temperate,pines,bcefr,2,1.11,0.83,0.77,0.77
+temperate,other conifers,bcefs,3,1.4,1,0.75,0.7
+temperate,other conifers,bcefi,1,0.83,0.57,0.53,0.6
+temperate,other conifers,bcefr,3.33,1.55,1.11,0.83,0.77

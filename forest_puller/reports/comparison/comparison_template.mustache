@@ -102,7 +102,7 @@ This results in a series of graphs that are almost identical to the ones above.
 
 The difference is that we harmonize the Y axis units and convert all measures into mass for sources which were providing volumes. These were SOEF, FAOSTAT, HPFFRE. In effect, all graphs will now share the IPCC measurements units.
 
-These measurements are in:
+These IPCC measurements are in:
 
     1. Dry carbon content (in the atomic sense).
     2. Including both the above ground and below ground parts of the trees (all living biomass).
@@ -114,39 +114,41 @@ These measurements are in:
 
 The process we want to accomplish is the following:
 
-    Start --> FAOSTAT (vol, under bark, without branches, etc.)
-    End   --> IPCC (mass, over bark, with branches, etc.)
+    Start --> FAOSTAT (wet, vol, under bark, without branches, etc.)
+    End   --> IPCC (dry, mass, over bark, with branches, etc.)
 
 To harmonize we use the following factors:
 
-    1. "CF" is the carbon fraction of dry biomass (0.47). This is variable per country (around 0.47). Taken from Table 4.3.
+    1. "CF" is the carbon fraction of dry biomass. This is constant per country (at 0.47). Taken from Table 4.3.
 
-    2. "R" is the root to shoot ratio. This is variable per country. Taken from Table 4.4 and is based on the result of B*E*D.
+    2. "R" is the root to shoot ratio. This is variable per country. Taken from Table 4.4. It is based on the result of B*E*D. As it depends on the climate and the level of above-ground biomass in tonnes per hectare.
 
-    3. "E" the expansion factor from trunk to trunk+branches. This is variable per country. Taken from Table 4.5.
+    3. "E" the expansion factor from trunk to trunk+branches. This is variable per country. Taken from Table 4.5. It depends on (i) the climatic zone (ii) the forest type and (iii) the growing stock level in cubic meters.
 
-    4. "D" the wood density (volumic mass). This is variable per country (around 0.25). Taken from Table 4.5.
+    4. "D" the wood density (dry volumic mass). This is variable per country (around 0.25). Taken from Table 4.5.
 
     5. "B" is the bark correction factor of 0.88. This is constant per country. This measures volume. This value comes from: https://www.unece.org/fileadmin/DAM/timber/publications/DP-49.pdf
 
-The equation is thus:
+The equation in the case of FAOSTAT losses is thus:
 
 $$ L_{IPCC} = L_{FAO} * B * BCEF_R * (1+R) * CF $$
 
-The equation to convert SOEF losses (m3/ha) to IPCC losses (1000Kg of carbon/ha):
+The "BCEF" factor includes both the expansion factor E and the wood density D and is found at:
+
+Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories
+Table 4.5 Basic Wood Density (d) Of Selected Temperate And Boreal Tree Taxa
+https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
+See page 51.
+
+The equation to convert SOEF losses (m3/ha) to IPCC losses (1000 kg of carbon/ha):
 
 $$ L_{IPCC} = L_{SOEF} * BCEF_R * (1+R) * CF $$
 
-The equation to convert SOEF increments (m3/ha) to IPCC gains (1000kg of carbon/ha):
+The equation to convert SOEF increments (m3/ha) to IPCC gains (1000 kg of carbon/ha):
 
 $$ I_{IPCC} = I_{SOEF} * BCEF_I * (1+R) * CF $$
 
-The "BCEF" factors includes both the expansion factor E and the wood density D and are found at:
-
-    Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories
-    Table 4.5 Basic Wood Density (d) Of Selected Temperate And Boreal Tree Taxa
-    https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
-    See page 51.
+Only the rows "firs and spruces" and "hardwoods" are considered when picking BCEF.
 
 The bark correction factor is applied only to the FAOSTAT data source, which provided values in cubic meters under bark instead of over bark.
 

@@ -54,11 +54,14 @@ from tqdm import tqdm
 #table5 = country.stock.indexed
 #print(table5)
 
-from forest_puller.viz.increments import all_graphs
-for graph in all_graphs: print(graph.plot(rerun=True))
+#from forest_puller.viz.increments import all_graphs
+#for graph in all_graphs: print(graph.plot(rerun=True))
+#
+#from forest_puller.viz.increments import legend
+#print(legend.plot(rerun=True))
+#
+#from forest_puller.core.continent import continent
+#print(continent.report())
 
-from forest_puller.viz.increments import legend
-print(legend.plot(rerun=True))
-
-from forest_puller.core.continent import continent
-print(continent.report())
+from forest_puller.conversion.load_expansion_factor import df
+print(df)

@@ -17,6 +17,10 @@ Typically you would run this file from a command line like this:
 # Built-in modules #
 
 # Third party modules #
+import matplotlib
+
+# Set matplotlib to faceless mode #
+matplotlib.use('Agg')
 
 ###############################################################################
 # Area comparison #
