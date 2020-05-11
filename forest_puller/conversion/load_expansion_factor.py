@@ -68,15 +68,19 @@ def load_bcef():
                  values  = ['value'])
     # Reset index #
     df = df.reset_index()
-    # Replace hardwood by broad and other conifers by conif, see doctring #
-    replacement = dict({'hardwoods':        'broad',
-                        'firs and spruces': 'con',
-                        '.*conifers':       'con'})
-    # Rename all items #
-    for orig, dest in replacement.items():
-        df['forest_type'] = (df['forest_type']
-                .replace(to_replace=orig, value=dest, regex=True))
-
+    # Replace hardwood by broad and others by coniferous #
+    replacement = (('hardwoods',         'broad'),
+                   ('firs and spruces',  'con'),
+                   ('.*conifers',        'con'))
+    # Rename all items (see docstring) #
+    for orig, dest in replacement:
+        df['forest_type'] = df['forest_type'].replace(to_replace = orig,
+                                                      value      = dest,
+                                                      regex      = True)
+    # The upper and lower bounds are integers #
+    pandas.set_option('use_inf_as_na', True)
+    df['lower'] = df['lower'].astype('Int64', errors='ignore')
+    df['upper'] = df['upper'].astype('Int64', errors='ignore')
     # Return #
     return df
 

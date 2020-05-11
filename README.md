@@ -109,14 +109,6 @@ from forest_puller.ipcc.concat import df
 print(df)
 ```
 
-
-Script to generate the 'comparison.pdf' report.
-
-Typically you would run this file from a command line like this:
-
-     ipython3 -i -- ~/deploy/forest_puller/scripts/reports/comparison.py
-
-
 ## Cache
 
 When you import `forest_puller`, we will check the `$FOREST_PULLER_CACHE` environment variable to see where to download and store the cached data. If this variable is not set, we will default to the platform's temporary directory and clone a repository there. This could result in re-downloading the cache after every reboot.

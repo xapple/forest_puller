@@ -117,6 +117,13 @@ The process we want to accomplish is the following:
     Start --> FAOSTAT (wet, vol, under bark, without branches, etc.)
     End   --> IPCC (dry, mass, over bark, with branches, etc.)
 
+The "BCEF" factor includes both the expansion factor E and the wood density D (see further down) and is found at:
+
+Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories
+Table 4.5 Basic Wood Density (d) Of Selected Temperate And Boreal Tree Taxa
+https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
+See page 51.
+
 To harmonize we use the following factors:
 
     1. "CF" is the carbon fraction of dry biomass. This is constant per country (at 0.47). Taken from Table 4.3.
@@ -132,13 +139,6 @@ To harmonize we use the following factors:
 The equation in the case of FAOSTAT losses is thus:
 
 $$ L_{IPCC} = L_{FAO} * B * BCEF_R * (1+R) * CF $$
-
-The "BCEF" factor includes both the expansion factor E and the wood density D and is found at:
-
-Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas Inventories
-Table 4.5 Basic Wood Density (d) Of Selected Temperate And Boreal Tree Taxa
-https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
-See page 51.
 
 The equation to convert SOEF losses (m3/ha) to IPCC losses (1000 kg of carbon/ha):
 

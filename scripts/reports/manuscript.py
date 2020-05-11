@@ -13,9 +13,7 @@ Typically you would run this file from a command line like this:
 
      ipython3 -i -- ~/deploy/forest_puller/scripts/reports/manuscript.py
 
-Generated figures are located in:
-
-    /home/paul/rp/puller_cache/graphs
+The figures are located in the $FOREST_PULLER_CACHE directory.
 """
 
 # Built-in modules #
