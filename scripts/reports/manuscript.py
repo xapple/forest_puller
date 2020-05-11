@@ -12,6 +12,10 @@ Script to generate all the figures that are later used in the manuscript.
 Typically you would run this file from a command line like this:
 
      ipython3 -i -- ~/deploy/forest_puller/scripts/reports/manuscript.py
+
+Generated figures are located in:
+
+    /home/paul/rp/puller_cache/graphs
 """
 
 # Built-in modules #
