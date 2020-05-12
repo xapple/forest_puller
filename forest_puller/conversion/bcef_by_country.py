@@ -144,13 +144,13 @@ class CountryBCEF:
         for every country and for every SOEF year (except 2015).
         The dataframe looks like this:
 
-                country  year forest_type  stock  area  climatic_zone  ...
-            0        AT  1990         con  ...     ...         boreal  ...
-            1        AT  1990         con  ...     ...      temperate  ...
-            2        AT  1990         con  ...     ...  mediterranean  ...
-            3        AT  1990       broad  ...     ...         boreal  ...
-            4        AT  1990       broad  ...     ...      temperate  ...
-
+                             bcefi     bcefr     bcefs
+            country year
+            AT      1990  0.600000  0.843959  0.764714
+                    2000  0.574885  0.795115  0.720929
+                    2005  0.573515  0.796485  0.722071
+                    2010  0.572161  0.797839  0.723199
+            BE      1990  0.000000  0.000000  0.000000
         """
         # Load #
         df = self.with_bcef_coefs.copy()
