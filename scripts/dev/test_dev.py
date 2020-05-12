@@ -66,18 +66,5 @@ from tqdm import tqdm
 #from forest_puller.conversion.load_expansion_factor import df
 #print(df)
 
-from forest_puller.soef.country import all_countries, countries
-at = countries['AT']
-del at.area_by_type.df
-
-print('-------------------------')
-print(at.area_by_type.cropped_sheet)
-
-print('-------------------------')
-print(at.area_by_type.header)
-
-print('-------------------------')
-print(at.area_by_type.df)
-
-print(at.area_by_type.df.columns)
-
+from forest_puller.conversion.bcef_by_country import country_bcef
+print(country_bcef.by_country_year)

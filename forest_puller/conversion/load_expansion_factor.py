@@ -78,7 +78,7 @@ def load_bcef():
         df['forest_type'] = df['forest_type'].replace(to_replace = orig,
                                                       value      = dest,
                                                       regex      = True)
-    # Flatten the index
+    # Flatten the index #
     df.columns = [col[0] if not col[1] else col[1] for col in df.columns.values]
     # Return #
     return df

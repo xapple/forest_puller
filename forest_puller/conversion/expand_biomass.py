@@ -47,7 +47,7 @@ def distribute_unknown_forest_type(df, remaining_forest_types, groups=None):
     -------
     df: data frame
     """
-    return df.query("")
+    pass
 
 ###############################################################################
 def choose_bcef(df):
@@ -67,8 +67,7 @@ def choose_bcef(df):
     -------
     df: data frame containing the bcef factors.
     """
-
-return df
+    pass
 
 ###############################################################################
 def convert_merch_vol_to_abg_mass(df, value, irs):

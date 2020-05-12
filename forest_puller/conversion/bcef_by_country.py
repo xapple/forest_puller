@@ -1,0 +1,194 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Written by Lucas Sinclair and Paul Rougieux.
+
+JRC Biomass Project.
+Unit D1 Bioeconomy.
+
+Typically you can use this submodule this like:
+
+    >>> from forest_puller.conversion.bcef_by_country import country_bcef
+    >>> print(country_bcef.by_country_year)
+"""
+
+# Built-in modules #
+
+# Internal modules #
+from forest_puller.conversion.load_expansion_factor import df as bcef_info
+from forest_puller.common import country_codes
+from forest_puller import cache_dir
+
+# First party modules #
+from plumbing.cache import property_cached, property_pickled_at
+
+# Third party modules #
+import numpy
+
+###############################################################################
+class CountryBCEF:
+
+    @property_cached
+    def country_climates(self):
+        """
+        This dataframe looks like this:
+
+               country  climatic_zone  climatic_coef
+            0       AT         boreal            0.0
+            1       AT      temperate            1.0
+            2       AT  mediterranean            0.0
+            3       BE         boreal            0.0
+            4       BE      temperate            1.0
+        """
+        # Load #
+        df = country_codes
+        # Keep only some columns #
+        columns = ['iso2_code', 'boreal', 'temperate', 'mediterranean']
+        df = df[columns].copy()
+        # Rename column #
+        df = df.rename(columns={'iso2_code': 'country'})
+        # Unpivot #
+        df = df.melt(id_vars    = ['country'],
+                     var_name   = 'climatic_zone',
+                     value_name = 'climatic_coef')
+        # Sort #
+        df = df.sort_values('country')
+        # Reset index #
+        df = df.reset_index(drop=True)
+        # Return #
+        return df
+
+    @property
+    def all_stock_area(self):
+        """
+        This dataframe looks like this:
+
+                country  year forest_type  stock  area  climatic_zone  ...
+            0        AT  1990         con  ...     ...         boreal  ...
+            1        AT  1990         con  ...     ...      temperate  ...
+            2        AT  1990         con  ...     ...  mediterranean  ...
+            3        AT  1990       broad  ...     ...         boreal  ...
+            4        AT  1990       broad  ...     ...      temperate  ...
+
+        All columns are:
+
+            ['country', 'year', 'forest_type', 'stock', 'area',
+             'climatic_zone', 'climatic_coef', 'stock_per_ha']
+        """
+        # Import #
+        import forest_puller.soef.concat
+        # Load #
+        area  = forest_puller.soef.concat.tables['area_by_type'].copy()
+        stock = forest_puller.soef.concat.tables['stock_by_type'].copy()
+        # Remove null areas and make them NaNs #
+        selector = area.area == 0
+        area.loc[selector, 'area'] = numpy.NaN
+        # Add the area to make one big dataframe #
+        df = stock.left_join(area, on=['country', 'year', 'category'])
+        # Rename category to forest_type #
+        df = df.rename(columns={'category': 'forest_type'})
+        # Drop mixed forest #
+        df = df.query("forest_type != 'mixed'")
+        # Add country info #
+        df = df.left_join(self.country_climates, on="country")
+        # Compute stock by hectare #
+        df['stock_per_ha'] = df['stock'] / df['area']
+        # Now we don't need the stock column anymore #
+        df = df.drop(columns=['stock'])
+        # Return #
+        return df
+
+    def get_one_bcef(self, row, kind):
+        # If we get a NaN we return a NaN #
+        if row['stock_per_ha'] != row['stock_per_ha']: return numpy.nan
+        # Load #
+        df = bcef_info
+        # Select corresponding climatic zone #
+        df = df.query(f"climatic_zone == '{row['climatic_zone']}'")
+        # Select corresponding climatic zone #
+        df = df.query(f"forest_type == '{row['forest_type']}'")
+        # Select corresponding climatic zone #
+        df = df.query(f"lower < {row['stock_per_ha']} <= upper")
+        # Make sure we have note more than one line
+        assert len(df) <= 1
+        # Extract single float #
+        result = df['bcef' + kind].iloc[0]
+        # Return #
+        return result
+
+    @property
+    def with_bcef_coefs(self):
+        """
+        This dataframe is the same as above except we have added three
+        columns. All columns are:
+
+            ['country', 'year', 'forest_type', 'stock', 'area',
+             'climatic_zone', 'climatic_coef', 'stock_per_ha',
+             'bcefi', 'bcefr', 'bcefs']
+        """
+        # Load #
+        df = self.all_stock_area.copy()
+        # Add three columns #
+        df['bcefi'] = df.apply(lambda row: self.get_one_bcef(row, 'i'), axis=1)
+        df['bcefr'] = df.apply(lambda row: self.get_one_bcef(row, 'r'), axis=1)
+        df['bcefs'] = df.apply(lambda row: self.get_one_bcef(row, 's'), axis=1)
+        # Now we don't need the stock_per_ha column anymore #
+        df = df.drop(columns=['stock_per_ha'])
+        # Return #
+        return df
+
+    @property_pickled_at('cache_path')
+    def by_country_year(self):
+        """
+        This dataframe has three coefficients 'bcefi', 'bcefr', 'bcefs'
+        for every country and for every SOEF year (except 2015).
+        The dataframe looks like this:
+
+                country  year forest_type  stock  area  climatic_zone  ...
+            0        AT  1990         con  ...     ...         boreal  ...
+            1        AT  1990         con  ...     ...      temperate  ...
+            2        AT  1990         con  ...     ...  mediterranean  ...
+            3        AT  1990       broad  ...     ...         boreal  ...
+            4        AT  1990       broad  ...     ...      temperate  ...
+
+        """
+        # Load #
+        df = self.with_bcef_coefs.copy()
+        # Multiply by the climatic situation #
+        df['bcefi'] *= df['climatic_coef']
+        df['bcefr'] *= df['climatic_coef']
+        df['bcefs'] *= df['climatic_coef']
+        # Now we don't need that column anymore #
+        df = df.drop(columns=['climatic_coef'])
+        # Group and sum each BCEF while keeping area #
+        groups = df.groupby(['country', 'year', 'forest_type'])
+        df     = groups.agg({'bcefi': 'sum',
+                             'bcefr': 'sum',
+                             'bcefs': 'sum',
+                             'area':  'first'})
+        # Get the ratio of conifers against broadleaved #
+        groups           = df.groupby(['country', 'year'])
+        df['area_total'] = groups['area'].transform('sum')
+        df['tree_coef']  = df['area'] / df['area_total']
+        # Multiply by the ratio of the given tree type #
+        df['bcefi'] *= df['tree_coef']
+        df['bcefr'] *= df['tree_coef']
+        df['bcefs'] *= df['tree_coef']
+        # Group and sum each BCEF #
+        groups = df.groupby(['country', 'year'])
+        df     = groups.agg({'bcefi': 'sum',
+                             'bcefr': 'sum',
+                             'bcefs': 'sum'})
+        # Return #
+        return df
+
+    #--------------------------------- Cache ---------------------------------#
+    @property
+    def cache_path(self):
+        """Specify where on the file system we will pickle the dataframe."""
+        path = cache_dir + 'conversion/bcef.pickle'
+        return path
+
+###############################################################################
+# Create a singleton #
+country_bcef = CountryBCEF()
