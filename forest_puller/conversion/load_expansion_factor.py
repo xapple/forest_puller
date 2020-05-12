@@ -78,10 +78,8 @@ def load_bcef():
         df['forest_type'] = df['forest_type'].replace(to_replace = orig,
                                                       value      = dest,
                                                       regex      = True)
-    # The upper and lower bounds are integers #
-    pandas.set_option('use_inf_as_na', True)
-    df['lower'] = df['lower'].astype('Int64', errors='ignore')
-    df['upper'] = df['upper'].astype('Int64', errors='ignore')
+    # Flatten the index
+    df.columns = [col[0] if not col[1] else col[1] for col in df.columns.values]
     # Return #
     return df
 

@@ -67,7 +67,8 @@ def choose_bcef(df):
     -------
     df: data frame containing the bcef factors.
     """
-    return df
+
+return df
 
 ###############################################################################
 def convert_merch_vol_to_abg_mass(df, value, irs):
