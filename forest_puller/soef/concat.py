@@ -19,7 +19,8 @@ from forest_puller.soef.country import all_countries
 import pandas
 
 ##############################################################################
-table_names = ["forest_area", "age_dist", "fellings", "stock", "stock_comp"]
+table_names = ["forest_area", "age_dist", "fellings", "stock", "stock_comp",
+               'area_by_type', 'stock_by_type']
 tables      = {}
 
 for table_name in table_names:

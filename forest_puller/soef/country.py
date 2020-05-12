@@ -17,9 +17,10 @@ Typically you can use this class this like:
 
 # Internal modules #
 from forest_puller import cache_dir
-from forest_puller.soef.table_parser  import ForestArea, AgeDist, Fellings
-from forest_puller.soef.growing_stock import Stock, GrowingStockComp
-from forest_puller.common             import country_codes
+from forest_puller.soef.area_by_forest_type import AreaByType
+from forest_puller.soef.table_parser        import ForestArea, AgeDist, Fellings
+from forest_puller.soef.growing_stock       import Stock, GrowingStockComp, StockByType
+from forest_puller.common                   import country_codes
 
 # First party modules #
 from plumbing.cache import property_cached
@@ -48,19 +49,25 @@ class Country:
 
     #------------------------------ Tables -----------------------------------#
     @property_cached
-    def forest_area(self): return ForestArea(self)
+    def forest_area(self):   return ForestArea(self)
 
     @property_cached
-    def age_dist(self):    return AgeDist(self)
+    def area_by_type(self):  return AreaByType(self)
 
     @property_cached
-    def fellings(self):    return Fellings(self)
+    def age_dist(self):      return AgeDist(self)
 
     @property_cached
-    def stock(self):       return Stock(self)
+    def fellings(self):      return Fellings(self)
 
     @property_cached
-    def stock_comp(self):  return GrowingStockComp(self)
+    def stock(self):         return Stock(self)
+
+    @property_cached
+    def stock_by_type(self): return StockByType(self)
+
+    @property_cached
+    def stock_comp(self):    return GrowingStockComp(self)
 
 ###############################################################################
 # Create every country object #

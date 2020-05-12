@@ -31,15 +31,16 @@ def load_bcef():
 
     ['climatic_zone', 'forest_type', 'lower', 'upper', 'bcefi', 'bcefr', 'bcefs']
 
-    Lower and upper are bounds on the stock per hectare.
+    Lower and upper columns are the bounds on the stock per hectare
+    (in cubic meters).
 
-    * bcefi is the biomass conversion and expansion factor for the increment
-    * bcefr is the biomass conversion and expansion factor for the removals
-    * bcefs is the biomass conversion and expansion factor for the stock
+    * bcefi is the biomass conversion and expansion factor for the increment.
+    * bcefr is the biomass conversion and expansion factor for the removals.
+    * bcefs is the biomass conversion and expansion factor for the stock.
 
-    Replace hardwood by "broad" and "other conifers" by "con" this replacement
-    as well as others are performed in the code to allow changing this in the
-    future.
+    We replace hardwood by "broad" and "other conifers" by "con".
+    These replacements as well as others are performed in this function
+    to allow changing this in the future.
 
     # TODO load the root to shoot ratio here or somewhere else.
     """
@@ -69,11 +70,11 @@ def load_bcef():
     # Reset index #
     df = df.reset_index()
     # Replace hardwood by broad and others by coniferous #
-    replacement = (('hardwoods',         'broad'),
-                   ('firs and spruces',  'con'),
-                   ('.*conifers',        'con'))
+    replacements = (('hardwoods',         'broad'),
+                    ('firs and spruces',  'con'),
+                    ('.*conifers',        'con'))
     # Rename all items (see docstring) #
-    for orig, dest in replacement:
+    for orig, dest in replacements:
         df['forest_type'] = df['forest_type'].replace(to_replace = orig,
                                                       value      = dest,
                                                       regex      = True)
