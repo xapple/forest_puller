@@ -72,8 +72,8 @@ class CountryBCEF:
 
         All columns are:
 
-            ['country', 'year', 'forest_type', 'stock', 'area',
-             'climatic_zone', 'climatic_coef', 'stock_per_ha']
+            ['country', 'year', 'forest_type', 'area', 'climatic_zone',
+             'climatic_coef', 'stock_per_ha']
         """
         # Import #
         import forest_puller.soef.concat
@@ -99,6 +99,7 @@ class CountryBCEF:
         return df
 
     def get_one_bcef(self, row, kind):
+        """Function to be applied to each row of the previous dataframe."""
         # If we get a NaN we return a NaN #
         if row['stock_per_ha'] != row['stock_per_ha']: return numpy.nan
         # Load #
@@ -109,7 +110,7 @@ class CountryBCEF:
         df = df.query(f"forest_type == '{row['forest_type']}'")
         # Select corresponding climatic zone #
         df = df.query(f"lower < {row['stock_per_ha']} <= upper")
-        # Make sure we have note more than one line
+        # Make sure we have note more than one line #
         assert len(df) <= 1
         # Extract single float #
         result = df['bcef' + kind].iloc[0]
@@ -122,9 +123,8 @@ class CountryBCEF:
         This dataframe is the same as above except we have added three
         columns. All columns are:
 
-            ['country', 'year', 'forest_type', 'stock', 'area',
-             'climatic_zone', 'climatic_coef', 'stock_per_ha',
-             'bcefi', 'bcefr', 'bcefs']
+            ['country', 'year', 'forest_type', 'area', 'climatic_zone',
+             'climatic_coef', 'bcefi', 'bcefr', 'bcefs']
         """
         # Load #
         df = self.all_stock_area.copy()
