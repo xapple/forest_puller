@@ -179,6 +179,7 @@ class CountryBCEF:
         df     = groups.agg({'bcefi': 'sum',
                              'bcefr': 'sum',
                              'bcefs': 'sum'})
+        df = df.reset_index()
         # Return #
         return df
 
