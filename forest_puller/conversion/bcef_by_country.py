@@ -170,7 +170,7 @@ class CountryBCEF:
         groups           = df.groupby(['country', 'year'])
         df['area_total'] = groups['area'].transform('sum')
         df['tree_coef']  = df['area'] / df['area_total']
-        # Multiply by the ratio of the given tree type #
+        # Multiply by the ratio of the given leaf type #
         df['bcefi'] *= df['tree_coef']
         df['bcefr'] *= df['tree_coef']
         df['bcefs'] *= df['tree_coef']
