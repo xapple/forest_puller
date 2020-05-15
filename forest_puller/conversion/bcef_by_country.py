@@ -27,7 +27,25 @@ import numpy
 
 ###############################################################################
 class CountryBCEF:
+    """This class uses the stock of merchantable biomass in each country 
+    to choose 2 factors: 
+    * the biomass conversion and expansion factor BCEF
+    * the root to shoot ration R
 
+    These factors come from table 4.5 and 4.4 respectively in the following 
+    IPCC guideline document:
+    https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pd
+
+    We first use the BCEF_R to expand the merchantable growing stock volume to
+    above-ground biomass stock. The above ground biomass stock is then used as a
+    threshold to choose the root to shoot ratio.
+
+    Interesting intermediary tables for further analysis:
+    * all_stock_merch contains the stock in merchantable volume per ha 
+      and per leaf type
+    * all_stock_abg_biomass contains the stock in above ground biomass weight
+       expressed in tons per ha and per leaf type
+    """
     @property_cached
     def country_climates(self):
         """
@@ -59,7 +77,7 @@ class CountryBCEF:
         return df
 
     @property
-    def all_stock_area(self):
+    def all_stock_merch(self):
         """
         This data frame looks like this:
 
@@ -95,7 +113,7 @@ class CountryBCEF:
         return df
 
     @property
-    def all_stock_area_by_climate(self):
+    def all_stock_merch_by_climate(self):
         """
         This dataframe looks like this:
 
@@ -113,7 +131,7 @@ class CountryBCEF:
             ['country', 'year', 'forest_type', 'area', 'climatic_zone',
              'climatic_coef', 'stock_per_ha']
         """
-        df = self.all_stock_area.copy()
+        df = self.all_stock_merch.copy()
         # Drop mixed forest #
         df = df.query("forest_type != 'mixed'")
         # Add country info #
@@ -150,7 +168,7 @@ class CountryBCEF:
              'climatic_coef', 'bcefi', 'bcefr', 'bcefs']
         """
         # Load #
-        df = self.all_stock_area_by_climate.copy()
+        df = self.all_stock_merch_by_climate.copy()
         # Add three columns #
         df['bcefi'] = df.apply(lambda row: self.get_one_bcef(row, 'i'), axis=1)
         df['bcefr'] = df.apply(lambda row: self.get_one_bcef(row, 'r'), axis=1)
@@ -205,6 +223,32 @@ class CountryBCEF:
         df = df.reset_index()
         # Return #
         return df
+
+    @property
+    def all_stock_abg_biomass(self):
+        """This data frame contains the above ground biomass stock per hectare
+        expressed in tons of dry biomass.
+        """
+        # data
+        stock_merch = self.all_stock_merch
+        bcef = self.by_country_year
+        # Join the conversion factor to the stock data
+        index = ['country', 'year']
+        df = stock_merch.left_join(bcef, on=index)
+        # Compute the above ground biomass stock
+        df['stock_per_ha'] *= df['bcefs']
+        # drop coefficients 
+        df = df.drop(columns=['bcefi','bcefr','bcefs'])
+        return(df)
+
+    def root_to_shoot_ratio(self):
+        """
+        This data frame contains the root to shoot ratio R for each country and
+        leaf type.
+
+        It uses the above ground biomass stock to choose R.
+        """
+        pass
 
     #--------------------------------- Cache ---------------------------------#
     @property
