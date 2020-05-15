@@ -7,7 +7,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 JRC Biomass Project.
 Unit D1 Bioeconomy.
 
-Typically you can use this class this like:
+Typically you can use this class like this:
 
     >>> from forest_puller.tables.area_ipcc_vs_soef import soef_vs_ipcc
     >>> print(soef_vs_ipcc.df)

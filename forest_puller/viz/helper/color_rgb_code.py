@@ -7,7 +7,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 JRC Biomass Project.
 Unit D1 Bioeconomy.
 
-Typically you can use this submodule this like:
+Typically you can use this submodule like this:
 
     >>> from forest_puller.viz.helper.color_rgb_code import color_legend
     >>> print(color_legend.plot(rerun=True))
