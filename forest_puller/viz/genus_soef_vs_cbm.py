@@ -7,7 +7,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 JRC Biomass Project.
 Unit D1 Bioeconomy.
 
-Typically you can use this submodule this like:
+Typically you can use this submodule like this:
 
     >>> from forest_puller.viz.genus_soef_vs_cbm import all_graphs
     >>> comps   = [c for graph in all_graphs for c in graph.countries]

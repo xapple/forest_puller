@@ -7,7 +7,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 JRC Biomass Project.
 Unit D1 Bioeconomy.
 
-Typically you can use this class this like:
+Typically you can use this class like this:
 
     >>> from forest_puller.tables.average_growth import avg_inc
     >>> print(avg_inc.df)

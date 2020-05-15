@@ -7,7 +7,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 JRC Biomass Project.
 Unit D1 Bioeconomy.
 
-Typically you can use this submodule this like:
+Typically you can use this submodule like this:
 
     >>> from forest_puller.viz.increments import gain_loss_net_data
     >>> print(gain_loss_net_data.ipcc)

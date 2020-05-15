@@ -7,7 +7,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 JRC Biomass Project.
 Unit D1 Bioeconomy.
 
-Typically you can use this class this like:
+Typically you can use this class like this:
 
     >>> from forest_puller.soef.xls_files import all_xls_files
     >>> print(all_xls_files.cache_is_valid)

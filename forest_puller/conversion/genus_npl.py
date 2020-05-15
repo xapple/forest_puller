@@ -7,7 +7,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 JRC Biomass Project.
 Unit D1 Bioeconomy.
 
-Typically you can use this class this like:
+Typically you can use this class like this:
 
     >>> from forest_puller.conversion.genus_npl import genus_parser
     >>> print(genus_parser.known_species)

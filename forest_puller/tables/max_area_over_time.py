@@ -7,7 +7,7 @@ Written by Lucas Sinclair and Paul Rougieux.
 JRC Biomass Project.
 Unit D1 Bioeconomy.
 
-Typically you can use this class this like:
+Typically you can use this class like this:
 
     >>> from forest_puller.tables.max_area_over_time import max_area
     >>> print(max_area.df)
