@@ -61,19 +61,20 @@ class CountryBCEF:
     @property
     def all_stock_area(self):
         """
-        This dataframe looks like this:
+        This data frame looks like this:
 
-                country  year forest_type  stock  area  climatic_zone  ...
-            0        AT  1990         con  ...     ...         boreal  ...
-            1        AT  1990         con  ...     ...      temperate  ...
-            2        AT  1990         con  ...     ...  mediterranean  ...
-            3        AT  1990       broad  ...     ...         boreal  ...
-            4        AT  1990       broad  ...     ...      temperate  ...
+            country  year forest_type   area stock_per_ha
+        0        AT  1990         con    ...          ...   
+        1        AT  1990       broad    ...          ... 
+        2        AT  1990       mixed    ...          ... 
+        3        AT  2000         con    ...          ... 
+        4        AT  2000       broad    ...          ... 
+        ..      ...   ...         ...    ...          ...
 
-        All columns are:
+        All columns are: 
 
-            ['country', 'year', 'forest_type', 'area', 'climatic_zone',
-             'climatic_coef', 'stock_per_ha']
+            ['country', 'year', 'forest_type', 'area', 'stock_per_ha']
+
         """
         # Import #
         import forest_puller.soef.concat
@@ -87,14 +88,36 @@ class CountryBCEF:
         df = stock.left_join(area, on=['country', 'year', 'category'])
         # Rename category to forest_type #
         df = df.rename(columns={'category': 'forest_type'})
-        # Drop mixed forest #
-        df = df.query("forest_type != 'mixed'")
-        # Add country info #
-        df = df.left_join(self.country_climates, on="country")
         # Compute stock by hectare #
         df['stock_per_ha'] = df['stock'] / df['area']
         # Now we don't need the stock column anymore #
         df = df.drop(columns=['stock'])
+        return df
+
+    @property
+    def all_stock_area_by_climate(self):
+        """
+        This dataframe looks like this:
+
+               country  year forest_type  area   stock_per_ha  climatic_zone  climatic_coef
+           0        AT  1990         con   ...            ...         boreal            0.0
+           1        AT  1990         con   ...            ...      temperate            1.0
+           2        AT  1990         con   ...            ...  mediterranean            0.0
+           3        AT  1990       broad   ...            ...         boreal            0.0
+           4        AT  1990       broad   ...            ...      temperate            1.0
+
+        Warning: the stock per area values are duplicated for each country and forest type   
+
+        All columns are:
+
+            ['country', 'year', 'forest_type', 'area', 'climatic_zone',
+             'climatic_coef', 'stock_per_ha']
+        """
+        df = self.all_stock_area.copy()
+        # Drop mixed forest #
+        df = df.query("forest_type != 'mixed'")
+        # Add country info #
+        df = df.left_join(self.country_climates, on="country")
         # Return #
         return df
 
@@ -106,9 +129,9 @@ class CountryBCEF:
         df = bcef_info
         # Select corresponding climatic zone #
         df = df.query(f"climatic_zone == '{row['climatic_zone']}'")
-        # Select corresponding climatic zone #
+        # Select corresponding fores type#
         df = df.query(f"forest_type == '{row['forest_type']}'")
-        # Select corresponding climatic zone #
+        # Select corresponding bounds on stock per hectare #
         df = df.query(f"lower < {row['stock_per_ha']} <= upper")
         # Make sure we have note more than one line #
         assert len(df) <= 1
@@ -127,7 +150,7 @@ class CountryBCEF:
              'climatic_coef', 'bcefi', 'bcefr', 'bcefs']
         """
         # Load #
-        df = self.all_stock_area.copy()
+        df = self.all_stock_area_by_climate.copy()
         # Add three columns #
         df['bcefi'] = df.apply(lambda row: self.get_one_bcef(row, 'i'), axis=1)
         df['bcefr'] = df.apply(lambda row: self.get_one_bcef(row, 'r'), axis=1)
