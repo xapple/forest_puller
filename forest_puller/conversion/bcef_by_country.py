@@ -15,7 +15,7 @@ Typically you can use this submodule this like:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.conversion.load_expansion_factor import df as bcef_info
+from forest_puller.conversion.load_expansion_factor import bcef_coefs, root_coefs
 from forest_puller.common import country_codes
 from forest_puller import cache_dir
 
@@ -25,23 +25,24 @@ from plumbing.cache import property_cached, property_pickled_at
 # Third party modules #
 import numpy
 
+
 ###############################################################################
 class CountryBCEF:
-    """This class uses the stock of merchantable biomass in each country 
-    to choose 2 factors: 
+    """This class uses the stock of merchantable biomass in each country
+    to choose 2 factors:
     * the biomass conversion and expansion factor BCEF
     * the root to shoot ration R
 
-    These factors come from table 4.5 and 4.4 respectively in the following 
+    These factors come from table 4.5 and 4.4 respectively in the following
     IPCC guideline document:
     https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pd
 
     We first use the BCEF_R to expand the merchantable growing stock volume to
-    above-ground biomass stock. The above ground biomass stock is then used as a
-    threshold to choose the root to shoot ratio.
+    above-ground biomass stock. The above ground biomass stock is then used as
+    a threshold to choose the root to shoot ratio.
 
     Interesting intermediary tables for further analysis:
-    * all_stock_merch contains the stock in merchantable volume per ha 
+    * all_stock_merch contains the stock in merchantable volume per ha
       and per leaf type
     * all_stock_abg_biomass contains the stock in above ground biomass weight
        expressed in tons per ha and per leaf type
@@ -82,14 +83,14 @@ class CountryBCEF:
         This data frame looks like this:
 
             country  year forest_type   area stock_per_ha
-        0        AT  1990         con    ...          ...   
-        1        AT  1990       broad    ...          ... 
-        2        AT  1990       mixed    ...          ... 
-        3        AT  2000         con    ...          ... 
-        4        AT  2000       broad    ...          ... 
+        0        AT  1990         con    ...          ...
+        1        AT  1990       broad    ...          ...
+        2        AT  1990       mixed    ...          ...
+        3        AT  2000         con    ...          ...
+        4        AT  2000       broad    ...          ...
         ..      ...   ...         ...    ...          ...
 
-        All columns are: 
+        All columns are:
 
             ['country', 'year', 'forest_type', 'area', 'stock_per_ha']
 
@@ -124,7 +125,7 @@ class CountryBCEF:
            3        AT  1990       broad   ...            ...         boreal            0.0
            4        AT  1990       broad   ...            ...      temperate            1.0
 
-        Warning: the stock per area values are duplicated for each country and forest type   
+        Warning: the stock per area values are duplicated for each country and forest type
 
         All columns are:
 
@@ -144,7 +145,7 @@ class CountryBCEF:
         # If we get a NaN we return a NaN #
         if row['stock_per_ha'] != row['stock_per_ha']: return numpy.nan
         # Load #
-        df = bcef_info
+        df = bcef_coefs
         # Select corresponding climatic zone #
         df = df.query(f"climatic_zone == '{row['climatic_zone']}'")
         # Select corresponding fores type#
@@ -237,18 +238,54 @@ class CountryBCEF:
         df = stock_merch.left_join(bcef, on=index)
         # Compute the above ground biomass stock
         df['stock_per_ha'] *= df['bcefs']
-        # drop coefficients 
+        # drop coefficients
         df = df.drop(columns=['bcefi','bcefr','bcefs'])
         return(df)
 
+
+    def get_one_root_coef(self, row):
+        """Function to be applied to each row of the all_stock_abg_biomass data frame."""
+        # If we get a NaN we return a NaN #
+        if row['stock_per_ha'] != row['stock_per_ha']:
+            return numpy.nan
+        print(row)
+        # Load #
+        df = root_coefs
+        # Select corresponding climatic zone #
+        df = df.query(f"climatic_zone == '{row['climatic_zone']}'")
+        print(df)
+        # Select corresponding fores type#
+        df = df.query(f"forest_type == '{row['forest_type']}'")
+        print(df)
+        # Select corresponding bounds on stock per hectare #
+        df = df.query(f"lower < {row['stock_per_ha']} <= upper")
+        # Make sure we have note more than one line #
+        assert len(df) <= 1
+        # Extract single float #
+        result = df['ratio'].iloc[0]
+        # Return #
+        return result
+
+    @property
     def root_to_shoot_ratio(self):
         """
         This data frame contains the root to shoot ratio R for each country and
         leaf type.
 
-        It uses the above ground biomass stock to choose R.
+        It uses the stock of above ground biomass expressed in tons of dry biomass
+        to choose R.
         """
-        pass
+        # Data
+        df = self.all_stock_abg_biomass.copy()
+        # Filter out mixed forests
+        df = df.query("forest_type != 'mixed'")
+        # Add country information
+        index = ['country']
+        df = df.left_join(self.country_climates, on=index)
+        # Add the root to shoot ratio #
+        df['r'] = df.apply(lambda row: self.get_one_root_coef(row), axis=1)
+        # Return #
+        return df
 
     #--------------------------------- Cache ---------------------------------#
     @property

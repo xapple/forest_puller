@@ -4,6 +4,11 @@
 """
 Written by Lucas Sinclair and Paul Rougieux.
 
+Load this data as such: 
+
+    from forest_puller.conversion.load_expansion_factor import bcef_coefs
+    from forest_puller.conversion.load_expansion_factor import root_coefs
+
 JRC Biomass Project.
 Unit D1 Bioeconomy.
 """
@@ -83,6 +88,21 @@ def load_bcef():
     # Return #
     return df
 
+def load_root_to_shoot_ratio():
+    """Load the root to shoot ratio
+    """
+    # Constants #
+    r = module_dir + 'extra_data/ipcc_root_to_shoot_ratio.csv'
+    # Load CSVs #
+    df = pandas.read_csv(str(r))
+    # Rename subtropical to mediterranean
+    df['climatic_zone'] = df['climatic_zone'].replace('subtropical_dry', 'mediterranean')
+    # Return #
+    return df
+ 
+
 ###############################################################################
-# Create a dataframe #
-df = load_bcef()
+# Create data frames #
+bcef_coefs = load_bcef()
+root_coefs = load_root_to_shoot_ratio()
+
