@@ -214,6 +214,12 @@ Example variable descriptions:
      2 | emissions | total emissions |             NaN | tons of carbon
 
 
+## Visualize the uncertainty on the conversion to mass
+
+Add capability to compute lower and upper bound on the bcefs itself i.e. the
+values in parenthesis table 4.4 Biomass conversion and expansion factors of the
+IPCC good practice guidance.
+
 # Obtaining the cache
 
 There are several ways the end-users can get a copy of the cached data upon installation or first use:
