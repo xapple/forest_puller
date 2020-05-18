@@ -15,7 +15,7 @@ Typically you can use this submodule like this:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.conversion.load_expansion_factor import bcef_coefs, root_coefs
+from forest_puller.conversion.load_expansion_factor import bcef_coefs
 from forest_puller.common import country_codes
 from forest_puller import cache_dir
 
@@ -232,10 +232,10 @@ class CountryBCEF:
         """
         # data
         stock_merch = self.all_stock_merch
-        bcef = self.by_country_year
-        # Join the conversion factor to the stock data
+        bcef_by_country_year = self.by_country_year
+        # Join the biomass conversion factors (bcef) to the stock data
         index = ['country', 'year']
-        df = stock_merch.left_join(bcef, on=index)
+        df = stock_merch.left_join(bcef_by_country_year, on=index)
         # Compute the above ground biomass stock
         df['stock_per_ha'] *= df['bcefs']
         # drop coefficients
@@ -243,48 +243,7 @@ class CountryBCEF:
         return(df)
 
 
-    def get_one_root_coef(self, row):
-        """Function to be applied to each row of the all_stock_abg_biomass data frame."""
-        # If we get a NaN we return a NaN #
-        if row['stock_per_ha'] != row['stock_per_ha']:
-            return numpy.nan
-        # Load #
-        df = root_coefs
-        # Select corresponding climatic zone #
-        df = df.query(f"climatic_zone == '{row['climatic_zone']}'")
-        # Select corresponding fores type#
-        df = df.query(f"forest_type == '{row['forest_type']}'")
-        # Select corresponding bounds on stock per hectare #
-        df = df.query(f"lower < {row['stock_per_ha']} <= upper")
-        # Make sure we have note more than one line #
-        assert len(df) <= 1
-        # Extract single float #
-        result = df['ratio'].iloc[0]
-        # Return #
-        return result
-
-    @property
-    def root_to_shoot_ratio(self):
-        """
-        This data frame contains the root to shoot ratio R for each country and
-        leaf type.
-
-        It uses the stock of above ground biomass expressed in tons of dry biomass
-        to choose R.
-        """
-        # Data
-        df = self.all_stock_abg_biomass.copy()
-        # Filter out mixed forests
-        df = df.query("forest_type != 'mixed'")
-        # Add country information
-        index = ['country']
-        df = df.left_join(self.country_climates, on=index)
-        # Add the root to shoot ratio #
-        df['r'] = df.apply(lambda row: self.get_one_root_coef(row), axis=1)
-        # Return #
-        return df
-
-    #--------------------------------- Cache ---------------------------------#
+    # --------------------------------- Cache --------------------------------- #
     @property
     def cache_path(self):
         """Specify where on the file system we will pickle the dataframe."""
