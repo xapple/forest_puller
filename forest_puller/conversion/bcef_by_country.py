@@ -248,15 +248,12 @@ class CountryBCEF:
         # If we get a NaN we return a NaN #
         if row['stock_per_ha'] != row['stock_per_ha']:
             return numpy.nan
-        print(row)
         # Load #
         df = root_coefs
         # Select corresponding climatic zone #
         df = df.query(f"climatic_zone == '{row['climatic_zone']}'")
-        print(df)
         # Select corresponding fores type#
         df = df.query(f"forest_type == '{row['forest_type']}'")
-        print(df)
         # Select corresponding bounds on stock per hectare #
         df = df.query(f"lower < {row['stock_per_ha']} <= upper")
         # Make sure we have note more than one line #
