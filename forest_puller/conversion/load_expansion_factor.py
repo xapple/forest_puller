@@ -46,8 +46,6 @@ def load_bcef():
     We replace hardwood by "broad" and "other conifers" by "con".
     These replacements as well as others are performed in this function
     to allow changing this in the future.
-
-    # TODO load the root to shoot ratio here or somewhere else.
     """
     # Constants #
     bore = module_dir + 'extra_data/ipcc_bcef_boreal.csv'

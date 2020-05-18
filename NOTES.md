@@ -204,6 +204,9 @@ Computation for a country, for a temperate country:
 Without considering the special case of pines, first and spruces.
 
 
+TODO: linear extrapolation of the coefficients for FAOSTAT and other sources.
+see forest_puller/conversion/convert_dynamics.py
+
 # Ideas
 
 Example variable descriptions:
