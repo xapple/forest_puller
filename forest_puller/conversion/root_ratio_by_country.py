@@ -31,12 +31,13 @@ class CountryRootRatio:
     to choose the root to shoot ration R
 
     The choice of R the root to shoot ratio is based on the stock level
-    expressed in tons of above-ground biomass (tons of dry biomass) obtained
-    from the country_bcef.all_stock_abg_biomass method.
+    expressed in tons of above ground biomass (tons of dry biomass) obtained
+    from the `country_bcef.all_stock_abg_biomass` method.
 
-    The root to shoot ratio was loaded comes from Chapter 4 of the Forest Land
-    2006 IPCC Guidelines for National Greenhouse Gas Inventories page 49, TABLE
-    4.4 RATIO OF BELOW-GROUND  BIOMASS TO ABOVE-GROUND BIOMASS (R)
+    The root to shoot ratio was loaded in `load_expansion_factor.root_coefs`. It
+    comes from Chapter 4 of the Forest Land 2006 IPCC Guidelines for National
+    Greenhouse Gas Inventories page 49, table 4.4 Ratio of below-ground
+    biomass to above-ground biomass (r)
     https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
     """
     def get_one_root_coef(self, row):

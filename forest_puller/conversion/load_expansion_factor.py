@@ -88,6 +88,7 @@ def load_bcef():
     # Return #
     return df
 
+
 def load_root_to_shoot_ratio():
     """Load the root to shoot ratio
     """
@@ -99,7 +100,6 @@ def load_root_to_shoot_ratio():
     df['climatic_zone'] = df['climatic_zone'].replace('subtropical_dry', 'mediterranean')
     # Return #
     return df
- 
 
 ###############################################################################
 # Create data frames #

@@ -228,7 +228,18 @@ class CountryBCEF:
     @property
     def all_stock_abg_biomass(self):
         """This data frame contains the above ground biomass stock per hectare
-        expressed in tons of dry biomass.
+        expressed in tons of dry biomass. The method converts merchantable
+        biomass volume (m3 of trunk) to above ground biomass weight (tons of
+        dry biomass of trunk plus branches).
+
+        The table looks like this:
+
+            country  year forest_type       area  stock_per_ha
+        1        AT  1990         con        ...           ...
+        1        AT  1990       broad        ...           ...
+        2        AT  1990       mixed        ...           ...
+        3        AT  2000         con        ...           ...
+
         """
         # data
         stock_merch = self.all_stock_merch
@@ -239,9 +250,8 @@ class CountryBCEF:
         # Compute the above ground biomass stock
         df['stock_per_ha'] *= df['bcefs']
         # drop coefficients
-        df = df.drop(columns=['bcefi','bcefr','bcefs'])
+        df = df.drop(columns=['bcefi', 'bcefr', 'bcefs'])
         return(df)
-
 
     # --------------------------------- Cache --------------------------------- #
     @property
