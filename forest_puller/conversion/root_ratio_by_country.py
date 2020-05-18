@@ -29,6 +29,15 @@ import numpy
 class CountryRootRatio:
     """This class uses the stock of above ground dry biomass in each country
     to choose the root to shoot ration R
+
+    The choice of R the root to shoot ratio is based on the stock level
+    expressed in tons of above-ground biomass (tons of dry biomass) obtained
+    from the country_bcef.all_stock_abg_biomass method.
+
+    The root to shoot ratio was loaded comes from Chapter 4 of the Forest Land
+    2006 IPCC Guidelines for National Greenhouse Gas Inventories page 49, TABLE
+    4.4 RATIO OF BELOW-GROUND  BIOMASS TO ABOVE-GROUND BIOMASS (R)
+    https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
     """
     def get_one_root_coef(self, row):
         """Function to be applied to each row of the all_stock_abg_biomass data frame."""
@@ -54,10 +63,8 @@ class CountryRootRatio:
     def by_country_year(self):
         """
         This data frame contains the root to shoot ratio R for each country and
-        leaf type.
-
-        It uses the stock of above ground biomass expressed in tons of dry biomass
-        to choose R.
+        leaf type. It uses the stock of above ground biomass expressed in tons
+        of dry biomass to choose R.
         """
         # Data
         df = country_bcef.all_stock_abg_biomass.copy()

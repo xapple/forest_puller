@@ -18,7 +18,7 @@ from forest_puller.conversion.bcef_by_country import country_bcef
 
 
 ###############################################################################
-def convert_merch_vol_to_abg_mass(df, value, irs, bcef):
+def convert_(df, value, irs, bcef):
     """
     Convert merchantable biomass volume (m3 of trunk) to above ground biomass
     weight (tons of dry biomass of trunk plus branches) 
@@ -51,14 +51,6 @@ def convert_abg_mass_to_abg_bg_mass(df):
     $$I_{c} = I_v * BCEF_I * (1+R) * CF$$
     $$L = H_v * BCEF_R * (1+R) * CF$$
 
-    Note: the choice of R the root to shoot ratio is based on the stock level
-    expressed in tons of above-ground biomass (tons of dry biomass)
-    obtained from the convert_merch_vol_to_abg_mass function.
-
-    R was loaded Chapter 4: Forest Land 2006 IPCC Guidelines for National Greenhouse Gas
-    Inventories 4.49 TABLE 4.4 RATIO OF BELOW-GROUND  BIOMASS TO ABOVE-GROUND
-    BIOMASS (R)
-    https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pdf
     """
     pass
 
