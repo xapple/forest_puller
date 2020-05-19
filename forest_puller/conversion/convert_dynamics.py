@@ -90,7 +90,6 @@ def soef_gain_loss_tc():
     return df
 
 
-
 def faostat_loss_tc():
     """
     Biomass losses i.e. removals from the FAOSTAT data converted to tons of carbon.

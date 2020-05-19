@@ -24,7 +24,9 @@ from plumbing.cache import property_cached
 
 # Third party modules #
 import numpy
-
+from datetime import datetime
+import itertools
+import pandas
 
 class CountryRootRatio:
     """This class uses the stock of above ground dry biomass in each country
@@ -96,6 +98,24 @@ class CountryRootRatio:
         df = df.reset_index()
         # Return #
         return df
+
+    @property_cached
+    def by_country_year_interpolated(self):
+        """Same as above but interpolate the ratio to get more years
+        """
+        # Create a small data frame with all country and years
+        countries = self.by_country_year['country'].drop_duplicates()
+        years = range(1990, datetime.now().year)
+        expand_grid = list(itertools.product(countries, years))
+        df = pandas.DataFrame(expand_grid, columns=('country', 'year'))
+        # Join root ratio data
+        df = df.left_join(self.by_country_year, on=['country', 'year'])
+        # Interpolate
+        country_groups = df.groupby('country')
+        df['root_ratio'] = country_groups['root_ratio'].transform(pandas.DataFrame.interpolate)
+        # Return
+        return df
+
 
     def all_stock_total_biomass(self):
         """This data frame contains the whole stock expressed in total 
