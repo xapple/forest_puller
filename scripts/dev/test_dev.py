@@ -22,7 +22,6 @@ import pandas
 from tqdm import tqdm
 
 ###############################################################################
-
 #from forest_puller.viz.manuscript.area_comparison import all_graphs
 #for g in tqdm(all_graphs): g.plot(rerun=True)
 #from forest_puller.viz.manuscript.area_comparison import legend
@@ -79,5 +78,21 @@ from tqdm import tqdm
 #from forest_puller.tests.conversion.test_root_ratio import test_root_intrpld
 #print(test_root_intrpld())
 
-from forest_puller.conversion.root_ratio_by_country import country_root_ratio
-print(country_root_ratio.by_country_year)
+#from forest_puller.conversion.root_ratio_by_country import country_root_ratio
+#print(country_root_ratio.by_country_year)
+
+#from forest_puller.viz.converted_to_tons import converted_tons_data
+#print(converted_tons_data.faostat)
+
+from forest_puller.viz.increments import all_graphs
+for graph in all_graphs: print(graph.plot(rerun=True))
+
+# Converted to tons #
+from forest_puller.viz.converted_to_tons import all_graphs
+for graph in all_graphs: print(graph.plot(rerun=True))
+
+from forest_puller.viz.converted_to_tons import legend
+print(legend.plot(rerun=True))
+
+from forest_puller.core.continent import continent
+print(continent.report())

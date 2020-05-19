@@ -1,4 +1,5 @@
 include README.md
 include LICENSE.txt
 recursive-include forest_puller/extra_data *.csv
+recursive-include forest_puller/tests/ipcc *.csv
 recursive-include scripts *.py

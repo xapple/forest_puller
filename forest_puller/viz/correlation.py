@@ -14,7 +14,7 @@ Unit D1 Bioeconomy.
 from forest_puller.viz.helper.multiplot   import Multiplot
 from forest_puller                        import cache_dir
 from forest_puller.common                 import country_codes
-from forest_puller.viz.increments         import gain_loss_net_data
+from forest_puller.viz.increments_df import increments_data as gain_loss_net_data
 
 # First party modules #
 from plumbing.cache  import property_cached
@@ -35,9 +35,6 @@ class CorrelationData:
         # Load #
         ipcc = gain_loss_net_data.ipcc
         faos = gain_loss_net_data.faostat
-        # Remove source columns #
-        ipcc = ipcc.drop(columns=['source'])
-        faos = faos.drop(columns=['source'])
         # Remove unused columns #
         ipcc = ipcc.drop(columns=['gain_per_ha', 'net_per_ha'])
         # Join #

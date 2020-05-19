@@ -16,16 +16,15 @@ Typically you can use this submodule like this:
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.viz.increments import GainsLossNetGraph, GainsLossNetLegend
-from forest_puller.viz.increments import gain_loss_net_data
-from forest_puller.common         import country_codes
-from forest_puller                import cache_dir
+from forest_puller.viz.increments    import GainsLossNetGraph, GainsLossNetLegend
+from forest_puller.common            import country_codes
+from forest_puller                   import cache_dir
+from forest_puller.viz.increments_df import increments_data as gain_loss_net_data
 
 # First party modules #
 from plumbing.cache  import property_cached
 
 # Third party modules #
-import pandas, numpy
 
 ###############################################################################
 class ConvertedTonsData:
@@ -48,37 +47,48 @@ class ConvertedTonsData:
 
     #----------------------------- Data sources ------------------------------#
     @property
-    def avg_dnsty_intrpld(self):
-        """Convenience shortcut to the avg_dnsty_intrpld dataframe."""
+    def bcef(self):
+        """Convenience shortcut to the bcef_by_country dataframe."""
         # Import #
-        from forest_puller.soef.composition import composition_data
+        from forest_puller.conversion.bcef_by_country import country_bcef
         # Load #
-        df = composition_data.avg_dnsty_intrpld
-        # Filter #
-        df = df.drop(columns=['frac_missing'])
+        df = country_bcef.by_country_year_intrpld
+        # Return #
+        return df
+
+    @property
+    def root_ratio(self):
+        """Convenience shortcut to the root_ratio_by_country dataframe."""
+        # Import #
+        from forest_puller.conversion.root_ratio_by_country import country_root_ratio
+        # Load #
+        df = country_root_ratio.by_country_year_intrpld
         # Return #
         return df
 
     #------------------------ Data sources modified --------------------------#
     @property
     def soef(self):
-        """SOEF data is over bark."""
+        """
+        Biomass gains i.e. increments and losses i.e. fellings from the State of
+        Europe's Forest dataset expressed in tons of carbon.
+        SOEF data is over bark.
+        """
         # Load #
-        df = gain_loss_net_data.soef
-        # Join #
-        df = df.left_join(self.avg_dnsty_intrpld, on=['country', 'year'])
-        # Multiply #
-        df['gain_per_ha'] *= df['avg_density'] / 1000
-        df['loss_per_ha'] *= df['avg_density'] / 1000
-        df['net_per_ha']  *= df['avg_density'] / 1000
-        # Convert from tons of wood to tons of carbon #
-        df['gain_per_ha'] *= self.carbon_fraction
-        df['loss_per_ha'] *= self.carbon_fraction
-        df['net_per_ha']  *= self.carbon_fraction
-        # Drop #
-        df = df.drop(columns=['avg_density'])
-        # Reset index #
-        df = df.reset_index(drop=True)
+        df = gain_loss_net_data.soef.copy()
+        # Join the biomass conversion and expansion factors bcef #
+        index = ['country', 'year']
+        df = df.left_join(self.bcef, on=index)
+        # Join the root to shoot ratio #
+        df = df.left_join(self.root_ratio, on=index)
+        # Convert the gains to tons of carbon #
+        df['gain_per_ha'] *= df['bcefi'] * (1 + df['root_ratio']) * self.carbon_fraction
+        # Convert the losses to tons of carbon #
+        df['loss_per_ha'] *= df['bcefr'] * (1 + df['root_ratio']) * self.carbon_fraction
+        # Compute the net again #
+        df['net_per_ha'] = df['gain_per_ha'] + df['loss_per_ha']
+        # Remove unnecessary columns #
+        df = df[gain_loss_net_data.soef.columns]
         # Return #
         return df
 
@@ -87,18 +97,17 @@ class ConvertedTonsData:
         """FAOSTAT data is under bark."""
         # Load #
         df = gain_loss_net_data.faostat.copy()
-        # Join #
-        df = df.left_join(self.avg_dnsty_intrpld, on=['country', 'year'])
-        # Multiply #
-        df['loss_per_ha'] *= df['avg_density'] / 1000
-        # Faostat is the only one to give under bark measures #
+        # Join the biomass conversion and expansion factors bcef #
+        index = ['country', 'year']
+        df = df.left_join(self.bcef, on=index)
+        # Join the root to shoot ratio #
+        df = df.left_join(self.root_ratio, on=index)
+        # Convert the losses to tons of carbon #
+        df['loss_per_ha'] *= df['bcefr'] * (1 + df['root_ratio']) * self.carbon_fraction
+        # Bark correction factor #
         df['loss_per_ha'] /= self.bark_correction_factor
-        # Convert from tons of wood to tons of carbon #
-        df['loss_per_ha'] *= self.carbon_fraction
-        # Drop #
-        df = df.drop(columns=['avg_density'])
-        # Reset index #
-        df = df.reset_index(drop=True)
+        # Remove unnecessary columns #
+        df = df[gain_loss_net_data.faostat.columns]
         # Return #
         return df
 
@@ -107,20 +116,16 @@ class ConvertedTonsData:
         """HPFFRE data is over bark."""
         # Load #
         df = gain_loss_net_data.hpffre.copy()
-        # Join #
-        df = df.left_join(self.avg_dnsty_intrpld, on=['country', 'year'])
-        # Multiply #
-        df['gain_per_ha'] *= df['avg_density'] / 1000
-        df['loss_per_ha'] *= df['avg_density'] / 1000
-        df['net_per_ha']  *= df['avg_density'] / 1000
-        # Convert from tons of wood to tons of carbon #
-        df['gain_per_ha'] *= self.carbon_fraction
-        df['loss_per_ha'] *= self.carbon_fraction
-        df['net_per_ha']  *= self.carbon_fraction
-        # Drop #
-        df = df.drop(columns=['avg_density'])
-        # Reset index #
-        df = df.reset_index(drop=True)
+        # Join the biomass conversion and expansion factors bcef #
+        index = ['country', 'year']
+        df = df.left_join(self.bcef, on=index)
+        # Join the root to shoot ratio #
+        df = df.left_join(self.root_ratio, on=index)
+        # Convert the losses to tons of carbon #
+        df['loss_per_ha'] *= df['bcefr'] * (1 + df['root_ratio']) * self.carbon_fraction
+        # Remove unnecessary columns #
+        df = df[gain_loss_net_data.hpffre.columns]
+        df = df.drop(columns=['gain_per_ha', 'net_per_ha'])
         # Return #
         return df
 
@@ -138,16 +143,6 @@ class ConvertedTonsData:
         """No changes for the EU-CBM data."""
         # Load #
         df = gain_loss_net_data.eu_cbm.copy()
-        # Return #
-        return df
-
-    #------------------------------- Combine ---------------------------------#
-    @property_cached
-    def df(self):
-        # Load all data sources #
-        sources = [self.ipcc, self.soef, self.faostat, self.hpffre, self.eu_cbm]
-        # Combine data sources #
-        df = pandas.concat(sources, ignore_index=True)
         # Return #
         return df
 
@@ -170,14 +165,18 @@ class ConvertedTonsGraph(GainsLossNetGraph):
         'eu-cbm':  "",
     }
 
+    # The lines we want on each axes #
+    curves = ('gain_per_ha', 'loss_per_ha', 'net_per_ha')
+
     @property
     def all_data(self):
         """A link to the dataframe containing all countries."""
-        return converted_tons_data.df
+        return converted_tons_data
 
 ###############################################################################
 class ConvertedTonsLegend(GainsLossNetLegend):
     add_soef_line = False
+    add_fra_line  = False
 
 ###############################################################################
 # Create the large df #

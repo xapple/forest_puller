@@ -16,7 +16,6 @@ Typically you can use this submodule like this:
 
 # Built-in modules #
 import itertools
-from datetime import datetime
 
 # Internal modules #
 from forest_puller.conversion.load_expansion_factor import root_coefs
@@ -72,8 +71,8 @@ class CountryRootRatio:
     @property_cached
     def by_country_year(self):
         """
-        This data frame contains the root to shoot ratio R for each country and
-        leaf type. It uses the stock of above ground biomass expressed in tons
+        This data frame contains the root to shoot ratio R for each country.
+        It uses the stock of above ground biomass expressed in tons
         of dry biomass to choose R.
 
         This dataframe looks like:
