@@ -66,5 +66,18 @@ from tqdm import tqdm
 #from forest_puller.conversion.load_expansion_factor import df
 #print(df)
 
-from forest_puller.conversion.bcef_by_country import country_bcef
-print(country_bcef.by_country_year)
+#from forest_puller.conversion.bcef_by_country import country_bcef
+#print(country_bcef.by_country_year)
+
+#from forest_puller.conversion.bcef_by_country import country_bcef
+#del country_bcef.by_country_year
+#print(country_bcef.all_stock_abg_biomass)
+
+#from forest_puller.tests.conversion.test_bcef_by_country import test_bcef_intrpld
+#print(test_bcef_intrpld())
+
+#from forest_puller.tests.conversion.test_root_ratio import test_root_intrpld
+#print(test_root_intrpld())
+
+from forest_puller.conversion.root_ratio_by_country import country_root_ratio
+print(country_root_ratio.by_country_year)

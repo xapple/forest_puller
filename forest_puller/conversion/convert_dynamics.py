@@ -8,30 +8,28 @@ Unit D1 Bioeconomy.
 
 Typically you can use this submodule like this:
 
-    >>> from forest_puller.conversion.convert_dynamics import soef_gain_loss_tc 
+    >>> from forest_puller.conversion.convert_dynamics import soef_gain_loss_tc
     >>> print(soef_tain_loss_tc)
 """
 
 # Built-in modules #
 
 # Internal modules #
-from forest_puller.viz.increments import gain_loss_net_data
-from forest_puller.conversion.bcef_by_country import country_bcef
+from forest_puller.viz.increments                   import gain_loss_net_data
+from forest_puller.conversion.bcef_by_country       import country_bcef
 from forest_puller.conversion.root_ratio_by_country import country_root_ratio
-from forest_puller.viz.converted_to_tons import converted_tons_data
+from forest_puller.viz.converted_to_tons            import converted_tons_data
 
 # First party modules #
 
 # Third party modules #
-
 
 ###############################################################################
 def convert_gain_tc(df):
     """
     Convert the merchantable biomass increment $I_v$ [$m^3/ha$] to a biomass
     increment in tons of carbon (growth of both above and below ground biomass)
-    $I_c$ [$10^3kg/ha$] based on equation 2.10 of the IPCC guidelines
-    \cite[chapter 2]{ipcc2006ipcc}:
+    $I_c$ [$10^3kg/ha$] based on equation 2.10 of the IPCC guidelines:
 
     $$I_{c} = I_v * BCEF_I * (1+R) * CF$$
 
@@ -41,9 +39,9 @@ def convert_gain_tc(df):
     $CF$ is the carbon fraction of dry biomass.
 
     Parameter:
-        df a data frame containing a gain_per_ha column
-
+        df a data frame containing a gain_per_ha column.
     """
+    pass
 
 ###############################################################################
 def convert_loss_tc(df):
@@ -56,21 +54,22 @@ def convert_loss_tc(df):
     Where $BCEF_R$ is the expansion factor of wood and fuelwood removal volume
     to above-ground biomass removal.
 
-    Parameter: 
-        df a data frame containing a loss_per_ha column
+    Parameter:
+        df a data frame containing a loss_per_ha column.
     """
+    pass
 
-
+###############################################################################
 def soef_gain_loss_tc():
     """
     Biomass gains i.e. increments and losses i.e. fellings from the State of
     Europe's Forest dataset expressed in tons of carbon.
     """
     # Input data
-    df = gain_loss_net_data.soef.copy()
-    bcef_by_country = country_bcef.by_country_year
+    df                    = gain_loss_net_data.soef.copy()
+    bcef_by_country       = country_bcef.by_country_year
     root_ratio_by_country = country_root_ratio.by_country_year
-    carbon_fraction = converted_tons_data.carbon_fraction
+    carbon_fraction       = converted_tons_data.carbon_fraction
     # Remember column names of input data frame
     columns_to_keep = df.columns
     # Join the biomass conversion and expansion factors bcef
@@ -89,16 +88,16 @@ def soef_gain_loss_tc():
     # Return #
     return df
 
-
+###############################################################################
 def faostat_loss_tc():
     """
     Biomass losses i.e. removals from the FAOSTAT data converted to tons of carbon.
     """
     # Input data
-    df = gain_loss_net_data.faostat.copy()
-    bcef_by_country = country_bcef.by_country_year_interpolated
+    df                    = gain_loss_net_data.faostat.copy()
+    bcef_by_country       = country_bcef.by_country_year_intrpld
     root_ratio_by_country = country_root_ratio.by_country_year
-    carbon_fraction = converted_tons_data.carbon_fraction
+    carbon_fraction       = converted_tons_data.carbon_fraction
     # Remember column names of input data frame
     columns_to_keep = df.columns
     # Join the biomass conversion and expansion factors bcef

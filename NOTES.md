@@ -174,8 +174,6 @@
 
 # TODO
 
-* Parse table 1.X for SOEF
-
 * The area of France includes over-sees territories. Can we fix this?
 
 * Find research projects which would be potential users of forest_puller data.
@@ -191,22 +189,6 @@
 * Check also if more recent data is available here, under the "global tables": http://countrystat.org/home.aspx?c=FOR
 
 
-# Details for expansion factor
-
-The above ground versus below ground inclusion differs in some sources. In addition, another issue is that some sources report merchantable biomass and others report total biomass. To fix this we would have to include yet another factor "R" which corresponds to the ratio of below-ground biomass to above-ground biomass (from Table 4.4), as well as the inclusion of the "merchantable" biomass expansion factor. We need a volume per hectare for the conversion and the volume per hectare is dependent on the growing conditions and not available from the input data. We can make a rough simplifying assumption that the national volume hectare is the one we use for the biomass expansion factor. 
-
-Computation for a country, for a temperate country:
-
-* We have a growing stock level in m3/ha.
-* Take coniferous and broad leaves forest area.
-* Use the proportion coniferous/total area and broadleaved/total area as a weighting factor of the BCEF_I and BCEF_R factors. 
-
-Without considering the special case of pines, first and spruces.
-
-
-TODO: linear extrapolation of the coefficients for FAOSTAT and other sources.
-see forest_puller/conversion/convert_dynamics.py
-
 # Ideas
 
 Example variable descriptions:
@@ -217,11 +199,11 @@ Example variable descriptions:
      2 | emissions | total emissions |             NaN | tons of carbon
 
 
-## Visualize the uncertainty on the conversion to mass
+# Visualize the uncertainty on the conversion to mass
 
 Add capability to compute lower and upper bound on the bcefs itself i.e. the
-values in parenthesis table 4.4 Biomass conversion and expansion factors of the
-IPCC good practice guidance.
+values in parenthesis table 4.4 Biomass conversion and expansion factors of the IPCC good practice guidance.
+
 
 # Obtaining the cache
 

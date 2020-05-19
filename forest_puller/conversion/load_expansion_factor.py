@@ -4,13 +4,13 @@
 """
 Written by Lucas Sinclair and Paul Rougieux.
 
-Load this data as such: 
+JRC Biomass Project.
+Unit D1 Bioeconomy.
+
+Load this data as such:
 
     from forest_puller.conversion.load_expansion_factor import bcef_coefs
     from forest_puller.conversion.load_expansion_factor import root_coefs
-
-JRC Biomass Project.
-Unit D1 Bioeconomy.
 """
 
 # Built-in modules #
@@ -86,16 +86,28 @@ def load_bcef():
     # Return #
     return df
 
-
+###############################################################################
 def load_root_to_shoot_ratio():
-    """Load the root to shoot ratio
+    """
+    Load the root to shoot ratio.
+
+    This dataframe looks like this:
+
+            climatic_zone forest_type  lower  upper  ratio
+        0   mediterranean         con      0   20.0   0.56
+        1   mediterranean         con     20    inf   0.28
+        2   mediterranean       broad      0   20.0   0.56
+        3   mediterranean       broad     20    inf   0.28
+        4       temperate         con      0   50.0   0.40
     """
     # Constants #
-    r = module_dir + 'extra_data/ipcc_root_to_shoot_ratio.csv'
+    path = module_dir + 'extra_data/ipcc_root_to_shoot_ratio.csv'
     # Load CSVs #
-    df = pandas.read_csv(str(r))
-    # Rename subtropical to mediterranean
+    df = pandas.read_csv(str(path))
+    # Rename subtropical to mediterranean #
     df['climatic_zone'] = df['climatic_zone'].replace('subtropical_dry', 'mediterranean')
+    # Harmonize dtypes #
+    df['lower'] = df['lower'].astype(float)
     # Return #
     return df
 

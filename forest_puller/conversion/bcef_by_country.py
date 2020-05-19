@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 """
 Written by Lucas Sinclair and Paul Rougieux.
 
@@ -13,30 +14,31 @@ Typically you can use this submodule like this:
 """
 
 # Built-in modules #
+import itertools
 
 # Internal modules #
 from forest_puller.conversion.load_expansion_factor import bcef_coefs
-from forest_puller.common import country_codes
-from forest_puller import cache_dir
+from forest_puller.common                           import country_codes
+from forest_puller                                  import cache_dir
 
 # First party modules #
 from plumbing.cache import property_cached, property_pickled_at
 
 # Third party modules #
-import numpy
-import itertools
-import pandas
-from datetime import datetime
+import numpy, pandas
 
 ###############################################################################
 class CountryBCEF:
-    """This class uses the stock of merchantable biomass in each country
+    """
+    This class uses the stock of merchantable biomass in each country
     to choose 2 factors:
-    * the biomass conversion and expansion factor BCEF
-    * the root to shoot ration R
+
+    * The biomass conversion and expansion factor BCEF.
+    * The root to shoot ration R.
 
     These factors come from table 4.5 and 4.4 respectively in the following
     IPCC guideline document:
+
     https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pd
 
     We first use the BCEF_R to expand the merchantable growing stock volume to
@@ -44,11 +46,16 @@ class CountryBCEF:
     a threshold to choose the root to shoot ratio.
 
     Interesting intermediary tables for further analysis:
-    * all_stock_merch contains the stock in merchantable volume per ha
-      and per leaf type
-    * all_stock_abg_biomass contains the stock in above ground biomass weight
-       expressed in tons per ha and per leaf type
+
+    * `all_stock_merch` contains the stock in merchantable volume per ha
+      and per leaf type.
+    * `all_stock_abg_biomass` contains the stock in above ground biomass weight
+       expressed in tons per ha and per leaf type.
     """
+
+    min_year = 1990
+    max_year = 2020
+
     @property_cached
     def country_climates(self):
         """
@@ -111,8 +118,11 @@ class CountryBCEF:
         df = df.rename(columns={'category': 'forest_type'})
         # Compute stock by hectare #
         df['stock_per_ha'] = df['stock'] / df['area']
+        # Drop lines with NaN #
+        df = df.query("stock_per_ha == stock_per_ha")
         # Now we don't need the stock column anymore #
         df = df.drop(columns=['stock'])
+        # Return #
         return df
 
     @property
@@ -134,6 +144,7 @@ class CountryBCEF:
             ['country', 'year', 'forest_type', 'area', 'climatic_zone',
              'climatic_coef', 'stock_per_ha']
         """
+        # Load #
         df = self.all_stock_merch.copy()
         # Drop mixed forest #
         df = df.query("forest_type != 'mixed'")
@@ -186,6 +197,7 @@ class CountryBCEF:
         """
         This dataframe has three coefficients 'bcefi', 'bcefr', 'bcefs'
         for every country and for every SOEF year (except 2015).
+
         The dataframe looks like this:
 
                              bcefi     bcefr     bcefs
@@ -194,7 +206,6 @@ class CountryBCEF:
                     2000  0.574885  0.795115  0.720929
                     2005  0.573515  0.796485  0.722071
                     2010  0.572161  0.797839  0.723199
-            BE      1990  0.000000  0.000000  0.000000
         """
         # Load #
         df = self.with_bcef_coefs.copy()
@@ -227,52 +238,59 @@ class CountryBCEF:
         # Return #
         return df
 
+    #------------------------------- Interpolation ---------------------------#
     @property
-    def by_country_year_interpolated(self):
-        """Same as above but interpolate the coefficients to get more years
+    def by_country_year_intrpld(self):
         """
-        # Create a small data frame with all country and years
-        countries = self.by_country_year['country'].drop_duplicates()
-        years = range(1990, datetime.now().year)
+        Same as above but interpolate the coefficients to get more years.
+        """
+        # Create a small data frame with all country and years #
+        countries   = self.by_country_year['country'].drop_duplicates()
+        years       = range(self.min_year, self.max_year)
         expand_grid = list(itertools.product(countries, years))
-        df = pandas.DataFrame(expand_grid, columns=('country', 'year'))
-        # Join the bcef data
-        df = df.left_join(self.by_country_year,on=['country','year'])
-        # Interpolate
+        df          = pandas.DataFrame(expand_grid, columns=('country', 'year'))
+        # Join the BCEF data #
+        df = df.left_join(self.by_country_year, on=['country','year'])
+        # Interpolate #
         country_groups = df.groupby('country')
-        df['bcefi'] = country_groups['bcefi'].transform(pandas.DataFrame.interpolate)
-        df['bcefr'] = country_groups['bcefr'].transform(pandas.DataFrame.interpolate)
-        df['bcefs'] = country_groups['bcefs'].transform(pandas.DataFrame.interpolate)
-        # Return
+        df['bcefi'] = country_groups['bcefi'].transform(pandas.DataFrame.interpolate,
+                                                        limit_direction='both')
+        df['bcefr'] = country_groups['bcefr'].transform(pandas.DataFrame.interpolate,
+                                                        limit_direction='both')
+        df['bcefs'] = country_groups['bcefs'].transform(pandas.DataFrame.interpolate,
+                                                        limit_direction='both')
+        # Return #
         return df
 
-    @property
+    #---------------------------- Special properties -------------------------#
+    @property_cached
     def all_stock_abg_biomass(self):
-        """This data frame contains the above ground biomass stock per hectare
+        """
+        This data frame contains the above ground biomass stock per hectare
         expressed in tons of dry biomass. The method converts merchantable
         biomass volume (m3 of trunk) to above ground biomass weight (tons of
         dry biomass of trunk plus branches).
 
         The table looks like this:
 
-            country  year forest_type       area  stock_per_ha
-        1        AT  1990         con        ...           ...
-        1        AT  1990       broad        ...           ...
-        2        AT  1990       mixed        ...           ...
-        3        AT  2000         con        ...           ...
-
+            country  year forest_type  area  stock_per_ha
+        1        AT  1990         con   ...           ...
+        1        AT  1990       broad   ...           ...
+        2        AT  1990       mixed   ...           ...
+        3        AT  2000         con   ...           ...
         """
-        # data
-        stock_merch = self.all_stock_merch
+        # Load #
+        stock_merch          = self.all_stock_merch
         bcef_by_country_year = self.by_country_year
         # Join the biomass conversion factors (bcef) to the stock data
         index = ['country', 'year']
-        df = stock_merch.left_join(bcef_by_country_year, on=index)
+        df    = stock_merch.left_join(bcef_by_country_year, on=index)
         # Compute the above ground biomass stock
         df['stock_per_ha'] *= df['bcefs']
-        # drop coefficients
+        # Drop the coefficients columns #
         df = df.drop(columns=['bcefi', 'bcefr', 'bcefs'])
-        return(df)
+        # Return #
+        return df
 
     # --------------------------------- Cache --------------------------------- #
     @property

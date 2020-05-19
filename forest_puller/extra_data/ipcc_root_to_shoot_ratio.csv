@@ -6,10 +6,10 @@ subtropical_dry,broad,20,INF,0.28
 temperate,con,0,50,0.40
 temperate,con,50,150,0.29
 temperate,con,150,INF,0.20
-temperate,Quercus,70,INF,0.30
-temperate,Eucalyptus,0,50,0.44
-temperate,Eucalyptus,50,150,0.28
-temperate,Eucalyptus,150,INF,0.20
+temperate,quercus,70,INF,0.30
+temperate,eucalyptus,0,50,0.44
+temperate,eucalyptus,50,150,0.28
+temperate,eucalyptus,150,INF,0.20
 temperate,broad,0,75,0.46
 temperate,broad,75,150,0.23
 temperate,broad,150,INF,0.24
