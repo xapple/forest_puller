@@ -46,7 +46,7 @@ def convert_gain_tc(df):
     """
 
 ###############################################################################
-def soef_loss_tc(df):
+def convert_loss_tc(df):
     """
     Convert wood removal volumes (over bark) $H_v$ to losses $L$
     in tons of carbon according to equation 2.12 of the 2006 IPCC guidelines:
@@ -97,14 +97,13 @@ def faostat_loss_tc():
     """
     # Input data
     df = gain_loss_net_data.faostat.copy()
-    bcef_by_country = country_bcef.by_country_year
+    bcef_by_country = country_bcef.by_country_year_interpolated
     root_ratio_by_country = country_root_ratio.by_country_year
     carbon_fraction = converted_tons_data.carbon_fraction
     # Remember column names of input data frame
     columns_to_keep = df.columns
     # Join the biomass conversion and expansion factors bcef
     index = ['country', 'year']
-    # TODO: linear extrapolation for missing years
     df = df.left_join(bcef_by_country, on=index)
     # Join the root to shoot ratio
     df = df.left_join(root_ratio_by_country, on=index)

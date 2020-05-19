@@ -24,7 +24,9 @@ from plumbing.cache import property_cached, property_pickled_at
 
 # Third party modules #
 import numpy
-
+import itertools
+import pandas
+from datetime import datetime
 
 ###############################################################################
 class CountryBCEF:
@@ -223,6 +225,25 @@ class CountryBCEF:
                              'bcefs': 'sum'})
         df = df.reset_index()
         # Return #
+        return df
+
+    @property
+    def by_country_year_interpolated(self):
+        """Same as above but interpolate the coefficients to get more years
+        """
+        # Create a small data frame with all country and years
+        countries = self.by_country_year['country'].drop_duplicates()
+        years = range(1990, datetime.now().year)
+        expand_grid = list(itertools.product(countries, years))
+        df = pandas.DataFrame(expand_grid, columns=('country', 'year'))
+        # Join the bcef data
+        df = df.left_join(self.by_country_year,on=['country','year'])
+        # Interpolate
+        country_groups = df.groupby('country')
+        df['bcefi'] = country_groups['bcefi'].transform(pandas.DataFrame.interpolate)
+        df['bcefr'] = country_groups['bcefr'].transform(pandas.DataFrame.interpolate)
+        df['bcefs'] = country_groups['bcefs'].transform(pandas.DataFrame.interpolate)
+        # Return
         return df
 
     @property
