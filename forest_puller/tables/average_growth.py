@@ -35,6 +35,14 @@ import pandas
 def pivot_increments(data):
     # Load all data sources #
     sources = [data.ipcc, data.soef, data.faostat, data.hpffre, data.eu_cbm]
+    # Copy them #
+    sources = [df.copy() for df in sources]
+    # Add source column #
+    sources[0].insert(0, 'source', 'ipcc')
+    sources[1].insert(0, 'source', 'soef')
+    sources[2].insert(0, 'source', 'faostat')
+    sources[3].insert(0, 'source', 'hpffre')
+    sources[4].insert(0, 'source', 'eu-cbm')
     # Combine data sources #
     df = pandas.concat(sources, ignore_index=True)
     # Group #
