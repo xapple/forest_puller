@@ -188,6 +188,8 @@
 
 * Check also if more recent data is available here, under the "global tables": http://countrystat.org/home.aspx?c=FOR
 
+* Think about removing the Menlo font
+
 
 # Ideas
 
