@@ -73,9 +73,9 @@ class AverageIncrements(Table):
     @property_cached
     def df(self):
         # Import #
-        from forest_puller.viz.increments import gain_loss_net_data
+        from forest_puller.viz.increments_df import increments_data
         # Return #
-        return pivot_increments(gain_loss_net_data.df)
+        return pivot_increments(increments_data.df)
 
 ###############################################################################
 class AverageIncsToTons(Table):
