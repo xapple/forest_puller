@@ -79,7 +79,7 @@ class AverageIncrements(Table):
         # Import #
         from forest_puller.viz.increments_df import increments_data
         # Return #
-        return pivot_increments(increments_data.df)
+        return pivot_increments(increments_data)
 
 ###############################################################################
 class AverageIncsToTons(Table):
@@ -98,7 +98,7 @@ class AverageIncsToTons(Table):
         # Import #
         from forest_puller.viz.converted_to_tons import converted_tons_data
         # Return #
-        return pivot_increments(converted_tons_data.df)
+        return pivot_increments(converted_tons_data)
 
 ###############################################################################
 # Create singletons #
