@@ -32,7 +32,11 @@ from plumbing.cache import property_cached
 import pandas
 
 ###############################################################################
-def pivot_increments(df):
+def pivot_increments(data):
+    # Load all data sources #
+    sources = [data.ipcc, data.soef, data.faostat, data.hpffre, data.eu_cbm]
+    # Combine data sources #
+    df = pandas.concat(sources, ignore_index=True)
     # Group #
     group = df.groupby(['country', 'source'])
     # Average #
