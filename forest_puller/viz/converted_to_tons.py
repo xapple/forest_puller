@@ -189,4 +189,4 @@ all_graphs = [ConvertedTonsGraph(iso2, export_dir) for iso2 in all_codes]
 countries  = {c.parent: c for c in all_graphs}
 
 # Create a separate standalone legend #
-legend = ConvertedTonsLegend(base_dir = cache_dir + 'graphs/increments/')
+legend = ConvertedTonsLegend(base_dir = cache_dir + 'graphs/converted_tons/')
