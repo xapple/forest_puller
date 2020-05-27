@@ -82,6 +82,8 @@ class AllXlsFiles:
         result = download_from_url(row['xls'], destination, user_agent=None)
         # We don't want to flood the server #
         time.sleep(2)
+        # Return #
+        return result
 
 ###############################################################################
 # Create a singleton #
