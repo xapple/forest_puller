@@ -27,11 +27,21 @@ matplotlib.use('Agg')
 
 ###############################################################################
 from forest_puller.viz.manuscript.area_comparison import legend
-legend.plot(rerun=True)
+print(legend.plot(rerun=True))
 
 from forest_puller.viz.manuscript.area_comparison import all_graphs
 for g in tqdm(all_graphs): g.plot(rerun=True)
 
-from forest_puller.viz.manuscript.dynamics_comparison import all_graphs
+###############################################################################
+from forest_puller.viz.increments import legend
+print(legend.plot(rerun=True))
+
+from forest_puller.viz.manuscript.dynamics_volume import all_graphs
 for g in tqdm(all_graphs): g.plot(rerun=True)
 
+###############################################################################
+from forest_puller.viz.converted_to_tons import legend
+print(legend.plot(rerun=True))
+
+from forest_puller.viz.manuscript.dynamics_mass import all_graphs
+for g in tqdm(all_graphs): g.plot(rerun=True)

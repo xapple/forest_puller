@@ -32,7 +32,7 @@ LatexFigure.abs_path = lambda s: '../' + s.path.rel_path_from(cache_dir)
 
 ###############################################################################
 # Import #
-from forest_puller.viz.manuscript.dynamics_comparison import all_graphs
+from forest_puller.viz.manuscript.dynamics_volume import all_graphs
 from forest_puller.viz.increments import legend
 
 # Initialize #

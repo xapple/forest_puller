@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 
 Typically you can use this submodule like this:
 
-    >>> from forest_puller.viz.manuscript.dynamics_comparison_mass import all_graphs
+    >>> from forest_puller.viz.manuscript.dynamics_mass import all_graphs
     >>> for g in all_graphs: g.plot(rerun=True)
 """
 
