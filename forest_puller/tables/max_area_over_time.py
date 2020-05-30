@@ -16,6 +16,11 @@ To export the table:
 
     >>> from forest_puller.tables.max_area_over_time import max_area
     >>> print(max_area.save())
+
+To export the table for the publication:
+
+    >>> from forest_puller.tables.max_area_over_time import max_area_pub
+    >>> print(max_area_pub.save())
 """
 
 # Built-in modules #
@@ -47,15 +52,16 @@ class MaxArea(Table):
     # Extra formatting #
     upper_columns = True
 
+    # Pick sources to include #
+    source_names = ['ipcc', 'soef', 'faostat', 'hpffre', 'fra', 'eu_cbm']
+
     #----------------------------- Data sources ------------------------------#
     @property_cached
     def df(self):
-        # Each source we want to include #
-        source_names = ['ipcc', 'soef', 'faostat', 'hpffre', 'fra', 'eu_cbm']
         # Import the data from the area graph #
         from forest_puller.viz.area_comp import area_comp_data
         # Put each dataframe in a list #
-        dfs = [getattr(area_comp_data, source) for source in source_names]
+        dfs = [getattr(area_comp_data, source) for source in self.source_names]
         # Function to group each one by country and do max on area #
         fn = lambda d: d.groupby('country').aggregate({'area': 'max'})
         # Apply that function to each source #
@@ -63,7 +69,8 @@ class MaxArea(Table):
         # Reset index #
         dfs = [df.reset_index() for df in dfs]
         # Rename the column to include the source #
-        dfs = [df.rename(columns={'area': name}) for df, name in zip(dfs, source_names)]
+        df_to_names = zip(dfs, self.source_names)
+        dfs = [df.rename(columns={'area': name}) for df, name in df_to_names]
         # Make a list of countries we want included #
         codes = [iso2 for iso2 in country_codes['iso2_code']]
         # Start with an empty dataframe #
@@ -76,6 +83,16 @@ class MaxArea(Table):
         return result
 
 ###############################################################################
-# Create a singleton #
+class MaxAreaPublication(MaxArea):
+    short_name   = 'max_area_pub'
+    source_names = ['ipcc', 'soef', 'faostat', 'hpffre', 'fra']
+
+###############################################################################
+# Pick destination #
 export_dir = cache_dir + 'tables/'
-max_area   = MaxArea(base_dir = export_dir)
+
+# Create a singleton for all sources #
+max_area = MaxArea(base_dir = export_dir)
+
+# Create a singleton for the manuscript #
+max_area_pub = MaxAreaPublication(base_dir = export_dir)

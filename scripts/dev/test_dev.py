@@ -84,15 +84,14 @@ from tqdm import tqdm
 #from forest_puller.viz.converted_to_tons import converted_tons_data
 #print(converted_tons_data.faostat)
 
-from forest_puller.viz.increments import all_graphs
-for graph in all_graphs: print(graph.plot(rerun=True))
+#from forest_puller.viz.increments import all_graphs
+#for graph in all_graphs: print(graph.plot(rerun=True))
+#from forest_puller.viz.converted_to_tons import all_graphs
+#for graph in all_graphs: print(graph.plot(rerun=True))
+#from forest_puller.viz.converted_to_tons import legend
+#print(legend.plot(rerun=True))
+#from forest_puller.core.continent import continent
+#print(continent.report())
 
-# Converted to tons #
-from forest_puller.viz.converted_to_tons import all_graphs
-for graph in all_graphs: print(graph.plot(rerun=True))
-
-from forest_puller.viz.converted_to_tons import legend
-print(legend.plot(rerun=True))
-
-from forest_puller.core.continent import continent
-print(continent.report())
+from forest_puller.tables.max_area_over_time import max_area_pub
+print(max_area_pub.save())
