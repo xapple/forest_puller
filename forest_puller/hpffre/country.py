@@ -33,12 +33,14 @@ col_name_map = pandas.read_csv(str(col_name_map))
 
 ###############################################################################
 class Country:
-    """Represents one country's dataset.
+    """
+    Represents one country's dataset.
 
     From the excel file of dataset:
 
     * _Growing stock_: Total stemwood volume measured over bark. Stemwood = Part of tree
       stem from the felling cut to the tree top with the branches removed, including bark.
+
     * _Fellings_: Total stemwood volume of trees felled in thinnings, selection or final cuttings.
     """
 

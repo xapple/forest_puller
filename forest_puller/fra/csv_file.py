@@ -90,42 +90,54 @@ class ForestChars(CSVFile):
     """
     ['Planted forest' 'Primary forest' 'Other naturally regenerated forest']
     """
+
     name      = "forest_chars"
     title     = "Forest characteristics (1 000 ha) by FRA categories"
     filename  = "T04FO000.csv"
     url       = "http://countrystat.org/home.aspx?c=FOR&tr=1"
     conv_fact = 1000
+    used      = False
 
+#-----------------------------------------------------------------------------#
 class ForestExtent(CSVFile):
     """
     ['Other wooded land' 'Inland water' 'Forest' 'Other land']
     """
+
     name      = "forest_extent"
     title     = "Extent of forest and other wooded land (1 000 ha)"
     filename  = "T01FO000.csv"
     url       = "http://countrystat.org/home.aspx?c=FOR&tr=1"
     conv_fact = 1000
+    used      = True
 
+#-----------------------------------------------------------------------------#
 class ForestEstabl(CSVFile):
     """
     ['Reforestation' 'Natural expansion of forest' 'Afforestation']
     """
+
     name     = "forest_establ"
     title    = "Forest establishment total (ha/yr) by FRA categories"
     filename = "T05FO000.csv"
     url      = "http://countrystat.org/home.aspx?c=FOR&tr=3"
+    used      = False
 
+#-----------------------------------------------------------------------------#
 class GrowingStock(CSVFile):
     """
     * ['Total growing stock' 'Commercial']
     * ['Other wooded land' 'Forest']
     """
+
     name      = "growing_stock"
     title     = "Growing stock (Million m3 over bark) by Forest/Other wooded land"
     filename  = "T06FO000.csv"
     url       = "http://countrystat.org/home.aspx?c=FOR&tr=4"
     conv_fact = 1e6
+    used      = True
 
+#-----------------------------------------------------------------------------#
 class CarbonStock(CSVFile):
     """
     * ['Soil carbon' 'Carbon in living biomass' 'Carbon in litter'
@@ -133,22 +145,27 @@ class CarbonStock(CSVFile):
        'Carbon in above-ground biomass']
     * ['Other wooded land' 'Forest']
     """
+
     name      = "carbon_stock"
     title     = "Carbon stock (Million metric tonnes) by Forest/Other wooded land"
     filename  = "T08FO000.csv"
     url       = "http://countrystat.org/home.aspx?c=FOR&tr=4"
     conv_fact = 1e6
+    used      = False
 
+#-----------------------------------------------------------------------------#
 class BiomassStock(CSVFile):
     """
     * ['Above-ground biomass' 'Below-ground biomass' 'Dead wood']
     * ['Forest' 'Other wooded land']
     """
+
     name      = "biomass_stock"
     title     = "Biomass stock (Million metric tonnes) by Forest/Other wooded land"
     filename  = "T07FO000.csv"
     url       = "http://countrystat.org/home.aspx?c=FOR&tr=4"
     conv_fact = 1e6
+    used      = False
 
 ###############################################################################
 # Choose the cache location #

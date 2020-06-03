@@ -58,6 +58,7 @@ class ZipFile:
     url = "http://fenixservices.fao.org/faostat/static/bulkdownloads/Forestry_E_All_Data_(Normalized).zip"
     csv_name = "Forestry_E_All_Data_(Normalized).csv"
     encoding = "ISO-8859-1"
+    title    = "Forestry Production and Trade"
 
     def __init__(self, zip_cache_dir):
         # Record where the cache will be located on disk #

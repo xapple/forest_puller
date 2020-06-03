@@ -133,9 +133,10 @@ class GainsLossNetGraph(Multiplot):
         # Remove ugly box around figures #
         self.remove_frame()
 
-        # Add the custom title  #
+        # Add the custom title #
         for source, axes in self.source_to_axes.items():
-            title  = self.country_name + '  (from ' + source.upper() + ')'
+            text  = source.upper() if source != 'faostat' else 'FAOSTAT and FRA'
+            title = self.country_name + '  (from ' + text + ')'
             axes.text(0.05, 1.05, title, transform=axes.transAxes, ha="left", size=18)
 
         # Set the custom Y labels #

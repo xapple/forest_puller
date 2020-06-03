@@ -28,15 +28,6 @@ from plumbing.cache import property_pickled_at
 class Country:
     """Represents one country's dataset."""
 
-    datasets = [
-        'forest_chars',
-        'forest_extent',
-        'forest_establ',
-        'growing_stock',
-        'carbon_stock',
-        'biomass_stock',
-    ]
-
     def __init__(self, iso2_code):
         # The reference ISO2 code #
         self.iso2_code = iso2_code

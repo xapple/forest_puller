@@ -96,7 +96,7 @@ class GainsLossNetExtra:
         df = stock.left_join(area, on=['country', 'year'])
         # Sort the dataframe so that years are ascending #
         df = df.sort_values(['country', 'year'])
-        # Operate a rolling subtraction and divide by years
+        # Operate a rolling subtraction and divide by years #
         group           = df.groupby(['country'])
         df['net_diff']  = group['stock'].diff()
         df['year_diff'] = group['year'].diff()

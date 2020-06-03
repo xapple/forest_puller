@@ -135,17 +135,24 @@ class GainsLossNetData:
               .reset_index())
         # The growth reported here is the total stock, not the delta
         # So we need to operate a rolling subtraction and divide by years
-        group              = df.groupby(['country'])
-        df['net_diff']     = group['growing_stock_volume_total'].diff()
-        df['year_diff']    = group['year'].diff()
-        df['net_per_year'] = df['net_diff']     / df['year_diff']
-        df['net_per_ha']   = df['net_per_year'] / df['area']
-        # The fellings however are per year already
+        group           = df.groupby(['country'])
+        df['net_diff']  = group['growing_stock_volume_total'].diff()
+        df['year_diff'] = group['year'].diff()
+        df['area_diff'] = group['area'].diff()
+        df['growth']    = df['net_diff'] / df['year_diff']
+        # Set the year in the middle #
+        def year_in_middle(row): return row['year'] - row['year_diff']/2
+        df['year'] = df.apply(year_in_middle, axis=1)
+        # Set the area in the middle #
+        def area_in_middle(row): return row['area'] - row['area_diff']/2
+        df['area'] = df.apply(area_in_middle, axis=1)
+        # Calculate the net per hectare #
+        def compute_net_per_ha(row): return row['growth'] / row['area']
+        df['net_per_ha'] = df.apply(compute_net_per_ha, axis=1)
+        # The fellings however are per year already #
         df = df.rename(columns = {'fellings_per_ha': 'loss_per_ha'})
         # By convention, losses should be negative values #
         df['loss_per_ha'] = - df['loss_per_ha']
-        # Compute gain starting from the net #
-        df['gain_per_ha'] = df['net_per_ha'] - df['loss_per_ha']
         # Remove all years that are in the future #
         df = df.query("year <= 2018")
         # Reset index #
