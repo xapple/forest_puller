@@ -125,7 +125,7 @@ class ConvertedTonsData:
         df['loss_per_ha'] *= df['bcefr'] * (1 + df['root_ratio']) * self.carbon_fraction
         # Remove unnecessary columns #
         df = df[gain_loss_net_data.hpffre.columns]
-        df = df.drop(columns=['gain_per_ha', 'net_per_ha'])
+        df = df.drop(columns=['net_per_ha'])
         # Return #
         return df
 
