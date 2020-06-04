@@ -52,3 +52,8 @@ print(max_area.save())
 
 from forest_puller.tables.available_for_supply import afws_comp
 print(afws_comp.save())
+
+from forest_puller.tables.average_growth import avg_tons
+print(avg_tons.save())
+
+

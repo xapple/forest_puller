@@ -31,6 +31,8 @@ from plumbing.cache import property_cached
 # Third party modules #
 import pandas
 
+REMOVE_CBM = True
+
 ###############################################################################
 def pivot_increments(data):
     # Load all data sources #
@@ -45,6 +47,9 @@ def pivot_increments(data):
     sources[4].insert(0, 'source', 'eu-cbm')
     # Combine data sources #
     df = pandas.concat(sources, ignore_index=True)
+    # Remove CBM if needed
+    if REMOVE_CBM:
+        df = df.query("source != 'eu-cbm'")
     # Group #
     group = df.groupby(['country', 'source'])
     # Average #
@@ -62,7 +67,7 @@ def pivot_increments(data):
     sources = {'ipcc':    'IPCC',
                'soef':    'SOEF',
                'faostat': 'FAO',
-               'hpffre':  'HFRE',
+               'hpffre':  'HPFFRE',
                'eu-cbm':  'CBM'}
     result = result.rename(columns=sources)
     # Cosmetic changes level 3 #
@@ -99,7 +104,9 @@ class AverageIncsToTons(Table):
     # Parameters #
     short_name       = 'average_inc_to_tons'
     float_format_tex = '%.2f'
-    column_format    = 'lrrrr|rrrrr'
+    column_format    = 'lrrr|rrrrr'
+    if REMOVE_CBM:
+        column_format = 'lrr|rrrr'
 
     @property_cached
     def df(self):
