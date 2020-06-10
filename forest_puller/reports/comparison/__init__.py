@@ -248,15 +248,6 @@ class ComparisonTemplate(ReportTemplate):
         # Return #
         return str(LatexTable(table=afws_comp, caption=caption))
 
-    def avg_increments(self):
-        # Caption #
-        caption = "Comparison of heterogeneous gains and losses for" \
-                  " five data sources and for 27 different countries."
-        # Import #
-        from forest_puller.tables.average_growth import avg_inc
-        # Return #
-        return str(LatexTable(table=avg_inc, caption=caption))
-
     def avg_inc_to_tons(self):
         # Caption #
         caption = "Comparison of converted gains and losses for" \
