@@ -25,6 +25,7 @@ from forest_puller.viz.increments_df import increments_data as gain_loss_net_dat
 from plumbing.cache  import property_cached
 
 # Third party modules #
+import pandas
 
 ###############################################################################
 class ConvertedTonsData:
@@ -89,6 +90,8 @@ class ConvertedTonsData:
         df['net_per_ha'] = df['gain_per_ha'] + df['loss_per_ha']
         # Remove unnecessary columns #
         df = df[gain_loss_net_data.soef.columns]
+        # Add source #
+        df.insert(0, 'source', "soef")
         # Return #
         return df
 
@@ -108,6 +111,8 @@ class ConvertedTonsData:
         df['loss_per_ha'] /= self.bark_correction_factor
         # Remove unnecessary columns #
         df = df[gain_loss_net_data.faostat.columns]
+        # Add source #
+        df.insert(0, 'source', 'faostat')
         # Return #
         return df
 
@@ -124,8 +129,10 @@ class ConvertedTonsData:
         # Convert the losses to tons of carbon #
         df['loss_per_ha'] *= df['bcefr'] * (1 + df['root_ratio']) * self.carbon_fraction
         # Remove unnecessary columns #
-        df = df[gain_loss_net_data.hpffre.columns]
-        df = df.drop(columns=['net_per_ha'])
+        columns_to_keep = ['country', 'year', 'loss_per_ha']
+        df = df[columns_to_keep]
+        # Add source #
+        df.insert(0, 'source', "hpffre")
         # Return #
         return df
 
@@ -135,6 +142,8 @@ class ConvertedTonsData:
         """No changes for the IPCC data."""
         # Load #
         df = gain_loss_net_data.ipcc.copy()
+        # Add source #
+        df.insert(0, 'source', "ipcc")
         # Return #
         return df
 
@@ -143,7 +152,18 @@ class ConvertedTonsData:
         """No changes for the EU-CBM data."""
         # Load #
         df = gain_loss_net_data.eu_cbm.copy()
+        # Add source #
+        df.insert(0, 'source', 'eu_cbm')
         # Return #
+        return df
+
+    #------------------------------- Combine ---------------------------------#
+    @property_cached
+    def df(self):
+        # Load all data sources #
+        sources = [self.ipcc, self.soef, self.faostat, self.hpffre, self.eu_cbm]
+        # Combine data sources #
+        df = pandas.concat(sources, ignore_index=True)
         return df
 
 ###############################################################################
@@ -170,7 +190,8 @@ class ConvertedTonsGraph(GainsLossNetGraph):
 
     @property
     def all_data(self):
-        """A link to the dataframe containing all countries."""
+        """A link to all data frames containing all countries.
+           One data fame per source and a combined data frame"""
         return converted_tons_data
 
 ###############################################################################

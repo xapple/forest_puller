@@ -109,12 +109,20 @@ from forest_puller.ipcc.concat import df
 print(df)
 ```
 
-To get a data frame that compares forest area between several sources
+To get a data frame that compares forest area between several sources:
 
 ```python
 from forest_puller.viz.area_comp import area_comp_data
 print(area_comp_data.df)
 ```
+
+To get a data frame that compares gains (increments) and losses (harvest) between sources:
+
+```python
+from forest_puller.viz.converted_to_tons import converted_tons_data
+print(converted_tons_data.df)
+```
+
 
 ## Cache
 
