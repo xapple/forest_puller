@@ -10,7 +10,7 @@ Unit D1 Bioeconomy.
 Typically you can use this submodule like this:
 
     >>> from forest_puller.viz.area_comp import area_comp_data
-    >>> print(area_comp_data)
+    >>> print(area_comp_data.df)
 
 Or if you want to look at the legend:
 

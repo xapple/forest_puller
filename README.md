@@ -109,6 +109,13 @@ from forest_puller.ipcc.concat import df
 print(df)
 ```
 
+To get a data frame that compares forest area between several sources
+
+```python
+from forest_puller.viz.area_comp import area_comp_data
+print(area_comp_data.df)
+```
+
 ## Cache
 
 When you import `forest_puller`, we will check the `$FOREST_PULLER_CACHE` environment variable to see where to download and store the cached data. If this variable is not set, we will default to the platform's temporary directory and clone a repository there. This could result in re-downloading the cache after every reboot.
