@@ -30,9 +30,25 @@ Currently `forest_puller` caches and provides programmatic access to the forest-
 
 What other data source you would like to see added here? Contact the authors by opening an issue in the issue tracker.
 
+## Prerequisites
+
+Since `forest_puller` is written in python, it is compatible with all operating systems: Linux, macOS and Windows. The only prerequisite is `python3` (which is often installed by default) along with the `pip3` package manager.
+
+To check if you have `python3` installed, type the following on your terminal:
+
+    $ python3 -V
+
+If you do not have `python3` installed, please refer to the section [obtaining python3](documentation/markdown/installing_tips.md#obtaining-python3).
+
+To check if you have `pip3` installed, type the following on your terminal:
+
+    $ pip3 -V
+
+If you do not have `pip3` installed, please refer to the section [obtaining pip3](documentation/markdown/installing_tips.md#obtaining-pip3).
+
 ## Installing
 
-`forest_puller` is a python package and hence is compatible with all operating systems: Linux, macOS and Windows. The only prerequisite is python3 which is often installed by default. Simply type the following on your terminal:
+Simply type the following on your terminal:
 
     $ pip3 install --user forest_puller
 
@@ -40,16 +56,9 @@ Or if you want to install it for all users of the system:
 
     $ sudo pip3 install forest_puller
 
-If you do not have `pip` on your system you can usually get it with these commands (fresh Ubuntu 18LTS):
-
-    sudo apt-get update
-    sudo apt-get install python3-distutils
-    curl -O https://bootstrap.pypa.io/get-pip.py
-    python3 get-pip.py --user
-
 ## Usage
 
-For instance to retrieve the net carbon dioxide emission of Austria in 2017 that were due to *coniferous* forest land from the IPCC official data source, you can do the following:
+For instance, to retrieve the net carbon dioxide emission of Austria in 2017 that were due to *coniferous* forest land from the IPCC official data source, you can do the following:
 
 ```python
 # Import #
@@ -67,7 +76,7 @@ print(at_2017.loc['remaining_forest', 'Coniferous']['net_co2'])
 
      904282.4970403439
 
-To see what information is available you can of course display the column titles and row indexes of that data frame:
+To see what information is available, you can of course display the column titles and row indexes of that data frame:
 
 ```python
 print(at_2017.columns)
@@ -136,11 +145,11 @@ To access the same forest data directly from the IPCC website without the use of
 
 ![IPCC demo screenshot 1](documentation/ipcc/ipcc_demo_1.png?raw=true "IPCC demo screenshot 1")
 
-Then you would have to manually download the zip file for that specific country through another page.
+Then you would have to manually download the `zip` file for that specific country through another page.
 
 ![IPCC demo screenshot 2](documentation/ipcc/ipcc_demo_2.png?raw=true "IPCC demo screenshot 2")
 
-Next, you would have to uncompress the zip file and locate the xls file that concerns the year you are interested in.
+Next, you would have to uncompress the `zip` file and locate the `xls` file that concerns the year you are interested in.
 
 ![IPCC demo screenshot 4](documentation/ipcc/ipcc_demo_4.png?raw=true "IPCC demo screenshot 4")
 
