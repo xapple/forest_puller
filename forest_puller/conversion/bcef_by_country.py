@@ -34,7 +34,7 @@ class CountryBCEF:
     to choose 2 factors:
 
     * The biomass conversion and expansion factor BCEF.
-    * The root to shoot ration R.
+    * The root to shoot ratio R.
 
     These factors come from table 4.5 and 4.4 respectively in the following
     IPCC guideline document:
