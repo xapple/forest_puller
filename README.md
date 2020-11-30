@@ -6,7 +6,9 @@
 
 `forest_puller` is a python package for retrieving data concerning forests of European countries. This includes the amount of forested areas, the forest inventory (standing stock), the forest growth rates as well as the forest loss dynamics (disturbances).
 
-There are several public data sources accessible online that provide these types of information in various forms and granularity. This package automates the process of scrapping these websites and parsing the resulting csv tables or excel files.
+This software is accompanied by a scientific publication that is available in preprint here: https://www.preprints.org/manuscript/202011.0661/v1
+
+There are several forest public data sources accessible online that provide these types of information in various forms and granularity. This package automates the process of scrapping these websites and parsing the resulting csv tables or excel files.
 
 Once `forest_puller` is installed you can easily access forest data through standard python pandas data frames.
 
