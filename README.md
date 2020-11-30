@@ -60,7 +60,7 @@ Or if you want to install it for all users of the system:
 
 ## Usage
 
-For instance, to retrieve the net carbon dioxide emission of Austria in 2017 that were due to *coniferous* forest land from the IPCC official data source, you can do the following:
+For instance, to retrieve the net carbon dioxide emission of Austria in 2017 that were due to *coniferous* forest land from the IPCC official data source, you can use the following python code:
 
 ```python
 # Import #
@@ -78,7 +78,7 @@ print(at_2017.loc['remaining_forest', 'Coniferous']['net_co2'])
 
      904282.4970403439
 
-To see what information is available, you can of course display the column titles and row indexes of that data frame:
+To see what other information is available, you can of course display the column titles and row indexes of the data frame at hand:
 
 ```python
 print(at_2017.columns)

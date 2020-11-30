@@ -4,7 +4,7 @@ Most modern operating systems, to the exception of Windows, come with `python3` 
 
 If you are using Windows, you can try [this method](https://lmgtfy.com/?q=install+python3+on+windows).
 
-Otherwise if you are using on old version of Linux or macOS, you can simply install your own version of python in your home directory without administrator privileges. To do this we suggest using this excellent project along with it's installer:
+Otherwise if you are using on old version of Linux or macOS, you can simply install your own version of python in your home directory without administrator privileges. To do this we suggest using this excellent project along with its installer:
 
 * https://github.com/yyuu/pyenv
 * https://github.com/yyuu/pyenv-installer
