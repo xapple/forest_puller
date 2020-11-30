@@ -23,7 +23,7 @@ jobs:
         pip install pytest
     - name: Install the forest_puller package
       run: |
-        pip install setup.py
+        pip install ./
     - name: Test with pytest
       run: |
         pytest
