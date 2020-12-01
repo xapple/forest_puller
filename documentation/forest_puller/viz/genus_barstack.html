@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>forest_puller.viz.genus_barstack API documentation</title>
+<meta name="description" content="Written by Lucas Sinclair and Paul Rougieux …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>forest_puller.viz.genus_barstack</code></h1>
+</header>
+<section id="section-intro">
+<p>Written by Lucas Sinclair and Paul Rougieux.</p>
+<p>JRC Biomass Project.
+Unit D1 Bioeconomy.</p>
+<p>Typically you can use this submodule like this:</p>
+<pre><code>&gt;&gt;&gt; from forest_puller.viz.genus_barstack import genus_barstack_data
+&gt;&gt;&gt; country = genus_barstack_data.countries['FR']
+&gt;&gt;&gt; print(country.genus_comp.stock_comp_genus)
+&gt;&gt;&gt; print(country.genus_comp.sort_cols(country.genus_comp.stock_genus_by_year))
+&gt;&gt;&gt; print(country.genus_comp.stock_genus_by_year)
+</code></pre>
+<p>Or if you want to look at the legend:</p>
+<pre><code>&gt;&gt;&gt; from forest_puller.viz.genus_barstack import genus_legend
+&gt;&gt;&gt; print(genus_legend.label_to_color)
+</code></pre>
+<p>To re-plot the graphs do the following:</p>
+<pre><code>&gt;&gt;&gt; from forest_puller.viz.genus_barstack import all_graphs
+&gt;&gt;&gt; for g in all_graphs: g.plot(rerun=True)
+&gt;&gt;&gt; from forest_puller.viz.genus_barstack import genus_legend
+&gt;&gt;&gt; genus_legend.plot(rerun=True)
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+&#34;&#34;&#34;
+Written by Lucas Sinclair and Paul Rougieux.
+
+JRC Biomass Project.
+Unit D1 Bioeconomy.
+
+Typically you can use this submodule like this:
+
+    &gt;&gt;&gt; from forest_puller.viz.genus_barstack import genus_barstack_data
+    &gt;&gt;&gt; country = genus_barstack_data.countries[&#39;FR&#39;]
+    &gt;&gt;&gt; print(country.genus_comp.stock_comp_genus)
+    &gt;&gt;&gt; print(country.genus_comp.sort_cols(country.genus_comp.stock_genus_by_year))
+    &gt;&gt;&gt; print(country.genus_comp.stock_genus_by_year)
+
+Or if you want to look at the legend:
+
+    &gt;&gt;&gt; from forest_puller.viz.genus_barstack import genus_legend
+    &gt;&gt;&gt; print(genus_legend.label_to_color)
+
+To re-plot the graphs do the following:
+
+    &gt;&gt;&gt; from forest_puller.viz.genus_barstack import all_graphs
+    &gt;&gt;&gt; for g in all_graphs: g.plot(rerun=True)
+    &gt;&gt;&gt; from forest_puller.viz.genus_barstack import genus_legend
+    &gt;&gt;&gt; genus_legend.plot(rerun=True)
+&#34;&#34;&#34;
+
+# Built-in modules #
+
+# Internal modules #
+from forest_puller.viz.helper.multiplot   import Multiplot
+from forest_puller                        import cache_dir
+from forest_puller.viz.helper.solo_legend import SoloLegend
+from forest_puller.common                 import country_codes
+
+# First party modules #
+from plumbing.cache import property_cached
+
+# Third party modules #
+import pandas, numpy
+from matplotlib import pyplot
+
+###############################################################################
+class GenusBarstackData:
+    &#34;&#34;&#34;
+    Add a property to every SOEF country object.
+    &#34;&#34;&#34;
+
+    @property_cached
+    def countries(self):
+        &#34;&#34;&#34;We have one dataframe for every country.&#34;&#34;&#34;
+        # Load #
+        from forest_puller.soef.country import countries
+        # Add a property by monkey patching #
+        for c in countries.values(): c.genus_comp = GenusComposition(c)
+        # Return #
+        return countries
+
+###############################################################################
+class GenusComposition:
+    &#34;&#34;&#34;
+    Every SOEF country object gets one instance of this class as a property.
+    This class produces one dataframe (for each country) detailing
+    the breakdown of the growing stock (m^3) in terms of genera.
+    &#34;&#34;&#34;
+
+    def __init__(self, soef_country):
+        # Parent #
+        self.parent = soef_country
+        # The reference ISO2 code #
+        self.iso2_code = soef_country.iso2_code
+        # The long name #
+        row = country_codes.loc[country_codes[&#39;iso2_code&#39;] == self.iso2_code]
+        self.country_name = row.iloc[0][&#39;country&#39;]
+
+    @property_cached
+    def stock_comp_genus(self):
+        &#34;&#34;&#34;
+        Looks like:
+
+            year     genus       stock_m3
+            1990  carpinus      5000000.0
+            1990      acer      9000000.0
+            1990     pinus      9000000.0
+            1990     abies     43000000.0
+            1990   missing     61000000.0
+            1990     abies    550000000.0
+        &#34;&#34;&#34;
+        # Import #
+        from forest_puller.soef.composition import composition_data as comp_data
+        # Load #
+        df = comp_data.stock_comp.query(&#34;country==@self.iso2_code&#34;)
+        # The stock is in cubic meters #
+        df = df.rename(columns={&#39;growing_stock&#39;: &#39;stock_m3&#39;})
+        # Drop totals #
+        df = df.query(&#39;rank!=&#34;total&#34;&#39;)
+        # Join #
+        df = df.left_join(comp_data.latin_mapping, on=&#39;latin_name&#39;)
+        # Sum rows that are the same genus #
+        df = df.groupby([&#39;genus&#39;, &#39;year&#39;]).aggregate({&#39;stock_m3&#39;: &#39;sum&#39;})
+        # Reset index #
+        df = df.reset_index()
+        # Sort the dataframe #
+        df = df.sort_values(by=[&#39;year&#39;, &#39;stock_m3&#39;])
+        # Return #
+        return df
+
+    @property_cached
+    def stock_genus_by_year(self):
+        &#34;&#34;&#34;
+        Looks like:
+
+            genus        abies        fagus       pinus     missing
+            year
+            1990   593000000.0   82000000.0  82000000.0  61000000.0
+            2000   686000000.0   96000000.0  83000000.0  70000000.0
+            2005   707000000.0  102000000.0  82000000.0  72000000.0
+            2010   721000000.0  106000000.0  81000000.0  76000000.0
+        &#34;&#34;&#34;
+        # Load #
+        df = self.stock_comp_genus
+        # Join and sum #
+        df = df.pipe(pandas.pivot_table,
+                     index   = [&#39;year&#39;],
+                     columns = [&#39;genus&#39;],
+                     values  = &#39;stock_m3&#39;,
+                     aggfunc = numpy.sum)
+        # Some countries like italy have NaNs in some cells #
+        df = df.fillna(0.0)
+        # Reorder the rows always in the same order #
+        df = df.reindex(columns=genus_legend.label_to_color.keys())
+        df = df.dropna(axis=1)
+        # Return #
+        return df
+
+###############################################################################
+class GenusBarstack(Multiplot):
+
+    # Basic params #
+    x_label    = &#39;Year&#39;
+    formats    = (&#39;pdf&#39;,)
+    share_y    = True
+    share_x    = False
+    height     = 8
+    width      = 30
+
+    # Size of grid #
+    n_rows = 1
+    n_cols = 5
+
+    # The ISO2 codes of the countries in the current batch #
+    @property
+    def short_name(self): return &#39;_&#39;.join(c.iso2_code for c in self.parent)
+
+    # Where the years are shown on the X axis coordinates #
+    year_to_index = {1990: 1,
+                     2000: 2,
+                     2005: 3,
+                     2010: 4}
+
+    def stacked_barplot(self, country):
+        &#34;&#34;&#34;Plotting function for one single country.&#34;&#34;&#34;
+        # Load #
+        df = country.genus_comp.stock_genus_by_year
+        # Convert to fractions #
+        df = df.div(df.sum(axis=1), axis=0)
+        # Transpose, each row is a genus now #
+        df = df.T
+        # Number of bars and numbers of categories within bars #
+        num_cats, num_bars = df.shape
+        # Record the bottoms for each successive new bar #
+        cum_size = numpy.zeros(num_bars)
+        # Loop #
+        for i, row in df.iterrows():
+            # Unpack #
+            genus  = row.name
+            years  = row.index
+            values = row.values
+            # Space each bar one unit apart from the next #
+            x_locations = [self.year_to_index[y] for y in years]
+            # Pick the right color #
+            color = genus_legend.label_to_color[genus]
+            # Plot #
+            pyplot.bar(x_locations,
+                       values,
+                       bottom = cum_size,
+                       color  = color)
+            # Increase #
+            cum_size += values
+
+    def plot(self, **kwargs):
+        # Plot every country #
+        for country, axes in zip(self.parent, self.axes):
+            pyplot.sca(axes)
+            self.stacked_barplot(country)
+
+        # Remove ugly box around figures #
+        self.remove_frame()
+
+        # Also remove the Y axis on the left #
+        fn = lambda a: a.spines[&#34;left&#34;].set_visible(False)
+        self.iterate_all_axes(fn)
+        self.set_y_ticks([])
+
+        # Change the Y labels only for the rightmost graph #
+        self.axes[0].set_ylabel(&#34;Fraction of growing stock volume&#34;,
+                                fontsize=12)
+
+        # Change the X labels #
+        self.set_x_labels(self.x_label)
+
+        # Set the X axis limits #
+        a = min(self.year_to_index.values()) - 1
+        b = max(self.year_to_index.values()) + 1
+        self.set_x_lim(a, b)
+
+        # Change the X ticks #
+        ticks = list(self.year_to_index.values())
+        self.set_x_ticks(ticks)
+
+        # Change the X ticks labels #
+        labels = list(map(str, self.year_to_index.keys()))
+        self.set_x_tick_labels(labels)
+
+        # Add the custom title  #
+        for country, axes in zip(self.parent, self.axes):
+            title = country.genus_comp.country_name
+            axes.text(0.05, 1.05, title, transform=axes.transAxes, ha=&#34;left&#34;, size=22)
+
+        # Prune graphs if we are shorter than n_cols #
+        if len(self.parent) &lt; self.n_cols:
+            for axes in self.axes[len(self.parent):]:
+                self.hide_full_axes(axes)
+
+        # Leave some space around the graph #
+        pyplot.subplots_adjust(wspace=0.3, top=0.9, left=0.04, right=0.91, bottom=0.1)
+        # Save #
+        self.save_plot(**kwargs)
+        # Convenience: return for display in notebooks for instance #
+        return self.fig
+
+###############################################################################
+class GenusBarstackLegend(SoloLegend):
+
+    n_col = 5
+
+    @property_cached
+    def label_to_color(self):
+        &#34;&#34;&#34;
+        Mapping of genera to colors.
+        Sort the genera according to the following rules.
+        The first level of organization is always:
+
+            &lt;all conifers, missing, all broadleaved&gt;
+
+        Then, within each category, we want to sort by the average
+        growing stock across all years with highest first.
+        &#34;&#34;&#34;
+        # Each country&#39;s genus breakdown #
+        cntrys = [c.genus_comp.stock_comp_genus for c in c_vals]
+        # All the stock fractions data together #
+        df = pandas.concat(cntrys)
+        # Sum all the growing stock in all countries #
+        df = df.groupby([&#39;genus&#39;]).aggregate({&#39;stock_m3&#39;: &#39;sum&#39;})
+        df = df.reset_index()
+        # Import #
+        from forest_puller.conversion.tree_species_info import df as species_info
+        # Uniquify on genera #
+        info = species_info.groupby(&#39;genus&#39;).first().reset_index()
+        # Add the species information #
+        df = df.left_join(info, on=&#39;genus&#39;)
+        # Make all broadleaved negative #
+        df[&#39;stock_m3&#39;] = numpy.where(df[&#39;kind&#39;] == &#39;broad&#39;,
+                                     -df[&#39;stock_m3&#39;], df[&#39;stock_m3&#39;])
+        # Make all missing null #
+        df[&#39;stock_m3&#39;] = numpy.where(df[&#39;genus&#39;] == &#39;missing&#39;,
+                                     0, df[&#39;stock_m3&#39;])
+        # Sort by total stock #
+        df = df.sort_values([&#39;stock_m3&#39;], ascending=False)
+        # Keep only two columns #
+        df = df.set_index(&#39;genus&#39;)[&#39;plot_color&#39;].to_dict()
+        # Return #
+        return df
+
+###############################################################################
+# Add the required properties #
+genus_barstack_data = GenusBarstackData()
+c_vals = list(genus_barstack_data.countries.values())
+
+# Remove countries that don&#39;t have data #
+missing_countries = [&#39;GR&#39;, &#39;LU&#39;]
+c_vals = [c for c in c_vals if c.iso2_code not in missing_countries]
+
+# Sort countries into batches of a given size #
+batch_size = GenusBarstack.n_cols
+batches    = [c_vals[i:i + batch_size] for i in range(0, len(c_vals), batch_size)]
+
+# Where to save the graphs #
+export_dir = cache_dir + &#39;graphs/genus_barstack/&#39;
+
+# Create a multiplot for each batch of countries #
+all_graphs = [GenusBarstack(batch, export_dir) for batch in batches]
+
+# Create a separate standalone legend #
+genus_legend = GenusBarstackLegend(base_dir = export_dir)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack"><code class="flex name class">
+<span>class <span class="ident">GenusBarstack</span></span>
+<span>(</span><span>parent=None, base_dir=None, short_name=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Similar to a FacetPlot, expect we don't use <code>seaborn</code> and do everything
+ourselves with <code>matplotlib</code>.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GenusBarstack(Multiplot):
+
+    # Basic params #
+    x_label    = &#39;Year&#39;
+    formats    = (&#39;pdf&#39;,)
+    share_y    = True
+    share_x    = False
+    height     = 8
+    width      = 30
+
+    # Size of grid #
+    n_rows = 1
+    n_cols = 5
+
+    # The ISO2 codes of the countries in the current batch #
+    @property
+    def short_name(self): return &#39;_&#39;.join(c.iso2_code for c in self.parent)
+
+    # Where the years are shown on the X axis coordinates #
+    year_to_index = {1990: 1,
+                     2000: 2,
+                     2005: 3,
+                     2010: 4}
+
+    def stacked_barplot(self, country):
+        &#34;&#34;&#34;Plotting function for one single country.&#34;&#34;&#34;
+        # Load #
+        df = country.genus_comp.stock_genus_by_year
+        # Convert to fractions #
+        df = df.div(df.sum(axis=1), axis=0)
+        # Transpose, each row is a genus now #
+        df = df.T
+        # Number of bars and numbers of categories within bars #
+        num_cats, num_bars = df.shape
+        # Record the bottoms for each successive new bar #
+        cum_size = numpy.zeros(num_bars)
+        # Loop #
+        for i, row in df.iterrows():
+            # Unpack #
+            genus  = row.name
+            years  = row.index
+            values = row.values
+            # Space each bar one unit apart from the next #
+            x_locations = [self.year_to_index[y] for y in years]
+            # Pick the right color #
+            color = genus_legend.label_to_color[genus]
+            # Plot #
+            pyplot.bar(x_locations,
+                       values,
+                       bottom = cum_size,
+                       color  = color)
+            # Increase #
+            cum_size += values
+
+    def plot(self, **kwargs):
+        # Plot every country #
+        for country, axes in zip(self.parent, self.axes):
+            pyplot.sca(axes)
+            self.stacked_barplot(country)
+
+        # Remove ugly box around figures #
+        self.remove_frame()
+
+        # Also remove the Y axis on the left #
+        fn = lambda a: a.spines[&#34;left&#34;].set_visible(False)
+        self.iterate_all_axes(fn)
+        self.set_y_ticks([])
+
+        # Change the Y labels only for the rightmost graph #
+        self.axes[0].set_ylabel(&#34;Fraction of growing stock volume&#34;,
+                                fontsize=12)
+
+        # Change the X labels #
+        self.set_x_labels(self.x_label)
+
+        # Set the X axis limits #
+        a = min(self.year_to_index.values()) - 1
+        b = max(self.year_to_index.values()) + 1
+        self.set_x_lim(a, b)
+
+        # Change the X ticks #
+        ticks = list(self.year_to_index.values())
+        self.set_x_ticks(ticks)
+
+        # Change the X ticks labels #
+        labels = list(map(str, self.year_to_index.keys()))
+        self.set_x_tick_labels(labels)
+
+        # Add the custom title  #
+        for country, axes in zip(self.parent, self.axes):
+            title = country.genus_comp.country_name
+            axes.text(0.05, 1.05, title, transform=axes.transAxes, ha=&#34;left&#34;, size=22)
+
+        # Prune graphs if we are shorter than n_cols #
+        if len(self.parent) &lt; self.n_cols:
+            for axes in self.axes[len(self.parent):]:
+                self.hide_full_axes(axes)
+
+        # Leave some space around the graph #
+        pyplot.subplots_adjust(wspace=0.3, top=0.9, left=0.04, right=0.91, bottom=0.1)
+        # Save #
+        self.save_plot(**kwargs)
+        # Convenience: return for display in notebooks for instance #
+        return self.fig</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="forest_puller.viz.helper.multiplot.Multiplot" href="helper/multiplot.html#forest_puller.viz.helper.multiplot.Multiplot">Multiplot</a></li>
+<li>plumbing.graphs.Graph</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.formats"><code class="name">var <span class="ident">formats</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.height"><code class="name">var <span class="ident">height</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.n_cols"><code class="name">var <span class="ident">n_cols</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.n_rows"><code class="name">var <span class="ident">n_rows</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.share_x"><code class="name">var <span class="ident">share_x</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.share_y"><code class="name">var <span class="ident">share_y</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.width"><code class="name">var <span class="ident">width</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.x_label"><code class="name">var <span class="ident">x_label</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.year_to_index"><code class="name">var <span class="ident">year_to_index</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.short_name"><code class="name">var <span class="ident">short_name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def short_name(self): return &#39;_&#39;.join(c.iso2_code for c in self.parent)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.plot"><code class="name flex">
+<span>def <span class="ident">plot</span></span>(<span>self, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An example plot function. You have to subclass this method.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot(self, **kwargs):
+    # Plot every country #
+    for country, axes in zip(self.parent, self.axes):
+        pyplot.sca(axes)
+        self.stacked_barplot(country)
+
+    # Remove ugly box around figures #
+    self.remove_frame()
+
+    # Also remove the Y axis on the left #
+    fn = lambda a: a.spines[&#34;left&#34;].set_visible(False)
+    self.iterate_all_axes(fn)
+    self.set_y_ticks([])
+
+    # Change the Y labels only for the rightmost graph #
+    self.axes[0].set_ylabel(&#34;Fraction of growing stock volume&#34;,
+                            fontsize=12)
+
+    # Change the X labels #
+    self.set_x_labels(self.x_label)
+
+    # Set the X axis limits #
+    a = min(self.year_to_index.values()) - 1
+    b = max(self.year_to_index.values()) + 1
+    self.set_x_lim(a, b)
+
+    # Change the X ticks #
+    ticks = list(self.year_to_index.values())
+    self.set_x_ticks(ticks)
+
+    # Change the X ticks labels #
+    labels = list(map(str, self.year_to_index.keys()))
+    self.set_x_tick_labels(labels)
+
+    # Add the custom title  #
+    for country, axes in zip(self.parent, self.axes):
+        title = country.genus_comp.country_name
+        axes.text(0.05, 1.05, title, transform=axes.transAxes, ha=&#34;left&#34;, size=22)
+
+    # Prune graphs if we are shorter than n_cols #
+    if len(self.parent) &lt; self.n_cols:
+        for axes in self.axes[len(self.parent):]:
+            self.hide_full_axes(axes)
+
+    # Leave some space around the graph #
+    pyplot.subplots_adjust(wspace=0.3, top=0.9, left=0.04, right=0.91, bottom=0.1)
+    # Save #
+    self.save_plot(**kwargs)
+    # Convenience: return for display in notebooks for instance #
+    return self.fig</code></pre>
+</details>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstack.stacked_barplot"><code class="name flex">
+<span>def <span class="ident">stacked_barplot</span></span>(<span>self, country)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Plotting function for one single country.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stacked_barplot(self, country):
+    &#34;&#34;&#34;Plotting function for one single country.&#34;&#34;&#34;
+    # Load #
+    df = country.genus_comp.stock_genus_by_year
+    # Convert to fractions #
+    df = df.div(df.sum(axis=1), axis=0)
+    # Transpose, each row is a genus now #
+    df = df.T
+    # Number of bars and numbers of categories within bars #
+    num_cats, num_bars = df.shape
+    # Record the bottoms for each successive new bar #
+    cum_size = numpy.zeros(num_bars)
+    # Loop #
+    for i, row in df.iterrows():
+        # Unpack #
+        genus  = row.name
+        years  = row.index
+        values = row.values
+        # Space each bar one unit apart from the next #
+        x_locations = [self.year_to_index[y] for y in years]
+        # Pick the right color #
+        color = genus_legend.label_to_color[genus]
+        # Plot #
+        pyplot.bar(x_locations,
+                   values,
+                   bottom = cum_size,
+                   color  = color)
+        # Increase #
+        cum_size += values</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="forest_puller.viz.helper.multiplot.Multiplot" href="helper/multiplot.html#forest_puller.viz.helper.multiplot.Multiplot">Multiplot</a></b></code>:
+<ul class="hlist">
+<li><code><a title="forest_puller.viz.helper.multiplot.Multiplot.fig_and_axes" href="helper/multiplot.html#forest_puller.viz.helper.multiplot.Multiplot.fig_and_axes">fig_and_axes</a></code></li>
+<li><code><a title="forest_puller.viz.helper.multiplot.Multiplot.hide_titles" href="helper/multiplot.html#forest_puller.viz.helper.multiplot.Multiplot.hide_titles">hide_titles</a></code></li>
+<li><code><a title="forest_puller.viz.helper.multiplot.Multiplot.x_grid_on" href="helper/multiplot.html#forest_puller.viz.helper.multiplot.Multiplot.x_grid_on">x_grid_on</a></code></li>
+<li><code><a title="forest_puller.viz.helper.multiplot.Multiplot.y_center_origin" href="helper/multiplot.html#forest_puller.viz.helper.multiplot.Multiplot.y_center_origin">y_center_origin</a></code></li>
+<li><code><a title="forest_puller.viz.helper.multiplot.Multiplot.y_grid_on" href="helper/multiplot.html#forest_puller.viz.helper.multiplot.Multiplot.y_grid_on">y_grid_on</a></code></li>
+<li><code><a title="forest_puller.viz.helper.multiplot.Multiplot.y_max_two_decimals" href="helper/multiplot.html#forest_puller.viz.helper.multiplot.Multiplot.y_max_two_decimals">y_max_two_decimals</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstackData"><code class="flex name class">
+<span>class <span class="ident">GenusBarstackData</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add a property to every SOEF country object.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GenusBarstackData:
+    &#34;&#34;&#34;
+    Add a property to every SOEF country object.
+    &#34;&#34;&#34;
+
+    @property_cached
+    def countries(self):
+        &#34;&#34;&#34;We have one dataframe for every country.&#34;&#34;&#34;
+        # Load #
+        from forest_puller.soef.country import countries
+        # Add a property by monkey patching #
+        for c in countries.values(): c.genus_comp = GenusComposition(c)
+        # Return #
+        return countries</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstackData.countries"><code class="name">var <span class="ident">countries</span></code></dt>
+<dd>
+<div class="desc"><p>We have one dataframe for every country.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    &#34;&#34;&#34;
+    If you see the current source code in a seemingly unrelated part of
+    an auto-generated documentation, it means the program making the
+    documentation was unable to correctly traverse a decorated property.
+    &#34;&#34;&#34;
+    # For debugging purposes #
+    if False: print(&#34;-&gt; property cached `%s`&#34; % instance)
+    # If called from a class #
+    if instance is None: return self
+    # Does a cache exist for this instance? #
+    self.check_cache(instance)
+    # Is the answer in the cache? #
+    if self.name in instance.__cache__: return instance.__cache__[self.name]
+    # If not we will compute it #
+    if inspect.isgeneratorfunction(self.func): result = tuple(self.func(instance))
+    else:                                      result = self.func(instance)
+    # Let&#39;s store the answer for later #
+    instance.__cache__[self.name] = result
+    # Return #
+    return result</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstackLegend"><code class="flex name class">
+<span>class <span class="ident">GenusBarstackLegend</span></span>
+<span>(</span><span>parent=None, base_dir=None, short_name=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A figure that contains no plot, only a legend, for composition purposes
+with the other graphs.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GenusBarstackLegend(SoloLegend):
+
+    n_col = 5
+
+    @property_cached
+    def label_to_color(self):
+        &#34;&#34;&#34;
+        Mapping of genera to colors.
+        Sort the genera according to the following rules.
+        The first level of organization is always:
+
+            &lt;all conifers, missing, all broadleaved&gt;
+
+        Then, within each category, we want to sort by the average
+        growing stock across all years with highest first.
+        &#34;&#34;&#34;
+        # Each country&#39;s genus breakdown #
+        cntrys = [c.genus_comp.stock_comp_genus for c in c_vals]
+        # All the stock fractions data together #
+        df = pandas.concat(cntrys)
+        # Sum all the growing stock in all countries #
+        df = df.groupby([&#39;genus&#39;]).aggregate({&#39;stock_m3&#39;: &#39;sum&#39;})
+        df = df.reset_index()
+        # Import #
+        from forest_puller.conversion.tree_species_info import df as species_info
+        # Uniquify on genera #
+        info = species_info.groupby(&#39;genus&#39;).first().reset_index()
+        # Add the species information #
+        df = df.left_join(info, on=&#39;genus&#39;)
+        # Make all broadleaved negative #
+        df[&#39;stock_m3&#39;] = numpy.where(df[&#39;kind&#39;] == &#39;broad&#39;,
+                                     -df[&#39;stock_m3&#39;], df[&#39;stock_m3&#39;])
+        # Make all missing null #
+        df[&#39;stock_m3&#39;] = numpy.where(df[&#39;genus&#39;] == &#39;missing&#39;,
+                                     0, df[&#39;stock_m3&#39;])
+        # Sort by total stock #
+        df = df.sort_values([&#39;stock_m3&#39;], ascending=False)
+        # Keep only two columns #
+        df = df.set_index(&#39;genus&#39;)[&#39;plot_color&#39;].to_dict()
+        # Return #
+        return df</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="forest_puller.viz.helper.solo_legend.SoloLegend" href="helper/solo_legend.html#forest_puller.viz.helper.solo_legend.SoloLegend">SoloLegend</a></li>
+<li>plumbing.graphs.Graph</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="forest_puller.viz.helper.color_rgb_code.ColorCodeLegend" href="helper/color_rgb_code.html#forest_puller.viz.helper.color_rgb_code.ColorCodeLegend">ColorCodeLegend</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstackLegend.n_col"><code class="name">var <span class="ident">n_col</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="forest_puller.viz.genus_barstack.GenusBarstackLegend.label_to_color"><code class="name">var <span class="ident">label_to_color</span></code></dt>
+<dd>
+<div class="desc"><p>Mapping of genera to colors.
+Sort the genera according to the following rules.
+The first level of organization is always:</p>
+<pre><code>&lt;all conifers, missing, all broadleaved&gt;
+</code></pre>
+<p>Then, within each category, we want to sort by the average
+growing stock across all years with highest first.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    &#34;&#34;&#34;
+    If you see the current source code in a seemingly unrelated part of
+    an auto-generated documentation, it means the program making the
+    documentation was unable to correctly traverse a decorated property.
+    &#34;&#34;&#34;
+    # For debugging purposes #
+    if False: print(&#34;-&gt; property cached `%s`&#34; % instance)
+    # If called from a class #
+    if instance is None: return self
+    # Does a cache exist for this instance? #
+    self.check_cache(instance)
+    # Is the answer in the cache? #
+    if self.name in instance.__cache__: return instance.__cache__[self.name]
+    # If not we will compute it #
+    if inspect.isgeneratorfunction(self.func): result = tuple(self.func(instance))
+    else:                                      result = self.func(instance)
+    # Let&#39;s store the answer for later #
+    instance.__cache__[self.name] = result
+    # Return #
+    return result</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="forest_puller.viz.helper.solo_legend.SoloLegend" href="helper/solo_legend.html#forest_puller.viz.helper.solo_legend.SoloLegend">SoloLegend</a></b></code>:
+<ul class="hlist">
+<li><code><a title="forest_puller.viz.helper.solo_legend.SoloLegend.plot" href="helper/solo_legend.html#forest_puller.viz.helper.solo_legend.SoloLegend.plot">plot</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusComposition"><code class="flex name class">
+<span>class <span class="ident">GenusComposition</span></span>
+<span>(</span><span>soef_country)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Every SOEF country object gets one instance of this class as a property.
+This class produces one dataframe (for each country) detailing
+the breakdown of the growing stock (m^3) in terms of genera.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GenusComposition:
+    &#34;&#34;&#34;
+    Every SOEF country object gets one instance of this class as a property.
+    This class produces one dataframe (for each country) detailing
+    the breakdown of the growing stock (m^3) in terms of genera.
+    &#34;&#34;&#34;
+
+    def __init__(self, soef_country):
+        # Parent #
+        self.parent = soef_country
+        # The reference ISO2 code #
+        self.iso2_code = soef_country.iso2_code
+        # The long name #
+        row = country_codes.loc[country_codes[&#39;iso2_code&#39;] == self.iso2_code]
+        self.country_name = row.iloc[0][&#39;country&#39;]
+
+    @property_cached
+    def stock_comp_genus(self):
+        &#34;&#34;&#34;
+        Looks like:
+
+            year     genus       stock_m3
+            1990  carpinus      5000000.0
+            1990      acer      9000000.0
+            1990     pinus      9000000.0
+            1990     abies     43000000.0
+            1990   missing     61000000.0
+            1990     abies    550000000.0
+        &#34;&#34;&#34;
+        # Import #
+        from forest_puller.soef.composition import composition_data as comp_data
+        # Load #
+        df = comp_data.stock_comp.query(&#34;country==@self.iso2_code&#34;)
+        # The stock is in cubic meters #
+        df = df.rename(columns={&#39;growing_stock&#39;: &#39;stock_m3&#39;})
+        # Drop totals #
+        df = df.query(&#39;rank!=&#34;total&#34;&#39;)
+        # Join #
+        df = df.left_join(comp_data.latin_mapping, on=&#39;latin_name&#39;)
+        # Sum rows that are the same genus #
+        df = df.groupby([&#39;genus&#39;, &#39;year&#39;]).aggregate({&#39;stock_m3&#39;: &#39;sum&#39;})
+        # Reset index #
+        df = df.reset_index()
+        # Sort the dataframe #
+        df = df.sort_values(by=[&#39;year&#39;, &#39;stock_m3&#39;])
+        # Return #
+        return df
+
+    @property_cached
+    def stock_genus_by_year(self):
+        &#34;&#34;&#34;
+        Looks like:
+
+            genus        abies        fagus       pinus     missing
+            year
+            1990   593000000.0   82000000.0  82000000.0  61000000.0
+            2000   686000000.0   96000000.0  83000000.0  70000000.0
+            2005   707000000.0  102000000.0  82000000.0  72000000.0
+            2010   721000000.0  106000000.0  81000000.0  76000000.0
+        &#34;&#34;&#34;
+        # Load #
+        df = self.stock_comp_genus
+        # Join and sum #
+        df = df.pipe(pandas.pivot_table,
+                     index   = [&#39;year&#39;],
+                     columns = [&#39;genus&#39;],
+                     values  = &#39;stock_m3&#39;,
+                     aggfunc = numpy.sum)
+        # Some countries like italy have NaNs in some cells #
+        df = df.fillna(0.0)
+        # Reorder the rows always in the same order #
+        df = df.reindex(columns=genus_legend.label_to_color.keys())
+        df = df.dropna(axis=1)
+        # Return #
+        return df</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="forest_puller.viz.genus_barstack.GenusComposition.stock_comp_genus"><code class="name">var <span class="ident">stock_comp_genus</span></code></dt>
+<dd>
+<div class="desc"><p>Looks like:</p>
+<pre><code>year     genus       stock_m3
+1990  carpinus      5000000.0
+1990      acer      9000000.0
+1990     pinus      9000000.0
+1990     abies     43000000.0
+1990   missing     61000000.0
+1990     abies    550000000.0
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    &#34;&#34;&#34;
+    If you see the current source code in a seemingly unrelated part of
+    an auto-generated documentation, it means the program making the
+    documentation was unable to correctly traverse a decorated property.
+    &#34;&#34;&#34;
+    # For debugging purposes #
+    if False: print(&#34;-&gt; property cached `%s`&#34; % instance)
+    # If called from a class #
+    if instance is None: return self
+    # Does a cache exist for this instance? #
+    self.check_cache(instance)
+    # Is the answer in the cache? #
+    if self.name in instance.__cache__: return instance.__cache__[self.name]
+    # If not we will compute it #
+    if inspect.isgeneratorfunction(self.func): result = tuple(self.func(instance))
+    else:                                      result = self.func(instance)
+    # Let&#39;s store the answer for later #
+    instance.__cache__[self.name] = result
+    # Return #
+    return result</code></pre>
+</details>
+</dd>
+<dt id="forest_puller.viz.genus_barstack.GenusComposition.stock_genus_by_year"><code class="name">var <span class="ident">stock_genus_by_year</span></code></dt>
+<dd>
+<div class="desc"><p>Looks like:</p>
+<pre><code>genus        abies        fagus       pinus     missing
+year
+1990   593000000.0   82000000.0  82000000.0  61000000.0
+2000   686000000.0   96000000.0  83000000.0  70000000.0
+2005   707000000.0  102000000.0  82000000.0  72000000.0
+2010   721000000.0  106000000.0  81000000.0  76000000.0
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    &#34;&#34;&#34;
+    If you see the current source code in a seemingly unrelated part of
+    an auto-generated documentation, it means the program making the
+    documentation was unable to correctly traverse a decorated property.
+    &#34;&#34;&#34;
+    # For debugging purposes #
+    if False: print(&#34;-&gt; property cached `%s`&#34; % instance)
+    # If called from a class #
+    if instance is None: return self
+    # Does a cache exist for this instance? #
+    self.check_cache(instance)
+    # Is the answer in the cache? #
+    if self.name in instance.__cache__: return instance.__cache__[self.name]
+    # If not we will compute it #
+    if inspect.isgeneratorfunction(self.func): result = tuple(self.func(instance))
+    else:                                      result = self.func(instance)
+    # Let&#39;s store the answer for later #
+    instance.__cache__[self.name] = result
+    # Return #
+    return result</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="forest_puller.viz" href="index.html">forest_puller.viz</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="forest_puller.viz.genus_barstack.GenusBarstack" href="#forest_puller.viz.genus_barstack.GenusBarstack">GenusBarstack</a></code></h4>
+<ul class="two-column">
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.formats" href="#forest_puller.viz.genus_barstack.GenusBarstack.formats">formats</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.height" href="#forest_puller.viz.genus_barstack.GenusBarstack.height">height</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.n_cols" href="#forest_puller.viz.genus_barstack.GenusBarstack.n_cols">n_cols</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.n_rows" href="#forest_puller.viz.genus_barstack.GenusBarstack.n_rows">n_rows</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.plot" href="#forest_puller.viz.genus_barstack.GenusBarstack.plot">plot</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.share_x" href="#forest_puller.viz.genus_barstack.GenusBarstack.share_x">share_x</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.share_y" href="#forest_puller.viz.genus_barstack.GenusBarstack.share_y">share_y</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.short_name" href="#forest_puller.viz.genus_barstack.GenusBarstack.short_name">short_name</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.stacked_barplot" href="#forest_puller.viz.genus_barstack.GenusBarstack.stacked_barplot">stacked_barplot</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.width" href="#forest_puller.viz.genus_barstack.GenusBarstack.width">width</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.x_label" href="#forest_puller.viz.genus_barstack.GenusBarstack.x_label">x_label</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstack.year_to_index" href="#forest_puller.viz.genus_barstack.GenusBarstack.year_to_index">year_to_index</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="forest_puller.viz.genus_barstack.GenusBarstackData" href="#forest_puller.viz.genus_barstack.GenusBarstackData">GenusBarstackData</a></code></h4>
+<ul class="">
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstackData.countries" href="#forest_puller.viz.genus_barstack.GenusBarstackData.countries">countries</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="forest_puller.viz.genus_barstack.GenusBarstackLegend" href="#forest_puller.viz.genus_barstack.GenusBarstackLegend">GenusBarstackLegend</a></code></h4>
+<ul class="">
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstackLegend.label_to_color" href="#forest_puller.viz.genus_barstack.GenusBarstackLegend.label_to_color">label_to_color</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusBarstackLegend.n_col" href="#forest_puller.viz.genus_barstack.GenusBarstackLegend.n_col">n_col</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="forest_puller.viz.genus_barstack.GenusComposition" href="#forest_puller.viz.genus_barstack.GenusComposition">GenusComposition</a></code></h4>
+<ul class="">
+<li><code><a title="forest_puller.viz.genus_barstack.GenusComposition.stock_comp_genus" href="#forest_puller.viz.genus_barstack.GenusComposition.stock_comp_genus">stock_comp_genus</a></code></li>
+<li><code><a title="forest_puller.viz.genus_barstack.GenusComposition.stock_genus_by_year" href="#forest_puller.viz.genus_barstack.GenusComposition.stock_genus_by_year">stock_genus_by_year</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>

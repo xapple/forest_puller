@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>forest_puller.conversion.bcef_by_country API documentation</title>
+<meta name="description" content="Written by Lucas Sinclair and Paul Rougieux …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>forest_puller.conversion.bcef_by_country</code></h1>
+</header>
+<section id="section-intro">
+<p>Written by Lucas Sinclair and Paul Rougieux.</p>
+<p>JRC Biomass Project.
+Unit D1 Bioeconomy.</p>
+<p>Typically you can use this submodule like this:</p>
+<pre><code>&gt;&gt;&gt; from forest_puller.conversion.bcef_by_country import country_bcef
+&gt;&gt;&gt; print(country_bcef.by_country_year)
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+&#34;&#34;&#34;
+Written by Lucas Sinclair and Paul Rougieux.
+
+JRC Biomass Project.
+Unit D1 Bioeconomy.
+
+Typically you can use this submodule like this:
+
+    &gt;&gt;&gt; from forest_puller.conversion.bcef_by_country import country_bcef
+    &gt;&gt;&gt; print(country_bcef.by_country_year)
+&#34;&#34;&#34;
+
+# Built-in modules #
+import itertools
+
+# Internal modules #
+from forest_puller.conversion.load_expansion_factor import bcef_coefs
+from forest_puller.common                           import country_codes
+from forest_puller                                  import cache_dir
+
+# First party modules #
+from plumbing.cache import property_cached, property_pickled_at
+
+# Third party modules #
+import numpy, pandas
+
+###############################################################################
+class CountryBCEF:
+    &#34;&#34;&#34;
+    This class uses the stock of merchantable biomass in each country
+    to choose 2 factors:
+
+    * The biomass conversion and expansion factor BCEF.
+    * The root to shoot ratio R.
+
+    These factors come from table 4.5 and 4.4 respectively in the following
+    IPCC guideline document:
+
+    https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pd
+
+    We first use the BCEF_R to expand the merchantable growing stock volume to
+    above-ground biomass stock. The above ground biomass stock is then used as
+    a threshold to choose the root to shoot ratio.
+
+    Interesting intermediary tables for further analysis:
+
+    * `all_stock_merch` contains the stock in merchantable volume per ha
+      and per leaf type.
+    * `all_stock_abg_biomass` contains the stock in above ground biomass weight
+       expressed in tons per ha and per leaf type.
+    &#34;&#34;&#34;
+
+    min_year = 1990
+    max_year = 2020
+
+    @property_cached
+    def country_climates(self):
+        &#34;&#34;&#34;
+        This dataframe looks like this:
+
+               country  climatic_zone  climatic_coef
+            0       AT         boreal            0.0
+            1       AT      temperate            1.0
+            2       AT  mediterranean            0.0
+            3       BE         boreal            0.0
+            4       BE      temperate            1.0
+        &#34;&#34;&#34;
+        # Load #
+        df = country_codes
+        # Keep only some columns #
+        columns = [&#39;iso2_code&#39;, &#39;boreal&#39;, &#39;temperate&#39;, &#39;mediterranean&#39;]
+        df = df[columns].copy()
+        # Rename column #
+        df = df.rename(columns={&#39;iso2_code&#39;: &#39;country&#39;})
+        # Unpivot #
+        df = df.melt(id_vars    = [&#39;country&#39;],
+                     var_name   = &#39;climatic_zone&#39;,
+                     value_name = &#39;climatic_coef&#39;)
+        # Sort #
+        df = df.sort_values(&#39;country&#39;)
+        # Reset index #
+        df = df.reset_index(drop=True)
+        # Return #
+        return df
+
+    @property
+    def all_stock_merch(self):
+        &#34;&#34;&#34;
+        This data frame looks like this:
+
+            country  year forest_type   area stock_per_ha
+        0        AT  1990         con    ...          ...
+        1        AT  1990       broad    ...          ...
+        2        AT  1990       mixed    ...          ...
+        3        AT  2000         con    ...          ...
+        4        AT  2000       broad    ...          ...
+        ..      ...   ...         ...    ...          ...
+
+        All columns are:
+
+            [&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;, &#39;area&#39;, &#39;stock_per_ha&#39;]
+
+        &#34;&#34;&#34;
+        # Import #
+        import forest_puller.soef.concat
+        # Load #
+        area  = forest_puller.soef.concat.tables[&#39;area_by_type&#39;].copy()
+        stock = forest_puller.soef.concat.tables[&#39;stock_by_type&#39;].copy()
+        # Remove null areas and make them NaNs #
+        selector = area.area == 0
+        area.loc[selector, &#39;area&#39;] = numpy.NaN
+        # Add the area to make one big dataframe #
+        df = stock.left_join(area, on=[&#39;country&#39;, &#39;year&#39;, &#39;category&#39;])
+        # Rename category to forest_type #
+        df = df.rename(columns={&#39;category&#39;: &#39;forest_type&#39;})
+        # Compute stock by hectare #
+        df[&#39;stock_per_ha&#39;] = df[&#39;stock&#39;] / df[&#39;area&#39;]
+        # Drop lines with NaN #
+        df = df.query(&#34;stock_per_ha == stock_per_ha&#34;)
+        # Now we don&#39;t need the stock column anymore #
+        df = df.drop(columns=[&#39;stock&#39;])
+        # Return #
+        return df
+
+    @property
+    def all_stock_merch_by_climate(self):
+        &#34;&#34;&#34;
+        This dataframe looks like this:
+
+               country  year forest_type  area   stock_per_ha  climatic_zone  climatic_coef
+           0        AT  1990         con   ...            ...         boreal            0.0
+           1        AT  1990         con   ...            ...      temperate            1.0
+           2        AT  1990         con   ...            ...  mediterranean            0.0
+           3        AT  1990       broad   ...            ...         boreal            0.0
+           4        AT  1990       broad   ...            ...      temperate            1.0
+
+        Warning: the stock per area values are duplicated for each country and forest type
+
+        All columns are:
+
+            [&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;, &#39;area&#39;, &#39;climatic_zone&#39;,
+             &#39;climatic_coef&#39;, &#39;stock_per_ha&#39;]
+        &#34;&#34;&#34;
+        # Load #
+        df = self.all_stock_merch.copy()
+        # Drop mixed forest #
+        df = df.query(&#34;forest_type != &#39;mixed&#39;&#34;)
+        # Add country info #
+        df = df.left_join(self.country_climates, on=&#34;country&#34;)
+        # Return #
+        return df
+
+    def get_one_bcef(self, row, kind):
+        &#34;&#34;&#34;Function to be applied to each row of the previous dataframe.&#34;&#34;&#34;
+        # If we get a NaN we return a NaN #
+        if row[&#39;stock_per_ha&#39;] != row[&#39;stock_per_ha&#39;]: return numpy.nan
+        # Load #
+        df = bcef_coefs
+        # Select corresponding climatic zone #
+        df = df.query(f&#34;climatic_zone == &#39;{row[&#39;climatic_zone&#39;]}&#39;&#34;)
+        # Select corresponding fores type#
+        df = df.query(f&#34;forest_type == &#39;{row[&#39;forest_type&#39;]}&#39;&#34;)
+        # Select corresponding bounds on stock per hectare #
+        df = df.query(f&#34;lower &lt; {row[&#39;stock_per_ha&#39;]} &lt;= upper&#34;)
+        # Make sure we have note more than one line #
+        assert len(df) &lt;= 1
+        # Extract single float #
+        result = df[&#39;bcef&#39; + kind].iloc[0]
+        # Return #
+        return result
+
+    @property
+    def with_bcef_coefs(self):
+        &#34;&#34;&#34;
+        This dataframe is the same as above except we have added three
+        columns. All columns are:
+
+            [&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;, &#39;area&#39;, &#39;climatic_zone&#39;,
+             &#39;climatic_coef&#39;, &#39;bcefi&#39;, &#39;bcefr&#39;, &#39;bcefs&#39;]
+        &#34;&#34;&#34;
+        # Load #
+        df = self.all_stock_merch_by_climate.copy()
+        # Add three columns #
+        df[&#39;bcefi&#39;] = df.apply(lambda row: self.get_one_bcef(row, &#39;i&#39;), axis=1)
+        df[&#39;bcefr&#39;] = df.apply(lambda row: self.get_one_bcef(row, &#39;r&#39;), axis=1)
+        df[&#39;bcefs&#39;] = df.apply(lambda row: self.get_one_bcef(row, &#39;s&#39;), axis=1)
+        # Now we don&#39;t need the stock_per_ha column anymore #
+        df = df.drop(columns=[&#39;stock_per_ha&#39;])
+        # Return #
+        return df
+
+    @property_pickled_at(&#39;cache_path&#39;)
+    def by_country_year(self):
+        &#34;&#34;&#34;
+        This dataframe has three coefficients &#39;bcefi&#39;, &#39;bcefr&#39;, &#39;bcefs&#39;
+        for every country and for every SOEF year (except 2015).
+
+        The dataframe looks like this:
+
+                             bcefi     bcefr     bcefs
+            country year
+            AT      1990  0.600000  0.843959  0.764714
+                    2000  0.574885  0.795115  0.720929
+                    2005  0.573515  0.796485  0.722071
+                    2010  0.572161  0.797839  0.723199
+        &#34;&#34;&#34;
+        # Load #
+        df = self.with_bcef_coefs.copy()
+        # Multiply by the climatic situation #
+        df[&#39;bcefi&#39;] *= df[&#39;climatic_coef&#39;]
+        df[&#39;bcefr&#39;] *= df[&#39;climatic_coef&#39;]
+        df[&#39;bcefs&#39;] *= df[&#39;climatic_coef&#39;]
+        # Now we don&#39;t need that column anymore #
+        df = df.drop(columns=[&#39;climatic_coef&#39;])
+        # Group and sum each BCEF while keeping area #
+        groups = df.groupby([&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;])
+        df     = groups.agg({&#39;bcefi&#39;: &#39;sum&#39;,
+                             &#39;bcefr&#39;: &#39;sum&#39;,
+                             &#39;bcefs&#39;: &#39;sum&#39;,
+                             &#39;area&#39;:  &#39;first&#39;})
+        # Get the ratio of conifers against broadleaved #
+        groups           = df.groupby([&#39;country&#39;, &#39;year&#39;])
+        df[&#39;area_total&#39;] = groups[&#39;area&#39;].transform(&#39;sum&#39;)
+        df[&#39;tree_coef&#39;]  = df[&#39;area&#39;] / df[&#39;area_total&#39;]
+        # Multiply by the ratio of the given leaf type #
+        df[&#39;bcefi&#39;] *= df[&#39;tree_coef&#39;]
+        df[&#39;bcefr&#39;] *= df[&#39;tree_coef&#39;]
+        df[&#39;bcefs&#39;] *= df[&#39;tree_coef&#39;]
+        # Group and sum each BCEF #
+        groups = df.groupby([&#39;country&#39;, &#39;year&#39;])
+        df     = groups.agg({&#39;bcefi&#39;: &#39;sum&#39;,
+                             &#39;bcefr&#39;: &#39;sum&#39;,
+                             &#39;bcefs&#39;: &#39;sum&#39;})
+        df = df.reset_index()
+        # Return #
+        return df
+
+    #------------------------------- Interpolation ---------------------------#
+    @property
+    def by_country_year_intrpld(self):
+        &#34;&#34;&#34;
+        Same as above but interpolate the coefficients to get more years.
+        &#34;&#34;&#34;
+        # Create a small data frame with all country and years #
+        countries   = self.by_country_year[&#39;country&#39;].drop_duplicates()
+        years       = range(self.min_year, self.max_year)
+        expand_grid = list(itertools.product(countries, years))
+        df          = pandas.DataFrame(expand_grid, columns=(&#39;country&#39;, &#39;year&#39;))
+        # Join the BCEF data #
+        df = df.left_join(self.by_country_year, on=[&#39;country&#39;,&#39;year&#39;])
+        # Interpolate #
+        country_groups = df.groupby(&#39;country&#39;)
+        df[&#39;bcefi&#39;] = country_groups[&#39;bcefi&#39;].transform(pandas.DataFrame.interpolate,
+                                                        limit_direction=&#39;both&#39;)
+        df[&#39;bcefr&#39;] = country_groups[&#39;bcefr&#39;].transform(pandas.DataFrame.interpolate,
+                                                        limit_direction=&#39;both&#39;)
+        df[&#39;bcefs&#39;] = country_groups[&#39;bcefs&#39;].transform(pandas.DataFrame.interpolate,
+                                                        limit_direction=&#39;both&#39;)
+        # Return #
+        return df
+
+    #---------------------------- Special properties -------------------------#
+    @property_cached
+    def all_stock_abg_biomass(self):
+        &#34;&#34;&#34;
+        This data frame contains the above ground biomass stock per hectare
+        expressed in tons of dry biomass. The method converts merchantable
+        biomass volume (m3 of trunk) to above ground biomass weight (tons of
+        dry biomass of trunk plus branches).
+
+        The table looks like this:
+
+            country  year forest_type  area  stock_per_ha
+        1        AT  1990         con   ...           ...
+        1        AT  1990       broad   ...           ...
+        2        AT  1990       mixed   ...           ...
+        3        AT  2000         con   ...           ...
+        &#34;&#34;&#34;
+        # Load #
+        stock_merch          = self.all_stock_merch
+        bcef_by_country_year = self.by_country_year
+        # Join the biomass conversion factors (bcef) to the stock data
+        index = [&#39;country&#39;, &#39;year&#39;]
+        df    = stock_merch.left_join(bcef_by_country_year, on=index)
+        # Compute the above ground biomass stock
+        df[&#39;stock_per_ha&#39;] *= df[&#39;bcefs&#39;]
+        # Drop the coefficients columns #
+        df = df.drop(columns=[&#39;bcefi&#39;, &#39;bcefr&#39;, &#39;bcefs&#39;])
+        # Return #
+        return df
+
+    # --------------------------------- Cache --------------------------------- #
+    @property
+    def cache_path(self):
+        &#34;&#34;&#34;Specify where on the file system we will pickle the dataframe.&#34;&#34;&#34;
+        path = cache_dir + &#39;conversion/bcef.pickle&#39;
+        return path
+
+###############################################################################
+# Create a singleton #
+country_bcef = CountryBCEF()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF"><code class="flex name class">
+<span>class <span class="ident">CountryBCEF</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>This class uses the stock of merchantable biomass in each country
+to choose 2 factors:</p>
+<ul>
+<li>The biomass conversion and expansion factor BCEF.</li>
+<li>The root to shoot ratio R.</li>
+</ul>
+<p>These factors come from table 4.5 and 4.4 respectively in the following
+IPCC guideline document:</p>
+<p><a href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pd">https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pd</a></p>
+<p>We first use the BCEF_R to expand the merchantable growing stock volume to
+above-ground biomass stock. The above ground biomass stock is then used as
+a threshold to choose the root to shoot ratio.</p>
+<p>Interesting intermediary tables for further analysis:</p>
+<ul>
+<li><code>all_stock_merch</code> contains the stock in merchantable volume per ha
+and per leaf type.</li>
+<li><code>all_stock_abg_biomass</code> contains the stock in above ground biomass weight
+expressed in tons per ha and per leaf type.</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CountryBCEF:
+    &#34;&#34;&#34;
+    This class uses the stock of merchantable biomass in each country
+    to choose 2 factors:
+
+    * The biomass conversion and expansion factor BCEF.
+    * The root to shoot ratio R.
+
+    These factors come from table 4.5 and 4.4 respectively in the following
+    IPCC guideline document:
+
+    https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/4_Volume4/V4_04_Ch4_Forest_Land.pd
+
+    We first use the BCEF_R to expand the merchantable growing stock volume to
+    above-ground biomass stock. The above ground biomass stock is then used as
+    a threshold to choose the root to shoot ratio.
+
+    Interesting intermediary tables for further analysis:
+
+    * `all_stock_merch` contains the stock in merchantable volume per ha
+      and per leaf type.
+    * `all_stock_abg_biomass` contains the stock in above ground biomass weight
+       expressed in tons per ha and per leaf type.
+    &#34;&#34;&#34;
+
+    min_year = 1990
+    max_year = 2020
+
+    @property_cached
+    def country_climates(self):
+        &#34;&#34;&#34;
+        This dataframe looks like this:
+
+               country  climatic_zone  climatic_coef
+            0       AT         boreal            0.0
+            1       AT      temperate            1.0
+            2       AT  mediterranean            0.0
+            3       BE         boreal            0.0
+            4       BE      temperate            1.0
+        &#34;&#34;&#34;
+        # Load #
+        df = country_codes
+        # Keep only some columns #
+        columns = [&#39;iso2_code&#39;, &#39;boreal&#39;, &#39;temperate&#39;, &#39;mediterranean&#39;]
+        df = df[columns].copy()
+        # Rename column #
+        df = df.rename(columns={&#39;iso2_code&#39;: &#39;country&#39;})
+        # Unpivot #
+        df = df.melt(id_vars    = [&#39;country&#39;],
+                     var_name   = &#39;climatic_zone&#39;,
+                     value_name = &#39;climatic_coef&#39;)
+        # Sort #
+        df = df.sort_values(&#39;country&#39;)
+        # Reset index #
+        df = df.reset_index(drop=True)
+        # Return #
+        return df
+
+    @property
+    def all_stock_merch(self):
+        &#34;&#34;&#34;
+        This data frame looks like this:
+
+            country  year forest_type   area stock_per_ha
+        0        AT  1990         con    ...          ...
+        1        AT  1990       broad    ...          ...
+        2        AT  1990       mixed    ...          ...
+        3        AT  2000         con    ...          ...
+        4        AT  2000       broad    ...          ...
+        ..      ...   ...         ...    ...          ...
+
+        All columns are:
+
+            [&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;, &#39;area&#39;, &#39;stock_per_ha&#39;]
+
+        &#34;&#34;&#34;
+        # Import #
+        import forest_puller.soef.concat
+        # Load #
+        area  = forest_puller.soef.concat.tables[&#39;area_by_type&#39;].copy()
+        stock = forest_puller.soef.concat.tables[&#39;stock_by_type&#39;].copy()
+        # Remove null areas and make them NaNs #
+        selector = area.area == 0
+        area.loc[selector, &#39;area&#39;] = numpy.NaN
+        # Add the area to make one big dataframe #
+        df = stock.left_join(area, on=[&#39;country&#39;, &#39;year&#39;, &#39;category&#39;])
+        # Rename category to forest_type #
+        df = df.rename(columns={&#39;category&#39;: &#39;forest_type&#39;})
+        # Compute stock by hectare #
+        df[&#39;stock_per_ha&#39;] = df[&#39;stock&#39;] / df[&#39;area&#39;]
+        # Drop lines with NaN #
+        df = df.query(&#34;stock_per_ha == stock_per_ha&#34;)
+        # Now we don&#39;t need the stock column anymore #
+        df = df.drop(columns=[&#39;stock&#39;])
+        # Return #
+        return df
+
+    @property
+    def all_stock_merch_by_climate(self):
+        &#34;&#34;&#34;
+        This dataframe looks like this:
+
+               country  year forest_type  area   stock_per_ha  climatic_zone  climatic_coef
+           0        AT  1990         con   ...            ...         boreal            0.0
+           1        AT  1990         con   ...            ...      temperate            1.0
+           2        AT  1990         con   ...            ...  mediterranean            0.0
+           3        AT  1990       broad   ...            ...         boreal            0.0
+           4        AT  1990       broad   ...            ...      temperate            1.0
+
+        Warning: the stock per area values are duplicated for each country and forest type
+
+        All columns are:
+
+            [&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;, &#39;area&#39;, &#39;climatic_zone&#39;,
+             &#39;climatic_coef&#39;, &#39;stock_per_ha&#39;]
+        &#34;&#34;&#34;
+        # Load #
+        df = self.all_stock_merch.copy()
+        # Drop mixed forest #
+        df = df.query(&#34;forest_type != &#39;mixed&#39;&#34;)
+        # Add country info #
+        df = df.left_join(self.country_climates, on=&#34;country&#34;)
+        # Return #
+        return df
+
+    def get_one_bcef(self, row, kind):
+        &#34;&#34;&#34;Function to be applied to each row of the previous dataframe.&#34;&#34;&#34;
+        # If we get a NaN we return a NaN #
+        if row[&#39;stock_per_ha&#39;] != row[&#39;stock_per_ha&#39;]: return numpy.nan
+        # Load #
+        df = bcef_coefs
+        # Select corresponding climatic zone #
+        df = df.query(f&#34;climatic_zone == &#39;{row[&#39;climatic_zone&#39;]}&#39;&#34;)
+        # Select corresponding fores type#
+        df = df.query(f&#34;forest_type == &#39;{row[&#39;forest_type&#39;]}&#39;&#34;)
+        # Select corresponding bounds on stock per hectare #
+        df = df.query(f&#34;lower &lt; {row[&#39;stock_per_ha&#39;]} &lt;= upper&#34;)
+        # Make sure we have note more than one line #
+        assert len(df) &lt;= 1
+        # Extract single float #
+        result = df[&#39;bcef&#39; + kind].iloc[0]
+        # Return #
+        return result
+
+    @property
+    def with_bcef_coefs(self):
+        &#34;&#34;&#34;
+        This dataframe is the same as above except we have added three
+        columns. All columns are:
+
+            [&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;, &#39;area&#39;, &#39;climatic_zone&#39;,
+             &#39;climatic_coef&#39;, &#39;bcefi&#39;, &#39;bcefr&#39;, &#39;bcefs&#39;]
+        &#34;&#34;&#34;
+        # Load #
+        df = self.all_stock_merch_by_climate.copy()
+        # Add three columns #
+        df[&#39;bcefi&#39;] = df.apply(lambda row: self.get_one_bcef(row, &#39;i&#39;), axis=1)
+        df[&#39;bcefr&#39;] = df.apply(lambda row: self.get_one_bcef(row, &#39;r&#39;), axis=1)
+        df[&#39;bcefs&#39;] = df.apply(lambda row: self.get_one_bcef(row, &#39;s&#39;), axis=1)
+        # Now we don&#39;t need the stock_per_ha column anymore #
+        df = df.drop(columns=[&#39;stock_per_ha&#39;])
+        # Return #
+        return df
+
+    @property_pickled_at(&#39;cache_path&#39;)
+    def by_country_year(self):
+        &#34;&#34;&#34;
+        This dataframe has three coefficients &#39;bcefi&#39;, &#39;bcefr&#39;, &#39;bcefs&#39;
+        for every country and for every SOEF year (except 2015).
+
+        The dataframe looks like this:
+
+                             bcefi     bcefr     bcefs
+            country year
+            AT      1990  0.600000  0.843959  0.764714
+                    2000  0.574885  0.795115  0.720929
+                    2005  0.573515  0.796485  0.722071
+                    2010  0.572161  0.797839  0.723199
+        &#34;&#34;&#34;
+        # Load #
+        df = self.with_bcef_coefs.copy()
+        # Multiply by the climatic situation #
+        df[&#39;bcefi&#39;] *= df[&#39;climatic_coef&#39;]
+        df[&#39;bcefr&#39;] *= df[&#39;climatic_coef&#39;]
+        df[&#39;bcefs&#39;] *= df[&#39;climatic_coef&#39;]
+        # Now we don&#39;t need that column anymore #
+        df = df.drop(columns=[&#39;climatic_coef&#39;])
+        # Group and sum each BCEF while keeping area #
+        groups = df.groupby([&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;])
+        df     = groups.agg({&#39;bcefi&#39;: &#39;sum&#39;,
+                             &#39;bcefr&#39;: &#39;sum&#39;,
+                             &#39;bcefs&#39;: &#39;sum&#39;,
+                             &#39;area&#39;:  &#39;first&#39;})
+        # Get the ratio of conifers against broadleaved #
+        groups           = df.groupby([&#39;country&#39;, &#39;year&#39;])
+        df[&#39;area_total&#39;] = groups[&#39;area&#39;].transform(&#39;sum&#39;)
+        df[&#39;tree_coef&#39;]  = df[&#39;area&#39;] / df[&#39;area_total&#39;]
+        # Multiply by the ratio of the given leaf type #
+        df[&#39;bcefi&#39;] *= df[&#39;tree_coef&#39;]
+        df[&#39;bcefr&#39;] *= df[&#39;tree_coef&#39;]
+        df[&#39;bcefs&#39;] *= df[&#39;tree_coef&#39;]
+        # Group and sum each BCEF #
+        groups = df.groupby([&#39;country&#39;, &#39;year&#39;])
+        df     = groups.agg({&#39;bcefi&#39;: &#39;sum&#39;,
+                             &#39;bcefr&#39;: &#39;sum&#39;,
+                             &#39;bcefs&#39;: &#39;sum&#39;})
+        df = df.reset_index()
+        # Return #
+        return df
+
+    #------------------------------- Interpolation ---------------------------#
+    @property
+    def by_country_year_intrpld(self):
+        &#34;&#34;&#34;
+        Same as above but interpolate the coefficients to get more years.
+        &#34;&#34;&#34;
+        # Create a small data frame with all country and years #
+        countries   = self.by_country_year[&#39;country&#39;].drop_duplicates()
+        years       = range(self.min_year, self.max_year)
+        expand_grid = list(itertools.product(countries, years))
+        df          = pandas.DataFrame(expand_grid, columns=(&#39;country&#39;, &#39;year&#39;))
+        # Join the BCEF data #
+        df = df.left_join(self.by_country_year, on=[&#39;country&#39;,&#39;year&#39;])
+        # Interpolate #
+        country_groups = df.groupby(&#39;country&#39;)
+        df[&#39;bcefi&#39;] = country_groups[&#39;bcefi&#39;].transform(pandas.DataFrame.interpolate,
+                                                        limit_direction=&#39;both&#39;)
+        df[&#39;bcefr&#39;] = country_groups[&#39;bcefr&#39;].transform(pandas.DataFrame.interpolate,
+                                                        limit_direction=&#39;both&#39;)
+        df[&#39;bcefs&#39;] = country_groups[&#39;bcefs&#39;].transform(pandas.DataFrame.interpolate,
+                                                        limit_direction=&#39;both&#39;)
+        # Return #
+        return df
+
+    #---------------------------- Special properties -------------------------#
+    @property_cached
+    def all_stock_abg_biomass(self):
+        &#34;&#34;&#34;
+        This data frame contains the above ground biomass stock per hectare
+        expressed in tons of dry biomass. The method converts merchantable
+        biomass volume (m3 of trunk) to above ground biomass weight (tons of
+        dry biomass of trunk plus branches).
+
+        The table looks like this:
+
+            country  year forest_type  area  stock_per_ha
+        1        AT  1990         con   ...           ...
+        1        AT  1990       broad   ...           ...
+        2        AT  1990       mixed   ...           ...
+        3        AT  2000         con   ...           ...
+        &#34;&#34;&#34;
+        # Load #
+        stock_merch          = self.all_stock_merch
+        bcef_by_country_year = self.by_country_year
+        # Join the biomass conversion factors (bcef) to the stock data
+        index = [&#39;country&#39;, &#39;year&#39;]
+        df    = stock_merch.left_join(bcef_by_country_year, on=index)
+        # Compute the above ground biomass stock
+        df[&#39;stock_per_ha&#39;] *= df[&#39;bcefs&#39;]
+        # Drop the coefficients columns #
+        df = df.drop(columns=[&#39;bcefi&#39;, &#39;bcefr&#39;, &#39;bcefs&#39;])
+        # Return #
+        return df
+
+    # --------------------------------- Cache --------------------------------- #
+    @property
+    def cache_path(self):
+        &#34;&#34;&#34;Specify where on the file system we will pickle the dataframe.&#34;&#34;&#34;
+        path = cache_dir + &#39;conversion/bcef.pickle&#39;
+        return path</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.max_year"><code class="name">var <span class="ident">max_year</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.min_year"><code class="name">var <span class="ident">min_year</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.all_stock_abg_biomass"><code class="name">var <span class="ident">all_stock_abg_biomass</span></code></dt>
+<dd>
+<div class="desc"><p>This data frame contains the above ground biomass stock per hectare
+expressed in tons of dry biomass. The method converts merchantable
+biomass volume (m3 of trunk) to above ground biomass weight (tons of
+dry biomass of trunk plus branches).</p>
+<p>The table looks like this:</p>
+<pre><code>country  year forest_type  area  stock_per_ha
+</code></pre>
+<p>1
+AT
+1990
+con
+&hellip;
+&hellip;
+1
+AT
+1990
+broad
+&hellip;
+&hellip;
+2
+AT
+1990
+mixed
+&hellip;
+&hellip;
+3
+AT
+2000
+con
+&hellip;
+&hellip;</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    &#34;&#34;&#34;
+    If you see the current source code in a seemingly unrelated part of
+    an auto-generated documentation, it means the program making the
+    documentation was unable to correctly traverse a decorated property.
+    &#34;&#34;&#34;
+    # For debugging purposes #
+    if False: print(&#34;-&gt; property cached `%s`&#34; % instance)
+    # If called from a class #
+    if instance is None: return self
+    # Does a cache exist for this instance? #
+    self.check_cache(instance)
+    # Is the answer in the cache? #
+    if self.name in instance.__cache__: return instance.__cache__[self.name]
+    # If not we will compute it #
+    if inspect.isgeneratorfunction(self.func): result = tuple(self.func(instance))
+    else:                                      result = self.func(instance)
+    # Let&#39;s store the answer for later #
+    instance.__cache__[self.name] = result
+    # Return #
+    return result</code></pre>
+</details>
+</dd>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.all_stock_merch"><code class="name">var <span class="ident">all_stock_merch</span></code></dt>
+<dd>
+<div class="desc"><p>This data frame looks like this:</p>
+<pre><code>country  year forest_type   area stock_per_ha
+</code></pre>
+<p>0
+AT
+1990
+con
+&hellip;
+&hellip;
+1
+AT
+1990
+broad
+&hellip;
+&hellip;
+2
+AT
+1990
+mixed
+&hellip;
+&hellip;
+3
+AT
+2000
+con
+&hellip;
+&hellip;
+4
+AT
+2000
+broad
+&hellip;
+&hellip;
+..
+&hellip;
+&hellip;
+&hellip;
+&hellip;
+&hellip;</p>
+<p>All columns are:</p>
+<pre><code>['country', 'year', 'forest_type', 'area', 'stock_per_ha']
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def all_stock_merch(self):
+    &#34;&#34;&#34;
+    This data frame looks like this:
+
+        country  year forest_type   area stock_per_ha
+    0        AT  1990         con    ...          ...
+    1        AT  1990       broad    ...          ...
+    2        AT  1990       mixed    ...          ...
+    3        AT  2000         con    ...          ...
+    4        AT  2000       broad    ...          ...
+    ..      ...   ...         ...    ...          ...
+
+    All columns are:
+
+        [&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;, &#39;area&#39;, &#39;stock_per_ha&#39;]
+
+    &#34;&#34;&#34;
+    # Import #
+    import forest_puller.soef.concat
+    # Load #
+    area  = forest_puller.soef.concat.tables[&#39;area_by_type&#39;].copy()
+    stock = forest_puller.soef.concat.tables[&#39;stock_by_type&#39;].copy()
+    # Remove null areas and make them NaNs #
+    selector = area.area == 0
+    area.loc[selector, &#39;area&#39;] = numpy.NaN
+    # Add the area to make one big dataframe #
+    df = stock.left_join(area, on=[&#39;country&#39;, &#39;year&#39;, &#39;category&#39;])
+    # Rename category to forest_type #
+    df = df.rename(columns={&#39;category&#39;: &#39;forest_type&#39;})
+    # Compute stock by hectare #
+    df[&#39;stock_per_ha&#39;] = df[&#39;stock&#39;] / df[&#39;area&#39;]
+    # Drop lines with NaN #
+    df = df.query(&#34;stock_per_ha == stock_per_ha&#34;)
+    # Now we don&#39;t need the stock column anymore #
+    df = df.drop(columns=[&#39;stock&#39;])
+    # Return #
+    return df</code></pre>
+</details>
+</dd>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.all_stock_merch_by_climate"><code class="name">var <span class="ident">all_stock_merch_by_climate</span></code></dt>
+<dd>
+<div class="desc"><p>This dataframe looks like this:</p>
+<pre><code>   country  year forest_type  area   stock_per_ha  climatic_zone  climatic_coef
+</code></pre>
+<p>0
+AT
+1990
+con
+&hellip;
+&hellip;
+boreal
+0.0
+1
+AT
+1990
+con
+&hellip;
+&hellip;
+temperate
+1.0
+2
+AT
+1990
+con
+&hellip;
+&hellip;
+mediterranean
+0.0
+3
+AT
+1990
+broad
+&hellip;
+&hellip;
+boreal
+0.0
+4
+AT
+1990
+broad
+&hellip;
+&hellip;
+temperate
+1.0</p>
+<p>Warning: the stock per area values are duplicated for each country and forest type</p>
+<p>All columns are:</p>
+<pre><code>['country', 'year', 'forest_type', 'area', 'climatic_zone',
+ 'climatic_coef', 'stock_per_ha']
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def all_stock_merch_by_climate(self):
+    &#34;&#34;&#34;
+    This dataframe looks like this:
+
+           country  year forest_type  area   stock_per_ha  climatic_zone  climatic_coef
+       0        AT  1990         con   ...            ...         boreal            0.0
+       1        AT  1990         con   ...            ...      temperate            1.0
+       2        AT  1990         con   ...            ...  mediterranean            0.0
+       3        AT  1990       broad   ...            ...         boreal            0.0
+       4        AT  1990       broad   ...            ...      temperate            1.0
+
+    Warning: the stock per area values are duplicated for each country and forest type
+
+    All columns are:
+
+        [&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;, &#39;area&#39;, &#39;climatic_zone&#39;,
+         &#39;climatic_coef&#39;, &#39;stock_per_ha&#39;]
+    &#34;&#34;&#34;
+    # Load #
+    df = self.all_stock_merch.copy()
+    # Drop mixed forest #
+    df = df.query(&#34;forest_type != &#39;mixed&#39;&#34;)
+    # Add country info #
+    df = df.left_join(self.country_climates, on=&#34;country&#34;)
+    # Return #
+    return df</code></pre>
+</details>
+</dd>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.by_country_year"><code class="name">var <span class="ident">by_country_year</span></code></dt>
+<dd>
+<div class="desc"><p>This dataframe has three coefficients 'bcefi', 'bcefr', 'bcefs'
+for every country and for every SOEF year (except 2015).</p>
+<p>The dataframe looks like this:</p>
+<pre><code>                 bcefi     bcefr     bcefs
+country year
+AT      1990  0.600000  0.843959  0.764714
+        2000  0.574885  0.795115  0.720929
+        2005  0.573515  0.796485  0.722071
+        2010  0.572161  0.797839  0.723199
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    &#34;&#34;&#34;
+    If you see this docstring or code in a seemingly unrelated part of
+    an auto-generated documentation, it means the program making the
+    documentation was unable to correctly traverse a decorated property.
+    &#34;&#34;&#34;
+    # If called from a class #
+    if instance is None: return self
+    # Does a cache exist for this instance? #
+    self.check_cache(instance)
+    # Is the answer in the cache? #
+    if self.name in instance.__cache__: return instance.__cache__[self.name]
+    # Where should we look in the file system ? #
+    path = self.get_pickle_path(instance)
+    # Is the answer already on the file system? #
+    if path.exists:
+        with open(path, &#39;rb&#39;) as handle: result = pickle.load(handle)
+        instance.__cache__[self.name] = result
+        return result
+    # If not we will compute it #
+    if inspect.isgeneratorfunction(self.func): result = tuple(self.func(instance))
+    else:                                      result = self.func(instance)
+    # Let&#39;s store the answer for later in the cache #
+    instance.__cache__[self.name] = result
+    # And also store it on the disk #
+    with open(path, &#39;wb&#39;) as handle: pickle.dump(result, handle)
+    # Return #
+    return result</code></pre>
+</details>
+</dd>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.by_country_year_intrpld"><code class="name">var <span class="ident">by_country_year_intrpld</span></code></dt>
+<dd>
+<div class="desc"><p>Same as above but interpolate the coefficients to get more years.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def by_country_year_intrpld(self):
+    &#34;&#34;&#34;
+    Same as above but interpolate the coefficients to get more years.
+    &#34;&#34;&#34;
+    # Create a small data frame with all country and years #
+    countries   = self.by_country_year[&#39;country&#39;].drop_duplicates()
+    years       = range(self.min_year, self.max_year)
+    expand_grid = list(itertools.product(countries, years))
+    df          = pandas.DataFrame(expand_grid, columns=(&#39;country&#39;, &#39;year&#39;))
+    # Join the BCEF data #
+    df = df.left_join(self.by_country_year, on=[&#39;country&#39;,&#39;year&#39;])
+    # Interpolate #
+    country_groups = df.groupby(&#39;country&#39;)
+    df[&#39;bcefi&#39;] = country_groups[&#39;bcefi&#39;].transform(pandas.DataFrame.interpolate,
+                                                    limit_direction=&#39;both&#39;)
+    df[&#39;bcefr&#39;] = country_groups[&#39;bcefr&#39;].transform(pandas.DataFrame.interpolate,
+                                                    limit_direction=&#39;both&#39;)
+    df[&#39;bcefs&#39;] = country_groups[&#39;bcefs&#39;].transform(pandas.DataFrame.interpolate,
+                                                    limit_direction=&#39;both&#39;)
+    # Return #
+    return df</code></pre>
+</details>
+</dd>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.cache_path"><code class="name">var <span class="ident">cache_path</span></code></dt>
+<dd>
+<div class="desc"><p>Specify where on the file system we will pickle the dataframe.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def cache_path(self):
+    &#34;&#34;&#34;Specify where on the file system we will pickle the dataframe.&#34;&#34;&#34;
+    path = cache_dir + &#39;conversion/bcef.pickle&#39;
+    return path</code></pre>
+</details>
+</dd>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.country_climates"><code class="name">var <span class="ident">country_climates</span></code></dt>
+<dd>
+<div class="desc"><p>This dataframe looks like this:</p>
+<pre><code>   country  climatic_zone  climatic_coef
+0       AT         boreal            0.0
+1       AT      temperate            1.0
+2       AT  mediterranean            0.0
+3       BE         boreal            0.0
+4       BE      temperate            1.0
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    &#34;&#34;&#34;
+    If you see the current source code in a seemingly unrelated part of
+    an auto-generated documentation, it means the program making the
+    documentation was unable to correctly traverse a decorated property.
+    &#34;&#34;&#34;
+    # For debugging purposes #
+    if False: print(&#34;-&gt; property cached `%s`&#34; % instance)
+    # If called from a class #
+    if instance is None: return self
+    # Does a cache exist for this instance? #
+    self.check_cache(instance)
+    # Is the answer in the cache? #
+    if self.name in instance.__cache__: return instance.__cache__[self.name]
+    # If not we will compute it #
+    if inspect.isgeneratorfunction(self.func): result = tuple(self.func(instance))
+    else:                                      result = self.func(instance)
+    # Let&#39;s store the answer for later #
+    instance.__cache__[self.name] = result
+    # Return #
+    return result</code></pre>
+</details>
+</dd>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.with_bcef_coefs"><code class="name">var <span class="ident">with_bcef_coefs</span></code></dt>
+<dd>
+<div class="desc"><p>This dataframe is the same as above except we have added three
+columns. All columns are:</p>
+<pre><code>['country', 'year', 'forest_type', 'area', 'climatic_zone',
+ 'climatic_coef', 'bcefi', 'bcefr', 'bcefs']
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def with_bcef_coefs(self):
+    &#34;&#34;&#34;
+    This dataframe is the same as above except we have added three
+    columns. All columns are:
+
+        [&#39;country&#39;, &#39;year&#39;, &#39;forest_type&#39;, &#39;area&#39;, &#39;climatic_zone&#39;,
+         &#39;climatic_coef&#39;, &#39;bcefi&#39;, &#39;bcefr&#39;, &#39;bcefs&#39;]
+    &#34;&#34;&#34;
+    # Load #
+    df = self.all_stock_merch_by_climate.copy()
+    # Add three columns #
+    df[&#39;bcefi&#39;] = df.apply(lambda row: self.get_one_bcef(row, &#39;i&#39;), axis=1)
+    df[&#39;bcefr&#39;] = df.apply(lambda row: self.get_one_bcef(row, &#39;r&#39;), axis=1)
+    df[&#39;bcefs&#39;] = df.apply(lambda row: self.get_one_bcef(row, &#39;s&#39;), axis=1)
+    # Now we don&#39;t need the stock_per_ha column anymore #
+    df = df.drop(columns=[&#39;stock_per_ha&#39;])
+    # Return #
+    return df</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="forest_puller.conversion.bcef_by_country.CountryBCEF.get_one_bcef"><code class="name flex">
+<span>def <span class="ident">get_one_bcef</span></span>(<span>self, row, kind)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Function to be applied to each row of the previous dataframe.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_one_bcef(self, row, kind):
+    &#34;&#34;&#34;Function to be applied to each row of the previous dataframe.&#34;&#34;&#34;
+    # If we get a NaN we return a NaN #
+    if row[&#39;stock_per_ha&#39;] != row[&#39;stock_per_ha&#39;]: return numpy.nan
+    # Load #
+    df = bcef_coefs
+    # Select corresponding climatic zone #
+    df = df.query(f&#34;climatic_zone == &#39;{row[&#39;climatic_zone&#39;]}&#39;&#34;)
+    # Select corresponding fores type#
+    df = df.query(f&#34;forest_type == &#39;{row[&#39;forest_type&#39;]}&#39;&#34;)
+    # Select corresponding bounds on stock per hectare #
+    df = df.query(f&#34;lower &lt; {row[&#39;stock_per_ha&#39;]} &lt;= upper&#34;)
+    # Make sure we have note more than one line #
+    assert len(df) &lt;= 1
+    # Extract single float #
+    result = df[&#39;bcef&#39; + kind].iloc[0]
+    # Return #
+    return result</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="forest_puller.conversion" href="index.html">forest_puller.conversion</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF" href="#forest_puller.conversion.bcef_by_country.CountryBCEF">CountryBCEF</a></code></h4>
+<ul class="">
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.all_stock_abg_biomass" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.all_stock_abg_biomass">all_stock_abg_biomass</a></code></li>
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.all_stock_merch" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.all_stock_merch">all_stock_merch</a></code></li>
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.all_stock_merch_by_climate" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.all_stock_merch_by_climate">all_stock_merch_by_climate</a></code></li>
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.by_country_year" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.by_country_year">by_country_year</a></code></li>
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.by_country_year_intrpld" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.by_country_year_intrpld">by_country_year_intrpld</a></code></li>
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.cache_path" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.cache_path">cache_path</a></code></li>
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.country_climates" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.country_climates">country_climates</a></code></li>
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.get_one_bcef" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.get_one_bcef">get_one_bcef</a></code></li>
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.max_year" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.max_year">max_year</a></code></li>
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.min_year" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.min_year">min_year</a></code></li>
+<li><code><a title="forest_puller.conversion.bcef_by_country.CountryBCEF.with_bcef_coefs" href="#forest_puller.conversion.bcef_by_country.CountryBCEF.with_bcef_coefs">with_bcef_coefs</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>

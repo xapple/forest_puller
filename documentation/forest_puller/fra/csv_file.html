@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>forest_puller.fra.csv_file API documentation</title>
+<meta name="description" content="Written by Lucas Sinclair and Paul Rougieux …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>forest_puller.fra.csv_file</code></h1>
+</header>
+<section id="section-intro">
+<p>Written by Lucas Sinclair and Paul Rougieux.</p>
+<p>JRC Biomass Project.
+Unit D1 Bioeconomy.</p>
+<p>Typically you can use this class like this:</p>
+<pre><code>&gt;&gt;&gt; from forest_puller.fra.csv_file import forest_chars
+&gt;&gt;&gt; print(forest_chars.raw_csv)
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+&#34;&#34;&#34;
+Written by Lucas Sinclair and Paul Rougieux.
+
+JRC Biomass Project.
+Unit D1 Bioeconomy.
+
+Typically you can use this class like this:
+
+    &gt;&gt;&gt; from forest_puller.fra.csv_file import forest_chars
+    &gt;&gt;&gt; print(forest_chars.raw_csv)
+&#34;&#34;&#34;
+
+# Built-in modules #
+
+# Internal modules #
+from forest_puller import cache_dir
+from forest_puller.common import country_codes
+
+# First party modules #
+from plumbing.cache import property_cached
+
+# Third party modules #
+import pandas
+
+###############################################################################
+class CSVFile:
+    &#34;&#34;&#34;
+    The original link is http://www.fao.org/forest-resources-assessment/en/
+    &#34;&#34;&#34;
+
+    # Params #
+    conv_fact = None
+
+    def __init__(self, zip_cache_dir):
+        # Record where the cache will be located on disk #
+        self.cache_dir = zip_cache_dir
+        # Where the file should be downloaded to #
+        self.csv_path = self.cache_dir + self.filename
+
+    # ---------------------------- Properties --------------------------------#
+    @property_cached
+    def raw_csv(self):
+        &#34;&#34;&#34;Load the big CSV into memory.&#34;&#34;&#34;
+        # Load the CSV #
+        df = pandas.read_csv(str(self.csv_path), encoding=&#34;ISO-8859-1&#34;)
+        # Return #
+        return df
+
+    @property_cached
+    def df(self):
+        &#34;&#34;&#34;Format and filter the data frame and store it in cache.&#34;&#34;&#34;
+        # Load the data frame #
+        df = self.raw_csv.copy()
+        # Lower case column titles #
+        df.columns = map(str.lower, df.columns)
+        # Drop some columns #
+        df = df.drop(columns=[&#39;country (code)&#39;])
+        df = df.drop(columns=[&#39;fra categories (code)&#39;])
+        # Rename some columns #
+        df = df.rename(columns={&#39;fra categories&#39;: &#39;category&#39;})
+        df = df.rename(columns={&#39;forest/other wooded land&#39;: &#39;land_type&#39;})
+        # Wrong name for one country &#34;Czech Republic&#34; #
+        df[&#39;country&#39;] = df[&#39;country&#39;].replace({&#39;Czech Republic&#39;: &#39;Czechia&#39;})
+        # Use country short codes instead of long names #
+        name_to_iso_code = country_codes[&#39;country&#39;], country_codes[&#39;iso2_code&#39;]
+        name_to_iso_code = dict(zip(*name_to_iso_code))
+        df[&#39;country&#39;]    = df[&#39;country&#39;].replace(name_to_iso_code)
+        # Drop the flag #
+        if df[&#39;flag&#39;].isnull().all(): df = df.drop(columns=[&#39;flag&#39;])
+        # Optionally drop other stuff #
+        if &#39;forest/other wooded land (code)&#39; in df.columns:
+            df = df.drop(columns=[&#39;forest/other wooded land (code)&#39;])
+        # Rename some category values #
+        df[&#39;category&#39;].replace({&#39;Dead wood&#39;: &#39;Dead wood biomass&#39;})
+        df[&#39;category&#39;].replace({&#39;Commercial&#39;: &#39;Commercial growing stock&#39;})
+        # Fix horrendous spelling mistake #
+        before = &#39;Other nataturally regenerated forest&#39;
+        after  = &#39;Other naturally regenerated forest&#39;
+        df[&#39;category&#39;].replace({before: after})
+        # Use the conversion factor for different units #
+        if self.conv_fact is not None: df[&#39;value&#39;] *= self.conv_fact
+        # Return #
+        return df
+
+###############################################################################
+class ForestChars(CSVFile):
+    &#34;&#34;&#34;
+    [&#39;Planted forest&#39; &#39;Primary forest&#39; &#39;Other naturally regenerated forest&#39;]
+    &#34;&#34;&#34;
+
+    name      = &#34;forest_chars&#34;
+    title     = &#34;Forest characteristics (1 000 ha) by FRA categories&#34;
+    filename  = &#34;T04FO000.csv&#34;
+    url       = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=1&#34;
+    conv_fact = 1000
+    used      = False
+
+#-----------------------------------------------------------------------------#
+class ForestExtent(CSVFile):
+    &#34;&#34;&#34;
+    [&#39;Other wooded land&#39; &#39;Inland water&#39; &#39;Forest&#39; &#39;Other land&#39;]
+    &#34;&#34;&#34;
+
+    name      = &#34;forest_extent&#34;
+    title     = &#34;Extent of forest and other wooded land (1 000 ha)&#34;
+    filename  = &#34;T01FO000.csv&#34;
+    url       = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=1&#34;
+    conv_fact = 1000
+    used      = True
+
+#-----------------------------------------------------------------------------#
+class ForestEstabl(CSVFile):
+    &#34;&#34;&#34;
+    [&#39;Reforestation&#39; &#39;Natural expansion of forest&#39; &#39;Afforestation&#39;]
+    &#34;&#34;&#34;
+
+    name     = &#34;forest_establ&#34;
+    title    = &#34;Forest establishment total (ha/yr) by FRA categories&#34;
+    filename = &#34;T05FO000.csv&#34;
+    url      = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=3&#34;
+    used      = False
+
+#-----------------------------------------------------------------------------#
+class GrowingStock(CSVFile):
+    &#34;&#34;&#34;
+    * [&#39;Total growing stock&#39; &#39;Commercial&#39;]
+    * [&#39;Other wooded land&#39; &#39;Forest&#39;]
+    &#34;&#34;&#34;
+
+    name      = &#34;growing_stock&#34;
+    title     = &#34;Growing stock (Million m3 over bark) by Forest/Other wooded land&#34;
+    filename  = &#34;T06FO000.csv&#34;
+    url       = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=4&#34;
+    conv_fact = 1e6
+    used      = True
+
+#-----------------------------------------------------------------------------#
+class CarbonStock(CSVFile):
+    &#34;&#34;&#34;
+    * [&#39;Soil carbon&#39; &#39;Carbon in living biomass&#39; &#39;Carbon in litter&#39;
+       &#39;Carbon in dead wood&#39; &#39;Carbon in below-ground biomass&#39;
+       &#39;Carbon in above-ground biomass&#39;]
+    * [&#39;Other wooded land&#39; &#39;Forest&#39;]
+    &#34;&#34;&#34;
+
+    name      = &#34;carbon_stock&#34;
+    title     = &#34;Carbon stock (Million metric tonnes) by Forest/Other wooded land&#34;
+    filename  = &#34;T08FO000.csv&#34;
+    url       = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=4&#34;
+    conv_fact = 1e6
+    used      = False
+
+#-----------------------------------------------------------------------------#
+class BiomassStock(CSVFile):
+    &#34;&#34;&#34;
+    * [&#39;Above-ground biomass&#39; &#39;Below-ground biomass&#39; &#39;Dead wood&#39;]
+    * [&#39;Forest&#39; &#39;Other wooded land&#39;]
+    &#34;&#34;&#34;
+
+    name      = &#34;biomass_stock&#34;
+    title     = &#34;Biomass stock (Million metric tonnes) by Forest/Other wooded land&#34;
+    filename  = &#34;T07FO000.csv&#34;
+    url       = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=4&#34;
+    conv_fact = 1e6
+    used      = False
+
+###############################################################################
+# Choose the cache location #
+fra_csv_dir = cache_dir + &#39;fra/csv/&#39;
+
+# Create the singletons #
+forest_chars  = ForestChars(fra_csv_dir)
+forest_extent = ForestExtent(fra_csv_dir)
+forest_establ = ForestEstabl(fra_csv_dir)
+growing_stock = GrowingStock(fra_csv_dir)
+carbon_stock  = CarbonStock(fra_csv_dir)
+biomass_stock = BiomassStock(fra_csv_dir)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="forest_puller.fra.csv_file.BiomassStock"><code class="flex name class">
+<span>class <span class="ident">BiomassStock</span></span>
+<span>(</span><span>zip_cache_dir)</span>
+</code></dt>
+<dd>
+<div class="desc"><ul>
+<li>['Above-ground biomass' 'Below-ground biomass' 'Dead wood']</li>
+<li>['Forest' 'Other wooded land']</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BiomassStock(CSVFile):
+    &#34;&#34;&#34;
+    * [&#39;Above-ground biomass&#39; &#39;Below-ground biomass&#39; &#39;Dead wood&#39;]
+    * [&#39;Forest&#39; &#39;Other wooded land&#39;]
+    &#34;&#34;&#34;
+
+    name      = &#34;biomass_stock&#34;
+    title     = &#34;Biomass stock (Million metric tonnes) by Forest/Other wooded land&#34;
+    filename  = &#34;T07FO000.csv&#34;
+    url       = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=4&#34;
+    conv_fact = 1e6
+    used      = False</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="forest_puller.fra.csv_file.BiomassStock.conv_fact"><code class="name">var <span class="ident">conv_fact</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.BiomassStock.filename"><code class="name">var <span class="ident">filename</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.BiomassStock.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.BiomassStock.title"><code class="name">var <span class="ident">title</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.BiomassStock.url"><code class="name">var <span class="ident">url</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.BiomassStock.used"><code class="name">var <span class="ident">used</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></b></code>:
+<ul class="hlist">
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.df" href="#forest_puller.fra.csv_file.CSVFile.df">df</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.raw_csv" href="#forest_puller.fra.csv_file.CSVFile.raw_csv">raw_csv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="forest_puller.fra.csv_file.CSVFile"><code class="flex name class">
+<span>class <span class="ident">CSVFile</span></span>
+<span>(</span><span>zip_cache_dir)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The original link is <a href="http://www.fao.org/forest-resources-assessment/en/">http://www.fao.org/forest-resources-assessment/en/</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CSVFile:
+    &#34;&#34;&#34;
+    The original link is http://www.fao.org/forest-resources-assessment/en/
+    &#34;&#34;&#34;
+
+    # Params #
+    conv_fact = None
+
+    def __init__(self, zip_cache_dir):
+        # Record where the cache will be located on disk #
+        self.cache_dir = zip_cache_dir
+        # Where the file should be downloaded to #
+        self.csv_path = self.cache_dir + self.filename
+
+    # ---------------------------- Properties --------------------------------#
+    @property_cached
+    def raw_csv(self):
+        &#34;&#34;&#34;Load the big CSV into memory.&#34;&#34;&#34;
+        # Load the CSV #
+        df = pandas.read_csv(str(self.csv_path), encoding=&#34;ISO-8859-1&#34;)
+        # Return #
+        return df
+
+    @property_cached
+    def df(self):
+        &#34;&#34;&#34;Format and filter the data frame and store it in cache.&#34;&#34;&#34;
+        # Load the data frame #
+        df = self.raw_csv.copy()
+        # Lower case column titles #
+        df.columns = map(str.lower, df.columns)
+        # Drop some columns #
+        df = df.drop(columns=[&#39;country (code)&#39;])
+        df = df.drop(columns=[&#39;fra categories (code)&#39;])
+        # Rename some columns #
+        df = df.rename(columns={&#39;fra categories&#39;: &#39;category&#39;})
+        df = df.rename(columns={&#39;forest/other wooded land&#39;: &#39;land_type&#39;})
+        # Wrong name for one country &#34;Czech Republic&#34; #
+        df[&#39;country&#39;] = df[&#39;country&#39;].replace({&#39;Czech Republic&#39;: &#39;Czechia&#39;})
+        # Use country short codes instead of long names #
+        name_to_iso_code = country_codes[&#39;country&#39;], country_codes[&#39;iso2_code&#39;]
+        name_to_iso_code = dict(zip(*name_to_iso_code))
+        df[&#39;country&#39;]    = df[&#39;country&#39;].replace(name_to_iso_code)
+        # Drop the flag #
+        if df[&#39;flag&#39;].isnull().all(): df = df.drop(columns=[&#39;flag&#39;])
+        # Optionally drop other stuff #
+        if &#39;forest/other wooded land (code)&#39; in df.columns:
+            df = df.drop(columns=[&#39;forest/other wooded land (code)&#39;])
+        # Rename some category values #
+        df[&#39;category&#39;].replace({&#39;Dead wood&#39;: &#39;Dead wood biomass&#39;})
+        df[&#39;category&#39;].replace({&#39;Commercial&#39;: &#39;Commercial growing stock&#39;})
+        # Fix horrendous spelling mistake #
+        before = &#39;Other nataturally regenerated forest&#39;
+        after  = &#39;Other naturally regenerated forest&#39;
+        df[&#39;category&#39;].replace({before: after})
+        # Use the conversion factor for different units #
+        if self.conv_fact is not None: df[&#39;value&#39;] *= self.conv_fact
+        # Return #
+        return df</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="forest_puller.fra.csv_file.BiomassStock" href="#forest_puller.fra.csv_file.BiomassStock">BiomassStock</a></li>
+<li><a title="forest_puller.fra.csv_file.CarbonStock" href="#forest_puller.fra.csv_file.CarbonStock">CarbonStock</a></li>
+<li><a title="forest_puller.fra.csv_file.ForestChars" href="#forest_puller.fra.csv_file.ForestChars">ForestChars</a></li>
+<li><a title="forest_puller.fra.csv_file.ForestEstabl" href="#forest_puller.fra.csv_file.ForestEstabl">ForestEstabl</a></li>
+<li><a title="forest_puller.fra.csv_file.ForestExtent" href="#forest_puller.fra.csv_file.ForestExtent">ForestExtent</a></li>
+<li><a title="forest_puller.fra.csv_file.GrowingStock" href="#forest_puller.fra.csv_file.GrowingStock">GrowingStock</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="forest_puller.fra.csv_file.CSVFile.conv_fact"><code class="name">var <span class="ident">conv_fact</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="forest_puller.fra.csv_file.CSVFile.df"><code class="name">var <span class="ident">df</span></code></dt>
+<dd>
+<div class="desc"><p>Format and filter the data frame and store it in cache.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    &#34;&#34;&#34;
+    If you see the current source code in a seemingly unrelated part of
+    an auto-generated documentation, it means the program making the
+    documentation was unable to correctly traverse a decorated property.
+    &#34;&#34;&#34;
+    # For debugging purposes #
+    if False: print(&#34;-&gt; property cached `%s`&#34; % instance)
+    # If called from a class #
+    if instance is None: return self
+    # Does a cache exist for this instance? #
+    self.check_cache(instance)
+    # Is the answer in the cache? #
+    if self.name in instance.__cache__: return instance.__cache__[self.name]
+    # If not we will compute it #
+    if inspect.isgeneratorfunction(self.func): result = tuple(self.func(instance))
+    else:                                      result = self.func(instance)
+    # Let&#39;s store the answer for later #
+    instance.__cache__[self.name] = result
+    # Return #
+    return result</code></pre>
+</details>
+</dd>
+<dt id="forest_puller.fra.csv_file.CSVFile.raw_csv"><code class="name">var <span class="ident">raw_csv</span></code></dt>
+<dd>
+<div class="desc"><p>Load the big CSV into memory.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def __get__(self, instance, owner):
+    &#34;&#34;&#34;
+    If you see the current source code in a seemingly unrelated part of
+    an auto-generated documentation, it means the program making the
+    documentation was unable to correctly traverse a decorated property.
+    &#34;&#34;&#34;
+    # For debugging purposes #
+    if False: print(&#34;-&gt; property cached `%s`&#34; % instance)
+    # If called from a class #
+    if instance is None: return self
+    # Does a cache exist for this instance? #
+    self.check_cache(instance)
+    # Is the answer in the cache? #
+    if self.name in instance.__cache__: return instance.__cache__[self.name]
+    # If not we will compute it #
+    if inspect.isgeneratorfunction(self.func): result = tuple(self.func(instance))
+    else:                                      result = self.func(instance)
+    # Let&#39;s store the answer for later #
+    instance.__cache__[self.name] = result
+    # Return #
+    return result</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="forest_puller.fra.csv_file.CarbonStock"><code class="flex name class">
+<span>class <span class="ident">CarbonStock</span></span>
+<span>(</span><span>zip_cache_dir)</span>
+</code></dt>
+<dd>
+<div class="desc"><ul>
+<li>['Soil carbon' 'Carbon in living biomass' 'Carbon in litter'
+'Carbon in dead wood' 'Carbon in below-ground biomass'
+'Carbon in above-ground biomass']</li>
+<li>['Other wooded land' 'Forest']</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CarbonStock(CSVFile):
+    &#34;&#34;&#34;
+    * [&#39;Soil carbon&#39; &#39;Carbon in living biomass&#39; &#39;Carbon in litter&#39;
+       &#39;Carbon in dead wood&#39; &#39;Carbon in below-ground biomass&#39;
+       &#39;Carbon in above-ground biomass&#39;]
+    * [&#39;Other wooded land&#39; &#39;Forest&#39;]
+    &#34;&#34;&#34;
+
+    name      = &#34;carbon_stock&#34;
+    title     = &#34;Carbon stock (Million metric tonnes) by Forest/Other wooded land&#34;
+    filename  = &#34;T08FO000.csv&#34;
+    url       = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=4&#34;
+    conv_fact = 1e6
+    used      = False</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="forest_puller.fra.csv_file.CarbonStock.conv_fact"><code class="name">var <span class="ident">conv_fact</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.CarbonStock.filename"><code class="name">var <span class="ident">filename</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.CarbonStock.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.CarbonStock.title"><code class="name">var <span class="ident">title</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.CarbonStock.url"><code class="name">var <span class="ident">url</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.CarbonStock.used"><code class="name">var <span class="ident">used</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></b></code>:
+<ul class="hlist">
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.df" href="#forest_puller.fra.csv_file.CSVFile.df">df</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.raw_csv" href="#forest_puller.fra.csv_file.CSVFile.raw_csv">raw_csv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestChars"><code class="flex name class">
+<span>class <span class="ident">ForestChars</span></span>
+<span>(</span><span>zip_cache_dir)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>['Planted forest' 'Primary forest' 'Other naturally regenerated forest']</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ForestChars(CSVFile):
+    &#34;&#34;&#34;
+    [&#39;Planted forest&#39; &#39;Primary forest&#39; &#39;Other naturally regenerated forest&#39;]
+    &#34;&#34;&#34;
+
+    name      = &#34;forest_chars&#34;
+    title     = &#34;Forest characteristics (1 000 ha) by FRA categories&#34;
+    filename  = &#34;T04FO000.csv&#34;
+    url       = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=1&#34;
+    conv_fact = 1000
+    used      = False</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="forest_puller.fra.csv_file.ForestChars.conv_fact"><code class="name">var <span class="ident">conv_fact</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestChars.filename"><code class="name">var <span class="ident">filename</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestChars.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestChars.title"><code class="name">var <span class="ident">title</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestChars.url"><code class="name">var <span class="ident">url</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestChars.used"><code class="name">var <span class="ident">used</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></b></code>:
+<ul class="hlist">
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.df" href="#forest_puller.fra.csv_file.CSVFile.df">df</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.raw_csv" href="#forest_puller.fra.csv_file.CSVFile.raw_csv">raw_csv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestEstabl"><code class="flex name class">
+<span>class <span class="ident">ForestEstabl</span></span>
+<span>(</span><span>zip_cache_dir)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>['Reforestation' 'Natural expansion of forest' 'Afforestation']</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ForestEstabl(CSVFile):
+    &#34;&#34;&#34;
+    [&#39;Reforestation&#39; &#39;Natural expansion of forest&#39; &#39;Afforestation&#39;]
+    &#34;&#34;&#34;
+
+    name     = &#34;forest_establ&#34;
+    title    = &#34;Forest establishment total (ha/yr) by FRA categories&#34;
+    filename = &#34;T05FO000.csv&#34;
+    url      = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=3&#34;
+    used      = False</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="forest_puller.fra.csv_file.ForestEstabl.filename"><code class="name">var <span class="ident">filename</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestEstabl.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestEstabl.title"><code class="name">var <span class="ident">title</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestEstabl.url"><code class="name">var <span class="ident">url</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestEstabl.used"><code class="name">var <span class="ident">used</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></b></code>:
+<ul class="hlist">
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.df" href="#forest_puller.fra.csv_file.CSVFile.df">df</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.raw_csv" href="#forest_puller.fra.csv_file.CSVFile.raw_csv">raw_csv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestExtent"><code class="flex name class">
+<span>class <span class="ident">ForestExtent</span></span>
+<span>(</span><span>zip_cache_dir)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>['Other wooded land' 'Inland water' 'Forest' 'Other land']</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ForestExtent(CSVFile):
+    &#34;&#34;&#34;
+    [&#39;Other wooded land&#39; &#39;Inland water&#39; &#39;Forest&#39; &#39;Other land&#39;]
+    &#34;&#34;&#34;
+
+    name      = &#34;forest_extent&#34;
+    title     = &#34;Extent of forest and other wooded land (1 000 ha)&#34;
+    filename  = &#34;T01FO000.csv&#34;
+    url       = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=1&#34;
+    conv_fact = 1000
+    used      = True</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="forest_puller.fra.csv_file.ForestExtent.conv_fact"><code class="name">var <span class="ident">conv_fact</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestExtent.filename"><code class="name">var <span class="ident">filename</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestExtent.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestExtent.title"><code class="name">var <span class="ident">title</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestExtent.url"><code class="name">var <span class="ident">url</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.ForestExtent.used"><code class="name">var <span class="ident">used</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></b></code>:
+<ul class="hlist">
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.df" href="#forest_puller.fra.csv_file.CSVFile.df">df</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.raw_csv" href="#forest_puller.fra.csv_file.CSVFile.raw_csv">raw_csv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="forest_puller.fra.csv_file.GrowingStock"><code class="flex name class">
+<span>class <span class="ident">GrowingStock</span></span>
+<span>(</span><span>zip_cache_dir)</span>
+</code></dt>
+<dd>
+<div class="desc"><ul>
+<li>['Total growing stock' 'Commercial']</li>
+<li>['Other wooded land' 'Forest']</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GrowingStock(CSVFile):
+    &#34;&#34;&#34;
+    * [&#39;Total growing stock&#39; &#39;Commercial&#39;]
+    * [&#39;Other wooded land&#39; &#39;Forest&#39;]
+    &#34;&#34;&#34;
+
+    name      = &#34;growing_stock&#34;
+    title     = &#34;Growing stock (Million m3 over bark) by Forest/Other wooded land&#34;
+    filename  = &#34;T06FO000.csv&#34;
+    url       = &#34;http://countrystat.org/home.aspx?c=FOR&amp;tr=4&#34;
+    conv_fact = 1e6
+    used      = True</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="forest_puller.fra.csv_file.GrowingStock.conv_fact"><code class="name">var <span class="ident">conv_fact</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.GrowingStock.filename"><code class="name">var <span class="ident">filename</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.GrowingStock.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.GrowingStock.title"><code class="name">var <span class="ident">title</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.GrowingStock.url"><code class="name">var <span class="ident">url</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="forest_puller.fra.csv_file.GrowingStock.used"><code class="name">var <span class="ident">used</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></b></code>:
+<ul class="hlist">
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.df" href="#forest_puller.fra.csv_file.CSVFile.df">df</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.raw_csv" href="#forest_puller.fra.csv_file.CSVFile.raw_csv">raw_csv</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="forest_puller.fra" href="index.html">forest_puller.fra</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="forest_puller.fra.csv_file.BiomassStock" href="#forest_puller.fra.csv_file.BiomassStock">BiomassStock</a></code></h4>
+<ul class="two-column">
+<li><code><a title="forest_puller.fra.csv_file.BiomassStock.conv_fact" href="#forest_puller.fra.csv_file.BiomassStock.conv_fact">conv_fact</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.BiomassStock.filename" href="#forest_puller.fra.csv_file.BiomassStock.filename">filename</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.BiomassStock.name" href="#forest_puller.fra.csv_file.BiomassStock.name">name</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.BiomassStock.title" href="#forest_puller.fra.csv_file.BiomassStock.title">title</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.BiomassStock.url" href="#forest_puller.fra.csv_file.BiomassStock.url">url</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.BiomassStock.used" href="#forest_puller.fra.csv_file.BiomassStock.used">used</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="forest_puller.fra.csv_file.CSVFile" href="#forest_puller.fra.csv_file.CSVFile">CSVFile</a></code></h4>
+<ul class="">
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.conv_fact" href="#forest_puller.fra.csv_file.CSVFile.conv_fact">conv_fact</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.df" href="#forest_puller.fra.csv_file.CSVFile.df">df</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CSVFile.raw_csv" href="#forest_puller.fra.csv_file.CSVFile.raw_csv">raw_csv</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="forest_puller.fra.csv_file.CarbonStock" href="#forest_puller.fra.csv_file.CarbonStock">CarbonStock</a></code></h4>
+<ul class="two-column">
+<li><code><a title="forest_puller.fra.csv_file.CarbonStock.conv_fact" href="#forest_puller.fra.csv_file.CarbonStock.conv_fact">conv_fact</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CarbonStock.filename" href="#forest_puller.fra.csv_file.CarbonStock.filename">filename</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CarbonStock.name" href="#forest_puller.fra.csv_file.CarbonStock.name">name</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CarbonStock.title" href="#forest_puller.fra.csv_file.CarbonStock.title">title</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CarbonStock.url" href="#forest_puller.fra.csv_file.CarbonStock.url">url</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.CarbonStock.used" href="#forest_puller.fra.csv_file.CarbonStock.used">used</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="forest_puller.fra.csv_file.ForestChars" href="#forest_puller.fra.csv_file.ForestChars">ForestChars</a></code></h4>
+<ul class="two-column">
+<li><code><a title="forest_puller.fra.csv_file.ForestChars.conv_fact" href="#forest_puller.fra.csv_file.ForestChars.conv_fact">conv_fact</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestChars.filename" href="#forest_puller.fra.csv_file.ForestChars.filename">filename</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestChars.name" href="#forest_puller.fra.csv_file.ForestChars.name">name</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestChars.title" href="#forest_puller.fra.csv_file.ForestChars.title">title</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestChars.url" href="#forest_puller.fra.csv_file.ForestChars.url">url</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestChars.used" href="#forest_puller.fra.csv_file.ForestChars.used">used</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="forest_puller.fra.csv_file.ForestEstabl" href="#forest_puller.fra.csv_file.ForestEstabl">ForestEstabl</a></code></h4>
+<ul class="">
+<li><code><a title="forest_puller.fra.csv_file.ForestEstabl.filename" href="#forest_puller.fra.csv_file.ForestEstabl.filename">filename</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestEstabl.name" href="#forest_puller.fra.csv_file.ForestEstabl.name">name</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestEstabl.title" href="#forest_puller.fra.csv_file.ForestEstabl.title">title</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestEstabl.url" href="#forest_puller.fra.csv_file.ForestEstabl.url">url</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestEstabl.used" href="#forest_puller.fra.csv_file.ForestEstabl.used">used</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="forest_puller.fra.csv_file.ForestExtent" href="#forest_puller.fra.csv_file.ForestExtent">ForestExtent</a></code></h4>
+<ul class="two-column">
+<li><code><a title="forest_puller.fra.csv_file.ForestExtent.conv_fact" href="#forest_puller.fra.csv_file.ForestExtent.conv_fact">conv_fact</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestExtent.filename" href="#forest_puller.fra.csv_file.ForestExtent.filename">filename</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestExtent.name" href="#forest_puller.fra.csv_file.ForestExtent.name">name</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestExtent.title" href="#forest_puller.fra.csv_file.ForestExtent.title">title</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestExtent.url" href="#forest_puller.fra.csv_file.ForestExtent.url">url</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.ForestExtent.used" href="#forest_puller.fra.csv_file.ForestExtent.used">used</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="forest_puller.fra.csv_file.GrowingStock" href="#forest_puller.fra.csv_file.GrowingStock">GrowingStock</a></code></h4>
+<ul class="two-column">
+<li><code><a title="forest_puller.fra.csv_file.GrowingStock.conv_fact" href="#forest_puller.fra.csv_file.GrowingStock.conv_fact">conv_fact</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.GrowingStock.filename" href="#forest_puller.fra.csv_file.GrowingStock.filename">filename</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.GrowingStock.name" href="#forest_puller.fra.csv_file.GrowingStock.name">name</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.GrowingStock.title" href="#forest_puller.fra.csv_file.GrowingStock.title">title</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.GrowingStock.url" href="#forest_puller.fra.csv_file.GrowingStock.url">url</a></code></li>
+<li><code><a title="forest_puller.fra.csv_file.GrowingStock.used" href="#forest_puller.fra.csv_file.GrowingStock.used">used</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>
