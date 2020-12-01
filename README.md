@@ -3,7 +3,7 @@
 [![GitHub](https://img.shields.io/github/license/xapple/forest_puller.svg)](https://github.com/xapple/forest_puller/blob/master/LICENSE)
 
 <p align="center">
-<img src="documentation/title_art/title.jpeg?raw=true">
+<img src="docs/title_art/title.jpeg?raw=true">
 </p>
 
 `forest_puller` is a python package for retrieving data concerning forests of European countries. This includes the amount of forested areas, the forest inventory (standing stock), the forest growth rates as well as the forest loss dynamics (disturbances).
@@ -42,13 +42,13 @@ To check if you have `python3` installed, type the following on your terminal:
 
     $ python3 -V
 
-If you do not have `python3` installed, please refer to the section [obtaining python3](documentation/markdown/installing_tips.md#obtaining-python3).
+If you do not have `python3` installed, please refer to the section [obtaining python3](docs/markdown/installing_tips.md#obtaining-python3).
 
 To check if you have `pip3` installed, type the following on your terminal:
 
     $ pip3 -V
 
-If you do not have `pip3` installed, please refer to the section [obtaining pip3](documentation/markdown/installing_tips.md#obtaining-pip3).
+If you do not have `pip3` installed, please refer to the section [obtaining pip3](docs/markdown/installing_tips.md#obtaining-pip3).
 
 ## Installing
 
@@ -147,19 +147,19 @@ When you import `forest_puller`, we will check the `$FOREST_PULLER_CACHE` enviro
 
 To access the same forest data directly from the IPCC website without the use of `forest_puller`, you would have to first select your country of interest from the CRF country table in a browser at [this address](https://tinyurl.com/y474yu9e).
 
-![IPCC demo screenshot 1](documentation/ipcc/ipcc_demo_1.png?raw=true "IPCC demo screenshot 1")
+![IPCC demo screenshot 1](docs/ipcc/ipcc_demo_1.png?raw=true "IPCC demo screenshot 1")
 
 Then you would have to manually download the `zip` file for that specific country through another page.
 
-![IPCC demo screenshot 2](documentation/ipcc/ipcc_demo_2.png?raw=true "IPCC demo screenshot 2")
+![IPCC demo screenshot 2](docs/ipcc/ipcc_demo_2.png?raw=true "IPCC demo screenshot 2")
 
 Next, you would have to uncompress the `zip` file and locate the `xls` file that concerns the year you are interested in.
 
-![IPCC demo screenshot 4](documentation/ipcc/ipcc_demo_4.png?raw=true "IPCC demo screenshot 4")
+![IPCC demo screenshot 4](docs/ipcc/ipcc_demo_4.png?raw=true "IPCC demo screenshot 4")
 
 Finally you would have to scroll to the right sheet in your spreadsheet software and find the pertinent cell.
 
-![IPCC demo screenshot 5](documentation/ipcc/ipcc_demo_5.png?raw=true "IPCC demo screenshot 5")
+![IPCC demo screenshot 5](docs/ipcc/ipcc_demo_5.png?raw=true "IPCC demo screenshot 5")
 
 This operation would have to be repeated for every country, and every year you are interested in.
 
@@ -345,24 +345,24 @@ The `forest_puller` package can also generate several plots that enable the user
 
 For instance here is are a series of graphs comparing the total reported forest area between data sources as seen in the `forest_puller.viz.area` submodule:
 
-![Comparison of total forest area](documentation/viz/area/area.svg?sanitize=true "Comparison of total forest area")
+![Comparison of total forest area](docs/viz/area/area.svg?sanitize=true "Comparison of total forest area")
 
 Another type of graph that can be produced is the comparison of gains and losses across several data-sources and across countries. This code is found in the `forest_puller.viz.increments` submodule and shows the five largest countries in terms of forest area.
 
-![Comparison of increments for SE](documentation/viz/increments/SE.svg?sanitize=true "Comparison of increments for SE")
-![Comparison of increments for FR](documentation/viz/increments/FR.svg?sanitize=true "Comparison of increments for FR")
-![Comparison of increments for FI](documentation/viz/increments/FI.svg?sanitize=true "Comparison of increments for FI")
-![Comparison of increments for ES](documentation/viz/increments/ES.svg?sanitize=true "Comparison of increments for ES")
-![Comparison of increments for DE](documentation/viz/increments/DE.svg?sanitize=true "Comparison of increments for DE")
+![Comparison of increments for SE](docs/viz/increments/SE.svg?sanitize=true "Comparison of increments for SE")
+![Comparison of increments for FR](docs/viz/increments/FR.svg?sanitize=true "Comparison of increments for FR")
+![Comparison of increments for FI](docs/viz/increments/FI.svg?sanitize=true "Comparison of increments for FI")
+![Comparison of increments for ES](docs/viz/increments/ES.svg?sanitize=true "Comparison of increments for ES")
+![Comparison of increments for DE](docs/viz/increments/DE.svg?sanitize=true "Comparison of increments for DE")
 
 With data from the SOEF source, we can also plot a breakdown of the growing stock volume genus composition of many countries across time. This code is found in the `forest_puller.viz.increments` submodule.
 
-![Comparison of genus breakdown](documentation/viz/genus/AT_BE_BG_HR_CY.svg?sanitize=true "Comparison of genus breakdown")
-![Comparison of genus breakdown](documentation/viz/genus/CZ_DK_EE_FI_FR.svg?sanitize=true "Comparison of genus breakdown")
-![Comparison of genus breakdown](documentation/viz/genus/DE_HU_IE_IT_LV.svg?sanitize=true "Comparison of genus breakdown")
-![Comparison of genus breakdown](documentation/viz/genus/LT_NL_PL_PT_RO.svg?sanitize=true "Comparison of genus breakdown")
-![Comparison of genus breakdown](documentation/viz/genus/SK_SI_ES_SE_GB.svg?sanitize=true "Comparison of genus breakdown")
-![Genera legend](documentation/viz/genus/legend.svg?sanitize=true "Genera legend")
+![Comparison of genus breakdown](docs/viz/genus/AT_BE_BG_HR_CY.svg?sanitize=true "Comparison of genus breakdown")
+![Comparison of genus breakdown](docs/viz/genus/CZ_DK_EE_FI_FR.svg?sanitize=true "Comparison of genus breakdown")
+![Comparison of genus breakdown](docs/viz/genus/DE_HU_IE_IT_LV.svg?sanitize=true "Comparison of genus breakdown")
+![Comparison of genus breakdown](docs/viz/genus/LT_NL_PL_PT_RO.svg?sanitize=true "Comparison of genus breakdown")
+![Comparison of genus breakdown](docs/viz/genus/SK_SI_ES_SE_GB.svg?sanitize=true "Comparison of genus breakdown")
+![Genera legend](docs/viz/genus/legend.svg?sanitize=true "Genera legend")
 
 ## Reporting issues
 
@@ -376,4 +376,4 @@ More documentation is available at:
 
 This documentation is simply generated from the source code with:
 
-    $ pdoc --html --output-dir documentation --force forest_puller
+    $ pdoc --html --output-dir docs --force forest_puller
