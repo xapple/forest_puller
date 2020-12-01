@@ -13,7 +13,7 @@ setup(
         packages         = find_packages(),
         install_requires = ['pandas>=1.0.0', 'matplotlib>=3.0.0', 'tqdm>=4.41.1',
                             'numpy>=1.16', 'brewer2mpl>=1.4.1', 'lxml>=4.3.0',
-                            'requests', 'seaborn',
+                            'requests', 'seaborn', 'sh',
                             'autopaths==1.4.6', 'plumbing==2.9.6', 'pymarktex==1.4.6'],
         include_package_data = True,
 )
