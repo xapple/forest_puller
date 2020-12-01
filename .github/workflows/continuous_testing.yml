@@ -20,13 +20,23 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - name: Install pytest
+
+    - name: Upgrade pip
       run: |
         python -m pip install --upgrade pip
-        pip install pytest
+
     - name: Install the forest_puller package
       run: |
         pip install ./
+
+    - name: Change directory after installation
+      run: |
+        cd ../..
+
+    - name: Install pytest
+      run: |
+        pip install pytest
+
     - name: Test with pytest
       run: |
-        pytest
+        pytest --pyargs forest_puller

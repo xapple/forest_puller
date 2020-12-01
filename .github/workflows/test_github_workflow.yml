@@ -16,76 +16,19 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
+
     - name: Upgrade pip
       run: |
         python -m pip install --upgrade pip
+
     - name: Install the forest_puller package
       run: |
         pip install ./
+
     - name: Change directory after installation
       run: |
         cd ../..
-        pwd
-    - name: Print some stuff for debugging
+
+    - name: Run a snippet
       run: |
-        echo "------------------------"
-        echo "---- Python version ----"
-        echo "------------------------"
-        which python
         python -V
-        echo "---------------------------"
-        echo "---- Current directory ----"
-        echo "---------------------------"
-        pwd
-        echo "----------------------------"
-        echo "---- Directory contents ----"
-        echo "----------------------------"
-        ls -halt
-        echo "-------------------------------"
-        echo "---- Subdirectory contents ----"
-        echo "-------------------------------"
-        ls -halt forest_puller/
-        echo "-----------------------------------"
-        echo "---- ParPar directory contents ----"
-        echo "-----------------------------------"
-        ls -halt ../../
-        echo "---------------------------------"
-        echo "---- Home directory contents ----"
-        echo "---------------------------------"
-        ls -halt ~/
-        echo "------------------------------"
-        echo "---- Print python command ----"
-        echo "------------------------------"
-        python -c "print('hello')"
-        echo "----------------------------"
-        echo "---- Sys python command ----"
-        echo "----------------------------"
-        python -c "import sys; print(sys.path)"
-        echo "-------------------------------"
-        echo "---- Import python command ----"
-        echo "-------------------------------"
-        python -c "import forest_puller; print(forest_puller)"
-        echo "-------------------------------"
-        echo "---- Module python command ----"
-        echo "-------------------------------"
-        python -c "import forest_puller.tables; print(forest_puller.tables)"
-        echo "----------------------------------"
-        echo "---- Submodule python command ----"
-        echo "----------------------------------"
-        python -c "from forest_puller.conversion.bcef_by_country import country_bcef; print(country_bcef)"
-        echo "---------------------------------------"
-        echo "---- Location of dependency module ----"
-        echo "---------------------------------------"
-        python -c "import plumbing; print(plumbing)"
-        echo "--------------------------"
-        echo "---- Package contents ----"
-        echo "--------------------------"
-        ls -halt /opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/forest_puller/
-        ls -halt /opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/forest_puller/tests/
-        ls -halt /opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/forest_puller/tests/conversion/
-    - name: Install pytest
-      run: |
-        pip install pytest
-    - name: Test with pytest
-      run: |
-        pytest --pyargs forest_puller
