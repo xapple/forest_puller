@@ -25,14 +25,26 @@ jobs:
         pip install ./
     - name: Print some stuff
       run: |
-        echo "Current directory"
-        echo "pwd"
-        echo "Print python command"
+        echo "---------------------------"
+        echo "---- Current directory ----"
+        echo "---------------------------"
+        pwd
+        echo "------------------------------"
+        echo "---- Print python command ----"
+        echo "------------------------------"
         python -c "print('hello')"
-        echo "Sys python command"
+        echo "----------------------------"
+        echo "---- Sys python command ----"
+        echo "----------------------------"
         python -c "import sys; print(sys.path)"
-        echo "Import python command"
+        echo "-------------------------------"
+        echo "---- Import python command ----"
+        echo "-------------------------------"
         python -c "import forest_puller"
+        echo "-------------------------------"
+        echo "---- Module python command ----"
+        echo "-------------------------------"
+        python -c "import forest_puller.tables"
     - name: Test with pytest
       run: |
         pytest
