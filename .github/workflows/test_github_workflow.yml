@@ -33,10 +33,10 @@ jobs:
         echo "---- Subdirectory contents ----"
         echo "-------------------------------"
         ls -halt forest_puller/
-        echo "-------------------------------"
-        echo "---- Pardirectory contents ----"
-        echo "-------------------------------"
-        ls -halt ../
+        echo "-----------------------------------"
+        echo "---- ParPar directory contents ----"
+        echo "-----------------------------------"
+        ls -halt ../../
         echo "------------------------------"
         echo "---- Print python command ----"
         echo "------------------------------"
@@ -57,6 +57,10 @@ jobs:
         echo "---- Submodule python command ----"
         echo "----------------------------------"
         python -c "from forest_puller.conversion.bcef_by_country import country_bcef; print(country_bcef)"
+        echo "---------------------------------------"
+        echo "---- Location of dependency module ----"
+        echo "---------------------------------------"
+        python -c "import plumbing; print(plumbing)"
     - name: Install pytest
       run: |
         python -m pip install --upgrade pip
