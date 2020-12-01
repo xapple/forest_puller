@@ -22,6 +22,10 @@ jobs:
     - name: Install the forest_puller package
       run: |
         pip install ./
+    - name: Change directory after installation
+      run: |
+        cd ../..
+        pwd
     - name: Print some stuff for debugging
       run: |
         echo "------------------------"
@@ -73,10 +77,10 @@ jobs:
         echo "---- Location of dependency module ----"
         echo "---------------------------------------"
         python -c "import plumbing; print(plumbing)"
-    - name: Remove the cloned repository after installation
-      run: |
-        cd ../..
-        pwd
+ #   - name: Remove the cloned repository after installation
+ #     run: |
+ #       cd ../..
+ #       pwd
  #       rm -rf forest_puller
     - name: Install pytest
       run: |
