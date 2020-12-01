@@ -77,12 +77,12 @@ jobs:
         echo "---- Location of dependency module ----"
         echo "---------------------------------------"
         python -c "import plumbing; print(plumbing)"
-        echo "---------------------------------------"
+        echo "--------------------------"
         echo "---- Package contents ----"
-        echo "---------------------------------------"
-        ls -halt /home/runner/work/forest_puller/forest_puller/forest_puller/
-        ls -halt /home/runner/work/forest_puller/forest_puller/forest_puller/tests/
-        ls -halt /home/runner/work/forest_puller/forest_puller/forest_puller/tests/conversion/
+        echo "--------------------------"
+        ls -halt /opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/forest_puller/
+        ls -halt /opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/forest_puller/tests/
+        ls -halt /opt/hostedtoolcache/Python/3.9.0/x64/lib/python3.9/site-packages/forest_puller/tests/conversion/
     - name: Install pytest
       run: |
         pip install pytest
