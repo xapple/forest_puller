@@ -147,21 +147,11 @@ class ConvertedTonsData:
         # Return #
         return df
 
-    @property
-    def eu_cbm(self):
-        """No changes for the EU-CBM data."""
-        # Load #
-        df = gain_loss_net_data.eu_cbm.copy()
-        # Add source #
-        df.insert(0, 'source', 'eu_cbm')
-        # Return #
-        return df
-
     #------------------------------- Combine ---------------------------------#
     @property_cached
     def df(self):
         # Load all data sources #
-        sources = [self.ipcc, self.soef, self.faostat, self.hpffre, self.eu_cbm]
+        sources = [self.ipcc, self.soef, self.faostat, self.hpffre]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
         return df
@@ -182,7 +172,6 @@ class ConvertedTonsGraph(GainsLossNetGraph):
         'soef':    "",
         'faostat': "",
         'hpffre':  "",
-        'eu-cbm':  "",
     }
 
     # The lines we want on each axes #

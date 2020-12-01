@@ -85,22 +85,11 @@ class AreaAggregateData:
         # Return #
         return df
 
-    @property
-    def area_eu_cbm(self):
-        # Import #
-        from forest_puller.cbm.agg import source
-        # Load #
-        df = source.forest_area.copy()
-        # Add source #
-        df.insert(0, 'source', 'eu-cbm')
-        # Return #
-        return df
-
     #---------------------------- Data combined ------------------------------#
     @property_cached
     def df(self):
         """
-        Importing the other graph at: `forest_puller.viz.area.area_comp`
+        Importing the other graph at: `forest_puller.viz.area_comp`
         and using its data frame to aggregate and sum doesn't work because
         one has to filter on the available years. One possible alternative
         approach is some long dataframe processing starting with:
@@ -111,7 +100,7 @@ class AreaAggregateData:
         """
         # Load all data sources #
         sources = [self.area_ipcc, self.area_soef, self.area_faostat,
-                   self.area_fra, self.area_eu_cbm]
+                   self.area_fra]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
         # Adjust to million hectares #
@@ -143,8 +132,7 @@ class AreaAggregate(Graph):
     label_to_color = {'IPCC':    colors[0],
                       'SOEF':    colors[1],
                       'FAOSTAT': colors[3],
-                      'FRA':     colors[4],
-                      'EU-CBM':  colors[6]}
+                      'FRA':     colors[4]}
 
     def line_plot(self, axes, x, y, source, **kw):
         # Filter by source #
@@ -177,7 +165,6 @@ class AreaAggregate(Graph):
         self.line_plot(axes, 'year', 'area', 'soef')
         self.line_plot(axes, 'year', 'area', 'faostat')
         self.line_plot(axes, 'year', 'area', 'fra')
-        self.line_plot(axes, 'year', 'area', 'eu-cbm')
 
         # Leave space for the legend #
         fig.subplots_adjust(left=0.1, right=0.8, top=0.95)

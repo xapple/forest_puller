@@ -273,67 +273,8 @@ class IncAggregateFAOSTAT(IncAggregate):
                   **kw)
 
 ###############################################################################
-class IncAggregateCBM(IncAggregate):
-    """
-    This graph will show the combined increments (loss, gain, net) of all
-    countries together into one graph for the EU-CBM data source.
-    """
-
-    # Name #
-    short_name = 'inc_aggregate_cbm'
-
-    # Mapping of lines to colors #
-    col_to_color  = {'gain_per_ha':      'green',
-                     'loss_per_ha':      'red',
-                     'net_per_ha':       'black'}
-    name_to_color = {'Gains':            'green',
-                     'Losses':           'red',
-                     'Net (Gain+Loss)':  'black'}
-
-    @property
-    def y_label(self):
-        from forest_puller.viz.increments import GainsLossNetGraph
-        return GainsLossNetGraph.source_to_y_label['eu-cbm']
-
-    @property_cached
-    def df(self):
-        # Import #
-        import forest_puller.cbm.concat
-        # Load #
-        df = forest_puller.cbm.concat.increments.copy()
-        # Assert there are no NaNs #
-        assert not df.isna().any().any()
-        # Compute common years #
-        common_years = df.groupby('country').apply(lambda x: set(x.year))
-        common_years = set.intersection(*common_years.values)
-        # Filter by common years #
-        df = df.query("year in @common_years")
-        # Filter columns #
-        df = df.drop(columns='country')
-        # Aggregate #
-        df = df.groupby(['year'])
-        df = df.agg(pandas.DataFrame.sum, skipna=False)
-        # Reset index #
-        df = df.reset_index()
-        # Return #
-        return df
-
-    def draw(self, axes):
-        self.line_plot(axes, y='gain_per_ha')
-        self.line_plot(axes, y='loss_per_ha')
-        self.line_plot(axes, y='net_per_ha')
-
-    def line_plot(self, axes, x='year', y=None, **kw):
-        axes.plot(self.df[x], self.df[y],
-                  marker     = ".",
-                  markersize = 10.0,
-                  color      = self.col_to_color[y],
-                  **kw)
-
-###############################################################################
 # Create the graphs #
 export_dir = cache_dir + 'graphs/eu_tot/'
 inc_agg_ipcc    = IncAggregateIPCC(base_dir = export_dir)
 inc_agg_soef    = IncAggregateSOEF(base_dir = export_dir)
 inc_agg_faostat = IncAggregateFAOSTAT(base_dir = export_dir)
-inc_agg_cbm     = IncAggregateCBM(base_dir = export_dir)

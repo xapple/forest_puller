@@ -43,7 +43,6 @@ Several data sources are also represented. Currently `forest_puller` provides pr
 * [FAOSTAT-GF](http://www.fao.org/faostat/en/).
 * [HPFFRE](https://doi.org/10.5061/dryad.4t880qh).
 * [FRA](http://www.fao.org/forest-resources-assessment/en/).
-* EU-CBM (an in-house custom and non-traceable dataset).
 
 \clearpage
 
@@ -77,7 +76,6 @@ The Y-axis represents different units depending on the data source considered. T
 * SOEF indicates "cubic meters over bark per hectare".
 * FAOSTAT writes: "Removals of roundwood comprise all quantities of wood felled and removed from the forest and other wooded land or other felling sites. They are measured in cubic meters under bark (without bark)".
 * HPFFRE writes: "Stemwood volume measured over bark expressed as unit area volume". It further specifies: "Total stemwood volume measured over bark. Part of tree stem from the felling cut to the tree top with the branches removed, including bark".
-* The EU-CBM datasets is composed of "Tons of carbon per hectare (over bark)" as reported in the [CBM-CFS3](https://en.wikipedia.org/wiki/CBM-CFS3) Microsoft Access database. Losses are obtained by summing `soft_production` and `hard_production`. Gains are obtained from the `gross_growth_ag` pool.
 
 Also of note is that the X-axis is not aligned between the different subplots.
 
@@ -171,17 +169,6 @@ The growing stock here is reported as volumes in cubic meters and converted to a
 \clearpage
 
 
-Comparison of the genera composition between SOEF and EU-CBM
-------------------------------------------------------------
-
-These graphs are similar to the ones above, except we produce a paired stacked barchart this time, comparing the genus breakdown of the growing stock (in terms of volume) between the SOEF dataset and the EU-CBM dataset.
-
-\vspace{5mm}
-{{genus_soef_vs_cbm}}
-
-\clearpage
-
-
 Aggregation of all countries together
 -------------------------------------
 
@@ -213,13 +200,8 @@ The fourth graph represents an average of the losses (reported production) for e
 
 \clearpage
 
-The fifth graph represents an average of the losses, gains and net changes from the CBM-EU data source.
 
-{{inc_agg_cbm}}
-
-\clearpage
-
-The sixth graph represents a summation of the growing stock per genus statistic from the SOEF data source, but only for a subset of 24 countries which provided that info for the year 2010. The list of countries included is the following: 'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'HR', 'HU', 'IE', 'IT', 'LT', 'LV', 'NL', 'PL', 'RO', 'SE', 'SI', 'SK'.
+The fifth graph represents a summation of the growing stock per genus statistic from the SOEF data source, but only for a subset of 24 countries which provided that info for the year 2010. The list of countries included is the following: 'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GB', 'HR', 'HU', 'IE', 'IT', 'LT', 'LV', 'NL', 'PL', 'RO', 'SE', 'SI', 'SK'.
 
 {{eu_tot_genus}}
 

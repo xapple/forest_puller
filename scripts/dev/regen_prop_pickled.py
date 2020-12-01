@@ -27,17 +27,6 @@ for c in tqdm(all_countries, desc='Countries'):
         df = y.df
 
 ###############################################################################
-from forest_puller.cbm.country import all_countries
-for country in tqdm(all_countries):
-    if country.iso2_code == 'CY': continue
-    del country.area_df
-    df = country.area_df
-    del country.increments_df
-    df = country.increments_df
-    del country.stock_comp_genus
-    df = country.stock_comp_genus
-
-###############################################################################
 from forest_puller.faostat.land.country import all_countries
 for country in tqdm(all_countries):
     del country.df

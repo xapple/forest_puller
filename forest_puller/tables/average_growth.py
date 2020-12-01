@@ -67,8 +67,7 @@ class AverageIncsToTons(Table):
         sources = {'ipcc':    'IPCC',
                    'soef':    'SOEF',
                    'faostat': 'FAO',
-                   'hpffre':  'HPFFRE',
-                   'eu-cbm':  'CBM'}
+                   'hpffre':  'HPFFRE'}
         result = result.rename(columns=sources)
         # Cosmetic changes level 3 #
         result = result.rename_axis([None, "Source"], axis="columns")
@@ -76,31 +75,6 @@ class AverageIncsToTons(Table):
         return result
 
 ###############################################################################
-class AverageIncsToTonsWithCBM(AverageIncsToTons):
-    """
-    Table with average gains and losses over all years available.
-    Units are converted to tons.
-    """
-    # Parameters #
-    short_name       = 'average_inc_to_tons'
-    float_format_tex = '%.2f'
-    column_format    = 'lrrr|rrrrr'
-    sources = ['ipcc', 'soef', 'faostat', 'hpffre', 'eu_cbm']
-
-###############################################################################
-class AverageIncsToTonsPub(AverageIncsToTons):
-    """
-    Table with average gains and losses over all years available.
-    Units are converted to tons.
-    """
-    # Parameters #
-    short_name       = 'average_inc_to_tons_pub'
-    float_format_tex = '%.2f'
-    column_format = 'lrr|rrrr'
-    sources = ['ipcc', 'soef', 'faostat', 'hpffre']
-
-###############################################################################
 # Create singletons #
 export_dir = cache_dir + 'tables/'
-avg_tons = AverageIncsToTonsWithCBM(base_dir = export_dir)
-avg_tons_pub = AverageIncsToTonsPub(base_dir = export_dir)
+avg_tons = AverageIncsToTons(base_dir = export_dir)

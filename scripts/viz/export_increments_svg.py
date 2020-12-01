@@ -36,7 +36,6 @@ for g in graphs.values(): g.formats = ('svg',)
 # Remove a source #
 for g in graphs.values():
     df = g.df.copy()
-    df = df.query("source != 'eu-cbm'").copy()
     g.df = df
 
 # Put the legend on the first one #

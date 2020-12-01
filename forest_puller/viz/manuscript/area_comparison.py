@@ -33,13 +33,5 @@ export_dir = cache_dir + 'graphs/manuscript/area/'
 # Copy original graphs #
 all_graphs = [AreaComparison(g.parent, export_dir) for g in orig_graphs]
 
-# Remove the CBM line #
-for g in all_graphs: g.sources = ('ipcc', 'soef', 'hpffre', 'faostat', 'fra')
-
 # Copy the legend #
 legend = AreaLegend(base_dir = export_dir)
-
-# Remove the CBM line #
-labels = AreaLegend.label_to_color.copy()
-labels.pop('EU-CBM')
-legend.label_to_color = labels

@@ -53,7 +53,7 @@ class MaxArea(Table):
     upper_columns = True
 
     # Pick sources to include #
-    source_names = ['ipcc', 'soef', 'faostat', 'hpffre', 'fra', 'eu_cbm']
+    source_names = ['ipcc', 'soef', 'faostat', 'hpffre', 'fra']
 
     #----------------------------- Data sources ------------------------------#
     @property_cached

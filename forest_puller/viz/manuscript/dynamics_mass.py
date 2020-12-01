@@ -34,8 +34,3 @@ all_graphs = [ConvertedTonsGraph(g.parent, export_dir) for g in orig_graphs]
 # Remove the fifth axes #
 for g in all_graphs: g.n_cols = 4
 for g in all_graphs: g.height = 6
-
-# Remove the CBM line #
-labels = ConvertedTonsGraph.source_to_y_label.copy()
-labels.pop('eu-cbm')
-for g in all_graphs: g.source_to_y_label = labels

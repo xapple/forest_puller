@@ -34,8 +34,7 @@ class FacetPlot(Graph):
     name_to_color = {'IPCC':    colors[0],
                      'SOEF':    colors[1],
                      'HPFFRE':  colors[2],
-                     'FAOSTAT': colors[3],
-                     'EU-CBM':  colors[4]}
+                     'FAOSTAT': colors[3]}
 
     @property_cached
     def facet(self):

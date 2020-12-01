@@ -149,23 +149,11 @@ class AreaCompData:
         # Return #
         return df
 
-    @property_cached
-    def eu_cbm(self):
-        # Import #
-        import forest_puller.cbm.concat
-        # Load #
-        df = forest_puller.cbm.concat.area.copy()
-        # Add source #
-        df.insert(0, 'source', 'eu_cbm')
-        # Return #
-        return df
-
     #------------------------------- Combine ---------------------------------#
     @property_cached
     def df(self):
         # Load all data sources #
-        sources = [self.ipcc, self.soef, self.faostat, self.hpffre,
-                   self.fra, self.eu_cbm]
+        sources = [self.ipcc, self.soef, self.faostat, self.hpffre, self.fra]
         # Combine data sources #
         df = pandas.concat(sources, ignore_index=True)
         # Adjust to million hectares #
@@ -199,7 +187,7 @@ class AreaComparison(Multiplot):
     n_cols = 4
 
     # Sources to include #
-    sources = ('ipcc', 'soef', 'hpffre', 'faostat', 'fra', 'eu_cbm')
+    sources = ('ipcc', 'soef', 'hpffre', 'faostat', 'fra')
 
     # The ISO2 codes of the countries in the current batch #
     @property
@@ -271,8 +259,7 @@ class AreaLegend(SoloLegend):
                       'SOEF':    colors[1],
                       'HPFFRE':  colors[2],
                       'FAOSTAT': colors[3],
-                      'FRA':     colors[4],
-                      'EU-CBM':  colors[6]}
+                      'FRA':     colors[4]}
 
 ###############################################################################
 # The object that holds the data #

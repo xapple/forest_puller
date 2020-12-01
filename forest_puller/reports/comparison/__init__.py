@@ -147,24 +147,6 @@ class ComparisonTemplate(ReportTemplate):
         # Return #
         return result
 
-    #-------------------------- Compare SOEF vs CBM --------------------------#
-    def genus_soef_vs_cbm(self):
-        # Caption #
-        caption = "Comparison of genus composition between the SOEF and CBM-EU" \
-                  " datasets at 3 different time points."
-        # Import #
-        from forest_puller.viz.genus_soef_vs_cbm import all_graphs, genus_legend
-        # Initialize #
-        result = ""
-        # Loop every country batch #
-        for graph in all_graphs: result += str(BareFigure(graph=graph)) + '\n\n'
-        # Add the legend #
-        result += str(ScaledFigure(graph   = genus_legend,
-                                   caption = caption,
-                                   label   = 'genus_soef_vs_cbm'))
-        # Return #
-        return result
-
     #--------------------------- Total over Europe ---------------------------#
     def eu_tot_area(self):
         # Caption #
@@ -201,15 +183,6 @@ class ComparisonTemplate(ReportTemplate):
         from forest_puller.viz.inc_aggregate import inc_agg_faostat
         # Return #
         return str(ScaledFigure(graph=inc_agg_faostat, caption=caption))
-
-    def inc_agg_cbm(self):
-        # Caption #
-        caption = "Average of increments per hectare for 26 different countries" \
-                  " from the EU-CBM data source."
-        # Import #
-        from forest_puller.viz.inc_aggregate import inc_agg_cbm
-        # Return #
-        return str(ScaledFigure(graph=inc_agg_cbm, caption=caption))
 
     def eu_tot_genus(self):
         # Caption #

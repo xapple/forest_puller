@@ -160,17 +160,6 @@ class GainsLossNetData:
         # Return #
         return df
 
-    @property_cached
-    def eu_cbm(self):
-        # Import #
-        import forest_puller.cbm.concat
-        # Load #
-        df = forest_puller.cbm.concat.increments.copy()
-        # Reset index #
-        df = df.reset_index(drop=True)
-        # Return #
-        return df
-
 ###############################################################################
 # Create the singleton #
 increments_data = GainsLossNetData()

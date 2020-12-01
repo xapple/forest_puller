@@ -63,7 +63,6 @@ class GainsLossNetGraph(Multiplot):
         'soef':    "Cubic meters over bark per hectare",
         'faostat': "Cubic meters under bark per hectare",
         'hpffre':  "Cubic meters over bark per hectare",
-        'eu-cbm':  "Tons of carbon per hectare",
     }
 
     # The lines we want on each axes #
