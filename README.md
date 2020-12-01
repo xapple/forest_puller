@@ -32,7 +32,7 @@ Currently `forest_puller` caches and provides programmatic access to the forest-
 * HPFFRE (https://doi.org/10.5061/dryad.4t880qh)
 * FRA (http://www.fao.org/forest-resources-assessment/en/)
 
-What other data source you would like to see added here? Contact the authors by opening an issue in the issue tracker.
+What other data source you would like to see added here? Contact the authors by opening an issue in the [the tracker](https://github.com/xapple/forest_puller/issues).
 
 ## Prerequisites
 
@@ -363,3 +363,17 @@ With data from the SOEF source, we can also plot a breakdown of the growing stoc
 ![Comparison of genus breakdown](documentation/viz/genus/LT_NL_PL_PT_RO.svg?sanitize=true "Comparison of genus breakdown")
 ![Comparison of genus breakdown](documentation/viz/genus/SK_SI_ES_SE_GB.svg?sanitize=true "Comparison of genus breakdown")
 ![Genera legend](documentation/viz/genus/legend.svg?sanitize=true "Genera legend")
+
+## Reporting issues
+
+If you encounter an error when using the `forest_puller` package, please open an issue on [the tracker](https://github.com/xapple/forest_puller/issues) and we will get in contact with you.
+
+## Extra documentation
+
+More documentation is available at:
+
+<http://xapple.github.io/forest_puller/forest_puller>
+
+This documentation is simply generated from the source code with:
+
+    $ pdoc --html --output-dir documentation --force forest_puller
