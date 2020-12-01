@@ -1,0 +1,38 @@
+name: Test GitHub Workflow
+
+# This workflow is used in the development environment to understand
+# and test the github "Actions" technology.
+
+on: workflow_dispatch
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install pytest
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+    - name: Install the forest_puller package
+      run: |
+        pip install ./
+    - name: Print some stuff
+      run: |
+        echo "Current directory"
+        echo "pwd"
+        echo "Print python command"
+        python -c "print('hello')"
+        echo "Sys python command"
+        python -c "import sys; print(sys.path)"
+        echo "Import python command"
+        python -c "import forest_puller"
+    - name: Test with pytest
+      run: |
+        pytest
