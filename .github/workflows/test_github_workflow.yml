@@ -25,6 +25,18 @@ jobs:
         echo "---- Current directory ----"
         echo "---------------------------"
         pwd
+        echo "----------------------------"
+        echo "---- Directory contents ----"
+        echo "----------------------------"
+        ls -halt
+        echo "-------------------------------"
+        echo "---- Subdirectory contents ----"
+        echo "-------------------------------"
+        ls -halt forest_puller/
+        echo "-------------------------------"
+        echo "---- Pardirectory contents ----"
+        echo "-------------------------------"
+        ls -halt ../
         echo "------------------------------"
         echo "---- Print python command ----"
         echo "------------------------------"
