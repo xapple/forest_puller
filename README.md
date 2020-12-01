@@ -11,7 +11,7 @@
 
 This software is accompanied by a scientific publication that is available in preprint here: https://www.preprints.org/manuscript/202011.0661/v1
 
-There are several forest public data sources accessible online that provide these types of information in various forms and granularity. This package automates the process of scrapping these websites and parsing the resulting csv tables or excel files.
+There are several forest public data sources accessible online that provide these types of information in various forms and granularity. This package automates the process of scrapping these websites and parsing the resulting CSV tables or excel files.
 
 Once `forest_puller` is installed you can easily access forest data through standard python pandas data frames.
 
@@ -140,7 +140,7 @@ print(converted_tons_data.df)
 
 ## Cache
 
-When you import `forest_puller`, we will check the `$FOREST_PULLER_CACHE` environment variable to see where to download and store the cached data. If this variable is not set, we will default to the platform's temporary directory and clone a repository there. This could result in re-downloading the cache after every reboot.
+When you import `forest_puller`, we will check the `$FOREST_PULLER_CACHE` environment variable to see where to download and store the cached data. If this variable is not set, we will default to `~/.forest_puller` and clone a repository there.
 
 ## Data sources
 
