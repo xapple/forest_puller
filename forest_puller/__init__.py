@@ -9,7 +9,7 @@ Unit D1 Bioeconomy.
 """
 
 # Special variables #
-__version__ = '1.3.0'
+__version__ = '1.3.9'
 
 # Built-in modules #
 import os, sys
@@ -21,7 +21,7 @@ from plumbing.git import GitRepo
 # Constants #
 project_name  = 'forest_puller'
 project_url   = 'https://github.com/xapple/forest_puller'
-cache_git_url = 'https://gitlab.com/bioeconomy/puller/puller_cache.git'
+cache_git_url = 'https://github.com/xapple/puller_cache.git'
 
 # Get paths to module #
 self       = sys.modules[__name__]

@@ -6,8 +6,6 @@
 <img src="documentation/title_art/title.jpeg?raw=true">
 </p>
 
-### version 1.3.0
-
 `forest_puller` is a python package for retrieving data concerning forests of European countries. This includes the amount of forested areas, the forest inventory (standing stock), the forest growth rates as well as the forest loss dynamics (disturbances).
 
 This software is accompanied by a scientific publication that is available in preprint here: https://www.preprints.org/manuscript/202011.0661/v1
