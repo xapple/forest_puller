@@ -43,31 +43,22 @@ if env_var_name in os.environ:
 
 # If it is not specified by user #
 else:
-    import tempfile
-    cache_dir = tempfile.gettempdir() + '/forest_puller/'
-    import warnings
-    message = ("\n\n The cache location for forest puller's data is not defined in"
-               " the '%s' environment variable.\n In this case it will default"
-               " to:\n\n '%s',\n which might lead to re-caching after every startup.\n")
-    message = message % (env_var_name, cache_dir)
-    warnings.warn(message)
+    cache_dir = os.path.expanduser('~/.forest_puller/')
 
 # Guarantee it exists #
 cache_dir = GitRepo(cache_dir, empty=True)
+
+# Guarantee it exists #
 cache_dir.create_if_not_exists()
 
 # If it's empty: clone it #
 if cache_dir.empty:
-    print("Cloning forest puller cache repository from gitlab.com")
+    print("Cloning forest puller cache repository into '%s'." % cache_dir)
     cache_dir.clone_from(cache_git_url, shell=True)
 
 # If it's not a repository: raise #
 if not cache_dir.is_a_repos:
     raise Exception("It appears the cache directory was not cloned successfully.")
-
-# If it's a repository: pull it in an other thread #
-#if cache_dir.is_a_repos:
-#   cache_dir.pull(shell=False, thread=True)
 
 # Monkey patch pandas library #
 import plumbing.pandas_patching
