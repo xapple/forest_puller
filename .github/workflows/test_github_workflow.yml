@@ -77,11 +77,12 @@ jobs:
         echo "---- Location of dependency module ----"
         echo "---------------------------------------"
         python -c "import plumbing; print(plumbing)"
- #   - name: Remove the cloned repository after installation
- #     run: |
- #       cd ../..
- #       pwd
- #       rm -rf forest_puller
+        echo "---------------------------------------"
+        echo "---- Package contents ----"
+        echo "---------------------------------------"
+        ls -halt /home/runner/work/forest_puller/forest_puller/forest_puller/
+        ls -halt /home/runner/work/forest_puller/forest_puller/forest_puller/tests/
+        ls -halt /home/runner/work/forest_puller/forest_puller/forest_puller/tests/conversion/
     - name: Install pytest
       run: |
         pip install pytest
