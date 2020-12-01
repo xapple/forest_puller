@@ -3,7 +3,7 @@
 [![GitHub](https://img.shields.io/github/license/xapple/forest_puller.svg)](https://github.com/xapple/forest_puller/blob/master/LICENSE)
 
 <p align="center">
-<img height="300" src="documentation/title_art/title.jpeg?raw=true">
+<img src="documentation/title_art/title.jpeg?raw=true">
 </p>
 
 ### version 1.3.0
