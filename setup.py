@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup, find_namespace_packages
 
 setup(
         name             = 'forest_puller',
@@ -10,7 +10,7 @@ setup(
         url              = 'http://github.com/xapple/forest_puller/',
         author           = 'Lucas Sinclair',
         author_email     = 'lucas.sinclair@me.com',
-        packages         = find_packages(),
+        packages         = find_namespace_packages(),
         install_requires = ['pandas>=1.0.0', 'matplotlib>=3.0.0', 'tqdm>=4.41.1',
                             'numpy>=1.16', 'brewer2mpl>=1.4.1', 'lxml>=4.3.0',
                             'requests', 'seaborn', 'sh',
