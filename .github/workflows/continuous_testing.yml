@@ -1,4 +1,7 @@
-name: Run pytest on the latest commit
+name: Continuous testing
+
+# This workflow will run pytest on the latest commit of the master branch.
+# It will only test it on the latest Ubuntu and on the latest python.
 
 on: workflow_dispatch
 #  push:

@@ -1,4 +1,9 @@
-name: Run README examples on the PyPI release
+name: Test PyPI release
+
+# This workflow will install the latest PyPI release of the package (not the
+# master branch of the repository) and will run the README examples along pytest
+# on various platforms. This includes Ubuntu and macOS, as well as four
+# different python versions.
 
 on: workflow_dispatch
 
