@@ -43,6 +43,7 @@ class AverageIncsToTons(Table):
     short_name       = 'average_inc_to_tons'
     float_format_tex = '%.2f'
     column_format    = 'lrrr|rrrrr'
+    sources          = ['ipcc', 'soef', 'faostat', 'hpffre']
 
     @property_cached
     def df(self):
