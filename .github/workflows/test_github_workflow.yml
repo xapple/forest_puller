@@ -10,12 +10,13 @@ on: workflow_dispatch
 #    branches: [ master ]
 
 
-long_string: >-
-  import forest_puller;
-  print(forest_puller);
-  x = 1;
-  y = 3;
-  print(x+y);
+env:
+  long_string: >-
+    import forest_puller;
+    print(forest_puller);
+    x = 1;
+    y = 3;
+    print(x+y);
 
 jobs:
   build:
@@ -43,7 +44,7 @@ jobs:
 
     - name: Save a snippet
       run: |
-        echo ${{ long_string }} > nice_file.txt
+        echo ${{ env.long_string }} > nice_file.txt
 
     - name: Show a snippet
       run: |
