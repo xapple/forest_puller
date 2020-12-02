@@ -356,7 +356,7 @@ Another type of graph that can be produced is the comparison of gains and losses
 ![Comparison of increments for ES](docs/viz/increments/ES.svg?sanitize=true "Comparison of increments for ES")
 ![Comparison of increments for DE](docs/viz/increments/DE.svg?sanitize=true "Comparison of increments for DE")
 
-With data from the SOEF source, we can also plot a breakdown of the growing stock volume genus composition of many countries across time. This code is found in the `forest_puller.viz.increments` submodule.
+With data from the SOEF source, we can also plot a breakdown of the growing stock volume genus composition of many countries across time. This code is found in the `forest_puller.viz.genus_barstack` submodule.
 
 ![Comparison of genus breakdown](docs/viz/genus/AT_BE_BG_HR_CY.svg?sanitize=true "Comparison of genus breakdown")
 ![Comparison of genus breakdown](docs/viz/genus/CZ_DK_EE_FI_FR.svg?sanitize=true "Comparison of genus breakdown")
@@ -364,6 +364,26 @@ With data from the SOEF source, we can also plot a breakdown of the growing stoc
 ![Comparison of genus breakdown](docs/viz/genus/LT_NL_PL_PT_RO.svg?sanitize=true "Comparison of genus breakdown")
 ![Comparison of genus breakdown](docs/viz/genus/SK_SI_ES_SE_GB.svg?sanitize=true "Comparison of genus breakdown")
 ![Genera legend](docs/viz/genus/legend.svg?sanitize=true "Genera legend")
+
+## Auto-generated report
+
+All the visualization produced by the package are assembled inside an auto-generated PDF report. You can download a cached version of this report here:
+
+<p align="center">
+<table>
+  <tr>
+    <td>
+        <a href="https://xapple.github.io/forest_puller/reports/comparison.pdf">
+        <img src="docs/images/pdf_icon.png" width="120em">
+        </a>
+    </td>
+  </tr>
+  <tr>
+     <td><p align="center">Comparison report</p></td>
+  </tr>
+</table>
+</p>
+
 
 ## Reporting issues
 
