@@ -9,23 +9,35 @@ on: workflow_dispatch
 
 env:
   readme_1: |
-    import forest_puller
-    print(forest_puller)
-    x = 1
-    y = 3
-    print(x+y)
+    from forest_puller.ipcc.country import countries
+    austria = countries['AT']
+    at_2017 = austria.years[2017].indexed
+    print(at_2017.loc['remaining_forest', 'Coniferous']['net_co2'])
+    print(at_2017.columns)
+    print(at_2017.index)
+    print(list(c.iso2_code for c in countries.values()))
+    print(list(y for y in austria.years))
+
   readme_2: |
-    import forest_puller
-    print(forest_puller)
-    x = 1
-    y = 3
-    print(x+y)
+    from forest_puller.viz.converted_to_tons import converted_tons_data
+    print(converted_tons_data.df)
+
   readme_3: |
-    import forest_puller
-    print(forest_puller)
-    x = 1
-    y = 3
-    print(x+y)
+    from forest_puller.ipcc.country import countries
+    category, key = ['total_forest', 'biomass_net_change']
+    biomass_net_change = {
+        k: c.last_year.indexed.loc[category, ''][key]
+        for k,c in countries.items()
+    }
+    import pprint
+    pprint.pprint(biomass_net_change)
+
+  readme_4: |
+    from forest_puller.soef.country import countries
+    country = countries['AT']
+    print(country.forest_area.indexed)
+    print(country.age_dist.indexed)
+    print(country.fellings.indexed)
 
 jobs:
   build:
@@ -36,7 +48,6 @@ jobs:
         python-version: ['3.9']
 
     steps:
-    - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -46,7 +57,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
 
-    - name: Install the forest_puller package
+    - name: Install the forest_puller package from PyPI
       run: |
         python -m pip install forest_puller
 
