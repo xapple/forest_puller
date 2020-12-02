@@ -85,7 +85,7 @@ class GenusAggregate(Graph):
         # Compute #
         x_enum = numpy.arange(len(x))
         # Pick colors #
-        from forest_puller.viz.genus_soef_vs_cbm import genus_legend
+        from forest_puller.viz.genus_barstack import genus_legend
         colors = [genus_legend.label_to_color.get(genus, 'gray') for genus in x]
         # Upper case genus #
         x = list(map(lambda s: s.capitalize(), x))
