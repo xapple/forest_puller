@@ -20,7 +20,6 @@ Typically you would run this file from a command line like this:
 # Third party modules #
 
 # Internal modules #
-from forest_puller.common import country_codes
 from forest_puller import cache_dir
 
 # First party modules #
