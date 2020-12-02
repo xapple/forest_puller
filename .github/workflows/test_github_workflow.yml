@@ -11,7 +11,7 @@ on: workflow_dispatch
 
 
 env:
-  long_string: >-
+  long_string: |-
     import forest_puller;
     print(forest_puller);
     x = 1;
