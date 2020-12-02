@@ -41,11 +41,13 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
 #        python-version: ['3.6', '3.7', '3.8', '3.9']
         python-version: ['3.9']
+#        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
 
     steps:
     - name: Set up Python ${{ matrix.python-version }}
@@ -75,6 +77,11 @@ jobs:
       run: |
         echo "${{ env.readme_3 }}" > readme_3.py
         python readme_3.py
+
+    - name: Run README 4
+      run: |
+        echo "${{ env.readme_4 }}" > readme_4.py
+        python readme_4.py
 
     - name: Install pytest
       run: |
