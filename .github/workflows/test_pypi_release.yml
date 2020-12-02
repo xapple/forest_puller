@@ -7,12 +7,33 @@ name: Test PyPI release
 
 on: workflow_dispatch
 
+env:
+  readme_1: |
+    import forest_puller
+    print(forest_puller)
+    x = 1
+    y = 3
+    print(x+y)
+  readme_2: |
+    import forest_puller
+    print(forest_puller)
+    x = 1
+    y = 3
+    print(x+y)
+  readme_3: |
+    import forest_puller
+    print(forest_puller)
+    x = 1
+    y = 3
+    print(x+y)
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.6', '3.7', '3.8', '3.9']
+#        python-version: ['3.6', '3.7', '3.8', '3.9']
+        python-version: [3.9']
 
     steps:
     - uses: actions/checkout@v2
@@ -21,18 +42,32 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install pytest
+    - name: Upgrade pip
       run: |
         python -m pip install --upgrade pip
-        python -m pip install pytest
 
     - name: Install the forest_puller package
       run: |
         python -m pip install forest_puller
 
-    - name: Run the README examples
+    - name: Run README 1
       run: |
-        echo "Replace this"
+        echo "${{ env.readme_1 }}" > readme_1.py
+        python readme_1.py
+
+    - name: Run README 2
+      run: |
+        echo "${{ env.readme_2 }}" > readme_2.py
+        python readme_2.py
+
+    - name: Run README 3
+      run: |
+        echo "${{ env.readme_3 }}" > readme_3.py
+        python readme_3.py
+
+    - name: Install pytest
+      run: |
+        python -m pip install pytest
 
     - name: Run the pytest suite
       run: |
