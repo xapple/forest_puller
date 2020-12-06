@@ -10,6 +10,7 @@ Unit D1 Bioeconomy.
 
 # Built-in modules #
 import socket
+from sys import platform
 
 # Internal modules #
 import forest_puller
@@ -22,12 +23,24 @@ from plumbing.common     import pretty_now
 class ReportTemplate(Template):
     """Things that are common to most reports in forest_puller."""
 
-    # Process info #
-    def project_name(self):      return forest_puller.project_name
-    def project_url(self):       return forest_puller.project_url
-    def project_version(self):   return forest_puller.__version__
-    def now(self):               return pretty_now()
-    def hostname(self):          return socket.gethostname()
+    def project_name(self):
+        return forest_puller.project_name
+
+    def project_url(self):
+        return forest_puller.project_url
+
+    def project_version(self):
+        return forest_puller.__version__
+
+    def now(self):
+        return pretty_now()
+
+    def hostname(self):
+        if platform == "darwin":
+            return "macOS"
+        else:
+            return "host " + socket.gethostname()
+
     def git(self):
         if not forest_puller.git_repo: return False
         return {'git_hash'  : forest_puller.git_repo.hash,
