@@ -2,7 +2,7 @@ from setuptools import setup, find_namespace_packages
 
 setup(
         name             = 'forest_puller',
-        version          = '1.4.0',
+        version          = '1.4.1',
         description      = 'A package for retrieving data concerning forests on the European continent.',
         long_description = open('README.md').read(),
         long_description_content_type = 'text/markdown',
