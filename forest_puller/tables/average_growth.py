@@ -58,9 +58,9 @@ class AverageIncsToTons(Table):
                                   'loss_per_ha': 'mean'})
         # Pivot #
         result = result.pipe(pandas.pivot_table,
-                     index   = ['country'],
-                     columns = ['source'],
-                     values  = ['gain_per_ha', 'loss_per_ha'])
+                             index   = ['country'],
+                             columns = ['source'],
+                             values  = ['gain_per_ha', 'loss_per_ha'])
         # Cosmetic changes level 1 #
         result = result.rename(columns={'gain_per_ha': 'Gains per hectare',
                                         'loss_per_ha': 'Losses per hectare'})
