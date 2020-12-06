@@ -379,7 +379,11 @@ All the visualization produced by the package are assembled inside an auto-gener
     </td>
   </tr>
   <tr>
-     <td><p align="center">Comparison report</p></td>
+     <td>
+        <a href="https://xapple.github.io/forest_puller/reports/comparison.pdf">
+            <p align="center">Comparison report</p>
+        </a>
+    </td>
   </tr>
 </table>
 </p>
