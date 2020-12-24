@@ -45,7 +45,7 @@ if env_var_name in os.environ:
 else:
     cache_dir = os.path.expanduser('~/.forest_puller/')
 
-# Guarantee it exists #
+# It is a git repository that can be empty at first #
 cache_dir = GitRepo(cache_dir, empty=True)
 
 # Guarantee it exists #
