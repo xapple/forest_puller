@@ -220,7 +220,7 @@ class AreaComparison(Multiplot):
         self.set_x_labels(self.x_label)
 
         # Change the Y labels only for the rightmost graph #
-        self.axes[0].set_ylabel(self.label_y, fontsize=12)
+        self.axes[0].set_ylabel(self.label_y, fontsize=18)
 
         # Remove ugly box around figures #
         self.remove_frame()

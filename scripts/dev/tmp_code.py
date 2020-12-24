@@ -21,6 +21,10 @@ from pprint import pprint
 import pandas
 from tqdm import tqdm
 
+# Set matplotlib to faceless mode #
+import matplotlib
+matplotlib.use('Agg')
+
 ###############################################################################
-from forest_puller.tables.max_area_over_time import max_area_pub
-print(max_area_pub.save())
+from forest_puller.viz.manuscript.area_comparison import all_graphs
+for g in tqdm(all_graphs): g.plot(rerun=True)
