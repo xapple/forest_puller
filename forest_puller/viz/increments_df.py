@@ -174,18 +174,17 @@ class GainsLossNetData:
         faostat = self.faostat.copy()
         hpffre = self.hpffre.copy()
 
+        # Add unit information
+        ipcc.insert(0, 'unit', "tons per ha")
+        soef.insert(0, 'unit', "m3 ob per ha")
+        faostat.insert(0, 'unit', "m3 ub per ha")
+        hpffre.insert(0, 'unit', "m3 ob per ha")
+
         # Add source information
         ipcc.insert(0, 'source', "ipcc")
         soef.insert(0, 'source', "soef")
         faostat.insert(0, 'source', "fao")
         hpffre.insert(0, 'source', "hpffre")
-
-        # Add unit information
-        ipcc.insert(0, 'unit', "tons")
-        soef.insert(0, 'unit', "m3 ob")
-        faostat.insert(0, 'unit', "m3 ub")
-        hpffre.insert(0, 'unit', "m3 ob")
-
 
         # Combine all data sources #
         sources = [ipcc, soef, faostat, hpffre]
