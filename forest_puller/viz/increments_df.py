@@ -6,6 +6,11 @@ Written by Lucas Sinclair and Paul Rougieux.
 
 JRC Biomass Project.
 Unit D1 Bioeconomy.
+
+Typically you can use this submodule like this:
+
+    >>> from forest_puller.viz.increments_df import increments_data
+    >>> print(increments_data.df)
 """
 
 # Built-in modules #
@@ -16,6 +21,7 @@ Unit D1 Bioeconomy.
 from plumbing.cache import property_cached
 
 # Third party modules #
+import pandas
 
 ###############################################################################
 class GainsLossNetData:
@@ -158,6 +164,32 @@ class GainsLossNetData:
         # Reset index #
         df = df.reset_index(drop=True)
         # Return #
+        return df
+
+    @property_cached
+    def df(self):
+        # Copy the data frames
+        ipcc = self.ipcc.copy()
+        soef = self.soef.copy()
+        faostat = self.faostat.copy()
+        hpffre = self.hpffre.copy()
+
+        # Add source information
+        ipcc.insert(0, 'source', "ipcc")
+        soef.insert(0, 'source', "soef")
+        faostat.insert(0, 'source', "fao")
+        hpffre.insert(0, 'source', "hpffre")
+
+        # Add unit information
+        ipcc.insert(0, 'unit', "tons")
+        soef.insert(0, 'unit', "m3 ob")
+        faostat.insert(0, 'unit', "m3 ub")
+        hpffre.insert(0, 'unit', "m3 ob")
+
+
+        # Combine all data sources #
+        sources = [ipcc, soef, faostat, hpffre]
+        df = pandas.concat(sources, ignore_index=True)
         return df
 
 ###############################################################################
