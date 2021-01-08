@@ -77,4 +77,6 @@ from forest_puller.viz.increments_df import increments_data
 increments_data.df.to_csv("~/downloads/gains_loss_net_mixed_units.csv", index=False)
 from forest_puller.viz.converted_to_tons import converted_tons_data
 converted_tons_data.df.to_csv("~/downloads/gains_loss_converted_to_tons.csv", index=False)
+from forest_puller.viz.area_comp import area_comp_data
+area_comp_data.df.to_csv("~/downloads/area_comp_data.csv", index=False)
 
