@@ -29,7 +29,12 @@ import matplotlib
 # Set matplotlib to faceless mode #
 matplotlib.use('Agg')
 
-###############################################################################
+##############################
+# Generate plots and legends #
+##############################
+
+print("\n\nGenerate plots and legends.")
+
 from forest_puller.viz.manuscript.area_comparison import legend
 print(legend.plot(rerun=True))
 
@@ -50,7 +55,12 @@ print(legend.plot(rerun=True))
 from forest_puller.viz.manuscript.dynamics_mass import all_graphs
 for g in tqdm(all_graphs): g.plot(rerun=True)
 
-###############################################################################
+###################################
+# Export data tables to csv files #
+###################################
+
+print("\n\nExport data tables to CSV files.")
+
 from forest_puller.tables.max_area_over_time import max_area
 print(max_area.save())
 
