@@ -15,7 +15,6 @@ Typically you would run this file from a command line like this:
 """
 
 # Built-in modules #
-from pprint import pprint
 
 # Third party modules #
 import pandas
@@ -26,5 +25,5 @@ import matplotlib
 matplotlib.use('Agg')
 
 ###############################################################################
-from forest_puller.viz.manuscript.area_comparison import all_graphs
-for g in tqdm(all_graphs): g.plot(rerun=True)
+from forest_puller.tables.max_area_over_time import max_area_pub
+print(max_area_pub.save())

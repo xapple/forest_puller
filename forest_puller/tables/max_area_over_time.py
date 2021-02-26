@@ -47,7 +47,7 @@ class MaxArea(Table):
 
     # Parameters #
     short_name       = 'max_area'
-    float_format_tex = 'split_thousands'
+    float_format_tex = '%.3f'
 
     # Extra formatting #
     upper_columns = True
@@ -79,6 +79,8 @@ class MaxArea(Table):
         for df in dfs: result = result.left_join(df, on='country')
         # Set the index #
         result = result.set_index('country')
+        # Transform into million of hectares #
+        result /= 1e6
         # Return #
         return result
 
